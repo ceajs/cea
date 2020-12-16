@@ -1,0 +1,11 @@
+# ; =>
+semi: false
+
+# "" => ''
+singleQuote: true
+
+# (arg) => {} => arg => {}
+arrowParens: avoid
+
+# tab Width
+tabWidth: 2

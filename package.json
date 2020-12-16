@@ -1,0 +1,25 @@
+{
+  "name": "whpu-cas-login-in",
+  "version": "1.0.0",
+  "description": "auto login in ",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "whpu"
+  ],
+  "author": "beetcb",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "conf": "^7.1.2",
+    "inquirer": "^7.3.3",
+    "js-yaml": "^3.14.1"
+  },
+  "devDependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "crypto": "^1.0.1",
+    "node-fetch": "^2.6.1"
+  }
+}
