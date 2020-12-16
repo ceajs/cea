@@ -17,7 +17,11 @@ class User {
 
   async loadUserFormFile(path) {
     let users = this.conf.get('users')
-    if (!users) users = []
+    if (!users) {
+      users = []
+    } else {
+      return
+    }
     let loadedUsers
     try {
       const doc = yaml.safeLoad(fs.readFileSync(path, 'utf8'))
@@ -119,14 +123,10 @@ class User {
     ]
 
     const res = await prompt(questions)
-    const delUser = {
-      username: res.username,
-      password: res.password,
-      alias: res.alias || null,
-    }
+    const neoUsers = users.filter((el, index) => index !== res.selection)
+    this.conf.set('users', neoUsers)
 
-    this.conf.set('users', [delUser, ...users])
-    log.success('🎉 成功删除用户', delUser.alias)
+    log.success('🎉 成功删除用户')
   }
 }
 
@@ -153,19 +153,20 @@ class School {
         )
 
         res = await JSON.parse(await res.text())
-        const campusphere = `${new URL(res.data[0].ampUrl).origin}/portal/login`
+        const origin = new URL(res.data[0].ampUrl).origin
         school = {
-          campusphere,
+          origin,
           login: `${res.data[0].idsUrl}/login?service=${encodeURIComponent(
-            campusphere
-          )}`,
+            origin
+          )}/portal/login`,
+          campusphere: `${origin}/portal/login`,
         }
 
         this.conf.set('school', school)
         log.success(`您的学校 ${res.data[0].name} 已完成设定`)
         log.object(school)
       } catch (e) {
-        log.error('API internal error')
+        log.error(e)
       }
     } else {
       log.warning('学校信息已配置')
@@ -177,12 +178,11 @@ class School {
 ;(async () => {
   if (!process.argv[2]) process.argv[2] = ''
   if (process.argv[2].match(/(-u|--user)/)) {
-    //this.conf.delete('users')
+    conf.delete('users')
     const userUlti = new User(conf)
     userUlti.loadUserFormFile('./userConf.yml')
     await userUlti.load()
     const type = userUlti.selectType
-    log.object(type)
     if (type === 1) userUlti.createUser()
     if (type === 2) userUlti.deleteUser()
   }

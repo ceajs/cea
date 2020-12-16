@@ -3,7 +3,6 @@ const fetch = require('node-fetch')
 
 const AES = require('./crypto')
 const log = require('../interface/colorLog')
-const { head } = require('superagent')
 
 const headers = {
   'cache-control': 'max-age=0',

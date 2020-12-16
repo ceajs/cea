@@ -3,9 +3,11 @@ const conf = require('./init')
 const login = require('./crawler/casLogIn')
 const log = require('./interface/colorLog')
 
+const { signApp } = require('./campusphere/app')
+
 const school = conf.get('school')
 const users = conf.get('users')
-
+log.object(users)
 if (!users.length) log.error('未找到用户,请运行 ./init.js -u 配置')
 users.forEach(async i => {
   /**
@@ -15,4 +17,8 @@ users.forEach(async i => {
    * @swms continuing log into your school's swms [stu work magagement system]
    */
   const cookie = await login(school, i)
+
+  const sign = new signApp(school, cookie)
+  await sign.signInfo()
+  await sign.signWithForm()
 })
