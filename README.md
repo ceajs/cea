@@ -1,6 +1,8 @@
 ## About
 
-**`campushpere-auth-simplified`** 使用交互式的配置程序，实现了学工系统的登录，返回的 `cookie` 可直接用于学工系统或今日校园相关验证，基于此可以开发更多强大工具集 ( 例如本项目提供的 [今日校园自动签到] 示例 )
+`campushpere-auth-simplified` 使用交互式的配置程序，实现了学工系统的登录
+
+其返回的 `cookie` 可直接用于学工系统或今日校园相关验证，基于此可以开发更多强大工具集 ( 例如本项目提供的 [今日校园自动签到] 示例 )
 
 ## Prerequisites
 
@@ -58,7 +60,7 @@ node index.js
 
 ## Thanks
 
-登录中加密过程大量参考 [wisedu-unified-login-api](https://github.com/ZimoLoveShuang/wisedu-unified-login-api) 项目，在此感谢
+登录中加密过程大量参考 [wisedu-unified-login-api](https://github.com/ZimoLoveShuang/wisedu-unified-login-api) 项目，十分感谢
 
 ## Disclaimer
 
