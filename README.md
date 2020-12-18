@@ -25,6 +25,7 @@
 ```sh
 git clone https://git.io/JL4oc
 cd campushpere-auth-simplified && chmod +x init.js
+npm i
 ```
 
 2. 初始化学校及用户
