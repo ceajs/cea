@@ -1,3 +1,12 @@
+<p align="center">
+  <a href="https://github.com/beetcb/campushpere-auth-simplified">
+    <img src="https://i.imgur.com/2WfMtXq.gif" alt="test" width="130">
+  </a>
+
+  <h3 align="center">campushpere-auth-simplified</h3>
+</p>
+
+
 ## About
 
 `campushpere-auth-simplified` 使用交互式的配置程序，实现了学工系统的登录
