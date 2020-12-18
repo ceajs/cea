@@ -9,13 +9,13 @@
 
 ## About
 
-`campushpere-auth-simplified` 使用交互式的配置程序，实现了学工系统的登录
+**campushpere-auth-simplified** 使用交互式的配置程序，实现了学工系统的登录
 
-其返回的 `cookie` 可直接用于学工系统或今日校园相关验证，基于此可以开发更多强大工具集 ( 例如本项目提供的 [今日校园自动签到] 示例 )
+其返回的 **cookie** 可直接用于学工系统或今日校园相关验证，基于此可以开发更多强大工具集 ( 例如本项目提供的 [今日校园自动签到] 示例 )
 
 ## Prerequisites
 
-- NodeJs
+- NodeJS
 - Git
 
 ## Get started
@@ -55,12 +55,15 @@ cd campushpere-auth-simplified && chmod +x init.js
   ```
 
 2. 工具构建:
-   你可以基于本项目完成相应工具开发, 本项目提供 **今日校园自动签到** 示例：
-   执行主程序可自动签到
+   本项目提供 **今日校园自动签到** 示例：执行主程序可自动签到。
 
 ```sh
 node index.js
 ```
+3. 扩展:
+
+注意: 只需要引入 `crawler/casLogin.js` 作为模块即可获得验证 cookie 信息对象，含 `swms` 和 `campusphere` 参数，分别对应 学工 和 金智教务(今日校园相关) 验证凭据
+  
 
 ## Features
 
@@ -75,4 +78,4 @@ node index.js
 
 `campushpere-auth-simplified` 用于学习和研究 NodeJs，请勿商用或非法使用。
 
-作者: `[beetcb](https://www.beetcb.com)`, 邮箱: `i@beetcb.com`
+> 作者: [`beetcb`](https://www.beetcb.com), 邮箱: `i@beetcb.com`
