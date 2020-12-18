@@ -62,7 +62,7 @@ node index.js
 ```
 3. 扩展:
 
-注意: 只需要引入 `crawler/casLogin.js` 作为模块即可获得验证 cookie 信息对象，含 `swms` 和 `campusphere` 参数，分别对应 学工 和 金智教务(今日校园相关) 验证凭据
+   注意: 只需要引入 `crawler/casLogin.js` 作为模块即可获得验证 cookie 信息对象，含 `swms` 和 `campusphere` 参数，分别对应 学工 和 金智教务(今日校园相关) 验证凭据
   
 
 ## Features
