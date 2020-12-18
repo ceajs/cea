@@ -1,13 +1,13 @@
 {
-  "name": "whpu-cas-login-in",
+  "name": "campushpere-auth-simplified",
   "version": "1.0.0",
-  "description": "auto login in ",
-  "main": "main.js",
+  "description": "login to swms at ease",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "whpu"
+    "javascript"
   ],
   "author": "beetcb",
   "license": "ISC",
