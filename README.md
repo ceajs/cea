@@ -59,3 +59,7 @@ node index.js
 ## Thanks
 
 登录中加密过程大量参考 [wisedu-unified-login-api](https://github.com/ZimoLoveShuang/wisedu-unified-login-api) 项目，在此感谢
+
+## Disclaimer
+
+`campushpere-auth-simplified` 用于学习和研究 NodeJs，请勿商用或非法使用。作者: `[beetcb](https://www.beetcb.com)`, 邮箱: `i@beetcb.com`
