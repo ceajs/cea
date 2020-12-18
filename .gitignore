@@ -1,3 +1,4 @@
 node_modules
 userConf.yml
 eng.traineddata
+package-lock.json

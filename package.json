@@ -15,7 +15,9 @@
     "chalk": "^4.1.0",
     "conf": "^7.1.2",
     "inquirer": "^7.3.3",
-    "js-yaml": "^3.14.1"
+    "js-yaml": "^3.14.1",
+    "tesseract.js": "^2.1.4",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "cheerio": "^1.0.0-rc.3",
