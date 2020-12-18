@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/beetcb/campushpere-auth-simplified">
-    <img src="https://i.imgur.com/2WfMtXq.gif" alt="test" width="500">
+    <img src="https://i.imgur.com/vxSM6Nm.gif" alt="test" width="600">
   </a>
 
   <h3 align="center">campushpere-auth-simplified</h3>
