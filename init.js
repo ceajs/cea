@@ -16,25 +16,26 @@ class User {
   }
 
   async loadUserFormFile(path) {
-    let users = this.conf.get('users')
-    if (!users) {
-      users = []
-    } else {
-      return
-    }
+    let users = this.conf.get('users') || []
     let loadedUsers
     try {
-      const doc = yaml.safeLoad(fs.readFileSync(path, 'utf8'))
+      const doc = yaml.load(fs.readFileSync(path, 'utf8'))
+      if (!doc) return
       loadedUsers = doc
+      log.object(doc)
     } catch (e) {
       console.log(e)
     }
-    this.conf.set('users', [...new Set([...loadedUsers, ...users])])
-    log.object(this.conf.get('users'))
+
+    // check duplicates
+    const storedUsers = users.map(e => e.username)
+    loadedUsers = loadedUsers.filter(e => !storedUsers.includes(e.username))
+
+    this.conf.set('users', [...loadedUsers, ...users])
   }
 
   async load() {
-    const users = this.conf.get('users')
+    const users = this.conf.get('users') || []
     const questions = [
       {
         type: 'list',
@@ -68,7 +69,7 @@ class User {
   }
 
   async createUser() {
-    const users = this.conf.get('users')
+    const users = this.conf.get('users') || []
     const questions = [
       {
         type: 'input',
@@ -160,6 +161,8 @@ class School {
             origin
           )}/portal/login`,
           campusphere: `${origin}/portal/login`,
+          checkCaptcha: `${res.data[0].idsUrl}/checkNeedCaptcha.htl`,
+          getCaptcha: `${res.data[0].idsUrl}/getCaptcha.htl`,
         }
 
         this.conf.set('school', school)
@@ -178,7 +181,6 @@ class School {
 ;(async () => {
   if (!process.argv[2]) process.argv[2] = ''
   if (process.argv[2].match(/(-u|--user)/)) {
-    conf.delete('users')
     const userUlti = new User(conf)
     userUlti.loadUserFormFile('./userConf.yml')
     await userUlti.load()
