@@ -65,7 +65,7 @@ node index.js
 ## Features
 
 - 交互式配置: `campushpere-awesome-auth` 提供交互式的命令行完成 用户 及 学校 的配置，同时也支持使用 `yml` 文件来配置
-- 验证持久化: 缓存验证信息于 cookie , 只在失效时更新
+- 验证持久化: 缓存验证信息于内存, 只在失效时更新
 
 ## Thanks
 
