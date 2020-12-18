@@ -1,8 +1,9 @@
 const cheerio = require('cheerio')
 const fetch = require('node-fetch')
 
-const AES = require('./crypto')
+const crypto = require('crypto')
 const log = require('../interface/colorLog')
+const ocr = require('./captcha')
 
 const headers = {
   'cache-control': 'max-age=0',
@@ -26,7 +27,7 @@ const cookie = {
  * @return {Object} cookie for cas and campusphere
  */
 module.exports = async function login(school, user) {
-  headers.Referer = school.login
+  headers.referer = school.login
   // get acw_tc
   let res = await fetch(school.campusphere, { headers, redirect: 'manual' })
   reCook(res, 0)
@@ -55,6 +56,15 @@ module.exports = async function login(school, user) {
     execution: $('#execution', form).attr('value'),
   })
 
+  // check captcha is needed
+  res = await fetch(`${school.checkCaptcha}?username=${user.username}`, {
+    headers,
+  })
+  if (Boolean((await res.json()).isNeed)) {
+    auth.captcha = await ocr(school.getCaptcha)
+    log.warning(`Login with captcha: ${auth.captcha}`)
+  }
+
   // login with form
   headers['content-type'] = 'application/x-www-form-urlencoded'
   try {
@@ -67,10 +77,16 @@ module.exports = async function login(school, user) {
   } catch (e) {
     log.error(e)
   }
-  if ((res.status = '302'))
+  if (res.status === 302) {
     log.success(`用户${user.alias || user.username}: Login Success`)
+  } else if (res.status === 401) {
+    log.error(res.statusText)
+    process.exit(1)
+  }
+
   reCook(res, 1)
   delete headers['content-type']
+  log.object(res.status)
 
   // get campus cookie
   reCook(null, 0)
@@ -104,4 +120,33 @@ function reCook(res, isCas) {
     res === null ? null : log.warning('Cant cook')
   }
   headers.cookie = isCas ? cookie.swms : cookie.campusphere
+}
+
+class AES {
+  constructor(pwd, key) {
+    this.pwd = pwd
+    this.key = key
+  }
+
+  encrypt() {
+    const { key, pwd } = this
+
+    const rs = this.randomString
+    const data = rs(64) + pwd
+
+    const algorithm = 'aes-128-cbc'
+    const iv = Buffer.alloc(16, 0)
+
+    const cipher = crypto.createCipheriv(algorithm, key, iv)
+    let en = cipher.update(data, 'utf8', 'base64')
+    en += cipher.final('base64')
+    return en
+  }
+
+  randomString(len) {
+    const str = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
+    return Array(len)
+      .fill(null)
+      .reduce((s = '') => (s += str.charAt(Math.floor(Math.random() * 48))), '')
+  }
 }
