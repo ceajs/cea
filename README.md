@@ -62,4 +62,6 @@ node index.js
 
 ## Disclaimer
 
-`campushpere-auth-simplified` 用于学习和研究 NodeJs，请勿商用或非法使用。作者: `[beetcb](https://www.beetcb.com)`, 邮箱: `i@beetcb.com`
+`campushpere-auth-simplified` 用于学习和研究 NodeJs，请勿商用或非法使用。
+
+作者: `[beetcb](https://www.beetcb.com)`, 邮箱: `i@beetcb.com`
