@@ -6,9 +6,7 @@ module.exports = async function ocr(captchaUrl) {
   const worker = createWorker()
   const filename = 'preview.png'
   const pic = await fetch(captchaUrl)
-  await pic.body.pipe(fs.createWriteStream(filename)).on('finish', () => {
-    console.log('Downloading captcha')
-  })
+  await pic.body.pipe(fs.createWriteStream(filename)).on('finish', () => {})
   await worker.load()
   await worker.loadLanguage('eng')
   await worker.initialize('eng')
@@ -16,5 +14,5 @@ module.exports = async function ocr(captchaUrl) {
     data: { text },
   } = await worker.recognize(filename)
   await worker.terminate()
-  return text.slice(0, 4)
+  return text.replace(/[^\d\w]/g, '').slice(0, 4)
 }

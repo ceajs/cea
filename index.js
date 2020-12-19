@@ -12,6 +12,7 @@ if (!users) {
   log.error('未找到用户,请运行 ./init.js -u 配置')
   process.exit(1)
 }
+log.object(users)
 
 /**
  * Keys of this cookie Object:
@@ -20,42 +21,64 @@ if (!users) {
  * @swms continuing log into your school's swms [stu work magagement system]
  */
 let cookie
-let storeCookiePath
+let storeCookiePath, sign
 
-// Hack: concurrent processing users using forEach
-users.forEach(async i => {
-  storeCookiePath = `cookie.${i.alias || i.username}`
+/* get/store/update cookie synchronizedly */
+async function handleCookie() {
+  for (let i of users) {
+    storeCookiePath = `cookie.${i.alias || i.username}`
 
-  if (!conf.get(storeCookiePath)) {
-    await reLogin(i)
-  } else {
-    storeCookie(storeCookiePath)
-  }
-
-  let sign = new signApp(school, cookie, i)
-
-  const isNeedLogIn = await sign.signInfo()
-  if (isNeedLogIn) {
-    await reLogin(i)
+    if (!conf.get(storeCookiePath)) {
+      await reLogin(i)
+    } else {
+      storeCookie(storeCookiePath, i)
+    }
     sign = new signApp(school, cookie, i)
-    await sign.signInfo()
-  }
-
-  await sign.signWithForm()
-})
-
-async function reLogin(i) {
-  cookie = i.cookie
-  if (!cookie) {
-    cookie = await login(school, i)
-    conf.set(storeCookiePath, cookie)
-    log.success('Cookie stored to local storage')
-  } else {
-    log.success('Using user provided cookie')
+    const isNeedLogIn = await sign.signInfo()
+    if (isNeedLogIn) {
+      await reLogin(i)
+      try {
+        cookie.campusphere
+      } catch (err) {
+        log.error(`${name}: exit(1)`)
+      }
+    }
   }
 }
 
-function storeCookie(path) {
+/* sign in asynchronizedly */
+async function signIn(i) {
+  sign = new signApp(school, cookie, i)
+  await sign.signInfo()
+  await sign.signWithForm()
+}
+
+;(async () => {
+  await handleCookie()
+
+  // start to sign
+  for (let i of users) {
+    await signIn(i)
+  }
+})()
+
+async function reLogin(i) {
+  const name = i.alias || i.username
+
+  if (!i.cookie) {
+    cookie = await login(school, i)
+    if (cookie) {
+      conf.set(storeCookiePath, cookie)
+      log.success(`${name}: Cookie stored to local storage`)
+    }
+  } else {
+    cookie = { campusphere: i.cookie }
+    log.success(`${name}: Using user provided cookie`)
+  }
+}
+
+function storeCookie(path, i) {
+  const name = i.alias || i.username
   cookie = conf.get(path)
-  log.success('Using stored cookie')
+  log.success(`${name}: Using stored cookie`)
 }

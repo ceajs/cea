@@ -1,3 +1,4 @@
 node_modules
 *.traineddata
 package-lock.json
+preview.png
