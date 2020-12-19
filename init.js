@@ -44,7 +44,7 @@ class User {
           school ? ' 学校信息已成功配置' : ' 学校信息未配置'
         }\n  已有用户：${users.reduce((s, e) => {
           const userInfo = e.alias || e.username
-          return ' ' + userInfo
+          return s + ' ' + userInfo
         }, '')}`,
         choices: [
           {
