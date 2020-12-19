@@ -14,11 +14,6 @@ const headers = {
     'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
 }
 
-const cookie = {
-  swms: '',
-  campusphere: '',
-}
-
 /**
  * login to SWMS(stu work magagement system) process
  *
@@ -27,14 +22,18 @@ const cookie = {
  * @return {Object} cookie for cas and campusphere
  */
 module.exports = async (school, user) => {
+  const cookie = {
+    swms: '',
+    campusphere: '',
+  }
+
+  const name = user.alias || user.username
+
   headers.referer = school.login
-  // get acw_tc
-  let res = await fetch(school.campusphere, { headers, redirect: 'manual' })
-  reCook(res, 0)
 
   // get base session -> cookie
   res = await fetch(school.login, { headers })
-  reCook(res, 1)
+  reCook(res, 1, cookie)
 
   // create document for crawling
   const body = await res.text()
@@ -61,8 +60,13 @@ module.exports = async (school, user) => {
     headers,
   })
   if (Boolean((await res.json()).isNeed)) {
-    auth.captcha = await ocr(school.getCaptcha)
-    log.warning(`Login with captcha: ${auth.captcha}`)
+    auth.set('captcha', await ocr(school.getCaptcha))
+    if (auth.get('captcha').length === 4) {
+      log.warning(`${name}: Login with captcha: ${auth.get('captcha')}`)
+    } else {
+      log.warning(`${name}: OCR captcha failed!`)
+      return null
+    }
   }
 
   // login with form
@@ -77,24 +81,31 @@ module.exports = async (school, user) => {
   } catch (e) {
     log.error(e)
   }
-  if (res.status === 302) {
-    log.success(`用户${user.alias || user.username}: Login Success`)
-  } else if (res.status === 401) {
-    log.error(res.statusText)
-    process.exit(1)
-  }
 
-  reCook(res, 1)
+  reCook(res, 1, cookie)
   delete headers['content-type']
-  log.object(res.status)
 
   // get campus cookie
-  reCook(null, 0)
-  res = await fetch(res.headers.get('location'), {
-    headers,
-    redirect: 'manual',
-  })
-  reCook(res, 0)
+  try {
+    reCook(null, 0, cookie)
+    const redirect = res.headers.get('location')
+    res = await fetch(redirect, {
+      headers,
+      redirect: 'manual',
+    })
+  } catch (e) {
+    log.error(name)
+    log.object(res)
+    return null
+  }
+
+  if (res.status === 302 && reCook(res, 0, cookie)) {
+    log.success(`用户${name}: Login Success`)
+  } else {
+    log.error(`${res.statusText}: ${name}`)
+    log.object(res.headers)
+    return null
+  }
 
   return cookie
 }
@@ -104,8 +115,9 @@ module.exports = async (school, user) => {
  *
  * @param {Object} headers refresh target
  * @param {Object} res response object
+ * @param {Object} cookie
  */
-function reCook(res, isCas) {
+function reCook(res, isCas, cookie) {
   let cook
   try {
     cook = res.headers.raw()['set-cookie']
@@ -117,9 +129,10 @@ function reCook(res, isCas) {
       }
     })
   } catch (e) {
-    res === null ? null : log.warning('Cant cook')
+    return false
   }
   headers.cookie = isCas ? cookie.swms : cookie.campusphere
+  return true
 }
 
 class AES {
