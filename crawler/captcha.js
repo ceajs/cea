@@ -2,9 +2,8 @@ const { createWorker } = require('tesseract.js')
 const fs = require('fs')
 const fetch = require('node-fetch')
 
-console.log(process.pwd)
-const worker = createWorker()
 module.exports = async function ocr(captchaUrl) {
+  const worker = createWorker()
   const filename = 'preview.png'
   const pic = await fetch(captchaUrl)
   await pic.body.pipe(fs.createWriteStream(filename)).on('finish', () => {
