@@ -1,7 +1,7 @@
 {
-  "name": "campushpere-auth-simplified",
+  "name": "campusphere-auth-simplified",
   "version": "1.0.0",
-  "description": "login to swms at ease",
+  "description": "login to swms/campusphere at ease",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -21,7 +21,6 @@
   },
   "devDependencies": {
     "cheerio": "^1.0.0-rc.3",
-    "crypto": "^1.0.1",
     "node-fetch": "^2.6.1"
   }
 }
