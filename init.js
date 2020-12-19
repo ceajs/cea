@@ -153,29 +153,25 @@ class School {
       ]
 
       let res = await prompt(questions)
-      try {
-        res = await fetch(
-          `https://mobile.campushoy.com/v6/config/guest/tenant/info?ids=${res.ids}`
-        )
+      res = await fetch(
+        `https://mobile.campushoy.com/v6/config/guest/tenant/info?ids=${res.ids}`
+      ).catch(err => err)
 
-        res = await JSON.parse(await res.text())
-        const origin = new URL(res.data[0].ampUrl).origin
-        school = {
-          origin,
-          login: `${res.data[0].idsUrl}/login?service=${encodeURIComponent(
-            origin
-          )}/portal/login`,
-          campusphere: `${origin}/portal/login`,
-          checkCaptcha: `${res.data[0].idsUrl}/checkNeedCaptcha.htl`,
-          getCaptcha: `${res.data[0].idsUrl}/getCaptcha.htl`,
-        }
-
-        this.conf.set('school', school)
-        log.success(`您的学校 ${res.data[0].name} 已完成设定`)
-        log.object(school)
-      } catch (e) {
-        log.error(e)
+      res = await JSON.parse(await res.text())
+      const origin = new URL(res.data[0].ampUrl).origin
+      school = {
+        origin,
+        login: `${res.data[0].idsUrl}/login?service=${encodeURIComponent(
+          origin
+        )}/portal/login`,
+        campusphere: `${origin}/portal/login`,
+        checkCaptcha: `${res.data[0].idsUrl}/checkNeedCaptcha.htl`,
+        getCaptcha: `${res.data[0].idsUrl}/getCaptcha.htl`,
       }
+
+      this.conf.set('school', school)
+      log.success(`您的学校 ${res.data[0].name} 已完成设定`)
+      log.object(school)
     } else {
       log.warning('学校信息已配置')
     }
@@ -194,7 +190,8 @@ class School {
     if (type === 2) userUlti.deleteUser()
   } else if (process.argv[2].match(/(-s|--school)/)) {
     school = new School(conf).init()
-  } else {
-    process.exitCode = 0
+  }
+  if (process.argv[2].match(/(rm|--remove)/)) {
+    conf.delete(process.argv[3])
   }
 })()

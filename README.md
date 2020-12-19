@@ -64,6 +64,12 @@ node index.js
 
    注意: 只需要引入 `crawler/casLogin.js` 作为模块即可获得验证 cookie 信息对象，含 `swms` 和 `campusphere` 参数，分别对应 学工 和 金智教务(今日校园相关) 验证凭据
 
+4. 清空学校配置:
+
+```sh
+./init.js rm 'school'
+```
+
 ## Features
 
 - 交互式配置: `campushpere-awesome-auth` 提供交互式的命令行完成 用户 及 学校 的配置，同时也支持使用 `yml` 文件来配置
