@@ -17,7 +17,7 @@ class campusphereApp {
 exports.signApp = class signApp extends (
   campusphereApp
 ) {
-  constructor(school, cookie) {
+  constructor(school, cookie, user) {
     super(school)
     this.headers = {
       'user-agent':
@@ -26,6 +26,7 @@ exports.signApp = class signApp extends (
       'content-type': 'application/json',
       connection: 'keep-alive',
     }
+    this.user = user
   }
 
   async signInfo() {
@@ -62,25 +63,27 @@ exports.signApp = class signApp extends (
       isNeedExtra,
       signedStuInfo,
     } = signDetails.datas
-
     // format coordinates length
-    ;[longitude, latitude] = this.randomLocale(signPlaceSelected[2]).map(
-      e => e.toString().slice(0, 9) - 0
+    ;[longitude, latitude] = this.randomLocale(signPlaceSelected[0]).map(e =>
+      Number(e.toFixed(6))
     )
 
     const extraFieldItems = this.fillExtra(extraField)
-    const { address } = signPlaceSelected[2]
+    const { address } = signPlaceSelected[0]
+
     const form = {
       signInstanceWid,
       longitude,
       latitude,
       isMalposition,
+      abnormalReason: '',
+      signPhotoUrl: '',
       position: address,
       isNeedExtra,
       extraFieldItems,
     }
-
-    headers['Cpdaily-Extension'] = this.extention()
+    // log.object(form)
+    headers['Cpdaily-Extension'] = this.extention(form)
 
     res = await fetch(signApi.sign, {
       headers,
@@ -88,20 +91,24 @@ exports.signApp = class signApp extends (
       body: JSON.stringify(form),
     })
     res = await res.json()
-    log.warning(`${signedStuInfo.userName}的签到结果: ${res.message}`)
-
-    res.code === '0' ? process.exit(0) : process.exit(1)
+    log.warning(
+      `${this.user.alias || this.user.username} 的签到结果: ${res.message}`
+    )
   }
 
   // construct random coordinates
   randomLocale({ longitude, latitude, radius }) {
     const [perMeterLat, perMeterLon] = [
-      360 / (Math.cos(latitude) * 40075016.68557849),
+      360 / (Math.cos(latitude) * 40076000),
       0.000008983,
     ]
-    const [randomLon, randomLat] = [Math.random(), Math.random()]
-    longitude -= radius * perMeterLon * (randomLon - 0.5) * -1 * randomLon
-    latitude -= radius * perMeterLat * (randomLat - 0.5) * -1 * randomLat
+    const { PI, cos, sin } = Math
+    const [randomLon, randomLat] = [
+      cos(Math.random() * PI),
+      sin(Math.random() * PI),
+    ]
+    longitude -= radius * perMeterLon * randomLon
+    latitude -= radius * perMeterLat * randomLat
     return [longitude, latitude]
   }
 
@@ -121,15 +128,15 @@ exports.signApp = class signApp extends (
   }
 
   // construct and encrypte Cpdaily_Extension for header
-  extention() {
+  extention(form) {
     const Cpdaily_Extension = {
-      lon: 0,
-      model: 'PCRT00',
+      lon: form.longitude,
+      model: 'One Plus 7 Pro',
       appVersion: '8.0.8',
       systemVersion: '4.4.4',
-      userId: '',
+      userId: this.user.username,
       systemName: 'android',
-      lat: 0,
+      lat: form.latitude,
       deviceId: v1(),
     }
     return this.encrypt(Cpdaily_Extension)

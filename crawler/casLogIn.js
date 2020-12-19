@@ -26,7 +26,7 @@ const cookie = {
  * @param {Object} user user info for login
  * @return {Object} cookie for cas and campusphere
  */
-module.exports = async function login(school, user) {
+module.exports = async (school, user) => {
   headers.referer = school.login
   // get acw_tc
   let res = await fetch(school.campusphere, { headers, redirect: 'manual' })

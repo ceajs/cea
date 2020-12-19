@@ -6,6 +6,7 @@ const fs = require('fs')
 const log = require('./interface/colorLog')
 const { prompt } = require('inquirer')
 const conf = new Conf()
+module.exports = conf
 
 let school = conf.get('school')
 
@@ -15,7 +16,7 @@ class User {
     this.selectType = null
   }
 
-  async loadUserFormFile(path) {
+  loadUserFormFile(path) {
     let users = this.conf.get('users') || []
     let loadedUsers
     try {
@@ -54,7 +55,6 @@ class User {
             value: 2,
             name: '删除用户',
           },
-
           {
             value: -1,
             name: '取消',
@@ -85,6 +85,11 @@ class User {
         name: 'alias',
         message: '(可选)请输入用户别名',
       },
+      {
+        type: 'input',
+        name: 'cookie',
+        message: '(可选,将省去登录操作)抓包到的 Cookie',
+      },
     ]
 
     const res = await prompt(questions)
@@ -94,6 +99,7 @@ class User {
         username: res.username,
         password: res.password,
         alias: res.alias || null,
+        cookie: res.cookie,
       }
       this.conf.set('users', [addUser, ...users])
       log.success('🎉 成功添加用户', addUser)
@@ -186,10 +192,9 @@ class School {
     const type = userUlti.selectType
     if (type === 1) userUlti.createUser()
     if (type === 2) userUlti.deleteUser()
-  }
-  if (process.argv[2].match(/(-s|--school)/)) {
+  } else if (process.argv[2].match(/(-s|--school)/)) {
     school = new School(conf).init()
+  } else {
+    process.exitCode = 0
   }
 })()
-
-module.exports = conf

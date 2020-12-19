@@ -19,8 +19,10 @@ if (!users) {
  * @compusphere something about cp daliy's app
  * @swms continuing log into your school's swms [stu work magagement system]
  */
-let cookie, storeCookiePath
+let cookie
+let storeCookiePath
 
+// Hack: concurrent processing users using forEach
 users.forEach(async i => {
   storeCookiePath = `cookie.${i.alias || i.username}`
 
@@ -30,21 +32,27 @@ users.forEach(async i => {
     storeCookie(storeCookiePath)
   }
 
-  let sign = new signApp(school, cookie)
+  let sign = new signApp(school, cookie, i)
+
   const isNeedLogIn = await sign.signInfo()
   if (isNeedLogIn) {
     await reLogin(i)
-    sign = new signApp(school, cookie)
+    sign = new signApp(school, cookie, i)
     await sign.signInfo()
   }
+
   await sign.signWithForm()
-  process.exit(0)
 })
 
 async function reLogin(i) {
-  cookie = await login(school, i)
-  conf.set(storeCookiePath, cookie)
-  log.success('Cookie stored to local storage')
+  cookie = i.cookie
+  if (!cookie) {
+    cookie = await login(school, i)
+    conf.set(storeCookiePath, cookie)
+    log.success('Cookie stored to local storage')
+  } else {
+    log.success('Using user provided cookie')
+  }
 }
 
 function storeCookie(path) {
