@@ -22,7 +22,6 @@ class User {
       const doc = yaml.load(fs.readFileSync(path, 'utf8'))
       if (!doc) return
       loadedUsers = doc
-      log.object(doc)
     } catch (e) {
       console.log(e)
     }

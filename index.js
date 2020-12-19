@@ -7,7 +7,7 @@ const { signApp } = require('./campusphere/app')
 
 const school = conf.get('school')
 const users = conf.get('users')
-log.object(users)
+
 if (!users) {
   log.error('未找到用户,请运行 ./init.js -u 配置')
   process.exit(1)
@@ -30,7 +30,7 @@ users.forEach(async i => {
     storeCookie(storeCookiePath)
   }
 
-  let sign = new signApp(school, cookie, i)
+  let sign = new signApp(school, cookie)
   const isNeedLogIn = await sign.signInfo()
   if (isNeedLogIn) {
     await reLogin(i)
@@ -38,13 +38,13 @@ users.forEach(async i => {
     await sign.signInfo()
   }
   await sign.signWithForm()
-
   process.exit(0)
 })
 
 async function reLogin(i) {
   cookie = await login(school, i)
   conf.set(storeCookiePath, cookie)
+  log.success('Cookie stored to local storage')
 }
 
 function storeCookie(path) {

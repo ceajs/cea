@@ -94,8 +94,8 @@ module.exports = async function login(school, user) {
     headers,
     redirect: 'manual',
   })
-
   reCook(res, 0)
+
   return cookie
 }
 

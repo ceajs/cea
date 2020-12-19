@@ -37,7 +37,6 @@ exports.signApp = class signApp extends (
     })
 
     if (res.headers.hasOwnProperty('set-cookie')) return true
-
     const signQ = await res.json()
     this.curTask = signQ.datas.unSignedTasks[0]
     return false
@@ -164,6 +163,5 @@ exports.signApp = class signApp extends (
 
     let decrypted = decipher.update(encrypted, 'base64', 'utf8')
     decrypted += decipher.final('utf8')
-    console.log(decrypted)
   }
 }
