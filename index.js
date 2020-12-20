@@ -34,8 +34,8 @@ async function handleCookie() {
     } else {
       storeCookie(storeCookiePath, i)
     }
-    sign = new signApp(school, cookie, i)
-    const isNeedLogIn = await sign.signInfo()
+    sign = new signApp(school, i)
+    const isNeedLogIn = await sign.signInfo(cookie)
     if (isNeedLogIn) {
       await reLogin(i)
       try {
@@ -48,9 +48,11 @@ async function handleCookie() {
 }
 
 async function signIn(i) {
-  const cookie = i.cookie || conf.get(`cookie.${i.alias || i.username}`)
-  const sign = new signApp(school, cookie, i)
-  await sign.signInfo()
+  const cookie = i.cookie
+    ? { campusphere: i.cookie }
+    : conf.get(`cookie.${i.alias || i.username}`)
+  const sign = new signApp(school, i)
+  await sign.signInfo(cookie)
   await sign.signWithForm()
 }
 
@@ -83,7 +85,7 @@ async function sleep(timeout) {
   // Pre-loading cookie for sign in
   await handleCookie()
   // wait 1 minute for signing
-  await sleep(1)
+  await sleep(0)
 
   // sign in asynchronizedly with promise all and diff instance of signApp class
   Promise.all(users.map(e => signIn(e)))

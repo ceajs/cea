@@ -10,6 +10,7 @@ class campusphereApp {
       list: `${school.origin}/wec-counselor-sign-apps/stu/sign/queryDailySginTasks`,
       detail: `${school.origin}/wec-counselor-sign-apps/stu/sign/detailSignTaskInst`,
       sign: `${school.origin}/wec-counselor-sign-apps/stu/sign/completeSignIn`,
+      home: `${school.origin}/wec-counselor-sign-apps/stu/mobile`,
     }
   }
 }
@@ -17,19 +18,33 @@ class campusphereApp {
 exports.signApp = class signApp extends (
   campusphereApp
 ) {
-  constructor(school, cookie, user) {
+  constructor(school, user) {
     super(school)
     this.headers = {
       'user-agent':
         'Mozilla/5.0 (Linux; Android 10; GM1910 Build/QKQ1.190716.003; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.101 Mobile Safari/537.36  cpdaily/8.2.13 wisedu/8.2.13',
-      cookie: cookie.campusphere,
       'content-type': 'application/json',
       connection: 'keep-alive',
     }
     this.user = user
   }
 
-  async signInfo() {
+  async getCookie(cookie) {
+    if (!cookie.campusphere.includes('acw_tc')) {
+      const res = await fetch(this.signApi.home, {
+        headers: this.headers,
+      })
+      res.headers.raw()['set-cookie'].forEach(e => {
+        cookie.campusphere += ';' + e.match(/^(\w|\d|\s)+\=(\w|\d|\s|\-)+;/)[0]
+      }, '')
+    }
+    return cookie.campusphere
+  }
+
+  async signInfo(cookie) {
+    // set acw_tc for user provided cookie
+    this.headers.cookie = await this.getCookie(cookie)
+
     const { signApi, headers } = this
     try {
       const res = await fetch(signApi.list, {
@@ -67,7 +82,6 @@ exports.signApp = class signApp extends (
       signedStuInfo,
     } = signDetails.datas
 
-    log.object(signedStuInfo)
     // format coordinates length
     ;[longitude, latitude] = this.randomLocale(signPlaceSelected[0]).map(e =>
       Number(e.toFixed(6))
@@ -87,18 +101,18 @@ exports.signApp = class signApp extends (
       isNeedExtra,
       extraFieldItems,
     }
-    // log.object(form)
-    headers['Cpdaily-Extension'] = this.extention(form)
+    log.object(form)
+    // headers['Cpdaily-Extension'] = this.extention(form)
 
-    res = await fetch(signApi.sign, {
-      headers,
-      method: 'POST',
-      body: JSON.stringify(form),
-    })
-    res = await res.json()
-    log.warning(
-      `${this.user.alias || this.user.username} 的签到结果: ${res.message}`
-    )
+    // res = await fetch(signApi.sign, {
+    //   headers,
+    //   method: 'POST',
+    //   body: JSON.stringify(form),
+    // })
+    // res = await res.json()
+    // log.warning(
+    //   `${this.user.alias || this.user.username} 的签到结果: ${res.message}`
+    // )
   }
 
   // construct random coordinates
