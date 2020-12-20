@@ -76,6 +76,8 @@ node index.js
 
 - 验证持久化: 缓存验证信息于内存, 只在失效时更新
 
+- 多用户非阻塞: 利用 NodeJS 异步特征，多用户可并行，实现毫秒级的多用户同时操作
+
 ## Thanks
 
 登录中加密过程大量参考 [wisedu-unified-login-api](https://github.com/ZimoLoveShuang/wisedu-unified-login-api) 项目，十分感谢
