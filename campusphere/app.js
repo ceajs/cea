@@ -31,16 +31,19 @@ exports.signApp = class signApp extends (
 
   async signInfo() {
     const { signApi, headers } = this
-    const res = await fetch(signApi.list, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({}),
-    })
-
-    if (res.headers.hasOwnProperty('set-cookie')) return true
-    const signQ = await res.json()
-    this.curTask = signQ.datas.unSignedTasks[0]
-    return false
+    try {
+      const res = await fetch(signApi.list, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({}),
+      })
+      if (res.headers.hasOwnProperty('set-cookie')) return true
+      const signQ = await res.json()
+      this.curTask = signQ.datas.unSignedTasks[0]
+      return false
+    } catch (e) {
+      return true
+    }
   }
 
   async signWithForm() {
@@ -63,6 +66,8 @@ exports.signApp = class signApp extends (
       isNeedExtra,
       signedStuInfo,
     } = signDetails.datas
+
+    log.object(signedStuInfo)
     // format coordinates length
     ;[longitude, latitude] = this.randomLocale(signPlaceSelected[0]).map(e =>
       Number(e.toFixed(6))

@@ -21,9 +21,10 @@ log.object(users)
  * @swms continuing log into your school's swms [stu work magagement system]
  */
 let cookie
-let storeCookiePath, sign
 
-/* get/store/update cookie synchronizedly */
+// purely for handleCookie func
+let storeCookiePath, sign
+/* get|store|update cookie synchronizedly */
 async function handleCookie() {
   for (let i of users) {
     storeCookiePath = `cookie.${i.alias || i.username}`
@@ -46,21 +47,12 @@ async function handleCookie() {
   }
 }
 
-/* sign in asynchronizedly */
 async function signIn(i) {
-  sign = new signApp(school, cookie, i)
+  const cookie = i.cookie || conf.get(`cookie.${i.alias || i.username}`)
+  const sign = new signApp(school, cookie, i)
   await sign.signInfo()
   await sign.signWithForm()
 }
-
-;(async () => {
-  await handleCookie()
-
-  // start to sign
-  for (let i of users) {
-    await signIn(i)
-  }
-})()
 
 async function reLogin(i) {
   const name = i.alias || i.username
@@ -82,3 +74,17 @@ function storeCookie(path, i) {
   cookie = conf.get(path)
   log.success(`${name}: Using stored cookie`)
 }
+
+async function sleep(timeout) {
+  return new Promise(r => setTimeout(r, timeout * 1000 * 60))
+}
+
+;(async () => {
+  // Pre-loading cookie for sign in
+  await handleCookie()
+  // wait 1 minute for signing
+  await sleep(1)
+
+  // sign in asynchronizedly with promise all and diff instance of signApp class
+  Promise.all(users.map(e => signIn(e)))
+})()
