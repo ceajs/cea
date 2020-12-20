@@ -53,6 +53,14 @@ npm i
     alias: beet
   ```
 
+- 用户配置项说明:
+  ```yml
+  - username: 账户用户名
+    password: 密码
+    alias: 用户别名,方便查询
+    cookie: 为抓包用户提供便利, 省去登录过程，只需提供 `MOD_AUTH_CAS` 键值, 比如：MOD_AUTH_CAS=aVh237y-K3RPsaST3seDwez1287964
+  ```
+
 2. 工具构建:
    本项目提供 **今日校园自动签到** 示例：执行主程序可自动签到。
 
