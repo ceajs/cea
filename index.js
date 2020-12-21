@@ -84,7 +84,7 @@ async function sleep(timeout) {
   // Pre-loading cookie for sign in
   await handleCookie()
   // wait 1 minute for signing
-  await sleep(0)
+  await sleep(1)
 
   // sign in asynchronizedly with promise all and diff instance of signApp class
   Promise.all(users.map(e => signIn(e)))
