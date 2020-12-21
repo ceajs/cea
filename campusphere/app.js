@@ -11,6 +11,7 @@ class campusphereApp {
       detail: `${school.origin}/wec-counselor-sign-apps/stu/sign/detailSignTaskInst`,
       sign: `${school.origin}/wec-counselor-sign-apps/stu/sign/completeSignIn`,
       home: `${school.origin}/wec-counselor-sign-apps/stu/mobile`,
+      addr: school.addr,
     }
   }
 }
@@ -82,13 +83,11 @@ exports.signApp = class signApp extends (
       signedStuInfo,
     } = signDetails.datas
 
-    // format coordinates length
-    ;[longitude, latitude] = this.randomLocale(signPlaceSelected[0]).map(e =>
-      Number(e.toFixed(6))
-    )
+    const placeList = signPlaceSelected
+
+    ;[longitude, latitude] = this.locale(placeList[0])
 
     const extraFieldItems = this.fillExtra(extraField)
-    const { address } = signPlaceSelected[0]
 
     const form = {
       signInstanceWid,
@@ -97,38 +96,31 @@ exports.signApp = class signApp extends (
       isMalposition,
       abnormalReason: '',
       signPhotoUrl: '',
-      position: address,
+      position: signApi.addr,
       isNeedExtra,
       extraFieldItems,
     }
-    log.object(form)
-    // headers['Cpdaily-Extension'] = this.extention(form)
+    headers['Cpdaily-Extension'] = this.extention(form)
 
-    // res = await fetch(signApi.sign, {
-    //   headers,
-    //   method: 'POST',
-    //   body: JSON.stringify(form),
-    // })
-    // res = await res.json()
-    // log.warning(
-    //   `${this.user.alias || this.user.username} 的签到结果: ${res.message}`
-    // )
+    res = await fetch(signApi.sign, {
+      headers,
+      method: 'POST',
+      body: JSON.stringify(form),
+    })
+    res = await res.json()
+    log.warning(
+      `${this.user.alias || this.user.username} 的签到结果: ${res.message}`
+    )
   }
 
-  // construct random coordinates
-  randomLocale({ longitude, latitude, radius }) {
-    const [perMeterLat, perMeterLon] = [
-      360 / (Math.cos(latitude) * 40076000),
-      0.000008983,
-    ]
-    const { PI, cos, sin } = Math
-    const [randomLon, randomLat] = [
-      cos(Math.random() * PI),
-      sin(Math.random() * PI),
-    ]
-    longitude -= radius * perMeterLon * randomLon
-    latitude -= radius * perMeterLat * randomLat
-    return [longitude, latitude]
+  // construct coordinates & format coordinates length
+  locale({ longitude, latitude }) {
+    return [longitude.slice(0, 10), latitude.slice(0, 9)].map(e => {
+      if (e[e.length - 1] === '0') {
+        e = e.replace(/\d{1}$/, '1')
+      }
+      return Number(e)
+    })
   }
 
   // select right item with content&wid
@@ -140,8 +132,8 @@ exports.signApp = class signApp extends (
         return !i.isAbnormal
       })[0]
       return {
-        extraFieldItemValue: normal.content,
         extraFieldItemWid: chosenWid,
+        extraFieldItemValue: normal.content,
       }
     })
   }
@@ -149,13 +141,13 @@ exports.signApp = class signApp extends (
   // construct and encrypte Cpdaily_Extension for header
   extention(form) {
     const Cpdaily_Extension = {
-      lon: form.longitude,
-      model: 'One Plus 7 Pro',
-      appVersion: '8.0.8',
+      lon: form.longitude.toString(),
+      model: 'OPPO R11 Plus',
+      appVersion: '8.1.14',
       systemVersion: '4.4.4',
       userId: this.user.username,
       systemName: 'android',
-      lat: form.latitude,
+      lat: form.latitude.toString(),
       deviceId: v1(),
     }
     return this.encrypt(Cpdaily_Extension)
