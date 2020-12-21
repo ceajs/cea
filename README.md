@@ -1,14 +1,14 @@
 <p align="center">
-  <a href="https://github.com/beetcb/campushpere-auth-simplified">
+  <a href="https://github.com/beetcb/campusphere-elegant-auth">
     <img src="https://i.imgur.com/vxSM6Nm.gif" alt="test" width="600">
   </a>
 
-  <h3 align="center">campushpere-auth-simplified</h3>
+  <h3 align="center">campusphere-elegant-auth</h3>
 </p>
 
 ## About
 
-**campushpere-auth-simplified** 使用交互式的配置程序，实现了学工系统的登录
+**campusphere-elegant-auth** 使用交互式的配置程序，实现了学工系统的登录
 
 其返回的 **cookie** 可直接用于学工系统或今日校园相关验证，基于此可以开发更多强大工具集 ( 例如本项目提供的 [今日校园自动签到] 示例 )
 
@@ -22,8 +22,8 @@
 1. 安装此项目
 
 ```sh
-git clone https://github.com/beetcb/campushpere-auth-simplified.git
-cd campushpere-auth-simplified && chmod +x init.js
+git clone https://github.com/beetcb/campusphere-elegant-auth.git
+cd campusphere-elegant-auth && chmod +x init.js
 npm i
 ```
 
@@ -80,7 +80,7 @@ node index.js
 
 ## Features
 
-- 交互式配置: `campushpere-awesome-auth` 提供交互式的命令行完成 用户 及 学校 的配置，同时也支持使用 `yml` 文件来配置
+- 交互式配置: `campusphere-elegant-auth` 提供交互式的命令行完成 用户 及 学校 的配置，同时也支持使用 `yml` 文件来配置
 
 - 验证持久化: 缓存验证信息于内存, 只在失效时更新
 
@@ -94,6 +94,6 @@ node index.js
 
 ## Disclaimer
 
-`campushpere-auth-simplified` 用于学习和研究 NodeJS，请勿商用或违法使用。
+`campusphere-elegant-auth` 用于学习和研究 NodeJS，请勿商用或违法使用。
 
 > 作者: [`beetcb`](https://www.beetcb.com), 邮箱: `i@beetcb.com`
