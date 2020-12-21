@@ -158,6 +158,7 @@ class School {
       ).catch(err => err)
 
       res = await JSON.parse(await res.text())
+
       const origin = new URL(res.data[0].ampUrl).origin
       school = {
         origin,
@@ -169,9 +170,19 @@ class School {
         getCaptcha: `${res.data[0].idsUrl}/getCaptcha.htl`,
       }
 
+      // get school address & coordinates(with baidu website's ak)
+      const schoolName = res.data[0].name
+      res = await fetch(
+        `https://api.map.baidu.com/?qt=s&wd=${encodeURIComponent(
+          schoolName
+        )}&ak=E4805d16520de693a3fe707cdc962045&rn=10&ie=utf-8&oue=1&fromproduct=jsapi&res=api`
+      )
+      res = await res.json()
+      const { addr } = res.content[0]
+      school.addr = addr
+
       this.conf.set('school', school)
-      log.success(`您的学校 ${res.data[0].name} 已完成设定`)
-      log.object(school)
+      log.success(`您的学校 ${schoolName} 已完成设定, 全局签到地址为：${addr}`)
     } else {
       log.warning('学校信息已配置')
     }

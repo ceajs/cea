@@ -12,7 +12,6 @@ if (!users) {
   log.error('未找到用户,请运行 ./init.js -u 配置')
   process.exit(1)
 }
-log.object(users)
 
 /**
  * Keys of this cookie Object:
