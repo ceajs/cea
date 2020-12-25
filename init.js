@@ -203,6 +203,8 @@ class School {
     school = new School(conf).init()
   }
   if (process.argv[2].match(/(rm|--remove)/)) {
-    conf.delete(process.argv[3])
+    const target = process.argv[3]
+    if (target === 'all') conf.clear()
+    conf.delete(target)
   }
 })()

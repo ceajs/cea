@@ -53,7 +53,6 @@ exports.signApp = class signApp extends (
         headers,
         body: JSON.stringify({}),
       })
-      log.object(this.headers)
       if (res.headers.hasOwnProperty('set-cookie')) return true
       const signQ = await res.json()
       this.curTask = signQ.datas.unSignedTasks[0]

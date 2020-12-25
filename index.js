@@ -23,26 +23,38 @@ let cookie
 
 // purely for handleCookie func
 let storeCookiePath, sign
+
 /* get|store|update cookie synchronizedly */
 async function handleCookie() {
   for (let i of users) {
     storeCookiePath = `cookie.${i.alias || i.username}`
+    await handleLogin(i, conf.get(storeCookiePath))
+  }
+}
 
-    if (!conf.get(storeCookiePath)) {
-      await reLogin(i)
+async function handleLogin(i, storedCookie) {
+  const name = i.alias || i.username
+
+  // Check if the cookie is user-provided
+  if (!i.cookie) {
+    // Check if the cookie is stored
+    if (!storedCookie) {
+      cookie = await login(school, i)
+      storeCookie(storeCookiePath, i, cookie)
     } else {
       storeCookie(storeCookiePath, i)
     }
+
+    // Check if the cookie is eligible, if not, reLogin 1 more time
     sign = new signApp(school, i)
     const isNeedLogIn = await sign.signInfo(cookie)
     if (isNeedLogIn) {
-      await reLogin(i)
-      try {
-        cookie.campusphere
-      } catch (err) {
-        log.error(`${name}: exit(1)`)
-      }
+      log.warning(`${name}: cookie is not eligible, reLogin`)
+      cookie = await login(school, i)
+      storeCookie(storeCookiePath, i, cookie)
     }
+  } else {
+    log.success(`${name}: Using user provided cookie`)
   }
 }
 
@@ -55,25 +67,15 @@ async function signIn(i) {
   await sign.signWithForm()
 }
 
-async function reLogin(i) {
+function storeCookie(path, i, set) {
   const name = i.alias || i.username
-
-  if (!i.cookie) {
-    cookie = await login(school, i)
-    if (cookie) {
-      conf.set(storeCookiePath, cookie)
-      log.success(`${name}: Cookie stored to local storage`)
-    }
+  if (set) {
+    conf.set(storeCookiePath, set)
+    log.success(`${name}: Cookie stored to local storage`)
   } else {
-    cookie = { campusphere: i.cookie }
-    log.success(`${name}: Using user provided cookie`)
+    cookie = conf.get(path)
+    log.success(`${name}: Using stored cookie`)
   }
-}
-
-function storeCookie(path, i) {
-  const name = i.alias || i.username
-  cookie = conf.get(path)
-  log.success(`${name}: Using stored cookie`)
 }
 
 async function sleep(timeout) {

@@ -103,7 +103,6 @@ module.exports = async (school, user) => {
     log.success(`用户${name}: Login Success`)
   } else {
     log.error(`${res.statusText}: ${name}`)
-    log.object(res.headers)
     return null
   }
 
