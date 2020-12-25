@@ -47,6 +47,7 @@ exports.signApp = class signApp extends (
     this.headers.cookie = await this.getCookie(cookie)
 
     const { signApi, headers } = this
+    log.error(signApi.list)
     try {
       const res = await fetch(signApi.list, {
         method: 'POST',
@@ -58,13 +59,16 @@ exports.signApp = class signApp extends (
       this.curTask = signQ.datas.unSignedTasks[0]
       return false
     } catch (e) {
+      log.object(e)
       return true
     }
   }
 
   async signWithForm() {
     const { signApi, headers } = this
-    const { signInstanceWid, signWid } = this.curTask
+    const {
+      curTask: { signInstanceWid, signWid },
+    } = this
 
     let res = await fetch(signApi.detail, {
       headers,
