@@ -7,9 +7,9 @@ const log = require('../interface/colorLog')
 class campusphereApp {
   constructor(school) {
     this.signApi = {
-      list: `${school.origin}/wec-counselor-sign-apps/stu/sign/queryDailySginTasks`,
-      detail: `${school.origin}/wec-counselor-sign-apps/stu/sign/detailSignTaskInst`,
-      sign: `${school.origin}/wec-counselor-sign-apps/stu/sign/completeSignIn`,
+      list: `${school.origin}/wec-counselor-sign-apps/stu/sign/getStuSignInfosInOneDay`,
+      detail: `${school.origin}/wec-counselor-sign-apps/stu/sign/detailSignInstance`,
+      sign: `${school.origin}/wec-counselor-sign-apps/stu/sign/submitSign`,
       home: `${school.origin}/wec-counselor-sign-apps/stu/mobile`,
       addr: school.addr,
     }
@@ -47,13 +47,13 @@ exports.signApp = class signApp extends (
     this.headers.cookie = await this.getCookie(cookie)
 
     const { signApi, headers } = this
-    log.error(signApi.list)
     try {
       const res = await fetch(signApi.list, {
         method: 'POST',
         headers,
         body: JSON.stringify({}),
       })
+      log.object(this.headers)
       if (res.headers.hasOwnProperty('set-cookie')) return true
       const signQ = await res.json()
       this.curTask = signQ.datas.unSignedTasks[0]
