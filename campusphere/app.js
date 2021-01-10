@@ -145,8 +145,8 @@ exports.signApp = class signApp extends (
   extention(form) {
     const Cpdaily_Extension = {
       lon: form.longitude.toString(),
-      model: 'OPPO R11 Plus',
-      appVersion: '8.1.14',
+      model: 'Cock',
+      appVersion: '8.2.14',
       systemVersion: '4.4.4',
       userId: this.user.username,
       systemName: 'android',
@@ -164,7 +164,7 @@ exports.signApp = class signApp extends (
    */
   encrypt(ce) {
     const algorithm = 'des-cbc'
-    const key = 'ST83=@XV'
+    const key = 'b3L26XNL'
     const iv = Buffer.from([1, 2, 3, 4, 5, 6, 7, 8]) // Initialization vector.
 
     const cipher = crypto.createCipheriv(algorithm, key, iv)
@@ -174,10 +174,13 @@ exports.signApp = class signApp extends (
     return encrypted
   }
 
-  // useful when key updates
+  /** useful when key updates
+   * 
+   * @history ['ST83=@XV', 'b3L26XNL']
+   */
   decrypt() {
     const algorithm = 'des-cbc'
-    const key = 'ST83=@XV'
+    const key = 'b3L26XNL'
     const iv = Buffer.from([1, 2, 3, 4, 5, 6, 7, 8]) // Initialization vector.
     const decipher = crypto.createDecipheriv(algorithm, key, iv)
     const encrypted = 'long base 64'
