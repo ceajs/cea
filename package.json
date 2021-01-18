@@ -1,5 +1,5 @@
 {
-  "name": "cea",
+  "name": "@beetcb/cea",
   "version": "1.0.0",
   "description": "campusphere-elegant-auth: login to swms/campusphere at ease",
   "main": "index.js",
