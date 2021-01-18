@@ -150,9 +150,25 @@ class School {
           name: 'ids',
           message: '请输入学校英文简称',
         },
+        {
+          type: 'list',
+          name: 'isSignAtHome',
+          message: '是否在家签到(若是,会避开学校随机选点)',
+          choices: [
+            {
+              value: 1,
+              name: '是',
+            },
+            {
+              value: 0,
+              name: '否',
+            },
+          ],
+        },
       ]
 
       let res = await prompt(questions)
+      const isSignAtHome = res.isSignAtHome
       res = await fetch(
         `https://mobile.campushoy.com/v6/config/guest/tenant/info?ids=${res.ids}`
       ).catch(err => err)
@@ -162,6 +178,7 @@ class School {
       const origin = new URL(res.data[0].ampUrl).origin
       school = {
         origin,
+        isSignAtHome,
         login: `${res.data[0].idsUrl}/login?service=${encodeURIComponent(
           origin
         )}/portal/login`,
@@ -170,19 +187,26 @@ class School {
         getCaptcha: `${res.data[0].idsUrl}/getCaptcha.htl`,
       }
 
-      // get school address & coordinates(with baidu website's ak)
       const schoolName = res.data[0].name
-      res = await fetch(
-        `https://api.map.baidu.com/?qt=s&wd=${encodeURIComponent(
-          schoolName
-        )}&ak=E4805d16520de693a3fe707cdc962045&rn=10&ie=utf-8&oue=1&fromproduct=jsapi&res=api`
-      )
-      res = await res.json()
-      const { addr } = res.content[0]
-      school.addr = addr
+
+      if (!isSignAtHome) {
+        // get school address & coordinates(with baidu website's ak)
+        res = await fetch(
+          `https://api.map.baidu.com/?qt=s&wd=${encodeURIComponent(
+            schoolName
+          )}&ak=E4805d16520de693a3fe707cdc962045&rn=10&ie=utf-8&oue=1&fromproduct=jsapi&res=api`
+        )
+        res = await res.json()
+        const { addr } = res.content[0]
+        school.addr = addr
+      }
 
       this.conf.set('school', school)
-      log.success(`您的学校 ${schoolName} 已完成设定, 全局签到地址为：${addr}`)
+      log.success(
+        `您的学校 ${schoolName} 已完成设定, 全局签到地址为：${
+          school.addr ? school.addr : 'RANDOM'
+        }`
+      )
     } else {
       log.warning('学校信息已配置')
     }

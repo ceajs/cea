@@ -11,8 +11,9 @@ class campusphereApp {
       detail: `${school.origin}/wec-counselor-sign-apps/stu/sign/detailSignInstance`,
       sign: `${school.origin}/wec-counselor-sign-apps/stu/sign/submitSign`,
       home: `${school.origin}/wec-counselor-sign-apps/stu/mobile`,
-      addr: school.addr,
     }
+    this.addr = school.addr
+    this.isSignAtHome = school.isSignAtHome
   }
 }
 
@@ -88,7 +89,9 @@ exports.signApp = class signApp extends (
 
     const placeList = signPlaceSelected
 
-    ;[longitude, latitude] = this.locale(placeList[0])
+    ;[longitude, latitude] = this.isSignAtHome
+      ? this.signAtHomePos()
+      : this.locale(placeList[0])
 
     const extraFieldItems = this.fillExtra(extraField)
 
@@ -96,13 +99,15 @@ exports.signApp = class signApp extends (
       signInstanceWid,
       longitude,
       latitude,
-      isMalposition,
+      isMalposition: this.isSignAtHome ? 1 : 0,
       abnormalReason: '',
       signPhotoUrl: '',
-      position: signApi.addr,
+      position: this.addr,
+      uaIsCpadaily: true,
       isNeedExtra,
       extraFieldItems,
     }
+    console.log(form)
     headers['Cpdaily-Extension'] = this.extention(form)
 
     res = await fetch(signApi.sign, {
@@ -114,6 +119,27 @@ exports.signApp = class signApp extends (
     log.warning(
       `${this.user.alias || this.user.username} 的签到结果: ${res.message}`
     )
+  }
+
+  signAtHomePos() {
+    // Hard coded position info
+    // Randomly generated from http://api.map.baidu.com/lbsapi
+    const posGenFromCitys = [
+      ['116.622631', '40.204822', '北京市顺义区X012'],
+      ['115.825701', '32.914915', '安徽省阜阳市颍泉区胜利北路79'],
+      ['119.292590', '26.164789', '福建省福州市晋安区'],
+      ['103.836093', '36.068012', '甘肃省兰州市城关区南滨河东路709'],
+      ['108.360128', '22.883516', '广西壮族自治区南宁市兴宁区'],
+      ['113.391549', '22.590350', '广东省中山市兴港中路172号'],
+      ['111.292396', '30.718343', '湖北省宜昌市西陵区珍珠路32号'],
+      ['118.793117', '32.074771', '江苏省南京市玄武区昆仑路8号'],
+    ]
+    const genNum = Math.floor(Math.random() * posGenFromCitys[0].length)
+    this.addr = posGenFromCitys[genNum][2]
+    return this.locale({
+      longitude: posGenFromCitys[genNum][0],
+      latitude: posGenFromCitys[genNum][1],
+    })
   }
 
   // construct coordinates & format coordinates length
@@ -175,7 +201,7 @@ exports.signApp = class signApp extends (
   }
 
   /** useful when key updates
-   * 
+   *
    * @history ['ST83=@XV', 'b3L26XNL']
    */
   decrypt() {
