@@ -107,7 +107,6 @@ exports.signApp = class signApp extends (
       isNeedExtra,
       extraFieldItems,
     }
-    console.log(form)
     headers['Cpdaily-Extension'] = this.extention(form)
 
     res = await fetch(signApi.sign, {
@@ -134,7 +133,7 @@ exports.signApp = class signApp extends (
       ['111.292396', '30.718343', '湖北省宜昌市西陵区珍珠路32号'],
       ['118.793117', '32.074771', '江苏省南京市玄武区昆仑路8号'],
     ]
-    const genNum = Math.floor(Math.random() * posGenFromCitys[0].length)
+    const genNum = Math.floor(Math.random() * posGenFromCitys.length)
     this.addr = posGenFromCitys[genNum][2]
     return this.locale({
       longitude: posGenFromCitys[genNum][0],
