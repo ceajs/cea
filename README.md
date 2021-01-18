@@ -3,7 +3,7 @@
     <img src="https://i.imgur.com/vxSM6Nm.gif" alt="test" width="600">
   </a>
 
-  <h3 align="center"><strong>c</strong>ampusphere-<strong>e</strong>legant-<strong>a</strong>uth</h3>
+  <h3 align="center"><code>c</code>ampusphere-<code>e</code>legant-<code>a</code>uth</h3>
   <p align="center">
   使用交互式的配置程序，实现了学工系统的登录
   <br>
@@ -38,7 +38,7 @@
 # 用于签到或开发
 npm i -g @beetcb/cea
 # 只做开发使用
-npm i @beetcb/cea
+npm i @beetcb/cea && npm link
 ```
 
 2. 初始化学校及用户
