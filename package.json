@@ -7,13 +7,21 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "javascript",
     "campusphere",
     "daliy",
-    "campus"
+    "campus",
+    "辅导猫",
+    "今日校园",
+    "自动",
+    "签到"
   ],
+  "repository": "beetcb/cea",
   "bin": "./init.js",
-  "author": "beetcb",
+  "author": {
+    "name": "beetcb",
+    "email": "i@beetcb.com",
+    "url": "github.com/beetcb"
+  },
   "license": "ISC",
   "dependencies": {
     "chalk": "^4.1.0",

@@ -3,11 +3,13 @@
     <img src="https://i.imgur.com/vxSM6Nm.gif" alt="test" width="600">
   </a>
 
-  <h3 align="center">campusphere-elegant-auth</h3>
+  <h3 align="center"><strong>c</strong>ampusphere-<strong>e</strong>legant-<strong>a</strong>uth</h3>
   <p align="center">
-  <code>campusphere-elegant-auth</code> 使用交互式的配置程序，实现了学工系统的登录
+  使用交互式的配置程序，实现了学工系统的登录
   <br>
-  其返回的 <strong>cookie</strong> 可直接用于学工系统或今日校园相关验证，基于此可以开发更多强大工具集 ( 例如本项目提供的 [今日校园自动签到] 示例 )
+  其返回的 <strong>cookie</strong> 可直接用于学工系统或今日校园相关验证
+  <br>
+  基于此可以开发更多强大工具集 ( 例如本项目提供的 [今日校园自动签到] 示例 )
   <p>
 </p>
 
