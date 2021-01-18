@@ -28,8 +28,7 @@
 
 ## Prerequisites
 
-- NodeJS
-- Git
+- NPM
 
 ## Get started
 
