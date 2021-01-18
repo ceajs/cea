@@ -214,21 +214,22 @@ class School {
   }
 }
 
-;(async () => {
-  if (!process.argv[2]) process.argv[2] = ''
-  if (process.argv[2].match(/(-u|--user)/)) {
+;(async (argv = '') => {
+  argv = process.argv[2] || ''
+  if (argv.match(/(-u|--user)/)) {
     const userUlti = new User(conf)
     userUlti.loadUserFormFile('./userConf.yml')
     await userUlti.load()
     const type = userUlti.selectType
     if (type === 1) userUlti.createUser()
     if (type === 2) userUlti.deleteUser()
-  } else if (process.argv[2].match(/(-s|--school)/)) {
+  } else if (argv.match(/(-s|--school)/)) {
     school = new School(conf).init()
-  }
-  if (process.argv[2].match(/(rm|--remove)/)) {
-    const target = process.argv[3]
-    if (target === 'all') conf.clear()
-    conf.delete(target)
+  } else if (argv.match(/(rm|--remove)/)) {
+    const argv2 = process.argv[3]
+    if (argv2 === 'all') conf.clear()
+    conf.delete(argv2)
+  } else if (argv === 'sign') {
+    require('./TEST/dcampus')
   }
 })()

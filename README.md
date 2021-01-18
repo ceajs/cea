@@ -33,9 +33,10 @@
 1. 安装此项目
 
 ```sh
-git clone https://github.com/beetcb/campusphere-elegant-auth.git
-cd campusphere-elegant-auth && chmod +x init.js
-npm i
+# 用于签到或开发
+npm i -g @beetcb/cea
+# 只做开发使用
+npm i @beetcb/cea
 ```
 
 2. 初始化学校及用户
@@ -43,13 +44,13 @@ npm i
 - 学校配置:
 
   ```sh
-  ./init.js -s
+  cea -s
   ```
 
 - 用户配置:
 
   ```sh
-  ./init.js -u
+  cea -u
   ```
 
 - (可选)使用文件配置用户: 根目录下创建 `userConf.yml`, 参考以下示例:
@@ -73,26 +74,45 @@ npm i
     cookie: 为抓包用户提供便利, 省去登录过程，只需提供 `MOD_AUTH_CAS` 键值, 比如：MOD_AUTH_CAS=aVh237y-K3RPsaST3seDwez1287964, 时效不长，请自行判断
   ```
 
-2. 工具构建:
+2. 工具使用:
    本项目提供 **今日校园自动签到** 示例：执行主程序可自动签到：
 
    ```bash
-   node index.js
+   cea sign
    ```
 
 3. 扩展:
 
-   注意: 只需要引入 `crawler/casLogin.js` 作为模块即可获得验证 cookie 信息对象，含 `swms` 和 `campusphere` 参数，分别对应 学工 和 金智教务(今日校园相关) 验证凭据
+   若使用 cea 作为二次开发使用，请配置好学校和用户，然后在你的项目中导入 cea，参考：
+
+   ```js
+   const { handleCookie, conf } = require('@beetcb/cea')
+
+   // Grab users array
+   const users = conf.get('users')
+   // Grab school info if you need to use that
+   const school = conf.get('school')
+
+   ;(async () => {
+     // Log in and save cookie to conf, using conf.get('cookie') to get them
+     await handleCookie()
+     //After that, you can grab the cookie
+     const cookie = conf.get('cookie')
+     // Do something cool!
+   })()
+   ```
+
+   使用 `handleCookie` 能够完成登录和 cookie 有效性验证，无需传入任何形参; 再通过 `conf` 可获得 cookie 信息对象，含 `swms` 和 `campusphere` 参数，分别对应 学工 和 金智教务(今日校园相关) 验证凭据
 
 4. 清空配置:
 
 ```sh
 # 清空学校配置
-./init.js rm 'school'
+cea rm 'school'
 # 清空用户配置
-./init.js rm 'users'
+cea rm 'users'
 # 清空所有配置
-./init.js rm 'all'
+cea rm 'all'
 ```
 
 ## Thanks
