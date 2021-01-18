@@ -19,12 +19,12 @@ class User {
   loadUserFormFile(path) {
     let users = this.conf.get('users') || []
     let loadedUsers
-    try {
+    if (fs.existsSync(path)) {
       const doc = yaml.load(fs.readFileSync(path, 'utf8'))
       if (!doc) return
       loadedUsers = doc
-    } catch (e) {
-      console.log(e)
+    } else {
+      return
     }
 
     // check duplicates
