@@ -35,10 +35,7 @@
 1. 安装此项目
 
 ```sh
-# 用于签到或开发
 npm i -g @beetcb/cea
-# 只做开发使用
-npm i @beetcb/cea && npm link
 ```
 
 2. 初始化学校及用户
