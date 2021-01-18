@@ -58,14 +58,7 @@ async function handleLogin(i, storedCookie) {
   }
 }
 
-async function signIn(i) {
-  const cookie = i.cookie
-    ? { campusphere: i.cookie }
-    : conf.get(`cookie.${i.alias || i.username}`)
-  const sign = new signApp(school, i)
-  await sign.signInfo(cookie)
-  await sign.signWithForm()
-}
+
 
 function storeCookie(path, i, set) {
   const name = i.alias || i.username
@@ -78,16 +71,4 @@ function storeCookie(path, i, set) {
   }
 }
 
-async function sleep(timeout) {
-  return new Promise(r => setTimeout(r, timeout * 1000 * 60))
-}
-
-;(async () => {
-  // Pre-loading cookie for sign in
-  await handleCookie()
-  // wait 1 minute for signing
-  await sleep(0)
-
-  // sign in asynchronizedly with promise all and diff instance of signApp class
-  Promise.all(users.map(e => signIn(e)))
-})()
+module.exports = { handleCookie, conf }
