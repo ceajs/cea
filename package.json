@@ -25,7 +25,7 @@
   "license": "ISC",
   "dependencies": {
     "chalk": "^4.1.0",
-    "conf": "^8.0.0",
+    "conf": "^9.0.0",
     "inquirer": "^7.3.3",
     "js-yaml": "^4.0.0",
     "tesseract.js": "^2.1.4",
