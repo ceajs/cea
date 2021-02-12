@@ -16,7 +16,7 @@
 
 ## Features
 
-- 新增一键部署签到程序：无门槛、触发器自动配置，详见 [一键部署今日校园签到程序教程](https://github.com/beetcb/cea/tree/tcb#readme)
+- 新增一键部署签到程序：无门槛、触发器自动配置、依赖自动安装，详见 [一键部署今日校园签到程序教程](https://github.com/beetcb/cea/tree/tcb#readme)
 
 - 交互式配置: `campusphere-elegant-auth` 提供交互式的命令行完成 用户 及 学校 的配置，同时也支持使用 `yml` 文件来配置
 
