@@ -49,7 +49,7 @@ module.exports = async (school, user) => {
     ).encrypt(),
     _eventId: $('#_eventId', form).attr('value'),
     captcha: '',
-    rememberMe: 'true',
+    rememberMe: true,
     cllt: $('#cllt', form).attr('value'),
     lt: '',
     execution: $('#execution', form).attr('value'),
@@ -60,11 +60,12 @@ module.exports = async (school, user) => {
     headers,
   })
   if (Boolean((await res.json()).isNeed)) {
+    log.warning('Captcha is required, trying to guess it')
     auth.set('captcha', await ocr(school.getCaptcha))
     if (auth.get('captcha').length === 4) {
       log.warning(`${name}: Login with captcha: ${auth.get('captcha')}`)
     } else {
-      log.warning(`${name}: OCR captcha failed!`)
+      log.warning(`${name}: OCR captcha failed! ${auth.get('captcha')}`)
       return null
     }
   }

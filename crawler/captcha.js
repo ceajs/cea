@@ -4,15 +4,16 @@ const fetch = require('node-fetch')
 
 module.exports = async function ocr(captchaUrl) {
   const worker = createWorker()
-  const filename = 'preview.png'
-  const pic = await fetch(captchaUrl)
-  await pic.body.pipe(fs.createWriteStream(filename)).on('finish', () => {})
   await worker.load()
   await worker.loadLanguage('eng')
   await worker.initialize('eng')
+  await worker.setParameters({
+    tessedit_char_whitelist:
+      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
+  })
   const {
     data: { text },
-  } = await worker.recognize(filename)
+  } = await worker.recognize(captchaUrl)
   await worker.terminate()
-  return text.replace(/[^\d\w]/g, '').slice(0, 4)
+  return text
 }
