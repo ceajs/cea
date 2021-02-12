@@ -16,7 +16,7 @@
 
 ## Features
 
-- 新增一键部署签到程序：依赖自动安装、触发器自动配置，详见<details><summary><a href="https://console.cloud.tencent.com/tcb/env/index?action=CreateAndDeployCloudBaseProject&appUrl=https%3A%2F%2Fgithub.com%2FTencentCloudBase%2Fcloudbase-templates&workDir=vue&branch=master" target="_blank"><img height="16px" src="https://main.qcloudimg.com/raw/67f5a389f1ac6f3b4d04c7256438e44f.svg"/></a></summary>
+- 新增一键部署签到程序：依赖自动安装、触发器自动配置，详见<details><summary><a href="https://console.cloud.tencent.com/tcb/env/index?action=CreateAndDeployCloudBaseProject&appUrl=https%3A%2F%2Fgithub.com%2FTencentCloudBase%2Fcloudbase-templates&workDir=vue&branch=master" target="_blank"><img height="20px" src="https://main.qcloudimg.com/raw/67f5a389f1ac6f3b4d04c7256438e44f.svg"/></a></summary>
 
   > 本说明帮助你**一键部署**自动签到程序到腾讯云开发
 
