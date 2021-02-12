@@ -16,7 +16,24 @@
 
 ## Features
 
-- 新增一键部署签到程序：无门槛、触发器自动配置，详见 [一键部署今日校园签到程序教程](https://github.com/beetcb/cea/tree/tcb#readme)
+- 新增一键部署签到程序：依赖自动安装、触发器自动配置，详见<details><summary> [![](https://sosf.beetcb.com/?path=/cloudbase.svg)](https://console.cloud.tencent.com/tcb/env/index?action=CreateAndDeployCloudBaseProject&appUrl=https%3A%2F%2Fgithub.com%2Fbeetcb%2Fcea&branch=tcb)</summary>
+
+  > 本说明帮助你**一键部署**自动签到程序到腾讯云开发
+
+  1. 点击 ☝ 部署按钮 ⇢ 注册实名(或登录)腾讯云
+
+  - [ ] 使用免费资源(记得勾选)
+        `环境名称`填入 cea ⇢ 下一步 ⇢ 完成
+
+    > 此函数会自动在每天 5:00 11:00 16:00 触发，需要自定义请参考 [cron](https://docs.cloudbase.net/cloud-function/timer-trigger.html#pei-zhi-xiang-jie)
+    >
+    > 剩下只需配置学校和用户信息即可完成部署
+
+  2. 等待几秒(部署完成后) ⇢ 左栏`云函数` ⇢ 点击 `cea` 进入此函数配置界面 ⇢ `函数代码`拦下在线编辑器里修改 `conf.yml` 文件 ⇢ 相应注释都已写好，请自行填入 ⇢ 保存并测试，无报错则成功部署
+
+     ![示例](https://i.imgur.com/ZhTS6Ol.png)
+
+  </details>
 
 - 交互式配置: `campusphere-elegant-auth` 提供交互式的命令行完成 用户 及 学校 的配置，同时也支持使用 `yml` 文件来配置
 
@@ -31,6 +48,7 @@
 ## Prerequisites
 
 - NPM
+- NodeJS
 
 ## Get started
 
@@ -58,7 +76,7 @@ npm i -g @beetcb/cea
 
   ```yml
   # 支持多用户配置,用 yaml 语法数组实现
-  # 文件修改完后仍需执行 `./init.js -u` 加载这些用户，根据提示确保用户已成功加载
+  # 文件修改完后仍需执行 `cea -u` 加载这些用户，根据提示确保用户已成功加载
   - username: 11111111
     password: 1
     alias: beetcb
