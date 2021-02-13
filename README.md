@@ -16,7 +16,7 @@
 
 ## Features
 
-- 新增一键部署签到程序：依赖自动安装、触发器自动配置，详细教程 👇 (点击左边小三角展开)<details><summary><a href="https://console.cloud.tencent.com/tcb/env/index?action=CreateAndDeployCloudBaseProject&appUrl=https%3A%2F%2Fgithub.com%2Fbeetcb%2Fcea&branch=tcb" target="_blank"><img height="20px" src="https://main.qcloudimg.com/raw/67f5a389f1ac6f3b4d04c7256438e44f.svg"/></a></summary>
+- 新增一键部署签到程序：依赖自动安装、触发器自动配置，可能是全网最快的部署 👇 (点击左边小三角展开部署教程)<details><summary><a href="https://console.cloud.tencent.com/tcb/env/index?action=CreateAndDeployCloudBaseProject&appUrl=https%3A%2F%2Fgithub.com%2Fbeetcb%2Fcea&branch=tcb" target="_blank"><img height="20px" src="https://main.qcloudimg.com/raw/67f5a389f1ac6f3b4d04c7256438e44f.svg"/></a></summary>
 
   > 本说明帮助你**一键部署**自动签到程序到腾讯云开发
 
@@ -33,6 +33,8 @@
 
      ![示例](https://i.imgur.com/ZhTS6Ol.png)
 
+  3. 教程结束 ⚡
+
   </details>
 
 - 交互式配置: `campusphere-elegant-auth` 提供交互式的命令行完成 用户 及 学校 的配置，同时也支持使用 `yml` 文件来配置
@@ -43,7 +45,37 @@
 
 - 关于签到: (学校配置时)使用百度地图 API 获取学校全局签到地址, 使用今日校园接口返回的签到数据获取签到经纬度, 简单来说, 只需知道学校英文简称即可配置好所有签到信息, 充分懒人化
 
-- 新增在家签到功能: 在配置学校过程中，可选 `在家签到`，我们会在全国主流城市随机选点(避开高校)。 若学校信息已经配置，请使用 `cea rm "school"` 清除
+- 新增在家签到功能: 在配置学校过程中，可选 `在家签到`，我们会在全国主流城市随机选点(避开高校)。 若学校信息已经配置，请使用 `cea rm "school"` 清除<details><summary>好奇`随机`是哪些地方?</summary>
+
+  ```js
+  // Hard coded position info
+  // Randomly generated from http://api.map.baidu.com/lbsapi
+  const posGenFromCitys = [
+    ['116.622631', '40.204822', '北京市顺义区X012'],
+    ['115.825701', '32.914915', '安徽省阜阳市颍泉区胜利北路79'],
+    ['119.292590', '26.164789', '福建省福州市晋安区'],
+    ['103.836093', '36.068012', '甘肃省兰州市城关区南滨河东路709'],
+    ['108.360128', '22.883516', '广西壮族自治区南宁市兴宁区'],
+    ['113.391549', '22.590350', '广东省中山市兴港中路172号'],
+    ['111.292396', '30.718343', '湖北省宜昌市西陵区珍珠路32号'],
+    ['118.793117', '32.074771', '江苏省南京市玄武区昆仑路8号'],
+  ]
+  ```
+
+  随机生成，如需自定义，请 fork 本项目并在[这个位置](https://github.com/beetcb/cea/blob/3b4e49f315399a1eab90714b211bad3dcb349eed/campusphere/app.js#L123) 修改备选地点
+
+  比如：
+
+  ```js
+  // Hard coded position info
+  // Randomly generated from http://api.map.baidu.com/lbsapi
+  const posGenFromCitys = [
+    // 子数组前两项为经纬度
+    ['116.622631', '40.204822', '自定义地址'],
+  ]
+  ```
+
+  </details>
 
 ## Prerequisites
 
