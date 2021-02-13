@@ -62,7 +62,7 @@
   ]
   ```
 
-  随机生成，如需自定义，请 fork 本项目并在[这个位置](https://github.com/beetcb/cea/blob/3b4e49f315399a1eab90714b211bad3dcb349eed/campusphere/app.js#L123) 修改备选地点
+  随机生成，如需自定义，请 fork 本项目并在 [这个位置](https://github.com/beetcb/cea/blob/3b4e49f315399a1eab90714b211bad3dcb349eed/campusphere/app.js#L123) 修改备选地点
 
   比如：
 
