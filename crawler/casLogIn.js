@@ -35,7 +35,7 @@ module.exports = async (school, user) => {
   headers.Host = school.origin.replace(/http(s?)\:\/\//, '')
 
   // get base session -> cookie
-  headers.res = await fetch(school.login, { headers })
+  res = await fetch(school.login, { headers })
   reCook(res, 1, cookie)
 
   // create document for crawling
