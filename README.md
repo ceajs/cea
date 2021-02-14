@@ -16,26 +16,26 @@
 
 ## Features
 
-- 新增一键部署签到程序：依赖自动安装、触发器自动配置，可能是全网最快的部署 👇 (点击左边小三角展开部署教程)<details><summary><a href="https://console.cloud.tencent.com/tcb/env/index?action=CreateAndDeployCloudBaseProject&appUrl=https%3A%2F%2Fgithub.com%2Fbeetcb%2Fcea&branch=tcb" target="_blank"><img height="20px" src="https://main.qcloudimg.com/raw/67f5a389f1ac6f3b4d04c7256438e44f.svg"/></a></summary>
+- 新增一键部署签到程序：依赖自动安装、触发器自动配置，可能是全网最快的部署 👇 (点击左边小三角展开部署教程)<details><summary><a href="https://console.cloud.tencent.com/tcb/env/index?action=CreateAndDeployCloudBaseProject&appUrl=https%3A%2F%2Fgithub.com%2Fbeetcb%2Fcea&branch=tcb" target="_blank"><img height="25px" src="https://main.qcloudimg.com/raw/67f5a389f1ac6f3b4d04c7256438e44f.svg"/></a></summary>
 
   > 本说明帮助你**一键部署**自动签到程序到腾讯云开发
+  >
+  > **未开通云开发&新注册用户需要先开通云开发， 具体过程为：在 [此地址](https://console.cloud.tencent.com/tcb?from=12335) 注册登录，完成后再进入 [开通地址](https://console.cloud.tencent.com/tcb?from=12335) 开通 ⇢ <span><input type="checkbox" disabled>不创建环境(请勾选)</span>，其它默认 ⇢ 跳转到授权界面并授权，开通成功**
 
-  1. 点击 ☝ 部署按钮 ⇢ 注册实名(或登录)腾讯云
+  1. 点击 ☝ 部署按钮 ⇢ 登录腾讯云 ⇢ <span><input type="checkbox" disabled>使用免费资源(记得勾选)</span>
+     ⇢ `环境名称` 填入 cea ⇢ 下一步 ⇢ 完成
 
-  - [ ] 使用免费资源(记得勾选)
-        `环境名称`填入 cea ⇢ 下一步 ⇢ 完成
+  > 此函数会自动在每天 5:00 11:00 16:00 触发，需要自定义请参考 [cron](https://docs.cloudbase.net/cloud-function/timer-trigger.html#pei-zhi-xiang-jie)
+  >
+  > 剩下只需配置**学校和用户信息**即可完成部署
 
-    > 此函数会自动在每天 5:00 11:00 16:00 触发，需要自定义请参考 [cron](https://docs.cloudbase.net/cloud-function/timer-trigger.html#pei-zhi-xiang-jie)
-    >
-    > 剩下只需配置学校和用户信息即可完成部署
-
-  2. 等待几秒(部署完成后) ⇢ 左栏`云函数` ⇢ 点击 `cea` 进入此函数配置界面 ⇢ `函数代码`拦下在线编辑器里修改 `conf.yml` 文件 ⇢ 相应注释都已写好，请自行填入 ⇢ 保存并测试，无报错则成功部署
+  2. 等待几秒(部署完成后) ⇢ 左栏 `云函数` ⇢ 点击 `cea` 进入此函数配置界面 ⇢ `函数代码` 拦下在线编辑器里修改 `conf.yml` 文件 ⇢ 相应注释都已写好，请自行填入 ⇢ 保存并测试，无报错则成功部署
 
      ![示例](https://i.imgur.com/ZhTS6Ol.png)
 
   3. 教程结束 ⚡
 
-  </details>
+    </details>
 
 - 交互式配置: `campusphere-elegant-auth` 提供交互式的命令行完成 用户 及 学校 的配置，同时也支持使用 `yml` 文件来配置
 
@@ -45,7 +45,7 @@
 
 - 关于签到: (学校配置时)使用百度地图 API 获取学校全局签到地址, 使用今日校园接口返回的签到数据获取签到经纬度, 简单来说, 只需知道学校英文简称即可配置好所有签到信息, 充分懒人化
 
-- 新增在家签到功能: 在配置学校过程中，可选 `在家签到`，我们会在全国主流城市随机选点(避开高校)。 若学校信息已经配置，请使用 `cea rm "school"` 清除<details><summary>好奇`随机`是哪些地方?</summary>
+- 新增在家签到功能: 在配置学校过程中，可选 `在家签到`，我们会在全国主流城市随机选点(避开高校)。 若学校信息已经配置，请使用 `cea rm "school"` 清除<details><summary>好奇 `随机` 是哪些地方?</summary>
 
   ```js
   // Hard coded position info
@@ -62,7 +62,7 @@
   ]
   ```
 
-  随机生成，如需自定义，请 fork 本项目并在 [这个位置](https://github.com/beetcb/cea/blob/3b4e49f315399a1eab90714b211bad3dcb349eed/campusphere/app.js#L123) 修改备选地点
+  随机生成，如需自定义，请 fork 本项目(或直接使用云开发在线编辑器)并在 [这个位置](https://github.com/beetcb/cea/blob/3b4e49f315399a1eab90714b211bad3dcb349eed/campusphere/app.js#L123) 修改备选地点
 
   比如：
 
@@ -169,6 +169,8 @@ cea rm 'all'
 ## Thanks
 
 登录中加解密过程大量参考 [wisedu-unified-login-api](https://github.com/ZimoLoveShuang/wisedu-unified-login-api) 项目，十分感谢
+
+感谢 [cloudbase-framework](https://github.com/Tencent/cloudbase-framework) 提供的遍历部署，省去了很多麻烦
 
 ## Disclaimer
 
