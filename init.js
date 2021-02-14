@@ -169,22 +169,25 @@ class School {
 
       let res = await prompt(questions)
       const isSignAtHome = res.isSignAtHome
+      
       res = await fetch(
         `https://mobile.campushoy.com/v6/config/guest/tenant/info?ids=${res.ids}`
       ).catch(err => err)
-
       res = await JSON.parse(await res.text())
 
       const origin = new URL(res.data[0].ampUrl).origin
+      const casOrigin = res.data[0].idsUrl
+
       school = {
+        casOrigin,
         origin,
         isSignAtHome,
-        login: `${res.data[0].idsUrl}/login?service=${encodeURIComponent(
+        login: `${casOrigin}/login?service=${encodeURIComponent(
           origin
         )}/portal/login`,
         campusphere: `${origin}/portal/login`,
-        checkCaptcha: `${res.data[0].idsUrl}/checkNeedCaptcha.htl`,
-        getCaptcha: `${res.data[0].idsUrl}/getCaptcha.htl`,
+        checkCaptcha: `${casOrigin}/checkNeedCaptcha.htl`,
+        getCaptcha: `${casOrigin}/getCaptcha.htl`,
       }
 
       const schoolName = res.data[0].name

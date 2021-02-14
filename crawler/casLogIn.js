@@ -31,8 +31,8 @@ module.exports = async (school, user) => {
 
   // deal with anti crawlers
   headers.Referer = school.login
-  headers.Origin = school.origin
-  headers.Host = school.origin.replace(/http(s?)\:\/\//, '')
+  headers.Host = new URL(school.casOrigin).host
+  headers.Origin = `https://${headers.Host}`
 
   // get base session -> cookie
   res = await fetch(school.login, { headers })
@@ -87,7 +87,11 @@ module.exports = async (school, user) => {
   }
 
   reCook(res, 1, cookie)
+
+  // set redirect headers
   delete headers['content-type']
+  delete headers.Host
+  headers.Referer = headers.Origin
 
   // get campus cookie
   try {
@@ -98,8 +102,8 @@ module.exports = async (school, user) => {
       redirect: 'manual',
     })
   } catch (e) {
-    log.error(name)
-    log.object(res)
+    log.warning(name)
+    log.error(e)
     return null
   }
 

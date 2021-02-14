@@ -136,8 +136,8 @@ exports.signApp = class signApp extends (
     const genNum = Math.floor(Math.random() * posGenFromCitys.length)
     this.addr = posGenFromCitys[genNum][2]
     return this.locale({
-      longitude: posGenFromCitys[genNum][0],
-      latitude: posGenFromCitys[genNum][1],
+      longitude: posGenFromCitys[genNum][0] + '',
+      latitude: posGenFromCitys[genNum][1] + '',
     })
   }
 

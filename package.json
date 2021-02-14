@@ -25,12 +25,12 @@
   "license": "ISC",
   "dependencies": {
     "chalk": "^4.1.0",
+    "cheerio": "^1.0.0-rc.5",
     "conf": "^9.0.2",
     "inquirer": "^7.3.3",
     "js-yaml": "^4.0.0",
+    "node-fetch": "^2.6.1",
     "tesseract.js": "^2.1.4",
-    "uuid": "^8.3.2",
-    "cheerio": "^1.0.0-rc.5",
-    "node-fetch": "^2.6.1"
+    "uuid": "^8.3.2"
   }
 }
