@@ -20,20 +20,16 @@
 
   > 本说明帮助你**一键部署**自动签到程序到腾讯云开发
   >
-  > **未开通云开发&新注册用户需要先开通云开发， 具体过程为：在 [此地址](https://console.cloud.tencent.com/tcb?from=12335) 注册登录，完成后再进入 [开通地址](https://console.cloud.tencent.com/tcb?from=12335) 开通 ⇢ <span><input type="checkbox" disabled>不创建环境(请勾选)</span>，其它默认 ⇢ 跳转到授权界面并授权，开通成功**
+  > **未开通云开发&新注册用户**需要先开通云开发，具体过程为：在 [此地址](https://console.cloud.tencent.com/tcb?from=12335) 注册登录，完成后再进入 [开通地址](https://console.cloud.tencent.com/tcb?from=12335) 开通 ⇢ <span><input type="checkbox" disabled>不创建环境(请勾选)</span>，其它默认 ⇢ 跳转到授权界面并授权，开通成功
 
   1. 点击 ☝ 部署按钮 ⇢ 登录腾讯云 ⇢ <span><input type="checkbox" disabled>使用免费资源(记得勾选)</span>
      ⇢ `环境名称` 填入 cea ⇢ 下一步 ⇢ 完成
-
-  > 此函数会自动在每天 5:00 11:00 16:00 触发，需要自定义请参考 [cron](https://docs.cloudbase.net/cloud-function/timer-trigger.html#pei-zhi-xiang-jie)
-  >
-  > 剩下只需配置**学校和用户信息**即可完成部署
 
   2. 等待几秒(部署完成后) ⇢ 左栏 `云函数` ⇢ 点击 `cea` 进入此函数配置界面 ⇢ `函数代码` 拦下在线编辑器里修改 `conf.yml` 文件 ⇢ 相应注释都已写好，请自行填入 ⇢ 保存并测试，无报错则成功部署
 
      ![示例](https://i.imgur.com/ZhTS6Ol.png)
 
-  3. 教程结束 ⚡
+  3. 教程结束 ⚡，此函数会自动在每天 5:00 11:00 16:00 触发，需要自定义请参考 [cron](https://docs.cloudbase.net/cloud-function/timer-trigger.html#pei-zhi-xiang-jie)，需要自定义随机签到地址请查看在家签到功能
 
     </details>
 
