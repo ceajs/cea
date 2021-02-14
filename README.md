@@ -53,9 +53,15 @@
       alias: beetcb
       # 自定义在家签到地址，请提供 经度、纬度、详细地址
       # 推荐使用 https://api.map.baidu.com/lbsapi/getpoint/index.html 查询地址
-      addr: [116.622631, 40.204822, '北京市顺义区X012']
+      addr: [116.622631, 40.204822, 北京市顺义区X012]
 
-    # 第二个用户信息从这里开始，依此类推
+    # 第二个用户信息从这里开始，依此类推（不需要请手动删除此区域往下全部内容）
+    - username: 22222222
+      password: 2
+      alias: Who
+      addr: [103.836093, 36.068012, 甘肃省兰州市城关区南滨河东路709]
+  # 编辑完请检查一下YAML代码格式是否正确，可以复制粘贴到使在线小工具检查：
+  # https://www.bejson.com/validators/yaml_editor/
   ```
 
   </details>
