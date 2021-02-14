@@ -31,20 +31,16 @@
 
   3. 教程结束 ⚡，此函数会自动在每天 5:00 11:00 16:00 触发，需要自定义签到时间请参考 [cron](https://docs.cloudbase.net/cloud-function/timer-trigger.html#pei-zhi-xiang-jie)，需要自定义在家签到地址请查看：
   <details><summary>如果懒得改就忽略吧！你可以今天在北京、明天在上海签到(它的权重远不及<a href="https://www.zhihu.com/question/375968416">健康码</a>，甚至可以说**校园签到根本没有任何意义)，小场面👏,不值得改</summary><br>
-  请修改 `conf.yml` 文件(添加 addr 属性)，比如：
+  请修改 `conf.yml` 文件(用户数组里添加 addr 属性)，比如：
 
   ```yaml
   # 学校英文简称，一个云函数只能配置一个学校
   school: whpu
 
   # 是否在家签到，可选值为
-  # - true            在家签到，使用随机地址(会绕开学校)
+  # - true            在家签到，使用随机地址(会绕开学校)，可以被用户自定义地址重写
   # - false           学校签到，使用学校地址
   home: true
-
-  # 自定义在家签到地址，请提供 经度、纬度、详细地址
-  # 推荐使用 https://api.map.baidu.com/lbsapi/getpoint/index.html 查询地址
-  addr: [116.622631, 40.204822, '北京市顺义区X012']
 
   # 用户信息配置，支持多用户
   users:
@@ -55,6 +51,9 @@
       password: 1
       # 用户简称，主要方便日志查询
       alias: beetcb
+      # 自定义在家签到地址，请提供 经度、纬度、详细地址
+      # 推荐使用 https://api.map.baidu.com/lbsapi/getpoint/index.html 查询地址
+      addr: [116.622631, 40.204822, '北京市顺义区X012']
 
     # 第二个用户信息从这里开始，依此类推
   ```
