@@ -6,11 +6,11 @@ const log = require('../interface/colorLog')
 const ocr = require('./captcha')
 
 const headers = {
-  'cache-control': 'max-age=0',
+  'Cache-control': 'max-age=0',
   'Accept-Encoding': 'gzip, deflate',
-  connection: 'keep-alive',
+  Connection: 'keep-alive',
   'Upgrade-Insecure-Requests': '1',
-  'user-agent':
+  'User-agent':
     'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
 }
 
@@ -29,10 +29,13 @@ module.exports = async (school, user) => {
 
   const name = user.alias || user.username
 
-  headers.referer = school.login
+  // deal with anti crawlers
+  headers.Referer = school.login
+  headers.Origin = school.origin
+  headers.Host = school.origin.replace(/http(s?)\:\/\//, '')
 
   // get base session -> cookie
-  res = await fetch(school.login, { headers })
+  headers.res = await fetch(school.login, { headers })
   reCook(res, 1, cookie)
 
   // create document for crawling
