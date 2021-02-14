@@ -29,17 +29,38 @@
 
      ![示例](https://i.imgur.com/ZhTS6Ol.png)
 
-  3. 教程结束 ⚡，此函数会自动在每天 5:00 11:00 16:00 触发，需要自定义请参考 [cron](https://docs.cloudbase.net/cloud-function/timer-trigger.html#pei-zhi-xiang-jie)，需要自定义随机签到地址请查看在家签到功能
+  3. 教程结束 ⚡，此函数会自动在每天 5:00 11:00 16:00 触发，需要自定义在家签到地址请参考 [cron](https://docs.cloudbase.net/cloud-function/timer-trigger.html#pei-zhi-xiang-jie)，需要自定义在家签到地址请查看：
+  <details><summary>如果懒得改就忽略吧！你可以今天在北京、明天在上海签到(它的权重远不及<a href="https://www.zhihu.com/question/375968416">健康码</a>)，小场面👏,不值地改</summary>
+  请修改 `conf.yml` 文件(添加 addr 属性)，比如：
 
-    </details>
+  ```yaml
+  # 学校英文简称，一个云函数只能配置一个学校
+  school: whpu
 
-- 交互式配置: `campusphere-elegant-auth` 提供交互式的命令行完成 用户 及 学校 的配置，同时也支持使用 `yml` 文件来配置
+  # 是否在家签到，可选值为
+  # - true            在家签到，使用随机地址(会绕开学校)
+  # - false           学校签到，使用学校地址
+  home: true
 
-- 验证持久化: 缓存验证信息于内存, 只在失效时更新
+  # 自定义在家签到地址，请提供 经度、纬度、详细地址
+  # 推荐使用 https://api.map.baidu.com/lbsapi/getpoint/index.html 查询地址
+  addr: ['116.622631', '40.204822', '北京市顺义区X012']
 
-- 多用户非阻塞: 利用 NodeJS 异步特征，多用户可并行，实现毫秒级的多用户同时操作
+  # 用户信息配置，支持多用户
+  users:
+    # 第一个用户信息从这里开始
+    # 学工账号用户名
+    - username: 11111111
+      # 学工账号密码
+      password: 1
+      # 用户简称，主要方便日志查询
+      alias: beetcb
 
-- 关于签到: (学校配置时)使用百度地图 API 获取学校全局签到地址, 使用今日校园接口返回的签到数据获取签到经纬度, 简单来说, 只需知道学校英文简称即可配置好所有签到信息, 充分懒人化
+    # 第二个用户信息从这里开始，依此类推
+  ```
+
+  </details>
+     <br></details>
 
 - 新增在家签到功能: 在配置学校过程中，可选 `在家签到`，我们会在全国主流城市随机选点(避开高校)。 若学校信息已经配置，请使用 `cea rm "school"` 清除<details><summary>好奇 `随机` 是哪些地方?</summary>
 
@@ -58,25 +79,24 @@
   ]
   ```
 
-  随机生成，如需自定义，请 fork 本项目(或直接使用云开发在线编辑器)并在 [这个位置](https://github.com/beetcb/cea/blob/3b4e49f315399a1eab90714b211bad3dcb349eed/campusphere/app.js#L123) 修改备选地点
-
-  比如：
-
-  ```js
-  // Hard coded position info
-  // Randomly generated from http://api.map.baidu.com/lbsapi
-  const posGenFromCitys = [
-    // 子数组前两项为经纬度
-    ['116.622631', '40.204822', '自定义地址'],
-  ]
-  ```
-
   </details>
+
+- 交互式配置: `campusphere-elegant-auth` 提供交互式的命令行完成 用户 及 学校 的配置，同时也支持使用 `yml` 文件来配置
+
+- 验证持久化: 缓存验证信息于内存, 只在失效时更新
+
+- 多用户非阻塞: 利用 NodeJS 异步特征，多用户可并行，实现毫秒级的多用户同时操作
+
+- 关于签到: (学校配置时)使用百度地图 API 获取学校全局签到地址, 使用今日校园接口返回的签到数据获取签到经纬度, 简单来说, 只需知道学校英文简称即可配置好所有签到信息, 充分懒人化
 
 ## Prerequisites
 
 - NPM
 - NodeJS
+
+### Compatibility
+
+适用于 whpu (已测试) 和其它 大多数学校(未测试，如有问题，请附带日志提交 [issue](https://github.com/beetcb/cea/issues/new/choose))
 
 ## Get started
 
