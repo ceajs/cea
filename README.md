@@ -29,7 +29,7 @@
 
      ![示例](https://i.imgur.com/ZhTS6Ol.png)
 
-  3. 教程结束 ⚡，此函数会自动在每天 5:00 11:00 16:00 触发，需要自定义签到时间请参考 [cron](https://docs.cloudbase.net/cloud-function/timer-trigger.html#pei-zhi-xiang-jie)，需要自定义在家签到地址请查看：
+  3. 教程结束 ⚡ (如有问题，请附带日志提交 issue)，此函数会自动在每天 5:00 11:00 16:00 触发，需要自定义签到时间请参考 [cron](https://docs.cloudbase.net/cloud-function/timer-trigger.html#pei-zhi-xiang-jie)，需要自定义在家签到地址请查看：
   <details><summary>如果懒得改就忽略吧！你可以今天在北京、明天在上海签到(它的权重远不及<a href="https://www.zhihu.com/question/375968416">健康码</a>，甚至可以说**校园签到根本没有任何意义)，小场面👏,不值得改</summary><br>
   请修改 `conf.yml` 文件(用户数组里添加 addr 属性)，比如：
 
