@@ -288,6 +288,9 @@ class School {
         userUlti.loadUserFromEnv(env)
         await new School(conf).loadSchoolFromEnv(env)
         require('./TEST/dcampus')
+      } else {
+        // Log out config path
+        console.table({ 'config-path': conf.path })
       }
     }
   }
