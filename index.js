@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const Conf = require('conf')
 const fetch = require('node-fetch')
-const yaml = require('js-yaml')
+const parseToml = require('@iarna/toml/parse-string')
 const fs = require('fs')
 const log = require('./interface/colorLog')
 const login = require('./crawler/casLogIn')
@@ -68,31 +68,31 @@ function storeCookie(path, i, set) {
     log.success(`${name}: Using stored cookie`)
   }
 }
-module.exports = { handleCookie, conf }
+
+module.exports = { handleCookie, signApp, conf }
 
 // Below creates CLI interface
+function loadConfFromToml(path) {
+  if (fs.existsSync(path)) {
+    const doc = parseToml(fs.readFileSync(path, 'utf8'))
+    if (doc) return doc
+  }
+}
+
 class User {
   constructor() {
     this.selectType = null
   }
 
   storeUsers(loadedUsers) {
-    const users = users || []
-    const storedUsers = users.map(e => e.username)
-    loadedUsers = loadedUsers.filter(e => !storedUsers.includes(e.username))
-    conf.set('users', [...loadedUsers, ...users])
+    const storedUsers = users || []
+    const alias = storedUsers.map(e => e.alias)
+    loadedUsers = loadedUsers.filter(e => !alias.includes(e.alias))
+    conf.set('users', [...loadedUsers, ...storedUsers])
   }
 
-  loadUserFromFile(path) {
-    let loadedUsers
-    if (fs.existsSync(path)) {
-      const doc = yaml.load(fs.readFileSync(path, 'utf8'))
-      if (!doc) return
-      loadedUsers = doc
-    } else {
-      return
-    }
-    this.storeUsers(loadedUsers)
+  loadUserFromToml(toml) {
+    this.storeUsers(toml.users)
   }
 
   loadUserFromEnv({ users }) {
@@ -140,7 +140,6 @@ class User {
   }
 
   async createUser() {
-    const users = users || []
     const questions = [
       {
         type: 'input',
@@ -181,7 +180,6 @@ class User {
   }
 
   async deleteUser() {
-    const users = users
     const questions = [
       {
         type: 'list',
@@ -246,6 +244,18 @@ class School {
     }
   }
 
+  async loadSchoolFromToml(toml) {
+    if (!conf.get('school')) {
+      const isSignAtHome = toml.addr
+      const school = await this.schoolApi(toml.school, isSignAtHome)
+      if (!isSignAtHome) school.addr = await this.schoolAddr(school.name)
+      conf.set('school', school)
+      log.success(`您的学校 ${school.name} 已完成设定`)
+    } else {
+      log.warning('学校信息已配置')
+    }
+  }
+
   /**
    * Grab school info from environment
    * @param {string} name school
@@ -254,7 +264,7 @@ class School {
     if (!conf.get('school')) {
       const isSignAtHome = users.includes('home')
       const school = await this.schoolApi(name, isSignAtHome)
-      if (!isSignAtHome) school.addr = await this.schoolAddr(name)
+      if (!isSignAtHome) school.addr = await this.schoolAddr(school.name)
       conf.set('school', school)
       log.success(`您的学校 ${school.name} 已完成设定`)
     } else {
@@ -314,7 +324,8 @@ class School {
     case '-u':
     case '--user': {
       const userUlti = new User()
-      userUlti.loadUserFromFile('./userConf.yml')
+      const toml = loadConfFromToml('./conf.toml')
+      userUlti.loadUserFromToml(toml)
       userUlti.loadUserFromEnv(process.env)
       await userUlti.load()
       const type = userUlti.selectType
@@ -339,12 +350,18 @@ class School {
     }
     default: {
       const env = process.env
+      const toml = loadConfFromToml('./conf.toml')
+      const userUlti = new User()
+      const schoolUlti = new School()
+
       if (env.users && env.school) {
         log.warning('Loading from env!')
-        const userUlti = new User()
         userUlti.loadUserFromEnv(env)
-        await new School().loadSchoolFromEnv(env)
+        await schoolUlti.loadSchoolFromEnv(env)
         require('./TEST/dcampus')
+      } else if (toml) {
+        userUlti.loadUserFromToml(toml)
+        await schoolUlti.loadSchoolFromToml(toml)
       }
     }
   }

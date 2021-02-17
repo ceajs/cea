@@ -3,3 +3,6 @@ node_modules/
 dist/
 .cache/
 package-lock.json
+severless/
+cloudbase*
+conf*
