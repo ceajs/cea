@@ -35,4 +35,3 @@ jobs:
         env: # Or as an environment variable
           users: ${{ secrets.users }}
           school: ${{ secrets.school }}
-          addr: ${{ secrets.addr }}
