@@ -2,8 +2,6 @@ const fetch = require('node-fetch')
 const crypto = require('crypto')
 const { v1 } = require('uuid')
 
-const log = require('../interface/colorLog')
-
 class campusphereApp {
   constructor(school) {
     this.signApi = {
@@ -12,14 +10,11 @@ class campusphereApp {
       sign: `${school.origin}/wec-counselor-sign-apps/stu/sign/submitSign`,
       home: `${school.origin}/wec-counselor-sign-apps/stu/mobile`,
     }
-    this.addr = school.addr
     this.isSignAtHome = school.isSignAtHome
   }
 }
 
-exports.signApp = class signApp extends (
-  campusphereApp
-) {
+exports.signApp = class signApp extends campusphereApp {
   constructor(school, user) {
     super(school)
     this.headers = {
@@ -28,6 +23,7 @@ exports.signApp = class signApp extends (
       'content-type': 'application/json',
       connection: 'keep-alive',
     }
+    this.addr = school.addr
     this.user = user
   }
 
@@ -59,7 +55,7 @@ exports.signApp = class signApp extends (
       this.curTask = signQ.datas.unSignedTasks[0]
       return false
     } catch (e) {
-      log.object(e)
+      console.log(e)
       return true
     }
   }
@@ -108,14 +104,14 @@ exports.signApp = class signApp extends (
       extraFieldItems,
     }
     headers['Cpdaily-Extension'] = this.extention(form)
-
+    console.log(form)
     res = await fetch(signApi.sign, {
       headers,
       method: 'POST',
       body: JSON.stringify(form),
     })
     res = await res.json()
-    log.warning(
+    console.log(
       `${this.user.alias || this.user.username} 的签到结果: ${res.message}`
     )
   }
@@ -123,16 +119,19 @@ exports.signApp = class signApp extends (
   signAtHomePos() {
     // Hard coded position info
     // Randomly generated from http://api.map.baidu.com/lbsapi
-    const posGenFromCitys = [
-      ['116.622631', '40.204822', '北京市顺义区X012'],
-      ['115.825701', '32.914915', '安徽省阜阳市颍泉区胜利北路79'],
-      ['119.292590', '26.164789', '福建省福州市晋安区'],
-      ['103.836093', '36.068012', '甘肃省兰州市城关区南滨河东路709'],
-      ['108.360128', '22.883516', '广西壮族自治区南宁市兴宁区'],
-      ['113.391549', '22.590350', '广东省中山市兴港中路172号'],
-      ['111.292396', '30.718343', '湖北省宜昌市西陵区珍珠路32号'],
-      ['118.793117', '32.074771', '江苏省南京市玄武区昆仑路8号'],
-    ]
+    const userAddr = this.user.addr
+    const posGenFromCitys = userAddr
+      ? [userAddr]
+      : [
+          ['116.622631', '40.204822', '北京市顺义区X012'],
+          ['115.825701', '32.914915', '安徽省阜阳市颍泉区胜利北路79'],
+          ['119.292590', '26.164789', '福建省福州市晋安区'],
+          ['103.836093', '36.068012', '甘肃省兰州市城关区南滨河东路709'],
+          ['108.360128', '22.883516', '广西壮族自治区南宁市兴宁区'],
+          ['113.391549', '22.590350', '广东省中山市兴港中路172号'],
+          ['111.292396', '30.718343', '湖北省宜昌市西陵区珍珠路32号'],
+          ['118.793117', '32.074771', '江苏省南京市玄武区昆仑路8号'],
+        ]
     const genNum = Math.floor(Math.random() * posGenFromCitys.length)
     this.addr = posGenFromCitys[genNum][2]
     return this.locale({

@@ -8,16 +8,20 @@ const { prompt } = require('inquirer')
 const conf = new Conf()
 module.exports = conf
 
-let school = conf.get('school')
-
 class User {
   constructor(config) {
     this.conf = config
     this.selectType = null
   }
 
-  loadUserFormFile(path) {
-    let users = this.conf.get('users') || []
+  storeUsers(loadedUsers) {
+    const users = this.conf.get('users') || []
+    const storedUsers = users.map(e => e.username)
+    loadedUsers = loadedUsers.filter(e => !storedUsers.includes(e.username))
+    this.conf.set('users', [...loadedUsers, ...users])
+  }
+
+  loadUserFromFile(path) {
     let loadedUsers
     if (fs.existsSync(path)) {
       const doc = yaml.load(fs.readFileSync(path, 'utf8'))
@@ -26,12 +30,18 @@ class User {
     } else {
       return
     }
+    this.storeUsers(loadedUsers)
+  }
 
-    // check duplicates
-    const storedUsers = users.map(e => e.username)
-    loadedUsers = loadedUsers.filter(e => !storedUsers.includes(e.username))
-
-    this.conf.set('users', [...loadedUsers, ...users])
+  loadUserFromEnv({ users, addr }) {
+    if (users) {
+      const loadedUsers = users.split('\n').map(user => {
+        const [username, password, alias] = user.split(' ')
+        addr = addr.split(' ')
+        return { username, password, alias, addr }
+      })
+      this.storeUsers(loadedUsers)
+    }
   }
 
   async load() {
@@ -41,7 +51,7 @@ class User {
         type: 'list',
         name: 'type',
         message: `用户编辑: ${
-          school ? ' 学校信息已成功配置' : ' 学校信息未配置'
+          conf.get('school') ? ' 学校信息已成功配置' : ' 学校信息未配置'
         }\n  已有用户：${users.reduce((s, e) => {
           const userInfo = e.alias || e.username
           return s + ' ' + userInfo
@@ -142,8 +152,7 @@ class School {
   }
 
   async init() {
-    if (!school) {
-      this.conf.set('school', {})
+    if (!conf.get('school')) {
       const questions = [
         {
           type: 'input',
@@ -169,70 +178,114 @@ class School {
 
       let res = await prompt(questions)
       const isSignAtHome = res.isSignAtHome
-      
-      res = await fetch(
-        `https://mobile.campushoy.com/v6/config/guest/tenant/info?ids=${res.ids}`
-      ).catch(err => err)
-      res = await JSON.parse(await res.text())
+      const school = await this.schoolApi(res.ids, isSignAtHome)
 
-      const origin = new URL(res.data[0].ampUrl).origin
-      const casOrigin = res.data[0].idsUrl
-
-      school = {
-        casOrigin,
-        origin,
-        isSignAtHome,
-        login: `${casOrigin}/login?service=${encodeURIComponent(
-          origin
-        )}/portal/login`,
-        campusphere: `${origin}/portal/login`,
-        checkCaptcha: `${casOrigin}/checkNeedCaptcha.htl`,
-        getCaptcha: `${casOrigin}/getCaptcha.htl`,
-      }
-
-      const schoolName = res.data[0].name
-
-      if (!isSignAtHome) {
-        // get school address & coordinates(with baidu website's ak)
-        res = await fetch(
-          `https://api.map.baidu.com/?qt=s&wd=${encodeURIComponent(
-            schoolName
-          )}&ak=E4805d16520de693a3fe707cdc962045&rn=10&ie=utf-8&oue=1&fromproduct=jsapi&res=api`
-        )
-        res = await res.json()
-        const { addr } = res.content[0]
-        school.addr = addr
-      }
-
+      if (!isSignAtHome) school.addr = await this.schoolAddr(school.name)
       this.conf.set('school', school)
-      log.success(
-        `您的学校 ${schoolName} 已完成设定, 全局签到地址为：${
-          school.addr ? school.addr : 'RANDOM'
-        }`
-      )
+      log.success(`您的学校 ${school.name} 已完成设定`)
     } else {
       log.warning('学校信息已配置')
     }
-    return school
+  }
+
+  /**
+   * Grab school info from environment
+   * @param {string} name school
+   */
+  async loadSchoolFromEnv({ school: name, addr }) {
+    if (!conf.get('school')) {
+      const isSignAtHome = addr === addr || 'RANDOM'
+      const school = await this.schoolApi(name, isSignAtHome)
+      if (!isSignAtHome) school.addr = await this.schoolAddr(name)
+      console.log(school)
+      this.conf.set('school', school)
+      log.success(`您的学校 ${school.name} 已完成设定`)
+    } else {
+      log.warning('学校信息已配置')
+    }
+  }
+
+  /**
+   * Get school address & coordinates(with baidu website's ak)
+   * @param {string} name school
+   */
+  async schoolAddr(name) {
+    let res = await fetch(
+      `https://api.map.baidu.com/?qt=s&wd=${encodeURIComponent(
+        name
+      )}&ak=E4805d16520de693a3fe707cdc962045&rn=10&ie=utf-8&oue=1&fromproduct=jsapi&res=api`
+    )
+    res = await res.json()
+    const { addr } = res.content[0]
+    return addr
+  }
+
+  /**
+   * Grab school endpoint from campushoy API
+   * @param {string} name school name
+   * @param {boolean} isSignAtHome
+   */
+  async schoolApi(name, isSignAtHome) {
+    let res = await fetch(
+      `https://mobile.campushoy.com/v6/config/guest/tenant/info?ids=${name}`
+    ).catch(err => err)
+    res = await JSON.parse(await res.text())
+
+    const origin = new URL(res.data[0].ampUrl).origin
+    const casOrigin = res.data[0].idsUrl
+    const schoolName = res.data[0].name
+    return {
+      name: schoolName,
+      casOrigin,
+      origin,
+      isSignAtHome,
+      login: `${casOrigin}/login?service=${encodeURIComponent(
+        origin
+      )}/portal/login`,
+      campusphere: `${origin}/portal/login`,
+      checkCaptcha: `${casOrigin}/checkNeedCaptcha.htl`,
+      getCaptcha: `${casOrigin}/getCaptcha.htl`,
+    }
   }
 }
 
-;(async (argv = '') => {
-  argv = process.argv[2] || ''
-  if (argv.match(/(-u|--user)/)) {
-    const userUlti = new User(conf)
-    userUlti.loadUserFormFile('./userConf.yml')
-    await userUlti.load()
-    const type = userUlti.selectType
-    if (type === 1) userUlti.createUser()
-    if (type === 2) userUlti.deleteUser()
-  } else if (argv.match(/(-s|--school)/)) {
-    school = new School(conf).init()
-  } else if (argv.match(/(rm|--remove)/)) {
-    const argv2 = process.argv[3]
-    if (argv2 === 'all') conf.clear()
-    conf.delete(argv2)
-  } else if (argv === 'sign') {
-    require('./TEST/dcampus')
+;(async () => {
+  const argv = process.argv[2] || ''
+  const argv2 = process.argv[3]
+
+  switch (argv) {
+    case '-u':
+    case '--user': {
+      const userUlti = new User(conf)
+      userUlti.loadUserFromFile('./userConf.yml')
+      userUlti.loadUserFromEnv(process.env)
+      await userUlti.load()
+      const type = userUlti.selectType
+      if (type === 1) userUlti.createUser()
+      if (type === 2) userUlti.deleteUser()
+      break
+    }
+    case '-s':
+    case '--school': {
+      new School(conf).init()
+      break
+    }
+    case 'rm':
+    case '--remove': {
+      if (argv2 === 'all') conf.clear()
+      conf.delete(argv2)
+      break
+    }
+    case 'sign': {
+      require('./TEST/dcampus')
+      break
+    }
+    default: {
+      log.warning('Loading from env!')
+      const userUlti = new User(conf)
+      userUlti.loadUserFromEnv(process.env)
+      await new School(conf).loadSchoolFromEnv(process.env)
+      require('./TEST/dcampus')
+    }
   }
 })()

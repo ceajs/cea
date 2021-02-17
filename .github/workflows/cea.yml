@@ -1,0 +1,35 @@
+name: cea
+
+on:
+  schedule:
+    -cron: '0 3,8,21 * * *'
+
+jobs:
+  cea:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v2
+
+      - name: Set Node RUNTIME
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Cache conf path & node_modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/$XDG_CONFIG_HOME/@beetcb/cea-nodejs/config.json
+            !~/cache/exclude
+            **/node_modules
+          key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}
+
+      - name: Init school and users
+        run: |
+          npm ci
+          node ./init.js
+        env: # Or as an environment variable
+          users: ${{ secrets.users }}
+          school: ${{ secrets.school }}
+          addr: ${{ secrets.addr }}
