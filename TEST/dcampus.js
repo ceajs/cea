@@ -13,6 +13,8 @@ const school = conf.get('school')
   await sleep(0)
   // Sign in
   await signIn()
+  // Log out config path
+  console.table({ 'config-path': conf.path })
 })()
 
 async function sleep(timeout) {
