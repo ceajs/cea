@@ -16,7 +16,50 @@
 
 ## Features
 
-- 新增一键部署签到程序：依赖自动安装、触发器自动配置，可能是全网最快的部署 👇 (点击左边小三角展开部署教程) <details><summary>腾讯云开发</summary>
+- 新增一键部署签到程序：依赖自动安装、触发器自动配置，可能是全网最快、选择最多的部署 👇 (我们支持三种配置方式，请任选其一，点击左边小三角展开部署教程)
+   <details><summary>码云持续集成</summary>
+
+  通过码云的持续集成来部署签到程序，教程如下：
+
+  1. [注册码云](https://e.coding.net/register)
+  2. 单击创建项目按钮 ⇢ 选择代码托管项目 ⇢ 直接单击完成创建(取消邀请成员加入项目) ⇢ 右上角单击新建代码仓库
+
+     ![new repo](https://imgur.com/30kP4ri.png)
+     只需填入仓库 URL：https://github.com/beetcb/cea.git，完成创建
+
+     ![repo url](https://imgur.com/UFGbT7w.png)
+
+  3. 左栏持续集成下单击构建计划 ⇢ 右上角单击创建构建计划，页面下滑到底选择`自定义构建过程`
+
+     ![do not use template](https://i.imgur.com/WpcxrKv.png)
+
+     ⇢ 直接下滑到底勾选`使用代码库中的 Jenkinsfile`并单击确定按钮 ⇢ 变量与缓存 ⇢ 批量添加字符串类型环境变量
+
+     ![add mutli envs](https://i.imgur.com/XONsxye.png)
+
+  4. 在弹出的输入框内配置签到信息：
+
+     ```text
+     users: 123 321 beet home\n456 654 someone
+     school: whpu
+     ```
+
+     ![env config](https://i.imgur.com/dr6CAPl.jpg)
+
+     这会配置两个签到用户(同一个学校)，对这两项参数的详细描述为：
+
+     > **users 的值默认都以一个空格分隔，多用户使用\n 换行符分割**
+
+  - `users`: i.e. `123 321 beet`(请在以下三种配置方式中选择一种)
+    - `用户名 密码 名称` 用学校地址签到
+    - `用户名 密码 名称 home` 在家用随机地址签到
+    - `用户名 密码 名称 home 经度 纬度 中文地址` 在家用自定义的经纬度和地址签到，请使用[此工具](https://api.map.baidu.com/lbsapi/getpoint/index.html)生成经纬度
+  - `school`: i.e. `whpu`(学校英文简称)
+
+  3. 配置成功后，此操作会自动在每天 5:00 11:00 16:00 触发，尝试签到(你也可以手动触发一次来测试配置的正确性)
+  </details>
+
+  <details><summary>腾讯云开发一键部署</summary>
 
   > 本说明帮助你**一键部署**自动签到程序到腾讯云开发
   >
@@ -29,10 +72,10 @@
 
   2. 等待几秒(部署完成后) ⇢ 左栏 `云函数` ⇢ 点击 `cea` 进入此函数配置界面 ⇢ `函数代码` 拦下在线编辑器里修改 `conf.yml` 文件 ⇢ 相应注释都已写好，请自行填入 ⇢ 先**保存**后测试，无报错则成功部署
 
-     ![示例](https://i.imgur.com/ZhTS6Ol.png)
+  ![示例](https://i.imgur.com/ZhTS6Ol.png)
 
   3. 教程结束 ⚡ (如有问题，请附带日志提交 issue)，此函数会自动在每天 5:00 11:00 16:00 触发，需要自定义签到时间请参考 [cron](https://docs.cloudbase.net/cloud-function/timer-trigger.html#pei-zhi-xiang-jie)，需要自定义在家签到地址请查看：
-  <details><summary>如果懒得改就忽略吧！你可以今天在北京、明天在上海签到(它的权重远不及<a href="https://www.zhihu.com/question/375968416">健康码</a>，甚至可以说**校园签到根本没有任何意义)，小场面👏,不值得改</summary><br>
+  <details><summary>如果懒得改就忽略吧！(它的权重远不及<a href="https://www.zhihu.com/question/375968416">健康码</a>，甚至可以说**校园签到根本没有任何意义)，小场面👏,不值得改</summary><br>
   请修改 `conf.yml` 文件(用户数组里添加 addr 属性)，比如：
 
   ```yaml
@@ -66,10 +109,10 @@
   # https://www.bejson.com/validators/yaml_editor/
   ```
 
-   </details>
-      <br></details>
+    </details>
+        <br></details>
 
-   <details><summary>Github Action 部署支持</summary>
+    <details><summary>Github Action 部署支持</summary>
 
   **部分学校域名禁止海外 IP 访问，会签到失败(比如 WHPU)**，部署教程如下：
 
@@ -78,17 +121,17 @@
   2. 配置签到信息：
      导航到 Fork 仓库的主页面，在仓库名称下，单击 Settings ，在左侧边栏中，单击 Secrets，单击 New repository secret 开始创建签到信息
 
-     ![actions](https://i.imgur.com/Lx6319H.png)
-     ![secret](https://i.imgur.com/aM4jUSW.png)
+  ![actions](https://i.imgur.com/Lx6319H.png)
+  ![secret](https://i.imgur.com/aM4jUSW.png)
 
   **你需要添加 2 个 secrets，他们的示例如下：**
 
-  > **users 的值默认都以一个空格分隔**
+  > **users 的值默认都以一个空格分隔，多用户使用\n 换行符分割**
 
-  - `users`: i.e. `123 321 beet`(请在以下三种配置方式中选择一种，支持多用户，每一行一个用户)
-    - `用户名 密码 名称` 用学校地址签到
-    - `用户名 密码 名称 home` 在家用随机地址签到
-    - `用户名 密码 名称 home 经度 纬度 中文地址` 在家用自定义的经纬度和地址签到，请使用[此工具](https://api.map.baidu.com/lbsapi/getpoint/index.html)生成经纬度
+  - `users`: i.e. `123 321 beet`(请在以下三种配置方式中选择一种)
+  - `用户名 密码 名称` 用学校地址签到
+  - `用户名 密码 名称 home` 在家用随机地址签到
+  - `用户名 密码 名称 home 经度 纬度 中文地址` 在家用自定义的经纬度和地址签到，请使用[此工具](https://api.map.baidu.com/lbsapi/getpoint/index.html)生成经纬度
   - `school`: i.e. `whpu`(学校英文简称)
 
   3. 通过给自己仓库 Star 来测试 Actions 是否执行成功
@@ -96,9 +139,10 @@
   ![star](https://i.imgur.com/HHlLA4P.png)
 
   配置成功后，此操作会自动在每天 5:00 11:00 16:00 触发，尝试签到
-   </details>
 
-- 新增在家签到功能: 在配置学校过程中，可选 `在家签到`，我们会在全国主流城市随机选点(避开高校)。 若学校信息已经配置，请使用 `cea rm "school"` 清除<details><summary>好奇 `随机` 是哪些地方?</summary>
+    </details>
+
+- 新增在家签到功能: 在配置学校过程中，可选 `在家签到`，我们会在全国主流城市随机选点(避开高校)。 当然我们也支持自定义地址(只不过稍微麻烦点)<details><summary>好奇 `随机` 是哪些地方?</summary>
 
   ```js
   // Hard coded position info
@@ -161,12 +205,22 @@ npm i -g @beetcb/cea
   ```yml
   # 支持多用户配置,用 yaml 语法数组实现
   # 文件修改完后仍需执行 `cea -u` 加载这些用户，根据提示确保用户已成功加载
+  # 使用学校地址签到
   - username: 11111111
     password: 1
     alias: beetcb
+
+  # 使用随机地址在家签到
   - username: 22222222
     password: 2
     alias: beet
+    addr: home
+
+  # 使用自定义地址在家签到
+  - username: 22222222
+    password: 2
+    alias: beet
+    addr: ['116.622631', '40.204822', '北京市顺义区X012']
   ```
 
 - 用户配置项说明:
@@ -222,7 +276,7 @@ cea rm 'all'
 
 登录中加解密过程大量参考 [wisedu-unified-login-api](https://github.com/ZimoLoveShuang/wisedu-unified-login-api) 项目，十分感谢
 
-感谢 [cloudbase-framework](https://github.com/Tencent/cloudbase-framework) 提供的遍历部署，省去了很多麻烦
+感谢 [cloudbase-framework](https://github.com/Tencent/cloudbase-framework)、[Github Actions](https://github.com/actions)、[Coding CI](https://help.coding.net/docs/ci/intro.html) 提供的优秀服务 🎉
 
 ## Disclaimer
 
