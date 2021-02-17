@@ -15,7 +15,7 @@ pipeline {
       }
     stage('签到') {
       steps {
-          sh 'npm ci'
+          sh 'npm i'
           sh 'node ./init.js'
           sh 'date'
         }
