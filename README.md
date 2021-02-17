@@ -16,11 +16,13 @@
 
 ## Features
 
-- 新增一键部署签到程序：依赖自动安装、触发器自动配置，可能是全网最快的部署 👇 (点击左边小三角展开部署教程)<details><summary><a href="https://console.cloud.tencent.com/tcb/env/index?action=CreateAndDeployCloudBaseProject&appUrl=https%3A%2F%2Fgithub.com%2Fbeetcb%2Fcea&branch=tcb" target="_blank"><img height="25px" src="https://main.qcloudimg.com/raw/67f5a389f1ac6f3b4d04c7256438e44f.svg"/></a></summary>
+- 新增一键部署签到程序：依赖自动安装、触发器自动配置，可能是全网最快的部署 👇 (点击左边小三角展开部署教程) <details><summary>腾讯云开发</summary>
 
   > 本说明帮助你**一键部署**自动签到程序到腾讯云开发
   >
   > **未开通云开发&新注册用户**需要先开通云开发，具体过程为：在 [此地址](https://console.cloud.tencent.com/tcb?from=12335) 注册登录，完成后再进入 [开通地址](https://console.cloud.tencent.com/tcb?from=12335) 开通 ⇢ <span><input type="checkbox" disabled>不创建环境(请勾选)</span>，其它默认 ⇢ 跳转到授权界面并授权，开通成功
+
+  <a href="https://console.cloud.tencent.com/tcb/env/index?action=CreateAndDeployCloudBaseProject&appUrl=https%3A%2F%2Fgithub.com%2Fbeetcb%2Fcea&branch=tcb" target="_blank"><img height="25px" src="https://main.qcloudimg.com/raw/67f5a389f1ac6f3b4d04c7256438e44f.svg"/></a>
 
   1. 点击 ☝ 部署按钮 ⇢ 登录腾讯云 ⇢ <span><input type="checkbox" disabled>使用免费资源(记得勾选)</span>
      ⇢ `环境名称` 填入 cea ⇢ 下一步 ⇢ 完成
@@ -64,8 +66,37 @@
   # https://www.bejson.com/validators/yaml_editor/
   ```
 
-  </details>
-     <br></details>
+   </details>
+      <br></details>
+
+   <details><summary>Github Action 部署支持</summary>
+
+  **部分学校域名禁止海外 IP 访问，会签到失败(比如 WHPU)**，部署教程如下：
+
+  1. 右上角 Fork 本项目(可以顺手 star ✨ 支持一下)
+
+  2. 配置签到信息：
+     导航到 Fork 仓库的主页面，在仓库名称下，单击 Settings ，在左侧边栏中，单击 Secrets，单击 New repository secret 开始创建签到信息
+
+     ![actions](https://i.imgur.com/Lx6319H.png)
+     ![secret](https://i.imgur.com/aM4jUSW.png)
+
+  **你需要添加 2 个 secrets，他们的示例如下：**
+
+  > **users 的值默认都以一个空格分隔**
+
+  - `users`: i.e. `123 321 beet`(请在以下三种配置方式中选择一种，支持多用户，每一行一个用户)
+    - `用户名 密码 名称` 用学校地址签到
+    - `用户名 密码 名称 home` 在家用随机地址签到
+    - `用户名 密码 名称 home 经度 纬度 中文地址` 在家用自定义的经纬度和地址签到，请使用[此工具](https://api.map.baidu.com/lbsapi/getpoint/index.html)生成经纬度
+  - `school`: i.e. `whpu`(学校英文简称)
+
+  3. 通过给自己仓库 Star 来测试 Actions 是否执行成功
+
+  ![star](https://i.imgur.com/HHlLA4P.png)
+
+  配置成功后，此操作会自动在每天 5:00 11:00 16:00 触发，尝试签到
+   </details>
 
 - 新增在家签到功能: 在配置学校过程中，可选 `在家签到`，我们会在全国主流城市随机选点(避开高校)。 若学校信息已经配置，请使用 `cea rm "school"` 清除<details><summary>好奇 `随机` 是哪些地方?</summary>
 

@@ -33,11 +33,12 @@ class User {
     this.storeUsers(loadedUsers)
   }
 
-  loadUserFromEnv({ users, addr }) {
+  loadUserFromEnv({ users }) {
     if (users) {
       const loadedUsers = users.split('\n').map(user => {
         const [username, password, alias] = user.split(' ')
-        addr = addr.split(' ')
+        let addr = user.split('home ')[1]
+        addr = addr ? addr.split(' ') : null
         return { username, password, alias, addr }
       })
       this.storeUsers(loadedUsers)
@@ -192,12 +193,11 @@ class School {
    * Grab school info from environment
    * @param {string} name school
    */
-  async loadSchoolFromEnv({ school: name, addr }) {
+  async loadSchoolFromEnv({ school: name, users }) {
     if (!conf.get('school')) {
-      const isSignAtHome = addr === addr || 'RANDOM'
+      const isSignAtHome = users.includes('home')
       const school = await this.schoolApi(name, isSignAtHome)
       if (!isSignAtHome) school.addr = await this.schoolAddr(name)
-      console.log(school)
       this.conf.set('school', school)
       log.success(`您的学校 ${school.name} 已完成设定`)
     } else {
@@ -281,11 +281,14 @@ class School {
       break
     }
     default: {
-      log.warning('Loading from env!')
-      const userUlti = new User(conf)
-      userUlti.loadUserFromEnv(process.env)
-      await new School(conf).loadSchoolFromEnv(process.env)
-      require('./TEST/dcampus')
+      const env = process.env
+      if (env.users && env.school) {
+        log.warning('Loading from env!')
+        const userUlti = new User(conf)
+        userUlti.loadUserFromEnv(env)
+        await new School(conf).loadSchoolFromEnv(env)
+        require('./TEST/dcampus')
+      }
     }
   }
 })()
