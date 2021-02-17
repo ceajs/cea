@@ -1,8 +1,11 @@
 name: cea
 
 on:
+  watch:
+    # Test on star
+    types: [started]
   schedule:
-    -cron: '0 3,8,21 * * *'
+    - cron: '0 3,8,21 * * *'
 
 jobs:
   cea:
