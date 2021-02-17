@@ -104,16 +104,21 @@ exports.signApp = class signApp extends campusphereApp {
       extraFieldItems,
     }
     headers['Cpdaily-Extension'] = this.extention(form)
-    console.log(form)
     res = await fetch(signApi.sign, {
       headers,
       method: 'POST',
       body: JSON.stringify(form),
     })
     res = await res.json()
-    console.log(
-      `${this.user.alias || this.user.username} 的签到结果: ${res.message}`
-    )
+
+    const logInfo = {
+      签到结果: res.message,
+      签到地址: form.position,
+      签到时间: new Date().toTimeString(),
+      真实信息: signedStuInfo.userName
+    }
+    // store result
+    this.result = logInfo
   }
 
   signAtHomePos() {

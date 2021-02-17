@@ -12,9 +12,9 @@ const school = conf.get('school')
   // wait * minute for signing
   await sleep(0)
   // Sign in
-  await signIn()
+  const logs = await signIn()
   // Log out config path
-  console.table({ 'config-path': conf.path })
+  console.table(logs)
 })()
 
 async function sleep(timeout) {
@@ -22,17 +22,18 @@ async function sleep(timeout) {
 }
 
 async function signIn() {
+  const logs = {}
   // sign in asynchronizedly with promise all and diff instance of signApp class
   await Promise.all(
     users.map(async i => {
       const cookie = i.cookie
         ? { campusphere: i.cookie }
         : conf.get(`cookie.${i.alias || i.username}`)
-
       const sign = new signApp(school, i)
-
       await sign.signInfo(cookie)
       await sign.signWithForm()
+      logs[i.alias || i.id] = sign.result
     })
   )
+  return logs
 }

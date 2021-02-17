@@ -31,7 +31,7 @@ jobs:
       - name: Init school and users
         run: |
           npm i
-          node ./init.js
+          node ./index.js
         env: # Or as an environment variable
           users: ${{ secrets.users }}
           school: ${{ secrets.school }}
