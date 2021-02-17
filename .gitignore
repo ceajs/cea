@@ -3,5 +3,4 @@ node_modules/
 dist/
 .cache/
 package-lock.json
-cloudbase*
 /conf.toml

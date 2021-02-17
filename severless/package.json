@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@beetcb/cea": "^1.1.5"
+    "@beetcb/cea": "^1.1.6"
   }
 }
