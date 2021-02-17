@@ -17,6 +17,7 @@ pipeline {
       steps {
           sh 'npm ci'
           sh 'node ./init.js'
+          sh 'date'
         }
       }
     }
