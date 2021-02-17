@@ -17,6 +17,52 @@
 ## Features
 
 - 新增一键部署签到程序：依赖自动安装、触发器自动配置，可能是全网最快、选择最多的部署 👇 (我们支持三种配置方式，请任选其一，点击左边小三角展开部署教程)
+
+  <details><summary>腾讯云开发一键部署</summary>
+
+  > 本说明帮助你**一键部署**自动签到程序到腾讯云开发
+  >
+  > **未开通云开发&新注册用户**需要先开通云开发，具体过程为：在 [此地址](https://console.cloud.tencent.com/tcb?from=12335) 注册登录，完成后再进入 [开通地址](https://console.cloud.tencent.com/tcb?from=12335) 开通 ⇢ <span><input type="checkbox" disabled>不创建环境(请勾选)</span>，其它默认 ⇢ 跳转到授权界面并授权，开通成功
+
+  <a href="https://console.cloud.tencent.com/tcb/env/index?action=CreateAndDeployCloudBaseProject&appUrl=https%3A%2F%2Fgithub.com%2Fbeetcb%2Fcea&branch=tcb" target="_blank"><img height="25px" src="https://main.qcloudimg.com/raw/67f5a389f1ac6f3b4d04c7256438e44f.svg"/></a>
+
+  1. 点击 ☝ 部署按钮 ⇢ 登录腾讯云 ⇢ <span><input type="checkbox" disabled>使用免费资源(记得勾选)</span>
+     ⇢ `环境名称` 填入 cea ⇢ 下一步 ⇢ 完成
+
+  2. 等待几秒(部署完成后) ⇢ 左栏 `云函数` ⇢ 点击 `cea` 进入此函数配置界面 ⇢ `函数代码` 拦下在线编辑器里修改 `conf.toml` 文件 ⇢ 相应注释都已写好，请自行填入 ⇢ 先**保存**后测试，无报错则成功部署
+
+  ![示例](https://i.imgur.com/ZhTS6Ol.png)
+
+  3. 教程结束 ⚡ (如有问题，请附带日志提交 issue)，此函数会自动在每天 5:00 11:00 16:00 触发，具体的配置文件示例如下：
+
+  ```toml
+  # 学校英文简称，一个云函数只能配置一个学校
+  school = "whpu"
+
+  # 使用学校地址签到，第一个用户
+  [[users]]
+  username = "11"
+  password = "11"
+  alias = "one"
+  addr = ""
+
+  # 使用随机地址在家签到，第二个用户
+  [[users]]
+  username = "22"
+  password = "22"
+  alias = "two"
+  addr = "home"
+
+  # 使用自定义地址在家签到，第三个用户
+  # 推荐使用 https://api.map.baidu.com/lbsapi/getpoint/index.html 查询地址
+  [[users]]
+  username = "33"
+  password = "33"
+  alias = "three"
+  addr = ["116.622631", "40.204822", "北京市顺义区X012"]
+  ```
+
+    </details>
    <details><summary>码云持续集成</summary>
 
   通过码云的持续集成来部署签到程序，教程如下：
@@ -58,59 +104,6 @@
 
   3. 配置成功后，此操作会自动在每天 5:00 11:00 16:00 触发，尝试签到(你也可以手动触发一次来测试配置的正确性)
   </details>
-
-  <details><summary>腾讯云开发一键部署</summary>
-
-  > 本说明帮助你**一键部署**自动签到程序到腾讯云开发
-  >
-  > **未开通云开发&新注册用户**需要先开通云开发，具体过程为：在 [此地址](https://console.cloud.tencent.com/tcb?from=12335) 注册登录，完成后再进入 [开通地址](https://console.cloud.tencent.com/tcb?from=12335) 开通 ⇢ <span><input type="checkbox" disabled>不创建环境(请勾选)</span>，其它默认 ⇢ 跳转到授权界面并授权，开通成功
-
-  <a href="https://console.cloud.tencent.com/tcb/env/index?action=CreateAndDeployCloudBaseProject&appUrl=https%3A%2F%2Fgithub.com%2Fbeetcb%2Fcea&branch=tcb" target="_blank"><img height="25px" src="https://main.qcloudimg.com/raw/67f5a389f1ac6f3b4d04c7256438e44f.svg"/></a>
-
-  1. 点击 ☝ 部署按钮 ⇢ 登录腾讯云 ⇢ <span><input type="checkbox" disabled>使用免费资源(记得勾选)</span>
-     ⇢ `环境名称` 填入 cea ⇢ 下一步 ⇢ 完成
-
-  2. 等待几秒(部署完成后) ⇢ 左栏 `云函数` ⇢ 点击 `cea` 进入此函数配置界面 ⇢ `函数代码` 拦下在线编辑器里修改 `conf.yml` 文件 ⇢ 相应注释都已写好，请自行填入 ⇢ 先**保存**后测试，无报错则成功部署
-
-  ![示例](https://i.imgur.com/ZhTS6Ol.png)
-
-  3. 教程结束 ⚡ (如有问题，请附带日志提交 issue)，此函数会自动在每天 5:00 11:00 16:00 触发，需要自定义签到时间请参考 [cron](https://docs.cloudbase.net/cloud-function/timer-trigger.html#pei-zhi-xiang-jie)，需要自定义在家签到地址请查看：
-  <details><summary>如果懒得改就忽略吧！(它的权重远不及<a href="https://www.zhihu.com/question/375968416">健康码</a>，甚至可以说**校园签到根本没有任何意义)，小场面👏,不值得改</summary><br>
-  请修改 `conf.yml` 文件(用户数组里添加 addr 属性)，比如：
-
-  ```yaml
-  # 学校英文简称，一个云函数只能配置一个学校
-  school: whpu
-
-  # 是否在家签到，可选值为
-  # - true            在家签到，使用随机地址(会绕开学校)，可以被用户自定义地址重写
-  # - false           学校签到，使用学校地址
-  home: true
-
-  # 用户信息配置，支持多用户
-  users:
-    # 第一个用户信息从这里开始
-    # 学工账号用户名
-    - username: 11111111
-      # 学工账号密码
-      password: 1
-      # 用户简称，主要方便日志查询
-      alias: beetcb
-      # 自定义在家签到地址，请提供 经度、纬度、详细地址
-      # 推荐使用 https://api.map.baidu.com/lbsapi/getpoint/index.html 查询地址
-      addr: [116.622631, 40.204822, 北京市顺义区X012]
-
-    # 第二个用户信息从这里开始，依此类推（不需要请手动删除此区域往下全部内容）
-    - username: 22222222
-      password: 2
-      alias: Who
-      addr: [103.836093, 36.068012, 甘肃省兰州市城关区南滨河东路709]
-  # 编辑完请检查一下YAML代码格式是否正确，可以复制粘贴到使在线小工具检查：
-  # https://www.bejson.com/validators/yaml_editor/
-  ```
-
-    </details>
-        <br></details>
 
     <details><summary>Github Action 部署支持</summary>
 
@@ -161,7 +154,7 @@
 
   </details>
 
-- 交互式配置: `campusphere-elegant-auth` 提供交互式的命令行完成 用户 及 学校 的配置，同时也支持使用 `yml` 文件来配置
+- 交互式配置: `campusphere-elegant-auth` 提供交互式的命令行完成 用户 及 学校 的配置，同时也支持使用 `toml` 文件来配置
 
 - 验证持久化: 缓存验证信息于内存, 只在失效时更新
 
@@ -200,35 +193,34 @@ npm i -g @beetcb/cea
   cea -u
   ```
 
-- (可选)使用文件配置用户: 根目录下创建 `userConf.yml`, 参考以下示例:
+- (可选)使用文件配置用户: 根目录下创建 `conf.toml`, 参考以下示例:
 
-  ```yml
-  # 支持多用户配置,用 yaml 语法数组实现
+  ```toml
   # 文件修改完后仍需执行 `cea -u` 加载这些用户，根据提示确保用户已成功加载
+
+  # 学校英文简称
+  school = "whpu"
+
   # 使用学校地址签到
-  - username: 11111111
-    password: 1
-    alias: beetcb
+  [[users]]
+  username = "用户名"
+  password = "密码"
+  alias = "简称"
+  addr = ""
 
   # 使用随机地址在家签到
-  - username: 22222222
-    password: 2
-    alias: beet
-    addr: home
+  [[users]]
+  username = "用户名"
+  password = "密码"
+  alias = "简称"
+  addr = "home"
 
   # 使用自定义地址在家签到
-  - username: 22222222
-    password: 2
-    alias: beet
-    addr: ['116.622631', '40.204822', '北京市顺义区X012']
-  ```
-
-- 用户配置项说明:
-  ```yml
-  - username: 账户用户名
-    password: 密码
-    alias: 用户别名,方便查询
-    cookie: 为抓包用户提供便利, 省去登录过程，只需提供 `MOD_AUTH_CAS` 键值, 比如：MOD_AUTH_CAS=aVh237y-K3RPsaST3seDwez1287964, 时效不长，请自行判断
+  [[users]]
+  username = "用户名"
+  password = "密码"
+  alias = "简称"
+  addr = ["经度", "纬度", "实际地址"]
   ```
 
 2. 工具使用:
