@@ -12,7 +12,7 @@
           "functions": [
             {
               "name": "serverless",
-              "memory": 128,
+              "memory": 256,
               "timeout": 10,
               "runtime": "Nodejs10.15",
               "installDependency": true,
