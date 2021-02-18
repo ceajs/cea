@@ -1,7 +1,7 @@
 # 学校英文简称
 school = "whpu"
 
-# 用户配置，多用户配置方法请查看 cea 文档: https://github.com/beetcb/cea#readme
+# 用户配置，多用户配置方法(或更详细的配置说明)请查看 cea 文档: https://github.com/beetcb/cea#readme
 [[users]]
 # 账号用户名
 username = "11"
