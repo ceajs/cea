@@ -63,11 +63,11 @@
   ```
 
     </details>
-   <details><summary>码云持续集成</summary>
+   <details><summary>Coding 持续集成</summary>
 
-  通过码云的持续集成来部署签到程序，教程如下：
+  通过 Coding 的持续集成来部署签到程序，教程如下：
 
-  1. [注册码云](https://e.coding.net/register)
+  1. [注册 Coding](https://e.coding.net/register)
   2. 单击创建项目按钮 ⇢ 选择代码托管项目 ⇢ 直接单击完成创建(取消邀请成员加入项目) ⇢ 右上角单击新建代码仓库
 
      ![new repo](https://imgur.com/30kP4ri.png)
@@ -102,7 +102,12 @@
     - `用户名 密码 名称 home 经度 纬度 中文地址` 在家用自定义的经纬度和地址签到，请使用[此工具](https://api.map.baidu.com/lbsapi/getpoint/index.html)生成经纬度
   - `school`: i.e. `whpu`(学校英文简称)
 
-  3. 配置成功后，此操作会自动在每天 5:00 11:00 16:00 触发，尝试签到(你也可以手动触发一次来测试配置的正确性)
+  5. ~~此操作会自动在每天 5:00 11:00 16:00 触发~~ Coding 目前不支持自动配置触发，你需要手动设置触发机制：单击触发机制，下滑添加定时触发，按照 Coding 的逻辑，你需要设置三次触发，分别是 5:00 11:00 16:00，当然你也可以自定义，图例如下
+
+     ![tigger](https://i.imgur.com/xYHsISg.png)
+
+  6. 配置成功后，请手动触发一次来测试配置的正确性
+
   </details>
 
     <details><summary>Github Action 部署支持</summary>
