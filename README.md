@@ -71,7 +71,8 @@
   2. 单击创建项目按钮 ⇢ 选择代码托管项目 ⇢ 直接单击完成创建(取消邀请成员加入项目) ⇢ 右上角单击新建代码仓库
 
      ![new repo](https://imgur.com/30kP4ri.png)
-     只需填入仓库 URL：https://github.com/beetcb/cea.git，完成创建
+
+     只需填入仓库 URL：`https://github.com/beetcb/cea.git`，完成创建
 
      ![repo url](https://imgur.com/UFGbT7w.png)
 
@@ -163,7 +164,7 @@
 
 - 验证持久化: 缓存验证信息于内存, 只在失效时更新
 
-- 兼容云服务的 OCR：很多云服务(如云函数)的文件系统并不都是可写入的，我们将 OCR 验证码识别用到的 [tesseract.js](https://github.com/naptha/tesseract.js) 数据和训练缓存包暂存到了 `/tmp`，降低出错率；同时，为加快国内访问速度，下载节点托管于码云
+- 兼容云服务的 OCR：很多云服务(如云函数)的文件系统并不都是可写入的，我们将 OCR 验证码识别用到的 [tesseract.js](https://github.com/naptha/tesseract.js) 数据包和训练缓存包暂存到了 `/tmp`，降低出错率；同时，为加快国内访问速度，下载节点托管于码云
 
 - 多用户非阻塞: 利用 NodeJS 异步特征，多用户可并行，实现毫秒级的多用户同时操作
 
