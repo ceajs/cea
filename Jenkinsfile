@@ -16,7 +16,8 @@ pipeline {
     stage('签到') {
       steps {
           sh 'npm i'
-          sh 'node ./index.js'
+          sh 'node ./cli.js load'
+          sh 'node ./cli.js sign'
           sh 'date'
         }
       }
