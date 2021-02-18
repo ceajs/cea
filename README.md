@@ -163,6 +163,8 @@
 
 - 验证持久化: 缓存验证信息于内存, 只在失效时更新
 
+- 兼容云服务的 OCR：很多云服务(如云函数)的文件系统并不都是可写入的，我们将 OCR 验证码识别用到的 [tesseract.js](https://github.com/naptha/tesseract.js) 数据和训练缓存包暂存到了 `/tmp`，降低出错率；同时，为加快国内访问速度，下载节点托管于码云
+
 - 多用户非阻塞: 利用 NodeJS 异步特征，多用户可并行，实现毫秒级的多用户同时操作
 
 - 关于签到: (学校配置时)使用百度地图 API 获取学校全局签到地址, 使用今日校园接口返回的签到数据获取签到经纬度, 简单来说, 只需知道学校英文简称即可配置好所有签到信息, 充分懒人化
@@ -186,16 +188,24 @@ npm i -g @beetcb/cea
 
 2. 初始化学校及用户
 
+- 用户配置:
+
+  交互式配置用户：
+
+  ```sh
+  cea -u
+  ```
+
+  或者从 `conf.toml` 文件配置用户，同时也会配置学校
+
+  ```sh
+  cea load
+  ```
+
 - 学校配置:
 
   ```sh
   cea -s
-  ```
-
-- 用户配置:
-
-  ```sh
-  cea -u
   ```
 
 - (可选)使用文件配置用户: 根目录下创建 `conf.toml`, 参考以下示例:
@@ -274,7 +284,7 @@ cea rm 'all'
 
 登录中加解密过程大量参考 [wisedu-unified-login-api](https://github.com/ZimoLoveShuang/wisedu-unified-login-api) 项目，十分感谢
 
-感谢 [cloudbase-framework](https://github.com/Tencent/cloudbase-framework)、[Github Actions](https://github.com/actions)、[Coding CI](https://help.coding.net/docs/ci/intro.html) 提供的优秀服务 🎉
+感谢 [cloudbase-framework](https://github.com/Tencent/cloudbase-framework)、[Github Actions](https://github.com/actions)、[Coding CI](https://help.coding.net/docs/ci/intro.html)、[Gitee Pages](https://gitee.com/help/articles/4136) 提供的优秀服务 🎉
 
 ## Disclaimer
 
