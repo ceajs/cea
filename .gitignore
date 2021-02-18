@@ -1,4 +1,4 @@
-*.traineddata
+*.traineddata*
 node_modules/
 dist/
 .cache/

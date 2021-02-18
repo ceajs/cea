@@ -27,22 +27,12 @@ exports.signApp = class signApp extends campusphereApp {
     this.user = user
   }
 
-  async getCookie(cookie) {
-    if (!cookie.campusphere.includes('acw_tc')) {
-      const res = await fetch(this.signApi.home, {
-        headers: this.headers,
-      })
-      res.headers.raw()['set-cookie'].forEach(e => {
-        cookie.campusphere += ';' + e.match(/^(\w|\d|\s)+\=(\w|\d|\s|\-)+;/)[0]
-      }, '')
-    }
-    return cookie.campusphere
-  }
-
   async signInfo(cookie) {
-    // set acw_tc for user provided cookie
-    this.headers.cookie = await this.getCookie(cookie)
-
+    if (!cookie) {
+      console.log(`用户${this.user.alias}：无效的 Cookie`)
+      return
+    }
+    this.headers.cookie = cookie.campusphere
     const { signApi, headers } = this
     try {
       const res = await fetch(signApi.list, {
@@ -55,7 +45,7 @@ exports.signApp = class signApp extends campusphereApp {
       this.curTask = signQ.datas.unSignedTasks[0]
       return false
     } catch (e) {
-      console.log(e)
+      this.result = { 失败原因: '无法获取 Cookie' }
       return true
     }
   }
@@ -114,8 +104,7 @@ exports.signApp = class signApp extends campusphereApp {
     const logInfo = {
       签到结果: res.message,
       签到地址: form.position,
-      签到时间: new Date().toTimeString(),
-      真实信息: signedStuInfo.userName
+      真实信息: signedStuInfo.userName,
     }
     // store result
     this.result = logInfo

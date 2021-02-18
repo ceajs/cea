@@ -196,7 +196,7 @@ npm i -g @beetcb/cea
 - (可选)使用文件配置用户: 根目录下创建 `conf.toml`, 参考以下示例:
 
   ```toml
-  # 文件修改完后仍需执行 `cea -u` 加载这些用户，根据提示确保用户已成功加载
+  # 文件修改完后仍需执行 `cea load` 加载这些用户，根据提示确保用户已成功加载
 
   # 学校英文简称
   school = "whpu"
@@ -235,19 +235,20 @@ npm i -g @beetcb/cea
    若使用 cea 作为二次开发使用，请配置好学校和用户，然后在你的项目中导入 cea，参考：
 
    ```js
-   const { handleCookie, conf } = require('@beetcb/cea')
-
-   // Grab users array
-   const users = conf.get('users')
-   // Grab school info if you need to use that
-   const school = conf.get('school')
+   const { conf } = require('@beetcb/cea')
 
    ;(async () => {
+     // Load users from config or environment variables
+     await conf.load()
      // Log in and save cookie to conf, using conf.get('cookie') to get them
-     await handleCookie()
+     await conf.handleCookie()
+     // Grab users array
+     const users = conf.get('users')
+     // Grab school info if you need to use that
+     const school = conf.get('school')
      //After that, you can grab the cookie
      const cookie = conf.get('cookie')
-     // Do something cool!
+     // Do something cool here!
    })()
    ```
 

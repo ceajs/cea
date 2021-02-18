@@ -27,7 +27,7 @@ module.exports = async (school, user) => {
     campusphere: '',
   }
 
-  const name = user.alias || user.username
+  const name = user.alias
 
   // deal with anti crawlers
   headers.Referer = school.login
@@ -63,19 +63,21 @@ module.exports = async (school, user) => {
     headers,
   })
   if (Boolean((await res.json()).isNeed)) {
-    log.warning('Captcha is required, trying to guess it')
-    auth.set('captcha', await ocr(school.getCaptcha))
-    if (auth.get('captcha').length === 4) {
-      log.warning(`${name}: Login with captcha: ${auth.get('captcha')}`)
+    log.warning(`用户${name}: 登录需要验证码，正在用 OCR 识别`)
+    const captcha = (await ocr(school.getCaptcha)).replace(/\s/g, '')
+
+    if (captcha.length === 4) {
+      log.warning(`用户${name}: 使用验证码 ${captcha} 登录`)
     } else {
-      log.warning(`${name}: OCR captcha failed! ${auth.get('captcha')}`)
-      return null
+      log.warning(`用户${name}: 验证码识别失败，长度${captcha.length}错误`)
+      return
     }
   }
 
   // login with form
-  headers['content-type'] = 'application/x-www-form-urlencoded'
+  headers['Content-Type'] = 'application/x-www-form-urlencoded'
   try {
+    // 401, 400, 500 Res should be manually caught
     res = await fetch(school.login, {
       headers,
       body: auth.toString(),
@@ -83,35 +85,38 @@ module.exports = async (school, user) => {
       method: 'POST',
     })
   } catch (e) {
-    log.error(e)
+    console.log(e)
+    return
   }
 
   reCook(res, 1, cookie)
 
   // set redirect headers
-  delete headers['content-type']
+  delete headers['Content-Type']
   delete headers.Host
   headers.Referer = headers.Origin
+
+  const redirect = res.headers.get('location')
+  if (!redirect) {
+    log.error(`用户${name}：登录失败，${res.statusText}`)
+    return
+  }
 
   // get campus cookie
   try {
     reCook(null, 0, cookie)
-    const redirect = res.headers.get('location')
     res = await fetch(redirect, {
       headers,
       redirect: 'manual',
     })
   } catch (e) {
-    log.warning(name)
-    log.error(e)
-    return null
+    console.error(e)
+    return
   }
-
   if (res.status === 302 && reCook(res, 0, cookie)) {
-    log.success(`用户${name}: Login Success`)
+    log.success(`用户${name}: 登录成功`)
   } else {
-    log.error(`${res.statusText}: ${name}`)
-    return null
+    return
   }
 
   return cookie

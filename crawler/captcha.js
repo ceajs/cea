@@ -1,9 +1,9 @@
 const { createWorker } = require('tesseract.js')
-const fs = require('fs')
-const fetch = require('node-fetch')
 
 module.exports = async function ocr(captchaUrl) {
-  const worker = createWorker()
+  const worker = createWorker({
+    langPath: 'crawler',
+  })
   await worker.load()
   await worker.loadLanguage('eng')
   await worker.initialize('eng')

@@ -1,77 +1,12 @@
-#!/usr/bin/env node
-const Conf = require('conf')
-const fetch = require('node-fetch')
-const parseToml = require('@iarna/toml/parse-string')
-const fs = require('fs')
+const conf = require('./cookie')
 const log = require('./interface/colorLog')
-const login = require('./crawler/casLogIn')
+const fs = require('fs')
+const fetch = require('node-fetch')
 const { prompt } = require('inquirer')
 const { signApp } = require('./campusphere/app')
 
-const conf = new Conf()
+const parseToml = require('@iarna/toml/parse-string')
 
-const school = conf.get('school')
-const users = conf.get('users')
-
-/**
- * Keys of this cookie Object:
- * YOU CAN USE THIS COOKIE FOR EVERYTHING
- * @compusphere something about cp daliy's app
- * @swms continuing log into your school's swms [stu work magagement system]
- */
-let cookie
-
-// purely for handleCookie func
-let storeCookiePath, sign
-
-/* get|store|update cookie synchronizedly */
-async function handleCookie() {
-  for (let i of users) {
-    storeCookiePath = `cookie.${i.alias || i.username}`
-    await handleLogin(i, conf.get(storeCookiePath))
-  }
-}
-
-async function handleLogin(i, storedCookie) {
-  const name = i.alias || i.username
-
-  // Check if the cookie is user-provided
-  if (!i.cookie) {
-    // Check if the cookie is stored
-    if (!storedCookie) {
-      cookie = await login(school, i)
-      storeCookie(storeCookiePath, i, cookie)
-    } else {
-      storeCookie(storeCookiePath, i)
-    }
-
-    // Check if the cookie is eligible, if not, reLogin 1 more time
-    sign = new signApp(school, i)
-    const isNeedLogIn = await sign.signInfo(cookie)
-    if (isNeedLogIn) {
-      log.warning(`${name}: cookie is not eligible, reLogin`)
-      cookie = await login(school, i)
-      storeCookie(storeCookiePath, i, cookie)
-    }
-  } else {
-    log.success(`${name}: Using user provided cookie`)
-  }
-}
-
-function storeCookie(path, i, set) {
-  const name = i.alias || i.username
-  if (set) {
-    conf.set(storeCookiePath, set)
-    log.success(`${name}: Cookie stored to local storage`)
-  } else {
-    cookie = conf.get(path)
-    log.success(`${name}: Using stored cookie`)
-  }
-}
-
-module.exports = { handleCookie, signApp, conf }
-
-// Below creates CLI interface
 function loadConfFromToml(path) {
   if (fs.existsSync(path)) {
     const doc = parseToml(fs.readFileSync(path, 'utf8'))
@@ -79,16 +14,44 @@ function loadConfFromToml(path) {
   }
 }
 
+// Useful when we init users/shchool from file/env
+conf.load = async function () {
+  const env = process.env
+  const toml = loadConfFromToml('./conf.toml')
+  const userUlti = new User(conf)
+  const schoolUlti = new School(conf)
+
+  if (env.users && env.school) {
+    log.warning('尝试从环境变量加载配置')
+    userUlti.loadUserFromEnv(env)
+    await schoolUlti.loadSchoolFromEnv(env)
+  } else if (toml) {
+    log.warning('尝试从配置文件加载配置')
+    userUlti.loadUserFromToml(toml)
+    await schoolUlti.loadSchoolFromToml(toml)
+  }
+}
+
 class User {
-  constructor() {
+  constructor(conf) {
+    this.initConf()
+    this.conf = conf
     this.selectType = null
   }
 
+  initConf() {
+    if (!conf.get('users')) conf.set('users', [])
+  }
+
   storeUsers(loadedUsers) {
-    const storedUsers = users || []
+    const storedUsers = this.conf.get('users') || []
     const alias = storedUsers.map(e => e.alias)
-    loadedUsers = loadedUsers.filter(e => !alias.includes(e.alias))
-    conf.set('users', [...loadedUsers, ...storedUsers])
+    if (loadedUsers) {
+      loadedUsers = loadedUsers.filter(e => !alias.includes(e.alias))
+    } else {
+      loadedUsers = []
+    }
+    this.conf.set('users', [...loadedUsers, ...storedUsers])
   }
 
   loadUserFromToml(toml) {
@@ -113,9 +76,9 @@ class User {
         type: 'list',
         name: 'type',
         message: `用户编辑: ${
-          conf.get('school') ? ' 学校信息已成功配置' : ' 学校信息未配置'
-        }\n  已有用户：${users.reduce((s, e) => {
-          const userInfo = e.alias || e.username
+          this.conf.get('school') ? ' 学校信息已成功配置' : ' 学校信息未配置'
+        }\n  已有用户：${this.conf.get('users').reduce((s, e) => {
+          const userInfo = e.alias
           return s + ' ' + userInfo
         }, '')}`,
         choices: [
@@ -165,14 +128,14 @@ class User {
 
     const res = await prompt(questions)
 
-    if (!users.some(e => e.username === res.username)) {
+    if (!this.conf.get('users').some(e => e.alias === res.alias)) {
       const addUser = {
         username: res.username,
         password: res.password,
         alias: res.alias || null,
         cookie: res.cookie,
       }
-      conf.set('users', [addUser, ...users])
+      this.conf.set('users', [addUser, ...this.conf.get('users')])
       log.success('🎉 成功添加用户', addUser)
     } else {
       log.error('🙃 用户已存在')
@@ -186,7 +149,7 @@ class User {
         name: 'selection',
         message: '请选择删除对象:',
         choices: [
-          ...users.map((e, idx) => ({
+          ...this.conf.get('users').map((e, idx) => ({
             value: idx,
             name: `${e.alias || e.user.name}`,
           })),
@@ -199,16 +162,21 @@ class User {
     ]
 
     const res = await prompt(questions)
-    const neoUsers = users.filter((el, index) => index !== res.selection)
-    conf.set('users', neoUsers)
+    const neoUsers = conf
+      .get('users')
+      .filter((el, index) => index !== res.selection)
+    this.conf.set('users', neoUsers)
 
     log.success('🎉 成功删除用户')
   }
 }
 
 class School {
+  constructor(conf) {
+    this.conf = conf
+  }
   async init() {
-    if (!conf.get('school')) {
+    if (!this.conf.get('school')) {
       const questions = [
         {
           type: 'input',
@@ -237,7 +205,7 @@ class School {
       const school = await this.schoolApi(res.ids, isSignAtHome)
 
       if (!isSignAtHome) school.addr = await this.schoolAddr(school.name)
-      conf.set('school', school)
+      this.conf.set('school', school)
       log.success(`您的学校 ${school.name} 已完成设定`)
     } else {
       log.warning('学校信息已配置')
@@ -245,14 +213,12 @@ class School {
   }
 
   async loadSchoolFromToml(toml) {
-    if (!conf.get('school')) {
+    if (!this.conf.get('school')) {
       const isSignAtHome = toml.addr
       const school = await this.schoolApi(toml.school, isSignAtHome)
       if (!isSignAtHome) school.addr = await this.schoolAddr(school.name)
-      conf.set('school', school)
+      this.conf.set('school', school)
       log.success(`您的学校 ${school.name} 已完成设定`)
-    } else {
-      log.warning('学校信息已配置')
     }
   }
 
@@ -261,11 +227,11 @@ class School {
    * @param {string} name school
    */
   async loadSchoolFromEnv({ school: name, users }) {
-    if (!conf.get('school')) {
+    if (!this.conf.get('school')) {
       const isSignAtHome = users.includes('home')
       const school = await this.schoolApi(name, isSignAtHome)
       if (!isSignAtHome) school.addr = await this.schoolAddr(school.name)
-      conf.set('school', school)
+      this.conf.set('school', school)
       log.success(`您的学校 ${school.name} 已完成设定`)
     } else {
       log.warning('学校信息已配置')
@@ -316,53 +282,4 @@ class School {
   }
 }
 
-;(async () => {
-  const argv = process.argv[2] || ''
-  const argv2 = process.argv[3]
-
-  switch (argv) {
-    case '-u':
-    case '--user': {
-      const userUlti = new User()
-      const toml = loadConfFromToml('./conf.toml')
-      userUlti.loadUserFromToml(toml)
-      userUlti.loadUserFromEnv(process.env)
-      await userUlti.load()
-      const type = userUlti.selectType
-      if (type === 1) userUlti.createUser()
-      if (type === 2) userUlti.deleteUser()
-      break
-    }
-    case '-s':
-    case '--school': {
-      new School().init()
-      break
-    }
-    case 'rm':
-    case '--remove': {
-      if (argv2 === 'all') conf.clear()
-      conf.delete(argv2)
-      break
-    }
-    case 'sign': {
-      require('./TEST/dcampus')
-      break
-    }
-    default: {
-      const env = process.env
-      const toml = loadConfFromToml('./conf.toml')
-      const userUlti = new User()
-      const schoolUlti = new School()
-
-      if (env.users && env.school) {
-        log.warning('Loading from env!')
-        userUlti.loadUserFromEnv(env)
-        await schoolUlti.loadSchoolFromEnv(env)
-        require('./TEST/dcampus')
-      } else if (toml) {
-        userUlti.loadUserFromToml(toml)
-        await schoolUlti.loadSchoolFromToml(toml)
-      }
-    }
-  }
-})()
+module.exports = { conf, signApp, User, School }

@@ -1,0 +1,9 @@
+# 学校英文简称
+school = "whpu"
+
+# 使用学校地址签到
+[[users]]
+username = "12345678"
+password = "321"
+alias = "简称"
+addr = ""
