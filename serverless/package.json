@@ -9,7 +9,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "why-is-node-running": "^2.2.0"
+  "dependencies": {
+    "@beetcb/cea": "^1.1.8"
   }
 }

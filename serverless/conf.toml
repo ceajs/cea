@@ -1,9 +1,13 @@
 # 学校英文简称
 school = "whpu"
 
-# 使用学校地址签到
+# 用户配置，多用户配置方法请查看 cea 部署文档
 [[users]]
-username = "12345678"
-password = "321"
-alias = "简称"
-addr = ""
+# 账号用户名
+username = "11"
+# 账号密码
+password = "11"
+# 用户别名
+alias = "one"
+# 签到地址
+addr = "home"
