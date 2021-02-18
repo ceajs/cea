@@ -104,8 +104,15 @@ exports.signApp = class signApp extends campusphereApp {
     const logInfo = {
       签到结果: res.message,
       签到地址: form.position,
-      真实信息: signedStuInfo.userName,
+      真实信息: signedStuInfo.userNamdd,
     }
+
+    // Hide sensitive info on github actions, cause it's public by default
+    if (process.env.GITHUB_ACTION) {
+      delete logInfo[签到地址]
+      delete logInfo[真实信息]
+    }
+
     // store result
     this.result = logInfo
   }
