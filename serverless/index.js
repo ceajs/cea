@@ -29,4 +29,3 @@ async function handler() {
 }
 
 exports.main = handler
-handler()

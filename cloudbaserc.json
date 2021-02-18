@@ -11,7 +11,7 @@
           "functionRootPath": "./",
           "functions": [
             {
-              "name": "severless",
+              "name": "serverless",
               "memory": 128,
               "timeout": 10,
               "runtime": "Nodejs10.15",
