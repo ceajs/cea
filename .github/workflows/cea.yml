@@ -36,3 +36,9 @@ jobs:
         env: # Or as an environment variable
           users: ${{ secrets.users }}
           school: ${{ secrets.school }}
+
+      - name: 执行签到
+        uses: actions/cache@v2
+
+      - name: Init school and users
+        run: node ./cli.js sign
