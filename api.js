@@ -214,7 +214,7 @@ class School {
 
   async loadSchoolFromToml(toml) {
     if (!this.conf.get('school')) {
-      const isSignAtHome = toml.addr
+      const isSignAtHome = toml.users[0].addr
       const school = await this.schoolApi(toml.school, isSignAtHome)
       if (!isSignAtHome) school.addr = await this.schoolAddr(school.name)
       this.conf.set('school', school)
