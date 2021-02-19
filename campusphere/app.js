@@ -121,7 +121,8 @@ exports.signApp = class signApp extends campusphereApp {
     // Hard coded position info
     // Randomly generated from http://api.map.baidu.com/lbsapi
     const userAddr = this.user.addr
-    const posGenFromCitys = userAddr
+    const noRandom = !(typeof userAddr === 'string')
+    const posGenFromCitys = noRandom
       ? [userAddr]
       : [
           ['116.622631', '40.204822', '北京市顺义区X012'],
