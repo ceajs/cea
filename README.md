@@ -6,7 +6,7 @@
 <strong><p align="center"><code>c</code>ampusphere-<code>e</code>legant-<code>a</code>uth</p></strong>
 
   <p align="center">
-  使用交互式的配置程序，实现了学工系统的登录
+  交互式的配置程序 + 学工系统快速登录
   <br>
   其返回的 <strong>cookie</strong> 可直接用于学工系统或今日校园相关验证
   <br>
@@ -22,11 +22,11 @@
 
   > 本说明帮助你**一键部署**自动签到程序到腾讯云开发
   >
-  > **未开通云开发&新注册用户**需要先开通云开发，具体过程为：在 [此地址](https://console.cloud.tencent.com/tcb?from=12335) 注册登录，完成后再进入 [开通地址](https://console.cloud.tencent.com/tcb?from=12335) 开通 ⇢ <span><input type="checkbox" disabled>不创建环境(请勾选)</span>，其它默认 ⇢ 跳转到授权界面并授权，开通成功
+  > **未开通云开发&新注册用户**需要先开通云开发，具体过程为：在 [此地址](https://console.cloud.tencent.com/tcb?from=12335) 注册登录，完成后再进入 [开通地址](https://console.cloud.tencent.com/tcb?from=12335) 开通 ⇢ <strong>不创建环境(请勾选)</strong>，其它默认 ⇢ 跳转到授权界面并授权，开通成功
 
   [![](https://main.qcloudimg.com/raw/67f5a389f1ac6f3b4d04c7256438e44f.svg)](https://console.cloud.tencent.com/tcb/env/index?action=CreateAndDeployCloudBaseProject&appUrl=https%3A%2F%2Fgithub.com%2Fbeetcb%2Fcea&branch=master)
 
-  1. 点击 ☝ 部署按钮 ⇢ 登录腾讯云 ⇢ <span><input type="checkbox" disabled>使用免费资源(记得勾选)</span>
+  1. 点击 ☝ 部署按钮 ⇢ 登录腾讯云 ⇢ <strong>使用免费资源(记得勾选)</strong>
      ⇢ `环境名称` 填入 cea ⇢ 下一步 ⇢ 完成
 
   2. 等待几秒(部署完成后) ⇢ 左栏 `云函数` ⇢ 点击 `cea` 进入此函数配置界面 ⇢ `函数代码` 拦下在线编辑器里修改 `conf.toml` 文件 ⇢ 相应注释都已写好，请自行填入 ⇢ 先**保存**后测试，无报错则成功部署
@@ -35,32 +35,32 @@
 
   3. 教程结束 ⚡ (如有问题，请附带日志提交 issue)，此函数会自动在每天 5:00 11:00 16:00 触发，具体的配置文件示例如下：
 
-  ```toml
-  # 学校英文简称，一个云函数只能配置一个学校
-  school = "whpu"
+     ```toml
+     # 学校英文简称，一个云函数只能配置一个学校
+     school = "whpu"
 
-  # 使用学校地址签到，第一个用户
-  [[users]]
-  username = "11"
-  password = "11"
-  alias = "one"
-  addr = ""
+     # 使用学校地址签到，第一个用户
+     [[users]]
+     username = "11"
+     password = "11"
+     alias = "one"
+     addr = ""
 
-  # 使用随机地址在家签到，第二个用户
-  [[users]]
-  username = "22"
-  password = "22"
-  alias = "two"
-  addr = "home"
+     # 使用随机地址在家签到，第二个用户
+     [[users]]
+     username = "22"
+     password = "22"
+     alias = "two"
+     addr = "home"
 
-  # 使用自定义地址在家签到，第三个用户
-  # 推荐使用 https://api.map.baidu.com/lbsapi/getpoint/index.html 查询地址
-  [[users]]
-  username = "33"
-  password = "33"
-  alias = "three"
-  addr = ["116.622631", "40.204822", "北京市顺义区X012"]
-  ```
+     # 使用自定义地址在家签到，第三个用户
+     # 推荐使用 https://api.map.baidu.com/lbsapi/getpoint/index.html 查询地址
+     [[users]]
+     username = "33"
+     password = "33"
+     alias = "three"
+     addr = ["116.622631", "40.204822", "北京市顺义区X012"]
+     ```
 
     </details>
    <details><summary>Coding 持续集成</summary>
@@ -120,8 +120,8 @@
   2. 配置签到信息：
      导航到 Fork 仓库的主页面，在仓库名称下，单击 Settings ，在左侧边栏中，单击 Secrets，单击 New repository secret 开始创建签到信息
 
-  ![actions](https://i.imgur.com/Lx6319H.png)
-  ![secret](https://i.imgur.com/aM4jUSW.png)
+     ![actions](https://i.imgur.com/Lx6319H.png)
+     ![secret](https://i.imgur.com/aM4jUSW.png)
 
   **你需要添加 2 个 secrets，他们的示例如下：**
 
@@ -135,7 +135,7 @@
 
   3. 通过给自己仓库 Star 来测试 Actions 是否执行成功
 
-  ![star](https://i.imgur.com/HHlLA4P.png)
+     ![star](https://i.imgur.com/HHlLA4P.png)
 
   配置成功后，此操作会自动在每天 5:00 11:00 16:00 触发，尝试签到
 
