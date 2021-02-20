@@ -108,7 +108,7 @@ exports.signApp = class signApp extends campusphereApp {
     const logInfo = {
       签到结果: res.message,
       签到地址: form.position,
-      真实信息: signedStuInfo.userNamdd,
+      真实信息: signedStuInfo.userName,
     }
 
     // Hide sensitive info on github actions, cause it's public by default
@@ -125,7 +125,8 @@ exports.signApp = class signApp extends campusphereApp {
     // Hard coded position info
     // Randomly generated from http://api.map.baidu.com/lbsapi
     const userAddr = this.user.addr
-    const posGenFromCitys = userAddr
+    const noRandom = !(typeof userAddr === 'string')
+    const posGenFromCitys = noRandom
       ? [userAddr]
       : [
           ['116.622631', '40.204822', '北京市顺义区X012'],
