@@ -1,17 +1,14 @@
 // Reset $XDG_CONFIG_HOME
 process.env.XDG_CONFIG_HOME = '/tmp'
-const { conf, signApp } = require('@beetcb/cea')
+const { conf } = require('@beetcb/cea')
 
-async function signIn() {
+async function signIn(usersWithTask) {
   const logs = {}
   // sign in asynchronizedly with promise all and diff instance of signApp class
   await Promise.all(
-    conf.get('users').map(async i => {
-      const cookie = conf.get(`cookie.${i.alias}`)
-      const sign = new signApp(conf.get('school'), i)
-      await sign.signInfo(cookie)
-      await sign.signWithForm()
-      logs[i.alias || i.id] = sign.result
+    usersWithTask.map(async i => {
+      await i.sign.signWithForm()
+      logs[i.alias || i.id] = i.sign.result
     })
   )
   return logs
@@ -20,11 +17,11 @@ async function signIn() {
 async function handler() {
   // load config from toml or env
   await conf.load()
-  // Log in and save cookie to conf, using conf.get('cookie') to get them
-  await conf.handleCookie()
+  // Log in and save cookie to cea, using cea.get('cookie') to get them (this function resolve with an users array)
+  const usersWithTask = await cea.handleCookie()
   // Sign in
-  const logs = await signIn()
-  // Log out config path
+  const logs = await signIn(usersWithTask)
+  // Log out sign in result
   console.table(logs)
 }
 
