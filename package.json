@@ -8,7 +8,7 @@
     "dist/"
   ],
   "scripts": {
-    "pub": "parcel build api.js cli.js --target node --no-source-maps && npm publish"
+    "pub": "parcel build src/index.js src/cli.js --target node --no-source-maps && npm publish"
   },
   "keywords": [
     "campusphere",
