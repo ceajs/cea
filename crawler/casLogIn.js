@@ -77,7 +77,7 @@ module.exports = async (school, user) => {
   // login with form
   headers['Content-Type'] = 'application/x-www-form-urlencoded'
   try {
-    // 401, 400, 500 Res should be manually caught
+    // TODO: 401 response causes console hang in win10 NODE v15.8.0
     res = await fetch(school.login, {
       headers,
       body: auth.toString(),

@@ -40,7 +40,6 @@ async function handleLogin(i, storeCookiePath) {
   // Check if the cookie is eligible, if not, reLogin 1 more time
   const isNeedLogIn = await sign.signInfo(cookie)
   if (isNeedLogIn) {
-    log.warning(`用户${name}: Cookie 失效，正在重新获取`)
     cookie = await login(conf.get('school'), i)
     if (cookie) {
       conf.set(storeCookiePath, cookie)
