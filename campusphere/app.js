@@ -29,8 +29,8 @@ exports.signApp = class signApp extends campusphereApp {
 
   async signInfo(cookie) {
     if (!cookie) {
-      console.log(`用户${this.user.alias}：无效的 Cookie`)
-      return
+      console.log(`用户${this.user.alias}：无效的 Cookie，尝试重新登录`)
+      return true
     }
     this.headers.cookie = cookie.campusphere
     const { signApi, headers } = this
@@ -51,6 +51,10 @@ exports.signApp = class signApp extends campusphereApp {
   }
 
   async signWithForm() {
+    if (!this.curTask) {
+      this.result = { 失败原因: 'Cookie无效，取消签到' }
+      return
+    }
     const { signApi, headers } = this
     const {
       curTask: { signInstanceWid, signWid },

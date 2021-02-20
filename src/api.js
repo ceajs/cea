@@ -1,9 +1,8 @@
 const conf = require('./cookie')
-const log = require('./interface/colorLog')
+const log = require('../interface/colorLog')
 const fs = require('fs')
 const fetch = require('node-fetch')
 const { prompt } = require('inquirer')
-const { signApp } = require('./campusphere/app')
 
 const parseToml = require('@iarna/toml/parse-string')
 
@@ -282,4 +281,4 @@ class School {
   }
 }
 
-module.exports = { conf, signApp, User, School }
+module.exports = { conf, User, School }

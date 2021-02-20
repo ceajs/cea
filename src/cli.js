@@ -27,7 +27,7 @@ const { User, School, conf } = require('./api')
       break
     }
     case 'sign': {
-      require('./TEST/dcampus')
+      require('../TEST/dcampus')
       break
     }
     case 'load': {
