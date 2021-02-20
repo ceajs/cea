@@ -5,15 +5,6 @@ const crypto = require('crypto')
 const log = require('../interface/colorLog')
 const ocr = require('./captcha')
 
-const headers = {
-  'Cache-control': 'max-age=0',
-  'Accept-Encoding': 'gzip, deflate',
-  Connection: 'keep-alive',
-  'Upgrade-Insecure-Requests': '1',
-  'User-agent':
-    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
-}
-
 /**
  * login to SWMS(stu work magagement system) process
  *
@@ -22,6 +13,15 @@ const headers = {
  * @return {Object} cookie for cas and campusphere
  */
 module.exports = async (school, user) => {
+  const headers = {
+    'Cache-control': 'max-age=0',
+    'Accept-Encoding': 'gzip, deflate',
+    Connection: 'keep-alive',
+    'Upgrade-Insecure-Requests': '1',
+    'User-agent':
+      'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
+  }
+
   const cookie = {
     swms: '',
     campusphere: '',
@@ -119,32 +119,32 @@ module.exports = async (school, user) => {
     return
   }
 
-  return cookie
-}
-
-/**
- * refresh cookie in headers (for next request)
- *
- * @param {Object} headers refresh target
- * @param {Object} res response object
- * @param {Object} cookie
- */
-function reCook(res, isCas, cookie) {
-  let cook
-  try {
-    cook = res.headers.raw()['set-cookie']
-    cook.forEach(e => {
-      if (e.includes('authserver')) {
-        cookie.swms += e.match(/^(\w|\d|\s)+\=(\w|\d|\s|\-)+;/)[0]
-      } else {
-        cookie.campusphere += e.match(/^(\w|\d|\s)+\=(\w|\d|\s|\-)+;/)[0]
-      }
-    })
-  } catch (e) {
-    return false
+  /**
+   * refresh cookie in headers (for next request)
+   *
+   * @param {Object} headers refresh target
+   * @param {Object} res response object
+   * @param {Object} cookie
+   */
+  function reCook(res, isCas) {
+    let cook
+    try {
+      cook = res.headers.raw()['set-cookie']
+      cook.forEach(e => {
+        if (e.includes('authserver')) {
+          cookie.swms += e.match(/^(\w|\d|\s)+\=(\w|\d|\s|\-)+;/)[0]
+        } else {
+          cookie.campusphere += e.match(/^(\w|\d|\s)+\=(\w|\d|\s|\-)+;/)[0]
+        }
+      })
+    } catch (e) {
+      return false
+    }
+    headers.cookie = isCas ? cookie.swms : cookie.campusphere
+    return true
   }
-  headers.cookie = isCas ? cookie.swms : cookie.campusphere
-  return true
+
+  return cookie
 }
 
 class AES {

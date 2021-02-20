@@ -9,11 +9,13 @@ const conf = new Conf()
 conf.handleCookie = async () => {
   // Return users with curTask
   const usersWithTask = []
-  for (const i of conf.get('users')) {
-    const storeCookiePath = `cookie.${i.alias}`
-    i.sign = await handleLogin(i, storeCookiePath)
-    usersWithTask.push(i)
-  }
+  await Promise.all(
+    conf.get('users').map(async i => {
+      const storeCookiePath = `cookie.${i.alias}`
+      i.sign = await handleLogin(i, storeCookiePath)
+      usersWithTask.push(i)
+    })
+  )
   return usersWithTask
 }
 
@@ -38,6 +40,7 @@ async function handleLogin(i, storeCookiePath) {
   // Check if the cookie is eligible, if not, reLogin 1 more time
   const isNeedLogIn = await sign.signInfo(cookie)
   if (isNeedLogIn) {
+    log.warning(`用户${name}: Cookie 失效，正在重新获取`)
     cookie = await login(conf.get('school'), i)
     if (cookie) {
       conf.set(storeCookiePath, cookie)
@@ -46,8 +49,7 @@ async function handleLogin(i, storeCookiePath) {
   } else {
     log.success(`用户${name}: 尝试使用缓存中的 Cookie`)
   }
-
-  // Return sign instance, cause we already have cur task in our hand
+  // Make use of the cur task we already have
   return sign
 }
 

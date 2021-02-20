@@ -31,10 +31,10 @@ jobs:
       - name: Init school and users
         run: |
           npm i
-          node ./cli.js load
+          node ./src/cli.js load
         env: # Or as an environment variable
           users: ${{ secrets.users }}
           school: ${{ secrets.school }}
 
       - name: 执行签到
-        run: node ./cli.js sign
+        run: node ./src/cli.js sign
