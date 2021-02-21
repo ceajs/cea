@@ -12,9 +12,11 @@ async function signIn(usersWithTask) {
   return logs
 }
 
-async function handler() {
-  // load config from toml or env
-  await cea.init()
+async function handler(event) {
+  // load config from toml or env only when we testing
+  if (!(event.Type === 'Timer')) {
+    await cea.init()
+  }
   // Log in and save cookie to cea, using cea.get('cookie') to get them (this function resolve with an users array)
   const usersWithTask = await cea.handleCookie()
   // Sign in

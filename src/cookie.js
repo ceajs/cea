@@ -3,9 +3,8 @@ const log = require('../interface/colorLog')
 const login = require('../crawler/casLogIn')
 const { signApp } = require('../campusphere/app')
 
-// get|store|update cookie synchronizedly, prevent concurrent overlap writes to conf
 conf.handleCookie = async () => {
-  // Return users with curTask
+  // Return: users with curTask
   const usersWithTask = []
   await Promise.all(
     conf.get('users').map(async i => {
