@@ -2,7 +2,6 @@
 const { User, School, conf } = require('./api')
 
 ;(async () => {
-  await conf.load()
   const argv = process.argv[2] || ''
   const argv2 = process.argv[3]
 
@@ -35,6 +34,7 @@ const { User, School, conf } = require('./api')
       await conf.init()
     }
   }
+  conf.close()
 })()
 
 module.exports = { User, School }

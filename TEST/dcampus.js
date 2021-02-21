@@ -16,7 +16,10 @@ async function signIn(usersWithTask) {
     usersWithTask.map(async i => {
       await i.sign.signWithForm()
       logs[i.alias || i.id] = i.sign.result
+      // Fix circular object
+      delete i.sign
     })
   )
+  cea.close()
   return logs
 }
