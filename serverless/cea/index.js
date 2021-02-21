@@ -1,5 +1,3 @@
-// Reset $XDG_CONFIG_HOME
-process.env.XDG_CONFIG_HOME = '/tmp'
 const cea = require('@beetcb/cea')
 
 async function signIn(usersWithTask) {
@@ -16,7 +14,7 @@ async function signIn(usersWithTask) {
 
 async function handler() {
   // load config from toml or env
-  await cea.load()
+  await cea.init()
   // Log in and save cookie to cea, using cea.get('cookie') to get them (this function resolve with an users array)
   const usersWithTask = await cea.handleCookie()
   // Sign in

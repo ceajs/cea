@@ -6,7 +6,7 @@
 <strong><p align="center"><code>c</code>ampusphere-<code>e</code>legant-<code>a</code>uth</p></strong>
 
   <p align="center">
-  交互式的配置程序 + 学工系统快速登录
+  交互式的配置程序 + 学工系统快速登录 + 云端部署及缓存
   <br>
   其返回的 <strong>cookie</strong> 可直接用于学工系统或今日校园相关验证
   <br>
@@ -162,7 +162,7 @@
 
 - 交互式配置: `campusphere-elegant-auth` 提供交互式的命令行完成 用户 及 学校 的配置，同时也支持使用 `toml` 文件来配置
 
-- 验证持久化: 缓存验证信息于内存, 只在失效时更新
+- 验证持久化: 缓存验证信息于内存, 只在失效时登录并更新；云端和本地缓存能力来源于我的另一个项目 [sstore](https://github.com/beetcb/sstore)
 
 - 兼容云服务的 OCR：很多云服务(如云函数)的文件系统并不都是可写入的，我们将 OCR 验证码识别用到的 [tesseract.js](https://github.com/naptha/tesseract.js) 数据包和训练缓存包暂存到了 `/tmp`，降低出错率；同时，为加快国内访问速度，下载节点托管于码云
 
