@@ -1,9 +1,7 @@
-const Conf = require('conf')
+const conf = require('@beetcb/sstore')
 const log = require('../interface/colorLog')
 const login = require('../crawler/casLogIn')
 const { signApp } = require('../campusphere/app')
-
-const conf = new Conf()
 
 // get|store|update cookie synchronizedly, prevent concurrent overlap writes to conf
 conf.handleCookie = async () => {

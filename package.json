@@ -1,6 +1,6 @@
 {
   "name": "@beetcb/cea",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "campusphere-elegant-auth: login to swms/campusphere at ease",
   "main": "dist/index.js",
   "bin": "dist/cli.js",
@@ -27,10 +27,10 @@
   },
   "license": "ISC",
   "dependencies": {
+    "@beetcb/sstore": "^0.0.3",
     "@iarna/toml": "^2.2.5",
     "chalk": "^4.1.0",
     "cheerio": "^1.0.0-rc.5",
-    "conf": "^9.0.2",
     "inquirer": "^7.3.3",
     "node-fetch": "^2.6.1",
     "tesseract.js": "^2.1.4",

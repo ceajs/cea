@@ -2,6 +2,7 @@
 const { User, School, conf } = require('./api')
 
 ;(async () => {
+  await conf.load()
   const argv = process.argv[2] || ''
   const argv2 = process.argv[3]
 
@@ -23,7 +24,7 @@ const { User, School, conf } = require('./api')
     case 'rm':
     case '--remove': {
       if (argv2 === 'all') conf.clear()
-      conf.delete(argv2)
+      conf.del(argv2)
       break
     }
     case 'sign': {
@@ -31,8 +32,7 @@ const { User, School, conf } = require('./api')
       break
     }
     case 'load': {
-      await conf.load()
-      break
+      await conf.init()
     }
   }
 })()

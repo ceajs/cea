@@ -14,7 +14,7 @@ function loadConfFromToml(path) {
 }
 
 // Useful when we init users/shchool from file/env
-conf.load = async function () {
+conf.init = async function () {
   const env = process.env
   const toml = loadConfFromToml('./conf.toml')
   const userUlti = new User(conf)
