@@ -38,8 +38,10 @@ async function handleLogin(i, storeCookiePath) {
   const isNeedLogIn = await sign.signInfo(cookie)
   if (isNeedLogIn) {
     cookie = await login(conf.get('school'), i)
+    console.log(cookie)
     if (cookie) {
       conf.set(storeCookiePath, cookie)
+      await sign.signInfo(cookie)
       log.success(`用户${name}: 已成功刷新并缓存 Cookie`)
     }
   } else {
