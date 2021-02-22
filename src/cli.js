@@ -11,13 +11,13 @@ const { User, School, conf } = require('./api')
       const userUlti = new User(conf)
       await userUlti.load()
       const type = userUlti.selectType
-      if (type === 1) userUlti.createUser()
-      if (type === 2) userUlti.deleteUser()
+      if (type === 1) await userUlti.createUser()
+      if (type === 2) await userUlti.deleteUser()
       break
     }
     case '-s':
     case '--school': {
-      new School(conf).init()
+      await new School(conf).init()
       break
     }
     case 'rm':
@@ -31,9 +31,12 @@ const { User, School, conf } = require('./api')
       break
     }
     case 'load': {
+      // If load and -u mixed in, use load first
+      conf.clear()
       await conf.init()
     }
   }
+
   conf.close()
 })()
 

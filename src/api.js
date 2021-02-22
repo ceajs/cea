@@ -17,8 +17,8 @@ function loadConfFromToml(path) {
 conf.init = async function () {
   const env = process.env
   const toml = loadConfFromToml('./conf.toml')
-  const userUlti = new User(conf)
-  const schoolUlti = new School(conf)
+  const userUlti = new User()
+  const schoolUlti = new School()
 
   if (env.users && env.school) {
     log.warning('尝试从环境变量加载配置')
@@ -32,9 +32,8 @@ conf.init = async function () {
 }
 
 class User {
-  constructor(conf) {
+  constructor() {
     this.initConf()
-    this.conf = conf
     this.selectType = null
   }
 
@@ -43,14 +42,14 @@ class User {
   }
 
   storeUsers(loadedUsers) {
-    const storedUsers = this.conf.get('users') || []
+    const storedUsers = conf.get('users')
     const alias = storedUsers.map(e => e.alias)
     if (loadedUsers) {
       loadedUsers = loadedUsers.filter(e => !alias.includes(e.alias))
     } else {
       loadedUsers = []
     }
-    this.conf.set('users', [...loadedUsers, ...storedUsers])
+    conf.set('users', [...loadedUsers, ...storedUsers])
   }
 
   loadUserFromToml(toml) {
@@ -75,8 +74,8 @@ class User {
         type: 'list',
         name: 'type',
         message: `用户编辑: ${
-          this.conf.get('school') ? ' 学校信息已成功配置' : ' 学校信息未配置'
-        }\n  已有用户：${this.conf.get('users').reduce((s, e) => {
+          conf.get('school') ? ' 学校信息已成功配置' : ' 学校信息未配置'
+        }\n  已有用户：${conf.get('users').reduce((s, e) => {
           const userInfo = e.alias
           return s + ' ' + userInfo
         }, '')}`,
@@ -127,14 +126,14 @@ class User {
 
     const res = await prompt(questions)
 
-    if (!this.conf.get('users').some(e => e.alias === res.alias)) {
+    if (!conf.get('users').some(e => e.alias === res.alias)) {
       const addUser = {
         username: res.username,
         password: res.password,
         alias: res.alias || null,
         cookie: res.cookie,
       }
-      this.conf.set('users', [addUser, ...this.conf.get('users')])
+      conf.set('users', [addUser, ...conf.get('users')])
       log.success('🎉 成功添加用户', addUser)
     } else {
       log.error('🙃 用户已存在')
@@ -148,7 +147,7 @@ class User {
         name: 'selection',
         message: '请选择删除对象:',
         choices: [
-          ...this.conf.get('users').map((e, idx) => ({
+          ...get('users').map((e, idx) => ({
             value: idx,
             name: `${e.alias || e.user.name}`,
           })),
@@ -164,18 +163,15 @@ class User {
     const neoUsers = conf
       .get('users')
       .filter((el, index) => index !== res.selection)
-    this.conf.set('users', neoUsers)
+    conf.set('users', neoUsers)
 
     log.success('🎉 成功删除用户')
   }
 }
 
 class School {
-  constructor(conf) {
-    this.conf = conf
-  }
   async init() {
-    if (!this.conf.get('school')) {
+    if (!conf.get('school')) {
       const questions = [
         {
           type: 'input',
@@ -204,7 +200,7 @@ class School {
       const school = await this.schoolApi(res.ids, isSignAtHome)
 
       if (!isSignAtHome) school.addr = await this.schoolAddr(school.name)
-      this.conf.set('school', school)
+      conf.set('school', school)
       log.success(`您的学校 ${school.name} 已完成设定`)
     } else {
       log.warning('学校信息已配置')
@@ -212,11 +208,11 @@ class School {
   }
 
   async loadSchoolFromToml(toml) {
-    if (!this.conf.get('school')) {
+    if (!conf.get('school')) {
       const isSignAtHome = toml.users[0].addr
       const school = await this.schoolApi(toml.school, isSignAtHome)
       if (!isSignAtHome) school.addr = await this.schoolAddr(school.name)
-      this.conf.set('school', school)
+      conf.set('school', school)
       log.success(`您的学校 ${school.name} 已完成设定`)
     }
   }
@@ -226,11 +222,11 @@ class School {
    * @param {string} name school
    */
   async loadSchoolFromEnv({ school: name, users }) {
-    if (!this.conf.get('school')) {
+    if (!conf.get('school')) {
       const isSignAtHome = users.includes('home')
       const school = await this.schoolApi(name, isSignAtHome)
       if (!isSignAtHome) school.addr = await this.schoolAddr(school.name)
-      this.conf.set('school', school)
+      conf.set('school', school)
       log.success(`您的学校 ${school.name} 已完成设定`)
     } else {
       log.warning('学校信息已配置')

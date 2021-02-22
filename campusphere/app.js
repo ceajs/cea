@@ -51,7 +51,6 @@ exports.signApp = class signApp extends campusphereApp {
   }
 
   async signWithForm() {
-    console.log(this)
     if (!this.curTask) {
       this.result = { 失败原因: 'Cookie无效，取消签到' }
       return
