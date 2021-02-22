@@ -15,10 +15,9 @@ pipeline {
       }
     stage('签到') {
       steps {
-          sh 'npm i'
+          sh 'npm i --only=production'
           sh 'node ./src/cli.js load'
           sh 'node ./src/cli.js sign'
-          sh 'date'
         }
       }
     }

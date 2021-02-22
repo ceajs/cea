@@ -23,14 +23,13 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            ~/.config/@beetcb/cea-nodejs
-            !~/cache/exclude
+            /tmp/conf
             **/node_modules
           key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}
 
       - name: Init school and users
         run: |
-          npm i
+          npm i --only=production
           node ./src/cli.js load
         env: # Or as an environment variable
           users: ${{ secrets.users }}
