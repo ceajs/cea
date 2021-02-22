@@ -22,8 +22,8 @@ conf.init = async function () {
 
   if (env.users && env.school) {
     log.warning('尝试从环境变量加载配置')
-    userUlti.loadUserFromEnv(env)
-    await schoolUlti.loadSchoolFromEnv(env)
+    const users = userUlti.loadUserFromEnv(env)
+    await schoolUlti.loadSchoolFromEnv(env, users)
   } else if (toml) {
     log.warning('尝试从配置文件加载配置')
     userUlti.loadUserFromToml(toml)
@@ -65,6 +65,7 @@ class User {
         return { username, password, alias, addr }
       })
       this.storeUsers(loadedUsers)
+      return loadedUsers
     }
   }
 
@@ -204,8 +205,9 @@ class School {
   /**
    * Grab school info from environment
    * @param {string} name school nmae, english abbreviation
+   * @param {array} users list of loaded users
    */
-  async loadSchoolFromEnv({ school: name, users }) {
+  async loadSchoolFromEnv({ school: name }, users) {
     if (!conf.get('school')) {
       const school = await this.schoolApi(name)
       if (users.some(e => e.addr === ''))
