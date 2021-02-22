@@ -21,11 +21,12 @@ jobs:
 
       - name: Cache
         uses: actions/cache@v2
-        run: npm i --only=production
         with:
           path: |
             **/node_modules
           key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}
+      - name: Install deps
+        run: npm i --only=production >> /dev/null
 
       - name: 加载学校及用户信息
         run: node ./src/cli.js load
