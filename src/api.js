@@ -260,7 +260,9 @@ class School {
     res = await JSON.parse(await res.text())
 
     const origin = new URL(res.data[0].ampUrl).origin
-    const casOrigin = res.data[0].idsUrl
+    const casOrigin = process.env.GITHUB_ACTION
+      ? 'https://lean.beetcb.com/authserver'
+      : res.data[0].idsUrl
     const schoolName = res.data[0].name
     return {
       name: schoolName,
