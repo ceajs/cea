@@ -245,11 +245,15 @@ class School {
     res = await JSON.parse(await res.text())
 
     const origin = new URL(res.data[0].ampUrl).origin
-    // Proxy the host who blocks foreign ip access
-    const casOrigin = process.env.GITHUB_ACTION
-      ? 'https://lean.beetcb.com/authserver'
-      : res.data[0].idsUrl
     const schoolName = res.data[0].name
+
+    let casOrigin = res.data[0].idsUrl
+    // Proxy the host who blocks foreign ip access
+    if (process.env.GITHUB_ACTION && name === 'whpu') {
+      casOrigin = 'https://lean.beetcb.com/authserver'
+      console.warn(`${schoolName}：尝试使用代理访问`)
+    }
+
     return {
       name: schoolName,
       casOrigin,

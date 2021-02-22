@@ -25,8 +25,9 @@ jobs:
           path: |
             **/node_modules
           key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}
+
       - name: Install deps
-        run: npm i --only=production >> /dev/null
+        run: npm i --only=production -s
 
       - name: 加载学校及用户信息
         run: node ./src/cli.js load
