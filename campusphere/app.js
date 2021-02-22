@@ -10,7 +10,6 @@ class campusphereApp {
       sign: `${school.origin}/wec-counselor-sign-apps/stu/sign/submitSign`,
       home: `${school.origin}/wec-counselor-sign-apps/stu/mobile`,
     }
-    this.isSignAtHome = school.isSignAtHome
   }
 }
 
@@ -78,8 +77,8 @@ exports.signApp = class signApp extends campusphereApp {
     } = signDetails.datas
 
     const placeList = signPlaceSelected
-
-    ;[longitude, latitude] = this.isSignAtHome
+    const isSignAtHome = this.user.addr
+    ;[longitude, latitude] = isSignAtHome
       ? this.signAtHomePos()
       : this.locale(placeList[0])
 
@@ -89,7 +88,7 @@ exports.signApp = class signApp extends campusphereApp {
       signInstanceWid,
       longitude,
       latitude,
-      isMalposition: this.isSignAtHome ? 1 : 0,
+      isMalposition: isSignAtHome ? 1 : 0,
       abnormalReason: '',
       signPhotoUrl: '',
       position: this.addr,

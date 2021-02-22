@@ -178,28 +178,12 @@ class School {
           name: 'ids',
           message: '请输入学校英文简称',
         },
-        {
-          type: 'list',
-          name: 'isSignAtHome',
-          message: '是否在家签到(若是,会避开学校随机选点)',
-          choices: [
-            {
-              value: 1,
-              name: '是',
-            },
-            {
-              value: 0,
-              name: '否',
-            },
-          ],
-        },
       ]
 
       let res = await prompt(questions)
-      const isSignAtHome = res.isSignAtHome
-      const school = await this.schoolApi(res.ids, isSignAtHome)
+      const school = await this.schoolApi(res.id)
 
-      if (!isSignAtHome) school.addr = await this.schoolAddr(school.name)
+      school.addr = await this.schoolAddr(school.name)
       conf.set('school', school)
       log.success(`您的学校 ${school.name} 已完成设定`)
     } else {
@@ -209,9 +193,9 @@ class School {
 
   async loadSchoolFromToml(toml) {
     if (!conf.get('school')) {
-      const isSignAtHome = toml.users[0].addr
-      const school = await this.schoolApi(toml.school, isSignAtHome)
-      if (!isSignAtHome) school.addr = await this.schoolAddr(school.name)
+      const school = await this.schoolApi(toml.school)
+      if (toml.users.some(e => e.addr === ''))
+        school.addr = await this.schoolAddr(school.name)
       conf.set('school', school)
       log.success(`您的学校 ${school.name} 已完成设定`)
     }
@@ -219,13 +203,13 @@ class School {
 
   /**
    * Grab school info from environment
-   * @param {string} name school
+   * @param {string} name school nmae, english abbreviation
    */
   async loadSchoolFromEnv({ school: name, users }) {
     if (!conf.get('school')) {
-      const isSignAtHome = users.includes('home')
-      const school = await this.schoolApi(name, isSignAtHome)
-      if (!isSignAtHome) school.addr = await this.schoolAddr(school.name)
+      const school = await this.schoolApi(name)
+      if (users.some(e => e.addr === ''))
+        school.addr = await this.schoolAddr(school.name)
       conf.set('school', school)
       log.success(`您的学校 ${school.name} 已完成设定`)
     } else {
@@ -235,7 +219,7 @@ class School {
 
   /**
    * Get school address & coordinates(with baidu website's ak)
-   * @param {string} name school
+   * @param {string} name school name, english abbreviation
    */
   async schoolAddr(name) {
     let res = await fetch(
@@ -250,16 +234,16 @@ class School {
 
   /**
    * Grab school endpoint from campushoy API
-   * @param {string} name school name
-   * @param {boolean} isSignAtHome
+   * @param {string} name school name, english abbreviation
    */
-  async schoolApi(name, isSignAtHome) {
+  async schoolApi(name) {
     let res = await fetch(
       `https://mobile.campushoy.com/v6/config/guest/tenant/info?ids=${name}`
     ).catch(err => err)
     res = await JSON.parse(await res.text())
 
     const origin = new URL(res.data[0].ampUrl).origin
+    // Proxy the host who blocks foreign ip access
     const casOrigin = process.env.GITHUB_ACTION
       ? 'https://lean.beetcb.com/authserver'
       : res.data[0].idsUrl
@@ -268,7 +252,6 @@ class School {
       name: schoolName,
       casOrigin,
       origin,
-      isSignAtHome,
       login: `${casOrigin}/login?service=${encodeURIComponent(
         origin
       )}/portal/login`,
