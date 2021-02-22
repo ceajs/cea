@@ -113,8 +113,8 @@ exports.signApp = class signApp extends campusphereApp {
 
     // Hide sensitive info on github actions, cause it's public by default
     if (process.env.GITHUB_ACTION) {
-      delete logInfo[签到地址]
-      delete logInfo[真实信息]
+      delete logInfo['签到地址']
+      delete logInfo['真实信息']
     }
 
     // store result
