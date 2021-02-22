@@ -19,14 +19,14 @@ jobs:
         with:
           node-version: '14'
 
-      - name: Cache conf path & node_modules
+      - name: Cache
         uses: actions/cache@v2
         with:
           path: |
             **/node_modules
           key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}
 
-      - name: Init school and users
+      - name: 加载学校及用户信息
         run: |
           npm i --only=production
           node ./src/cli.js load
