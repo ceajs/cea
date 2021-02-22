@@ -21,15 +21,14 @@ jobs:
 
       - name: Cache
         uses: actions/cache@v2
+        run: npm i --only=production
         with:
           path: |
             **/node_modules
           key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}
 
       - name: 加载学校及用户信息
-        run: |
-          npm i --only=production
-          node ./src/cli.js load
+        run: node ./src/cli.js load
         env: # Or as an environment variable
           users: ${{ secrets.users }}
           school: ${{ secrets.school }}
