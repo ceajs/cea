@@ -54,6 +54,12 @@ class User {
 
   loadUserFromToml(toml) {
     this.storeUsers(toml.users)
+    console.warn(
+      `用户 ${toml.users.reduce(
+        (acc, user) => `${acc}${user.alias} `,
+        ' '
+      )}已加载`
+    )
   }
 
   loadUserFromEnv({ users }) {
@@ -65,6 +71,12 @@ class User {
         return { username, password, alias, addr }
       })
       this.storeUsers(loadedUsers)
+      console.warn(
+        `用户 ${loadedUsers.reduce(
+          (acc, user) => `${acc}${user.alias} `,
+          ' '
+        )}已加载`
+      )
       return loadedUsers
     }
   }
@@ -213,7 +225,7 @@ class School {
       if (users.some(e => e.addr === ''))
         school.addr = await this.schoolAddr(school.name)
       conf.set('school', school)
-      log.success(`你的学校 ${name.toUpperCase()} 已完成设定`)
+      log.success(`你的学校已完成设定`)
     } else {
       log.warning('学校信息已配置')
     }
@@ -251,7 +263,7 @@ class School {
     // Proxy the host who blocks foreign ip access
     if (process.env.GITHUB_ACTION && name === 'whpu') {
       casOrigin = 'https://lean.beetcb.com/authserver'
-      console.warn(`${name.toUpperCase()}：尝试使用代理访问`)
+      console.warn('尝试使用代理访问学校登录页面')
     }
 
     return {
