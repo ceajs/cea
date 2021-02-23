@@ -198,7 +198,7 @@ class School {
       if (toml.users.some(e => e.addr === ''))
         school.addr = await this.schoolAddr(school.name)
       conf.set('school', school)
-      log.success(`您的学校 ${school.name} 已完成设定`)
+      log.success(`你的学校 ${school.name} 已完成设定`)
     }
   }
 
@@ -213,7 +213,7 @@ class School {
       if (users.some(e => e.addr === ''))
         school.addr = await this.schoolAddr(school.name)
       conf.set('school', school)
-      log.success(`您的学校 ${school.name} 已完成设定`)
+      log.success(`你的学校 ${name.toUpperCase()} 已完成设定`)
     } else {
       log.warning('学校信息已配置')
     }
@@ -251,7 +251,7 @@ class School {
     // Proxy the host who blocks foreign ip access
     if (process.env.GITHUB_ACTION && name === 'whpu') {
       casOrigin = 'https://lean.beetcb.com/authserver'
-      console.warn(`${schoolName}：尝试使用代理访问`)
+      console.warn(`${name.toUpperCase()}：尝试使用代理访问`)
     }
 
     return {
