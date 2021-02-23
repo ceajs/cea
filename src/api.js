@@ -55,7 +55,7 @@ class User {
   loadUserFromToml(toml) {
     this.storeUsers(toml.users)
     console.warn(
-      `用户 ${toml.users.reduce(
+      `用户${toml.users.reduce(
         (acc, user) => `${acc}${user.alias} `,
         ' '
       )}已加载`
@@ -72,7 +72,7 @@ class User {
       })
       this.storeUsers(loadedUsers)
       console.warn(
-        `用户 ${loadedUsers.reduce(
+        `用户${loadedUsers.reduce(
           (acc, user) => `${acc}${user.alias} `,
           ' '
         )}已加载`
