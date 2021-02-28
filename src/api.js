@@ -160,7 +160,7 @@ class User {
         name: 'selection',
         message: '请选择删除对象:',
         choices: [
-          ...get('users').map((e, idx) => ({
+          ...conf.get('users').map((e, idx) => ({
             value: idx,
             name: `${e.alias || e.user.name}`,
           })),
@@ -194,7 +194,7 @@ class School {
       ]
 
       let res = await prompt(questions)
-      const school = await this.schoolApi(res.id)
+      const school = await this.schoolApi(res.ids)
 
       school.addr = await this.schoolAddr(school.name)
       conf.set('school', school)
