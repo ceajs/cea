@@ -19,7 +19,7 @@
 - 新增一键部署签到程序：依赖自动安装、触发器自动配置，可能是全网最快、选择最多的部署 👇 (我们支持三种配置方式，请按需选择，点击左边小三角展开教程)
   <details><summary>三种部署方式的区别</summary>
 
-  1. Github Actions：部署过程最简单，但少部分学校域名禁止海外 IP 访问，会签到失败( WHPU 的同学们不用担心，我通过代理中转修复了这个问题)
+  1. GitHub Actions：部署过程最简单，但少部分学校域名禁止海外 IP 访问，会签到失败( WHPU 的同学们不用担心，我通过代理中转修复了这个问题)
 
   2. 云开发：签到最快，但需要实名认证
 
@@ -29,17 +29,20 @@
 
   部署教程如下：
 
-  1. 右上角 Fork 本项目(可以顺手 star ✨ 支持一下)
+  1. 右上角 Fork 本项目(可以顺手 Star ✨ 支持一下，谢谢)
 
-  2. 配置签到信息：
-     导航到 Fork 仓库的主页面，在仓库名称下，单击 Settings ，在左侧边栏中，单击 Secrets，单击 New repository secret 开始创建签到信息
+  2. Fork 下来的项目默认是关闭 Actions 的，需要手动开启：单击 Actions，按下图开启 cea 这个 GitHub Action：
+     ![enable workflows](https://i.imgur.com/1myiezK.png)
+     ![enable cea action](https://i.imgur.com/RQ4gEJA.png)
+
+  3. 配置签到信息：单击 Settings ，在左侧边栏中，单击 Secrets，单击 New repository secret 开始创建签到信息
 
      ![actions](https://i.imgur.com/Lx6319H.png)
      ![secret](https://i.imgur.com/aM4jUSW.png)
 
   **你需要添加 2 个 secrets，他们的示例如下：**
 
-  > **users 的值默认都以一个空格分隔，多用户使用 显示换行(`\n`) 或 隐式换行(`直接回车到下一行`) 分割**
+  > **users 的值默认都以一个空格分隔，多用户使用 显示换行(`\n`) 分割**
 
   - `users`: e.g. `123 321 beet`(请在以下三种配置方式中选择一种)
     - `用户名 密码 名称` 用学校地址签到
@@ -132,7 +135,7 @@
 
      这会配置两个签到用户(同一个学校)，对这两项参数的详细描述为：
 
-     > **users 的值默认都以一个空格分隔，多用户使用 显示换行(`\n`) 或 隐式换行(`直接回车到下一行`) 分割**
+     > **users 的值默认都以一个空格分隔，多用户使用 显示换行(`\n`) 分割**
 
   - `users`: e.g. `123 321 beet`(请在以下三种配置方式中选择一种)
     - `用户名 密码 名称` 用学校地址签到
