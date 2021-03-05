@@ -31,7 +31,7 @@
     "@iarna/toml": "^2.2.5",
     "chalk": "^4.1.0",
     "cheerio": "^1.0.0-rc.5",
-    "inquirer": "^7.3.3",
+    "inquirer": "^8.0.0",
     "node-fetch": "^2.6.1",
     "tesseract.js": "^2.1.4",
     "uuid": "^8.3.2"
