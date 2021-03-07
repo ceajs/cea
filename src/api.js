@@ -190,7 +190,7 @@ class School {
           type: 'input',
           name: 'ids',
           message:
-            '学校的英文简称（推荐，部分学校支持）\n请参阅 https://github.com/beetcb/cea/edit/master/README.md#addrlist 自行判断\n或中文全称（备用选项，所有学校均支持）:',
+            '学校的英文简称（推荐，部分学校支持）\n请参阅 https://github.com/beetcb/cea#abbrlist 自行判断\n或中文全称（备用选项，所有学校均支持）:',
         },
       ]
 
