@@ -5,6 +5,12 @@
 
 <strong><p align="center"><code>c</code>ampusphere-<code>e</code>legant-<code>a</code>uth</p></strong>
 
+<p align="center">
+ <a align="center" href="https://www.npmjs.com/package/@beetcb/cea">
+    <img alt="npm" src="https://img.shields.io/npm/v/@beetcb/cea">
+  </a>
+</p>
+
   <p align="center">
   交互式的配置程序 + 学工系统快速登录 + 云端部署及缓存
   <br>
