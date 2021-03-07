@@ -189,7 +189,8 @@ class School {
         {
           type: 'input',
           name: 'ids',
-          message: '请输入学校英文简称',
+          message:
+            '学校的英文简称（推荐，部分学校支持）\n请参阅 https://github.com/beetcb/cea/edit/master/README.md#addrlist 自行判断\n或中文全称（备用选项，所有学校均支持）:',
         },
       ]
 
@@ -248,11 +249,22 @@ class School {
 
   /**
    * Grab school endpoint from campushoy API
-   * @param {string} name school name, english abbreviation
+   * @param {string} name school name, abbreviation | chinese full name
    */
   async schoolApi(name) {
-    let res = await fetch(
-      `https://mobile.campushoy.com/v6/config/guest/tenant/info?ids=${name}`
+    let res, abbreviation
+
+    if (name.match(/\w+/)) {
+      abbreviation = name
+    } else {
+      res = await fetch(
+        `https://mobile.campushoy.com/v6/config/guest/tenant/list`
+      ).catch(err => err)
+      abbreviation = (await res.json()).data.find(i => i.name === name).id
+    }
+
+    res = await fetch(
+      `https://mobile.campushoy.com/v6/config/guest/tenant/info?ids=${abbreviation}`
     ).catch(err => err)
     res = await JSON.parse(await res.text())
 
