@@ -122,19 +122,19 @@ module.exports = async (school, user) => {
   /**
    * refresh cookie in headers (for next request)
    *
-   * @param {Object} headers refresh target
-   * @param {Object} res response object
-   * @param {Object} cookie
+   * @param {object} headers refresh target
+   * @param {object} res response object
+   * @return {boolean} true if set-cookie exists
    */
   function reCook(res, isCas) {
-    let cook
     try {
-      cook = res.headers.raw()['set-cookie']
-      cook.forEach(e => {
+      const setCookieList = res.headers.raw()['set-cookie']
+      setCookieList.forEach(e => {
+        const content = e.split(';').shift()
         if (e.includes('authserver')) {
-          cookie.swms += e.match(/^(\w|\d|\s)+\=(\w|\d|\s|\-)+;/)[0]
+          cookie.swms += `${content}; `
         } else {
-          cookie.campusphere += e.match(/^(\w|\d|\s)+\=(\w|\d|\s|\-)+;/)[0]
+          cookie.campusphere += `${content}; `
         }
       })
     } catch (e) {
