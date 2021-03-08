@@ -7,10 +7,9 @@ const ocr = require('./captcha')
 
 /**
  * login to SWMS(stu work magagement system) process
- *
- * @param {Object} school api info
- * @param {Object} user user info for login
- * @return {Object} cookie for cas and campusphere
+ * @param {object} school api info
+ * @param {object} user user info for login
+ * @return {object} cookie for cas and campusphere
  */
 module.exports = async (school, user) => {
   const headers = {
@@ -66,7 +65,7 @@ module.exports = async (school, user) => {
     log.warning(`用户${name}: 登录需要验证码，正在用 OCR 识别`)
     const captcha = (await ocr(school.getCaptcha)).replace(/\s/g, '')
 
-    if (captcha.length === 4) {
+    if (captcha.length >= 4) {
       log.warning(`用户${name}: 使用验证码 ${captcha} 登录`)
     } else {
       log.warning(`用户${name}: 验证码识别失败，长度${captcha.length}错误`)
@@ -121,7 +120,6 @@ module.exports = async (school, user) => {
 
   /**
    * refresh cookie in headers (for next request)
-   *
    * @param {object} headers refresh target
    * @param {object} res response object
    * @return {boolean} true if set-cookie exists
