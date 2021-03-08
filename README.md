@@ -1000,6 +1000,8 @@ cea rm 'all'
 
 ## Disclaimer
 
+`@beetcb/cea` - Licensed under under [MIT](https://github.com/beetcb/cea/blob/master/LICENSE)
+
 `campusphere-elegant-auth` 用于学习和研究 NodeJS，请勿商用或违法使用。
 
 > 作者: [`beetcb`](https://www.beetcb.com), 邮箱: `i@beetcb.com`
