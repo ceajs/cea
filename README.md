@@ -932,21 +932,21 @@ npm i -g @beetcb/cea
   [[users]]
   username = "用户名"
   password = "密码"
-  alias = "简称"
+  alias = "简称一"
   addr = ""
 
   # 使用随机地址在家签到
   [[users]]
   username = "用户名"
   password = "密码"
-  alias = "简称"
+  alias = "简称二"
   addr = "home"
 
   # 使用自定义地址在家签到
   [[users]]
   username = "用户名"
   password = "密码"
-  alias = "简称"
+  alias = "简称三"
   addr = ["经度", "纬度", "实际地址"]
   ```
 

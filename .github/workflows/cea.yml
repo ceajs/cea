@@ -5,7 +5,8 @@ on:
     # Test on star
     types: [started]
   schedule:
-    - cron: '0 3,8,21 * * *'
+    # It's Universal Coordinated Time, +8 timezone is what we need
+    - cron: '0 3 * * *'
 
 jobs:
   cea:
