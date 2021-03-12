@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/beetcb/campusphere-elegant-auth">
-    <img src="https://sosf.beetcb.com/?path=/gitcdn/demo.gif" alt="test" width="600">
+    <img src="https://git.beetcb.com/?path=/img/cea.gif" alt="test" width="600">
   </a>
 
 <strong><p align="center"><code>c</code>ampusphere-<code>e</code>legant-<code>a</code>uth</p></strong>
