@@ -6,7 +6,7 @@ on:
     types: [started]
   schedule:
     # It's Universal Coordinated Time, +8 timezone is what we need
-    - cron: '0 3 * * *'
+    - cron: '0 22 * * *'
 
 jobs:
   cea:
