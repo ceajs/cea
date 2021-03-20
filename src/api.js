@@ -1,3 +1,4 @@
+// @ts-check
 const conf = require('./cookie')
 const log = require('../interface/colorLog')
 const fs = require('fs')

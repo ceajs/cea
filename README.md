@@ -959,24 +959,35 @@ npm i -g @beetcb/cea
 
 3. 扩展:
 
-   若使用 cea 作为二次开发使用，请配置好学校和用户，然后在你的项目中导入 cea，参考：
+   若使用 cea 作为二次开发使用，请配置好学校和用户，然后在你的项目中导入 cea，参考自动签到示例：
 
    ```js
-   const { conf } = require('@beetcb/cea')
+   const cea = require('@beetcb/cea')
 
    ;(async () => {
-     // Load users from config or environment variables
-     await conf.load()
-     // Log in and save cookie to conf, using conf.get('cookie') to get them
-     await conf.handleCookie()
-     // Grab users array
-     const users = conf.get('users')
-     // Grab school info if you need to use that
-     const school = conf.get('school')
-     //After that, you can grab the cookie
-     const cookie = conf.get('cookie')
-     // Do something cool here!
+     // Log in and save cookie to cea, using cea.get('cookie') to get them (this function resolve an users array with cookie and sign in methods)
+     const usersWithTask = await cea.handleCookie()
+     // Sign in
+     const logs = await signIn(usersWithTask)
+     // Print prettier logs info
+     console.table(logs)
    })()
+
+   async function signIn(usersWithTask) {
+     const logs = {}
+     // sign in asynchronizedly with promise all and diff instance of signApp class
+     await Promise.all(
+       usersWithTask.map(async (i) => {
+         await i.sign.signWithForm()
+         logs[i.alias || i.id] = i.sign.result
+         // Fix circular object
+         delete i.sign
+       })
+     )
+     // store cookie using sstore module
+     cea.close()
+     return logs
+   }
    ```
 
    使用 `handleCookie` 能够完成登录和 cookie 有效性验证，无需传入任何形参; 再通过 `conf` 可获得 cookie 信息对象，含 `swms` 和 `campusphere` 参数，分别对应 学工 和 金智教务(今日校园相关) 验证凭据
