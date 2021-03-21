@@ -23,12 +23,15 @@ exports.signApp = class signApp extends campusphereApp {
       connection: 'keep-alive',
     }
     this.addr = school.addr
-    this.user = user
+    this.id = user.username
+    // temporary store user info to reuse it, fix circular ref
+    process.env[user.username] = user
   }
 
   async signInfo(cookie) {
+    const user = process.env[this.id]
     if (!cookie) {
-      console.log(`用户${this.user.alias}：无效的 Cookie，尝试重新登录`)
+      console.log(`用户${user.alias}：无效的 Cookie，尝试重新登录`)
       return true
     }
     this.headers.cookie = cookie.campusphere
@@ -77,7 +80,7 @@ exports.signApp = class signApp extends campusphereApp {
     } = signDetails.datas
 
     const placeList = signPlaceSelected
-    const isSignAtHome = this.user.addr
+    const isSignAtHome = process.env[this.id].addr
     ;[longitude, latitude] = isSignAtHome ? this.signAtHomePos() : this.locale(placeList[0])
 
     const extraFieldItems = this.fillExtra(extraField)
@@ -119,9 +122,11 @@ exports.signApp = class signApp extends campusphereApp {
   }
 
   signAtHomePos() {
+    const user = process.env[this.id]
+
     // Hard coded position info
     // Randomly generated from http://api.map.baidu.com/lbsapi
-    const userAddr = this.user.addr
+    const userAddr = user.addr
     const noRandom = userAddr instanceof Array
     const posGenFromCitys = noRandom
       ? [userAddr]
@@ -175,7 +180,7 @@ exports.signApp = class signApp extends campusphereApp {
       model: 'Cock',
       appVersion: '8.2.14',
       systemVersion: '4.4.4',
-      userId: this.user.username,
+      userId: process.env[this.id].username,
       systemName: 'android',
       lat: form.latitude.toString(),
       deviceId: v1(),
