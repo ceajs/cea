@@ -19,12 +19,24 @@ const defaultProps = {
   pwdEncrypt: true,
 }
 
-module.exports = (schoolName) =>
+const iapDefaultProps = {
+  lt: '/security/lt',
+  rememberMe: true,
+  checkCaptchaPath: '/checkNeedCaptcha',
+  getCaptchaPath: '/generateCaptcha',
+}
+
+/**
+ * handle edge cases, proxy default properties
+ * @param {string} schoolName
+ * @param {boolean} isIap
+ */
+module.exports = (schoolName, isIap) =>
   schoolName
     ? new Proxy(schoolEdgeCases[schoolName] || {}, {
         get(target, prop, receiver) {
           if (target[prop] === undefined) {
-            return defaultProps[prop]
+            return isIap ? iapDefaultProps[prop] : defaultProps[prop]
           }
           return Reflect.get(target, prop, receiver)
         },

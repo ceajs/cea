@@ -13,7 +13,7 @@ const ocr = require('./captcha')
  */
 module.exports = async (school, user) => {
   // improve school campatibility with defaults and edge-cases
-  const schoolEdgeCases = require('./school-edge-cases')(school.name)
+  const schoolEdgeCases = require('./school-edge-cases')(school.name, school.casOrigin.includes('iap'))
 
   const headers = {
     'Cache-control': 'max-age=0',
@@ -41,25 +41,45 @@ module.exports = async (school, user) => {
   res = await fetch(school.login, { headers })
   reCook(res, 1)
 
-  // create document for crawling
-  const body = await res.text()
-  const $ = cheerio.load(body)
-  const form = $('form[method=post]').get(schoolEdgeCases.formIdx)
-  const hiddenInputList = $('input[type=hidden]', form)
-
   // grab hidden input name-value, this maybe error-prone, but compatible
   const hiddenInputNameValueMap = {}
   let pwdSalt = null
-  hiddenInputList.each((e) => {
-    const hiddenInputNode = hiddenInputList[e]
-    const [name, value] = [hiddenInputNode.attribs.name, hiddenInputNode.attribs.value]
-    if (name && value) {
-      hiddenInputNameValueMap[name] = value
-    } else if (value) {
-      // password salt here
-      pwdSalt = value
+  if (schoolEdgeCases.formIdx) {
+    // create document for crawling
+    const body = await res.text()
+    const $ = cheerio.load(body)
+    const form = $('form[method=post]').get(schoolEdgeCases.formIdx)
+    const hiddenInputList = $('input[type=hidden]', form)
+
+    hiddenInputList.each((e) => {
+      const hiddenInputNode = hiddenInputList[e]
+      const [name, value] = [hiddenInputNode.attribs.name, hiddenInputNode.attribs.value]
+      if (name && value) {
+        hiddenInputNameValueMap[name] = value
+      } else if (value) {
+        // password salt here
+        pwdSalt = value
+      }
+    })
+  } else {
+    // if we got there, this site definitely uses AJAX to get those props (`iap`)
+    // we need to request those properties manually
+    if (Object.keys(hiddenInputNameValueMap).length === 0) {
+      res = await fetch(`${school.casOrigin}${schoolEdgeCases.lt}`, {
+        headers,
+        method: 'POST',
+      })
+      const { result } = await res.json()
+      Object.defineProperties(hiddenInputNameValueMap, {
+        lt: { value: result._lt },
+        needCaptcha: { value: result.needCapt },
+        dllt: { value: '' },
+        iap: { value: true },
+      })
+      // pwdSalt = result._encryptSalt
+      reCook(res, 1)
     }
-  })
+  }
 
   // construct login form
   const auth = new URLSearchParams({
@@ -70,20 +90,28 @@ module.exports = async (school, user) => {
   })
 
   // check captcha is needed
-  const needCaptcha = (
-    await (
-      await fetch(`${school.casOrigin}${schoolEdgeCases.checkCaptchaPath}?username=${user.username}`, {
-        headers,
-      })
-    ).text()
-  ).includes('true')
+  const addtionalParams = `?username=${user.username}&ltId=${hiddenInputNameValueMap.lt}`
+  const needCaptcha =
+    hiddenInputNameValueMap.needCaptcha === undefined
+      ? (
+          await (
+            await fetch(`${school.casOrigin}${schoolEdgeCases.checkCaptchaPath}${addtionalParams}`, {
+              headers,
+            })
+          ).text()
+        ).includes('true')
+      : hiddenInputNameValueMap.needCaptcha
 
   if (needCaptcha) {
     log.warning(`用户${name}: 登录需要验证码，正在用 OCR 识别`)
-    const captcha = (await ocr(`${school.casOrigin}${schoolEdgeCases.getCaptchaPath}`)).replace(/\s/g, '')
+    const captcha = (await ocr(`${school.casOrigin}${schoolEdgeCases.getCaptchaPath}${addtionalParams}`)).replace(
+      /\s/g,
+      ''
+    )
 
     if (captcha.length >= 4) {
       log.warning(`用户${name}: 使用验证码 ${captcha} 登录`)
+      auth.append('captcha', captcha)
     } else {
       log.warning(`用户${name}: 验证码识别失败，长度${captcha.length}错误`)
       return
@@ -93,8 +121,7 @@ module.exports = async (school, user) => {
   // login with form
   headers['Content-Type'] = 'application/x-www-form-urlencoded'
   try {
-    // TODO: 401 response causes console hang in win10 NODE v15.8.0
-    res = await fetch(school.login, {
+    res = await fetch(hiddenInputNameValueMap.iap ? `${school.casOrigin}/doLogin` : school.login, {
       headers,
       body: auth.toString(),
       redirect: 'manual',
