@@ -39,7 +39,7 @@ module.exports = async (school, user) => {
 
   // get base session -> cookie
   res = await fetch(school.login, { headers })
-  reCook(res, 1, cookie)
+  reCook(res, 1)
 
   // create document for crawling
   const body = await res.text()
@@ -105,7 +105,7 @@ module.exports = async (school, user) => {
     return
   }
 
-  reCook(res, 1, cookie)
+  reCook(res, 0)
 
   // set redirect headers
   delete headers['Content-Type']
@@ -120,7 +120,6 @@ module.exports = async (school, user) => {
 
   // get campus cookie
   try {
-    reCook(null, 0, cookie)
     res = await fetch(redirect, {
       headers,
       redirect: 'manual',
@@ -129,7 +128,7 @@ module.exports = async (school, user) => {
     console.error(e)
     return
   }
-  if (/30(1|2)/.test(res.status + '') && reCook(res, 0, cookie)) {
+  if (/30(1|2)/.test(res.status + '') && reCook(res, 0)) {
     log.success(`用户${name}: 登录成功`)
   } else {
     log.error(`用户${name}：登录失败，${res.statusText}`)
@@ -138,8 +137,8 @@ module.exports = async (school, user) => {
 
   /**
    * refresh cookie in headers (for next request)
-   * @param {object} headers refresh target
    * @param {object} res response object
+   * @param {boolean | number} isCas is swms(only) cookie
    * @return {boolean} true if set-cookie exists
    */
   function reCook(res, isCas) {
@@ -147,7 +146,7 @@ module.exports = async (school, user) => {
       const setCookieList = res.headers.raw()['set-cookie']
       setCookieList.forEach((e) => {
         const content = e.split(';').shift()
-        if (e.includes('authserver')) {
+        if (isCas) {
           cookie.swms += `${content}; `
         } else {
           cookie.campusphere += `${content}; `
