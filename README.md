@@ -194,7 +194,22 @@
 
 ### Compatibility
 
-适用于 whpu (已测试) 和其它 大多数学校(未测试，如有问题，请附带日志提交 [Issue](https://github.com/beetcb/cea/issues/new/choose) 或 [PR](https://github.com/beetcb/cea/pulls))
+cea 的登录页爬取策略比较智能（并非 `hard coded`），默认根据第一个登录表单完成全部逻辑，
+
+如遇到边缘情况，有能力的话可以提交 PR ，只需修改 `./crawler/school-edge-cases.js` 文件，添加你的学校：
+
+```diff
+// @ts-check
+const schoolEdgeCases = {
++  学校中文全称: {
++   formIdx: 2, // 默认账号密码登录表单，你需要手动查看 HTML 结构来确定
++   supportCaptcha: false, // 是否需要验证码：有些学校不需要验证码，这种情况可设为 false
++   rememberMe: 'on', // 勾选*天免登录后的值，有些学校可能是不同的字符，默认为 true，你需要手动查看登录请求来确定
++  },
+}
+```
+
+若你不熟悉 NodeJS，遇到登录问题，请附带日志提交 [Issue](https://github.com/beetcb/cea/issues/new/choose)
 
 <details id="abbrlist"><summary>支持使用英文简称的学校列表如下</summary>
   <pre>
