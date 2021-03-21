@@ -126,9 +126,10 @@ module.exports = async (school, user) => {
     console.error(e)
     return
   }
-  if (res.status === 302 && reCook(res, 0, cookie)) {
+  if (/30(1|2)/.test(res.status + '') && reCook(res, 0, cookie)) {
     log.success(`用户${name}: 登录成功`)
   } else {
+    log.error(`用户${name}：登录失败，${res.statusText}`)
     return
   }
 
