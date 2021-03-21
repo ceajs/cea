@@ -13,7 +13,7 @@ const ocr = require('./captcha')
  */
 module.exports = async (school, user) => {
   // improve school campatibility with defaults and edge-cases
-  const schoolEdgeCases = require('./school-edge-cases')[school.name] || {}
+  const schoolEdgeCases = require('./school-edge-cases')(school.name)
 
   const headers = {
     'Cache-control': 'max-age=0',
@@ -44,7 +44,7 @@ module.exports = async (school, user) => {
   // create document for crawling
   const body = await res.text()
   const $ = cheerio.load(body)
-  const form = $('form[method=post]').get(schoolEdgeCases.formIdx || 0)
+  const form = $('form[method=post]').get(schoolEdgeCases.formIdx)
   const hiddenInputList = $('input[type=hidden]', form)
 
   // grab hidden input name-value, this maybe error-prone, but compatible
@@ -66,10 +66,11 @@ module.exports = async (school, user) => {
     username: user.username,
     password: pwdSalt ? new AES(user.password, pwdSalt).encrypt() : user.password,
     ...hiddenInputNameValueMap,
+    rememberMe: schoolEdgeCases.rememberMe,
   })
 
   // check captcha is needed
-  if (schoolEdgeCases.supportCaptcha || true) {
+  if (schoolEdgeCases.supportCaptcha) {
     res = await fetch(`${school.checkCaptcha}?username=${user.username}`, {
       headers,
     })
