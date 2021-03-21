@@ -51,7 +51,7 @@ exports.signApp = class signApp extends campusphereApp {
 
   async signWithForm() {
     if (!this.curTask) {
-      this.result = { 失败原因: 'Cookie无效，取消签到' }
+      this.result = { 失败原因: 'Cookie无效(或任务已完成)，取消签到' }
       return
     }
     const { signApi, headers } = this
@@ -78,9 +78,7 @@ exports.signApp = class signApp extends campusphereApp {
 
     const placeList = signPlaceSelected
     const isSignAtHome = this.user.addr
-    ;[longitude, latitude] = isSignAtHome
-      ? this.signAtHomePos()
-      : this.locale(placeList[0])
+    ;[longitude, latitude] = isSignAtHome ? this.signAtHomePos() : this.locale(placeList[0])
 
     const extraFieldItems = this.fillExtra(extraField)
 
@@ -147,7 +145,7 @@ exports.signApp = class signApp extends campusphereApp {
 
   // construct coordinates & format coordinates length
   locale({ longitude, latitude }) {
-    return [longitude.slice(0, 10), latitude.slice(0, 9)].map(e => {
+    return [longitude.slice(0, 10), latitude.slice(0, 9)].map((e) => {
       if (e[e.length - 1] === '0') {
         e = e.replace(/\d{1}$/, '1')
       }
@@ -157,9 +155,9 @@ exports.signApp = class signApp extends campusphereApp {
 
   // select right item with content&wid
   fillExtra(extraField) {
-    return extraField.map(e => {
+    return extraField.map((e) => {
       let chosenWid
-      const normal = e.extraFieldItems.filter(i => {
+      const normal = e.extraFieldItems.filter((i) => {
         if (i.isAbnormal === false) chosenWid = i.wid
         return !i.isAbnormal
       })[0]
