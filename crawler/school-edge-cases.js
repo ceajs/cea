@@ -21,7 +21,7 @@ const defaultProps = {
 
 module.exports = (schoolName) =>
   schoolName
-    ? new Proxy(schoolEdgeCases[schoolName], {
+    ? new Proxy(schoolEdgeCases[schoolName] || {}, {
         get(target, prop, receiver) {
           if (target[prop] === undefined) {
             return defaultProps[prop]

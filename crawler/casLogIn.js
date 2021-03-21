@@ -184,7 +184,7 @@ class AES {
   }
 
   randomString(len) {
-    const str = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz1234567890'
+    const str = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
     return Array(len)
       .fill(null)
       .reduce((s = '') => (s += str.charAt(Math.floor(Math.random() * 48))), '')
