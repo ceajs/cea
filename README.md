@@ -999,8 +999,6 @@ npm i -g @beetcb/cea
        usersWithTask.map(async (i) => {
          await i.sign.signWithForm()
          logs[i.alias || i.id] = i.sign.result
-         // Fix circular object
-         delete i.sign
        })
      )
      // store cookie using sstore module
