@@ -12,13 +12,17 @@ const ocr = require('./captcha')
  * @return {object} cookie for cas and campusphere
  */
 module.exports = async (school, user) => {
+  // improve school campatibility with defaults and edge-cases
+  const schoolEdgeCases = require('./school-edge-cases')[school.name] || {}
+
   const headers = {
     'Cache-control': 'max-age=0',
     'Accept-Encoding': 'gzip, deflate',
-    Connection: 'keep-alive',
     'Upgrade-Insecure-Requests': '1',
     'User-agent':
       'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
+    Accept:
+      'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
   }
 
   const cookie = {
@@ -40,36 +44,45 @@ module.exports = async (school, user) => {
   // create document for crawling
   const body = await res.text()
   const $ = cheerio.load(body)
-  const form = $('#pwdLoginDiv')
+  const form = $('form[method=post]').get(schoolEdgeCases.formIdx || 0)
+  const hiddenInputList = $('input[type=hidden]', form)
+
+  // grab hidden input name-value, this maybe error-prone, but compatible
+  const hiddenInputNameValueMap = {}
+  let pwdSalt = null
+  hiddenInputList.each((e) => {
+    const hiddenInputNode = hiddenInputList[e]
+    const [name, value] = [hiddenInputNode.attribs.name, hiddenInputNode.attribs.value]
+    if (name && value) {
+      hiddenInputNameValueMap[name] = value
+    } else if (value) {
+      // password salt here
+      pwdSalt = value
+    }
+  })
 
   // construct login form
   const auth = new URLSearchParams({
     username: user.username,
-    password: new AES(
-      user.password,
-      $('#pwdEncryptSalt', form).attr('value')
-    ).encrypt(),
-    _eventId: $('#_eventId', form).attr('value'),
-    captcha: '',
-    rememberMe: true,
-    cllt: $('#cllt', form).attr('value'),
-    lt: '',
-    execution: $('#execution', form).attr('value'),
+    password: pwdSalt ? new AES(user.password, pwdSalt).encrypt() : user.password,
+    ...hiddenInputNameValueMap,
   })
 
   // check captcha is needed
-  res = await fetch(`${school.checkCaptcha}?username=${user.username}`, {
-    headers,
-  })
-  if (Boolean((await res.json()).isNeed)) {
-    log.warning(`用户${name}: 登录需要验证码，正在用 OCR 识别`)
-    const captcha = (await ocr(school.getCaptcha)).replace(/\s/g, '')
+  if (schoolEdgeCases.supportCaptcha || true) {
+    res = await fetch(`${school.checkCaptcha}?username=${user.username}`, {
+      headers,
+    })
+    if (Boolean((await res.json()).isNeed)) {
+      log.warning(`用户${name}: 登录需要验证码，正在用 OCR 识别`)
+      const captcha = (await ocr(school.getCaptcha)).replace(/\s/g, '')
 
-    if (captcha.length >= 4) {
-      log.warning(`用户${name}: 使用验证码 ${captcha} 登录`)
-    } else {
-      log.warning(`用户${name}: 验证码识别失败，长度${captcha.length}错误`)
-      return
+      if (captcha.length >= 4) {
+        log.warning(`用户${name}: 使用验证码 ${captcha} 登录`)
+      } else {
+        log.warning(`用户${name}: 验证码识别失败，长度${captcha.length}错误`)
+        return
+      }
     }
   }
 
@@ -127,7 +140,7 @@ module.exports = async (school, user) => {
   function reCook(res, isCas) {
     try {
       const setCookieList = res.headers.raw()['set-cookie']
-      setCookieList.forEach(e => {
+      setCookieList.forEach((e) => {
         const content = e.split(';').shift()
         if (e.includes('authserver')) {
           cookie.swms += `${content}; `
