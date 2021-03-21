@@ -202,9 +202,11 @@ cea 的登录页爬取策略比较智能（并非 `hard coded`），默认根据
 // @ts-check
 const schoolEdgeCases = {
 +  学校中文全称: {
-+   formIdx: 2, // 默认账号密码登录表单，你需要手动查看 HTML 结构来确定
-+   supportCaptcha: false, // 是否需要验证码：有些学校不需要验证码，这种情况可设为 false
-+   rememberMe: 'on', // 勾选*天免登录后的值，有些学校可能是不同的字符，默认为 true，你需要手动查看登录请求来确定
++    formIdx: 2, // 默认账号密码登录表单的索引，你需要手动查看 HTML 结构来确定
++    checkCaptchaPath: '/getCaptcha.html', // 检测是否需要验证码的路径
++    getCaptchaPath: '/checkNeedCaptcha.html', // 获取验证码的路径
++    pwdEncrypt: false, // 密码是否加密，默认 true
++    rememberMe: 'on', // [这一项不会影响登录结果]勾选*天免登录后的值，有些学校可能是不同的字符，默认为 true，你需要手动查看登录请求来确定
 +  },
 }
 ```

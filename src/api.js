@@ -43,9 +43,9 @@ class User {
 
   storeUsers(loadedUsers) {
     const storedUsers = conf.get('users')
-    const alias = storedUsers.map(e => e.alias)
+    const alias = storedUsers.map((e) => e.alias)
     if (loadedUsers) {
-      loadedUsers = loadedUsers.filter(e => !alias.includes(e.alias))
+      loadedUsers = loadedUsers.filter((e) => !alias.includes(e.alias))
     } else {
       loadedUsers = []
     }
@@ -54,29 +54,19 @@ class User {
 
   loadUserFromToml(toml) {
     this.storeUsers(toml.users)
-    console.warn(
-      `用户${toml.users.reduce(
-        (acc, user) => `${acc}${user.alias} `,
-        ' '
-      )}已加载`
-    )
+    console.warn(`用户${toml.users.reduce((acc, user) => `${acc}${user.alias} `, ' ')}已加载`)
   }
 
   loadUserFromEnv({ users }) {
     if (users) {
-      const loadedUsers = users.split('\n').map(user => {
+      const loadedUsers = users.split('\n').map((user) => {
         const [username, password, alias] = user.split(' ')
         let addr = user.split('home ')[1]
         addr = addr ? addr.split(' ') : null
         return { username, password, alias, addr }
       })
       this.storeUsers(loadedUsers)
-      console.warn(
-        `用户${loadedUsers.reduce(
-          (acc, user) => `${acc}${user.alias} `,
-          ' '
-        )}已加载`
-      )
+      console.warn(`用户${loadedUsers.reduce((acc, user) => `${acc}${user.alias} `, ' ')}已加载`)
       return loadedUsers
     }
   }
@@ -86,12 +76,12 @@ class User {
       {
         type: 'list',
         name: 'type',
-        message: `用户编辑: ${
-          conf.get('school') ? ' 学校信息已成功配置' : ' 学校信息未配置'
-        }\n  已有用户：${conf.get('users').reduce((s, e) => {
-          const userInfo = e.alias
-          return s + ' ' + userInfo
-        }, '')}`,
+        message: `用户编辑: ${conf.get('school') ? ' 学校信息已成功配置' : ' 学校信息未配置'}\n  已有用户：${conf
+          .get('users')
+          .reduce((s, e) => {
+            const userInfo = e.alias
+            return s + ' ' + userInfo
+          }, '')}`,
         choices: [
           {
             value: 1,
@@ -139,7 +129,7 @@ class User {
 
     const res = await prompt(questions)
 
-    if (!conf.get('users').some(e => e.alias === res.alias)) {
+    if (!conf.get('users').some((e) => e.alias === res.alias)) {
       const addUser = {
         username: res.username,
         password: res.password,
@@ -173,9 +163,7 @@ class User {
     ]
 
     const res = await prompt(questions)
-    const neoUsers = conf
-      .get('users')
-      .filter((el, index) => index !== res.selection)
+    const neoUsers = conf.get('users').filter((el, index) => index !== res.selection)
     conf.set('users', neoUsers)
 
     log.success('🎉 成功删除用户')
@@ -208,8 +196,7 @@ class School {
   async loadSchoolFromToml(toml) {
     if (!conf.get('school')) {
       const school = await this.schoolApi(toml.school)
-      if (toml.users.some(e => e.addr === ''))
-        school.addr = await this.schoolAddr(school.name)
+      if (toml.users.some((e) => e.addr === '')) school.addr = await this.schoolAddr(school.name)
       conf.set('school', school)
       log.success(`你的学校 ${school.name} 已完成设定`)
     }
@@ -223,8 +210,7 @@ class School {
   async loadSchoolFromEnv({ school: name }, users) {
     if (!conf.get('school')) {
       const school = await this.schoolApi(name)
-      if (users.some(e => e.addr === ''))
-        school.addr = await this.schoolAddr(school.name)
+      if (users.some((e) => e.addr === '')) school.addr = await this.schoolAddr(school.name)
       conf.set('school', school)
       log.success(`你的学校已完成设定`)
     } else {
@@ -257,15 +243,13 @@ class School {
     if (name.match(/\w+/)) {
       abbreviation = name
     } else {
-      res = await fetch(
-        `https://mobile.campushoy.com/v6/config/guest/tenant/list`
-      ).catch(err => err)
-      abbreviation = (await res.json()).data.find(i => i.name === name).id
+      res = await fetch(`https://mobile.campushoy.com/v6/config/guest/tenant/list`).catch((err) => err)
+      abbreviation = (await res.json()).data.find((i) => i.name === name).id
     }
 
-    res = await fetch(
-      `https://mobile.campushoy.com/v6/config/guest/tenant/info?ids=${abbreviation}`
-    ).catch(err => err)
+    res = await fetch(`https://mobile.campushoy.com/v6/config/guest/tenant/info?ids=${abbreviation}`).catch(
+      (err) => err
+    )
     res = await JSON.parse(await res.text())
 
     const origin = new URL(res.data[0].ampUrl).origin
@@ -282,12 +266,8 @@ class School {
       name: schoolName,
       casOrigin,
       origin,
-      login: `${casOrigin}/login?service=${encodeURIComponent(
-        origin
-      )}/portal/login`,
+      login: `${casOrigin}/login?service=${encodeURIComponent(origin)}/portal/login`,
       campusphere: `${origin}/portal/login`,
-      checkCaptcha: `${casOrigin}/checkNeedCaptcha.htl`,
-      getCaptcha: `${casOrigin}/getCaptcha.htl`,
     }
   }
 }

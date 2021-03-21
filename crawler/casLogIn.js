@@ -70,20 +70,23 @@ module.exports = async (school, user) => {
   })
 
   // check captcha is needed
-  if (schoolEdgeCases.supportCaptcha) {
-    res = await fetch(`${school.checkCaptcha}?username=${user.username}`, {
-      headers,
-    })
-    if (Boolean((await res.json()).isNeed)) {
-      log.warning(`用户${name}: 登录需要验证码，正在用 OCR 识别`)
-      const captcha = (await ocr(school.getCaptcha)).replace(/\s/g, '')
+  const needCaptcha = (
+    await (
+      await fetch(`${school.casOrigin}${schoolEdgeCases.checkCaptchaPath}?username=${user.username}`, {
+        headers,
+      })
+    ).text()
+  ).includes('true')
 
-      if (captcha.length >= 4) {
-        log.warning(`用户${name}: 使用验证码 ${captcha} 登录`)
-      } else {
-        log.warning(`用户${name}: 验证码识别失败，长度${captcha.length}错误`)
-        return
-      }
+  if (needCaptcha) {
+    log.warning(`用户${name}: 登录需要验证码，正在用 OCR 识别`)
+    const captcha = (await ocr(`${school.casOrigin}${schoolEdgeCases.getCaptchaPath}`)).replace(/\s/g, '')
+
+    if (captcha.length >= 4) {
+      log.warning(`用户${name}: 使用验证码 ${captcha} 登录`)
+    } else {
+      log.warning(`用户${name}: 验证码识别失败，长度${captcha.length}错误`)
+      return
     }
   }
 
