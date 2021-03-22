@@ -61,7 +61,7 @@ module.exports = async (school, user) => {
       }
     })
   } else {
-    // if we got there, this site definitely uses AJAX to get those props (`iap`)
+    // if we got here, this site definitely uses AJAX to get those props (`iap`)
     // we need to request those properties manually
     headers.Referer = res.headers.get('location')
     const ltWrapper = new URL(headers.Referer).search
