@@ -1,7 +1,6 @@
 const cheerio = require('cheerio')
-const fetch = require('node-fetch')
-
 const crypto = require('crypto')
+const fetch = require('node-fetch')
 const log = require('../interface/colorLog')
 const ocr = require('./captcha')
 
@@ -16,7 +15,7 @@ module.exports = async (school, user) => {
   const schoolEdgeCases = require('./school-edge-cases')(school.name, school.casOrigin.includes('iap'))
 
   const headers = {
-    'Cache-control': 'max-age=0',
+    'Cache-Control': 'max-age=0',
     'Accept-Encoding': 'gzip, deflate',
     'Upgrade-Insecure-Requests': '1',
     'User-agent':
@@ -38,7 +37,7 @@ module.exports = async (school, user) => {
   headers.Origin = `https://${headers.Host}`
 
   // get base session -> cookie
-  res = await fetch(school.login, { headers })
+  res = await fetch(school.login, { headers, redirect: 'manual' })
   reCook(res, 1)
 
   // grab hidden input name-value, this maybe error-prone, but compatible
@@ -64,18 +63,21 @@ module.exports = async (school, user) => {
   } else {
     // if we got there, this site definitely uses AJAX to get those props (`iap`)
     // we need to request those properties manually
+    headers.Referer = res.headers.get('location')
+    const ltWrapper = new URL(headers.Referer).search
     if (Object.keys(hiddenInputNameValueMap).length === 0) {
-      res = await fetch(`${school.casOrigin}${schoolEdgeCases.lt}`, {
+      res = await fetch(`${school.casOrigin}${schoolEdgeCases.lt}${ltWrapper}`, {
         headers,
         method: 'POST',
       })
       const { result } = await res.json()
       Object.defineProperties(hiddenInputNameValueMap, {
-        lt: { value: result._lt },
-        needCaptcha: { value: result.needCapt },
-        dllt: { value: '' },
-        iap: { value: true },
+        lt: { value: result._lt, enumerable: true },
+        needCaptcha: { value: result.needCapt, enumerable: true },
+        dllt: { value: '', enumerable: true },
+        iap: { value: true, enumerable: true },
       })
+      // seems dcampus forgot to impl _encryptSalt, comment it out temporarily
       // pwdSalt = result._encryptSalt
       reCook(res, 1)
     }
