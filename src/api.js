@@ -187,7 +187,7 @@ class School {
 
       school.addr = await this.schoolAddr(school.name)
       conf.set('school', school)
-      log.success(`您的学校 ${school.name} 已完成设定`)
+      log.success(`你的学校 ${school.name} 已完成设定`)
     } else {
       log.warning('学校信息已配置')
     }

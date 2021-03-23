@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 安装 cea
-        run: npm i -g @beetcb/cea > /dev/null
+        run: sudo npm i -g @beetcb/cea > /dev/null
 
       - name: 加载学校及用户信息
         run: cea load
