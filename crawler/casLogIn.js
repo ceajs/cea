@@ -43,7 +43,7 @@ module.exports = async (school, user) => {
   // grab hidden input name-value, this maybe error-prone, but compatible
   const hiddenInputNameValueMap = {}
   let pwdSalt = null
-  if (schoolEdgeCases.formIdx) {
+  if (schoolEdgeCases.formIdx !== undefined) {
     // create document for crawling
     const body = await res.text()
     const $ = cheerio.load(body)
