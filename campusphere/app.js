@@ -28,6 +28,10 @@ exports.signApp = class signApp extends campusphereApp {
     process.env[user.username] = user
   }
 
+  /**
+   * @param {*} cookie stored cookie
+   * @return {boolean} true if cookie is invalid
+   */
   async signInfo(cookie) {
     const user = process.env[this.id]
     if (!cookie) {
@@ -42,7 +46,8 @@ exports.signApp = class signApp extends campusphereApp {
         headers,
         body: JSON.stringify({}),
       })
-      if (res.headers.hasOwnProperty('set-cookie')) return true
+      // TODO: handle the responsed updated cookie
+      if (!res.ok) return true
       const signQ = await res.json()
       this.curTask = signQ.datas.unSignedTasks[0]
       return false
