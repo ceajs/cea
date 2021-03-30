@@ -251,11 +251,14 @@ class School {
       (err) => err
     )
     res = await JSON.parse(await res.text())
-
-    const origin = new URL(res.data[0].ampUrl).origin
     const schoolName = res.data[0].name
 
+    let origin = new URL(res.data[0].ampUrl).origin
     let casOrigin = res.data[0].idsUrl
+
+    // fall back to ampUrl2 when campusphere not included in the `origin`
+    if (!origin.includes('campusphere')) origin = new URL(res.data[0].ampUrl2).origin
+
     // Proxy the host who blocks foreign ip access
     if (process.env.GITHUB_ACTION && name === 'whpu') {
       casOrigin = 'https://lean.beetcb.com/authserver'
