@@ -20,7 +20,6 @@ exports.signApp = class signApp extends campusphereApp {
       'user-agent':
         'Mozilla/5.0 (Linux; Android 10; GM1910 Build/QKQ1.190716.003; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.101 Mobile Safari/537.36  cpdaily/8.2.13 wisedu/8.2.13',
       'content-type': 'application/json',
-      connection: 'keep-alive',
     }
     this.addr = school.addr
     this.id = user.username
