@@ -28,7 +28,7 @@ exports.signApp = class signApp extends campusphereApp {
   }
 
   /**
-   * @param {*} cookie stored cookie
+   * @param {object | unknown} cookie stored cookie
    * @return {boolean} true if cookie is invalid
    */
   async signInfo(cookie) {
