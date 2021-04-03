@@ -81,7 +81,7 @@ const schoolEdgeCases = {
 
 若你不熟悉 NodeJS，遇到登录问题，请附带日志提交 [Issue](https://github.com/beetcb/cea/issues/new/choose)
 
-支持使用英文简称的学校列表：[abbrList](./docs/abbrlist.sh)
+支持使用英文简称的学校列表：[abbrList](./docs/abbrList.sh)
 
 ## Get started
 
@@ -118,7 +118,7 @@ npm i -g @beetcb/cea
   ```toml
   # 文件修改完后仍需执行 `cea load` 加载这些用户，根据提示确保用户已成功加载
 
-  # 学校的英文简称（推荐，部分学校支持，请查阅[支持英文简称的学校列表](https://github.com/beetcb/cea#abbrlist)自行判断）或中文全称（备用选项，所有学校都支持）
+  # 学校的英文简称（推荐，部分学校支持，请查阅[支持英文简称的学校列表](https://github.com/beetcb/cea/blob/master/docs/abbrList.sh)自行判断）或中文全称（备用选项，所有学校都支持）
   school = "whpu"
 
   # 使用学校地址签到
@@ -198,7 +198,7 @@ cea rm 'all'
 
 登录中加解密过程大量参考 [wisedu-unified-login-api](https://github.com/ZimoLoveShuang/wisedu-unified-login-api) 项目，十分感谢
 
-感谢 [cloudbase-framework](https://github.com/Tencent/cloudbase-framework)、[Github Actions](https://github.com/actions)、[Coding CI](https://help.coding.net/docs/ci/intro.html)、[Gitee Pages](https://gitee.com/help/articles/4136) 提供的优秀服务 🎉
+感谢 [Cloudbase-Framework](https://github.com/Tencent/cloudbase-framework)、[Github Actions](https://github.com/actions)、[Coding CI](https://help.coding.net/docs/ci/intro.html)、[Gitee Pages](https://gitee.com/help/articles/4136) 提供的优秀服务 🎉
 
 ## Disclaimer
 
