@@ -39,21 +39,19 @@ exports.signApp = class signApp extends campusphereApp {
     }
     this.headers.cookie = cookie.campusphere
     const { signApi, headers } = this
-    try {
-      const res = await fetch(signApi.list, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({}),
-      })
-      // TODO: handle the responsed updated cookie
-      if (!res.ok) return true
-      const signQ = await res.json()
-      this.curTask = signQ.datas.unSignedTasks[0]
-      return false
-    } catch (e) {
-      this.result = { 失败原因: '无法获取 Cookie' }
+
+    const res = await fetch(signApi.list, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({}),
+    })
+    // TODO: handle the responsed updated cookie
+    if (!res.headers.get('content-type').includes('application/json')) {
       return true
     }
+    const signQ = await res.json()
+    this.curTask = signQ.datas.unSignedTasks[0]
+    return false
   }
 
   async signWithForm() {
