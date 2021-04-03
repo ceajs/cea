@@ -2,10 +2,10 @@
 const schoolEdgeCases = {
   武汉轻工大学: {
     formIdx: 2,
+    checkCaptchaPath: '/checkNeedCaptcha.htl',
+    getCaptchaPath: '/getCaptcha.htl',
   },
   宁波大学: {
-    checkCaptchaPath: '/needCaptcha.html',
-    getCaptchaPath: '/captcha.html',
     rememberMe: 'on',
   },
 }
@@ -13,8 +13,8 @@ const schoolEdgeCases = {
 // we will using proxy to get the default properties
 const defaultProps = {
   rememberMe: true,
-  checkCaptchaPath: '/checkNeedCaptcha.htl',
-  getCaptchaPath: '/getCaptcha.htl',
+  checkCaptchaPath: '/needCaptcha.html',
+  getCaptchaPath: '/captcha.html',
   formIdx: 0,
   pwdEncrypt: true,
 }
