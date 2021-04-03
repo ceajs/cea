@@ -19,11 +19,13 @@
 3. 配置签到信息：单击 Settings ，在左侧边栏中，单击 Secrets，单击 New repository secret 开始创建签到信息
 
    ![actions](https://i.imgur.com/Lx6319H.png)
-   ![secret](https://i.imgur.com/aM4jUSW.png)
+   ![secret](https://i.imgur.com/nODikvG.png)
 
 **你需要添加 2 个 secrets，他们的示例如下：**
 
 > **users 的值默认都以一个空格分隔，多用户使用 显示换行(`\n`) 分割**
+
+> **school 的值可为英文简称，可为中文全称**
 
 - `users`: e.g. `123 321 beet`(请在以下三种配置方式中选择一种)
   - `用户名 密码 名称` 用学校地址签到
@@ -118,6 +120,8 @@
    这会配置两个签到用户(同一个学校)，对这两项参数的详细描述为：
 
    > **users 的值默认都以一个空格分隔，多用户使用 显示换行(`\n`) 分割**
+
+   > **school 的值可为英文简称，可为中文全称**
 
    - `users`: e.g. `123 321 beet`(请在以下三种配置方式中选择一种)
      - `用户名 密码 名称` 用学校地址签到
