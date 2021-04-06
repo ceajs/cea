@@ -31,11 +31,11 @@
   - `用户名 密码 名称` 用学校地址签到
   - `用户名 密码 名称 home` 在家用随机地址签到
   - `用户名 密码 名称 home 经度 纬度 中文地址` 在家用自定义的经纬度和地址签到，请使用[此工具](https://api.map.baidu.com/lbsapi/getpoint/index.html)生成经纬度
-- `school`: e.g. `whpu` 学校的英文简称（推荐，部分学校支持，请查阅[支持英文简称的学校列表](https://github.com/beetcb/cea#abbrlist)自行判断）或中文全称（备用选项，所有学校都支持）
+- `school`: e.g. `whpu` 学校的英文简称（推荐，部分学校支持，请查阅[支持英文简称的学校列表](https://github.com/beetcb/cea/blob/master/docs/abbrList.sh)自行判断）或中文全称（备用选项，所有学校都支持）
 
 4. 通过给自己仓库 Star 来测试 Actions 是否执行成功
 
-   ![star](https://i.imgur.com/HHlLA4P.png)
+   ![star](https://i.imgur.com/83UE7lr.png)
 
 配置成功后，此操作会自动在每天 6:00 触发，尝试签到
 
@@ -127,7 +127,7 @@
      - `用户名 密码 名称` 用学校地址签到
      - `用户名 密码 名称 home` 在家用随机地址签到
      - `用户名 密码 名称 home 经度 纬度 中文地址` 在家用自定义的经纬度和地址签到，请使用[此工具](https://api.map.baidu.com/lbsapi/getpoint/index.html)生成经纬度
-   - `school`: e.g. `whpu` 学校的英文简称（推荐，部分学校支持，请查阅[支持英文简称的学校列表](https://github.com/beetcb/cea#abbrlist)自行判断）或中文全称（备用选项，所有学校都支持）
+   - `school`: e.g. `whpu` 学校的英文简称（推荐，部分学校支持，请查阅[支持英文简称的学校列表](https://github.com/beetcb/cea/blob/master/docs/abbrList.sh)自行判断）或中文全称（备用选项，所有学校都支持）
 
    5. ~~此操作会自动在每天 6:00 触发~~ Coding 目前不支持自动配置触发，你需要手动设置触发机制：单击触发机制，下滑添加定时触发，按照 Coding 的逻辑，你需要设置三次触发，分别是 6:00 ，当然你也可以自定义，图例如下
 
