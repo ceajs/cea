@@ -50,13 +50,17 @@ exports.signApp = class signApp extends campusphereApp {
       return true
     }
     const signQ = await res.json()
-    this.curTask = signQ.datas.unSignedTasks[0]
-    return false
+    const isValidCookie = signQ.message === 'SUCCESS'
+    if (isValidCookie) {
+      this.curTask = signQ.datas.unSignedTasks[0]
+      return false
+    }
+    return true
   }
 
   async signWithForm() {
     if (!this.curTask) {
-      this.result = { 失败原因: 'Cookie无效(或任务已完成)，取消签到' }
+      this.result = { 签到结果: '今日签到任务已完成，取消签到' }
       return
     }
     const { signApi, headers } = this
