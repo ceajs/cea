@@ -261,7 +261,7 @@ class School {
 
     // Proxy the host who blocks foreign ip access
     if (process.env.GITHUB_ACTION && name === 'whpu') {
-      casOrigin = 'https://lean.beetcb.com/authserver'
+      casOrigin = 'http://whpu.beetcb.com/authserver'
       console.warn('尝试使用代理访问学校登录页面')
     }
 
