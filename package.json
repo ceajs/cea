@@ -1,6 +1,6 @@
 {
   "name": "@beetcb/cea",
-  "version": "2.1.13",
+  "version": "2.1.14",
   "description": "campusphere-elegant-auth: login to swms/campusphere at ease",
   "main": "dist/index.js",
   "bin": "dist/cli.js",

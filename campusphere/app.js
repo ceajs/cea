@@ -102,7 +102,9 @@ exports.signApp = class signApp extends campusphereApp {
       uaIsCpadaily: true,
       isNeedExtra,
       extraFieldItems,
+      signVersion: '1.0.0',
     }
+    
     headers['Cpdaily-Extension'] = this.extention(form)
     res = await fetch(signApi.sign, {
       headers,
