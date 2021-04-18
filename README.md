@@ -49,14 +49,14 @@
 
 - 兼容云服务的 OCR：很多云服务(如云函数)的文件系统并不都是可写入的，我们将 OCR 验证码识别用到的 [tesseract.js](https://github.com/naptha/tesseract.js) 数据包和训练缓存包暂存到了 `/tmp`，降低出错率；同时，为加快国内访问速度，下载节点托管于码云
 
-- 多用户非阻塞: 利用 NodeJS 异步特征，多用户可并行，实现毫秒级的多用户同时操作
+- 多用户非阻塞: 利用 Node.js 异步特征，多用户可并行，实现毫秒级的多用户同时操作
 
 - 关于签到: (学校配置时)使用百度地图 API 获取学校全局签到地址, 使用今日校园接口返回的签到数据获取签到经纬度, 简单来说, 只需知道学校英文简称即可配置好所有签到信息, 充分懒人化
 
 ## Prerequisites
 
 - NPM
-- NodeJS
+- Node.js
 
 ### Compatibility
 
@@ -79,7 +79,7 @@ const schoolEdgeCases = {
 }
 ```
 
-若你不熟悉 NodeJS，遇到登录问题，请附带日志提交 [Issue](https://github.com/beetcb/cea/issues/new/choose)
+若你不熟悉 Node.js，遇到登录问题，请附带日志提交 [Issue](https://github.com/beetcb/cea/issues/new/choose)
 
 支持使用英文简称的学校列表：[abbrList](./docs/abbrList.sh)
 
@@ -202,8 +202,8 @@ cea rm 'all'
 
 ## Disclaimer
 
-`@beetcb/cea` - Licensed under under [MIT](https://github.com/beetcb/cea/blob/master/LICENSE)
+`@beetcb/cea` - Licensed under [MIT](https://github.com/beetcb/cea/blob/master/LICENSE)
 
-`campusphere-elegant-auth` 用于学习和研究 NodeJS，请勿商用或违法使用。
+`campusphere-elegant-auth` 仅用于学习和研究 Node.js，请勿商用或违法使用。
 
 > 作者: [`beetcb`](https://www.beetcb.com), 邮箱: `i@beetcb.com`
