@@ -129,6 +129,7 @@ exports.signApp = class signApp extends campusphereApp {
     this.result = logInfo
   }
 
+  // TODO: decouple this.addr form signAtHomePos
   signAtHomePos() {
     const user = process.env[this.id]
 

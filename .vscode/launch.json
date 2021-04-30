@@ -11,7 +11,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\TEST\\dcampus.js"
+            "program": "${workspaceFolder}/TEST/dcampus.js"
         }
     ]
 }
