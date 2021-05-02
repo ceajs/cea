@@ -52,7 +52,8 @@ exports.signApp = class signApp extends campusphereApp {
     const signQ = await res.json()
     const isValidCookie = signQ.message === 'SUCCESS'
     if (isValidCookie) {
-      this.curTask = signQ.datas.unSignedTasks[0]
+      const data = signQ.datas
+      this.curTask = data.unSignedTasks[0] || data.leaveTasks[0]
       return false
     }
     return true
@@ -79,7 +80,6 @@ exports.signApp = class signApp extends campusphereApp {
       extraField,
       longitude,
       latitude,
-      isMalposition,
       signPlaceSelected,
       isNeedExtra,
       signedStuInfo,
@@ -95,13 +95,13 @@ exports.signApp = class signApp extends campusphereApp {
       signInstanceWid,
       longitude,
       latitude,
+      isNeedExtra,
+      extraFieldItems,
       isMalposition: isSignAtHome ? 1 : 0,
       abnormalReason: '',
       signPhotoUrl: '',
       position: this.addr,
       uaIsCpadaily: true,
-      isNeedExtra,
-      extraFieldItems,
       signVersion: '1.0.0',
     }
     
