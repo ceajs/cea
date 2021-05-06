@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/beetcb/campusphere-elegant-auth">
+  <a href="https://github.com/beetcb/cea">
     <img src="https://s4.gifyu.com/images/cea.gif" alt="test" width="600">
   </a>
 
@@ -7,24 +7,26 @@
 
 <p align="center">
  <a align="center" href="https://www.npmjs.com/package/@beetcb/cea">
-    <img alt="npm" src="https://img.shields.io/npm/v/@beetcb/cea">
+    <img alt="npm" src="https://img.shields.io/npm/v/@beetcb/cea?style=social">
+    <img alt="NPM" src="https://img.shields.io/npm/l/@beetcb/cea?style=social">
   </a>
 </p>
-
   <p align="center">
   交互式的配置程序 + 学工系统多用户并发登录 + 云端部署及缓存
   <br>
   其返回的 <strong>cookie</strong> 可直接用于学工系统或今日校园相关验证
   <br>
-  基于此可以开发更多强大工具集 ( 例如本项目提供的 [今日校园自动签到] 示例 )
+  基于此可以开发更多强大工具集 ( 例如本项目提供的 [今日校园自动签到] 示例 )，欢迎右上角   <a href="https://github.com/beetcb/cea">
+    <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/beetcb/cea?style=social">
+  </a> 支持此项目
   <p>
 </p>
 
 ## Features
 
-- 新增一键部署签到程序：依赖自动安装、触发器自动配置，可能是全网最快、选择最多的部署 👇 (我们支持三种配置方式，请按需选择，详见 [部署指南](./docs/deploy.md))
+- 新增一键部署签到程序：依赖自动安装、触发器自动配置，可能是全网最快、选择最多的部署 👇 (详见 [部署指南](./docs/deploy.md))
 
-- 新增在家签到功能: 在配置学校过程中，可选 `在家签到`，我们会在全国主流城市随机选点(避开高校)。 当然我们也支持自定义地址(只不过稍微麻烦点)<details><summary>好奇 `随机` 是哪些地方?</summary>
+- 新增在家签到功能: 在配置学校过程中，可选 `在家签到`，我们会在全国主流城市随机选点(避开高校)，也可以自定义地址<details><summary>好奇 `随机` 是哪些地方?</summary>
 
   ```js
   // Hard coded position info
@@ -207,3 +209,5 @@ cea rm 'all'
 `campusphere-elegant-auth` 仅用于学习和研究 Node.js，请勿商用或违法使用。
 
 > 作者: [`beetcb`](https://www.beetcb.com), 邮箱: `i@beetcb.com`
+
+![GitHub followers](https://img.shields.io/github/followers/beetcb?label=Follow%20%40beetcb&style=social)
