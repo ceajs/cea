@@ -208,6 +208,4 @@ cea rm 'all'
 
 `campusphere-elegant-auth` 仅用于学习和研究 Node.js，请勿商用或违法使用。
 
-> 作者: [`beetcb`](https://www.beetcb.com), 邮箱: `i@beetcb.com`
-
-![GitHub followers](https://img.shields.io/github/followers/beetcb?label=Follow%20%40beetcb&style=social)
+> 作者: [<img src="https://img.shields.io/github/followers/beetcb?label=%40beetcb&style=social">](https://github.com/beetcb), 邮箱: `i@beetcb.com`
