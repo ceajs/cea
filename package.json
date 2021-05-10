@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "parcel-plugin-shebang": "1.3.2",
-    "prettier": "2.3.0"
+    "prettier": "2.3.0",
+    "typescript": "^4.2.4"
   }
 }
