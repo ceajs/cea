@@ -19,6 +19,11 @@
     "自动",
     "签到"
   ],
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "printWidth": 80
+  },
   "repository": "beetcb/cea",
   "author": {
     "name": "beetcb",
