@@ -5,7 +5,7 @@ export type UsersConf = {
 export type UserConfOpts = {
   username: string
   password: string
-  alias?: string
+  alias: string
   school: string
-  addr: string | Array<string>
+  addr: Array<string>
 }
