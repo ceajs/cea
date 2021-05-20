@@ -1,4 +1,4 @@
-import { UsersConf, UserConfOpts } from '../types/conf'
+import { UsersConf, UserConfOpts } from './types/conf'
 import { UserAction } from './constants'
 
 import { parse } from '@iarna/toml'
