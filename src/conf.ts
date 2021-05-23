@@ -138,7 +138,7 @@ export async function getSchoolInfos(
       campusphere: origin,
       isIap: data.joinType !== 'NOTCLOUD',
     }
-
+    log.success({ message: `学校 ${data.name} 默认签到地址：${defaultAddr}` })
     log.success({ message: `学校 ${data.name} 已完成设定` })
   }
   return schoolInfos

@@ -4,7 +4,7 @@ async function signIn(usersWithTask) {
   const logs = {}
   // sign in asynchronizedly with promise all and diff instance of signApp class
   await Promise.all(
-    usersWithTask.map(async i => {
+    usersWithTask.map(async (i) => {
       await i.sign.signWithForm()
       logs[i.alias || i.id] = i.sign.result
       // Fix circular object

@@ -1,16 +1,18 @@
 {
-  "name": "@beetcb/cea",
-  "version": "2.1.15",
+  "name": "cea",
+  "version": "0.0.0",
   "description": "campusphere-elegant-auth: login to swms/campusphere at ease",
   "main": "lib/src/index.js",
   "bin": "lib/src/cli.js",
   "files": [
-    "dist/"
+    "lib/src/"
   ],
   "types": "lib/src/index.d.ts",
   "scripts": {
-    "prebuild": "rm -rf lib/",
-    "build": "tsc --build"
+    "preinstall": "rm -rf lib/",
+    "build": "tsc --build",
+    "prepublish": "prettier . -w",
+    "publish": "npm run build && npm publish --access public"
   },
   "keywords": [
     "campusphere",
@@ -41,11 +43,11 @@
     "enquirer": "^2.3.6",
     "node-fetch": "^2.6.1",
     "signale": "^1.4.0",
-    "tesseract.js": "^2.1.4"
+    "tesseract.js": "^2.1.4",
+    "@types/node-fetch": "^2.5.10",
+    "@types/signale": "^1.4.1"
   },
   "devDependencies": {
-    "@types/node-fetch": "^2.5.10",
-    "@types/signale": "^1.4.1",
     "jest": "^26.6.3",
     "prettier": "2.3.0",
     "typescript": "^4.2.4"
