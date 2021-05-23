@@ -4,3 +4,5 @@ dist/
 .cache/
 package-lock.json
 /conf.toml
+lib/
+*tsbuild*

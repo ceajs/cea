@@ -1,13 +1,12 @@
 {
+  "extends": "./tsconfig.base",
   "include": ["src/**/*"],
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "outDir": "dist",
-    "strict": true,
-    "sourceMap": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
-  }
+    "outDir": "lib"
+  },
+  "references": [
+    {
+      "path": "./plugins/check-in/"
+    }
+  ]
 }

@@ -2,13 +2,15 @@
   "name": "@beetcb/cea",
   "version": "2.1.15",
   "description": "campusphere-elegant-auth: login to swms/campusphere at ease",
-  "main": "dist/index.js",
-  "bin": "dist/cli.js",
+  "main": "lib/src/index.js",
+  "bin": "lib/src/cli.js",
   "files": [
     "dist/"
   ],
+  "types": "lib/types/",
   "scripts": {
-    "build": "rm -rf dist/; tsc"
+    "prebuild": "rm -rf lib/",
+    "build": "tsc --build"
   },
   "keywords": [
     "campusphere",

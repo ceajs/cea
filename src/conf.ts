@@ -1,9 +1,9 @@
-import { UsersConf, UserConfOpts, SchoolConf } from '../types/conf'
+import { UsersConf, UserConfOpts, SchoolConf } from './types/conf'
 
 import { parse } from '@iarna/toml'
 import { prompt } from 'enquirer'
 import { resolve } from 'path'
-import { StringKV } from '../types/helper'
+import { StringKV } from './types/helper'
 import { UserAction } from './constants'
 
 import fetch, { Response } from 'node-fetch'

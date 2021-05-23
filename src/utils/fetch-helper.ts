@@ -1,8 +1,8 @@
 import fetch from 'node-fetch'
-import { CookieMap, FetchCookieOptions } from '../../types/cookie'
+import { CookieMap, FetchCookieOptions } from '../types/cookie'
 import { cookieParse, cookieStr } from './cookie-helper'
 import { Response } from 'node-fetch'
-import { StringKV } from '../../types/helper'
+import { StringKV } from '../types/helper'
 
 export class FetchWithCookie {
   private headers: StringKV

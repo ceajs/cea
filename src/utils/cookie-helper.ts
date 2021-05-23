@@ -1,4 +1,4 @@
-import { CookieMap } from '../../types/cookie'
+import { CookieMap } from '../types/cookie'
 import { Headers } from 'node-fetch'
 
 /**

@@ -9,8 +9,8 @@ import {
   UserConfOpts,
   EdgeCasesSchools,
   DefaultProps,
-} from '../../types/conf'
-import { StringKV } from '../../types/helper'
+} from '../types/conf'
+import { StringKV } from '../types/helper'
 import { FetchWithCookie } from '../utils/fetch-helper'
 import { Response } from 'node-fetch'
 

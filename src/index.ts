@@ -1,9 +1,12 @@
-export const sstore = require('@beetcb/sstore')
-
 import log from './utils/logger'
 import login from './crawler/login'
 
-import { SchoolConf, UserConfOpts } from '../types/conf'
+export const sstore = require('@beetcb/sstore')
+export * from './types/conf'
+export * from './types/cookie'
+export * from './types/helper'
+
+import { SchoolConf, UserConfOpts } from './types/conf'
 
 export async function handleCookie() {
   await Promise.all(
