@@ -18,9 +18,9 @@ export type SchoolConf = {
 
 export type SchoolConfOpts = {
   // idsUrl
-  campusphere: URL
+  campusphere: string
   // ampUrl 1 or 2
-  swms: URL
+  swms: string
   // `${compusphere.origin}/iap/login?service=${encodeURIComponent(`${campusphere}/portal/login`)}`
   loginStartEndpoint: string
   chineseName: string

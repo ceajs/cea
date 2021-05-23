@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { loadConfFromToml, promptToGetConf, getSchoolInfos } from './conf'
-import { sstore } from './index'
+import { sstore, handleCookie } from './index'
 ;(async () => {
   const argv = process.argv[2] || ''
   const argv2 = process.argv[3]
@@ -22,7 +22,7 @@ All Commands:
     case 'user': {
       const users = await promptToGetConf(sstore.get('users'))
       if (users) {
-        const schoolInfos = getSchoolInfos(users)
+        const schoolInfos = await getSchoolInfos(users)
         if (schoolInfos) {
           sstore.set('schools', schoolInfos)
         }
@@ -38,9 +38,7 @@ All Commands:
       break
     }
     case 'sign': {
-      // get cookie
-      // load plugin
-      // close cea
+      await handleCookie()
       break
     }
     case 'load': {

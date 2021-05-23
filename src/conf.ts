@@ -122,9 +122,9 @@ export async function getSchoolInfos(
       loginStartEndpoint: `${origin}/iap/login?service=${encodeURIComponent(
         `${origin}/portal/login`
       )}`,
-      swms: new URL(casOrigin),
+      swms: casOrigin,
       chineseName: data.name,
-      campusphere: new URL(origin),
+      campusphere: origin,
       isIap: data.joinType !== 'NOTCLOUD',
     }
 

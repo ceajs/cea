@@ -20,7 +20,10 @@ import { Response } from 'node-fetch'
  * @param {object} user user info for login
  * @return {map} cookie for cas and campusphere
  */
-export async function login(school: SchoolConfOpts, user: UserConfOpts) {
+export default async function login(
+  school: SchoolConfOpts,
+  user: UserConfOpts
+) {
   // improve school campatibility with defaults and edge-cases
   const schoolEdgeCases: DefaultProps = getEdgeCases(
     school.chineseName as EdgeCasesSchools,
@@ -76,9 +79,7 @@ export async function login(school: SchoolConfOpts, user: UserConfOpts) {
     headers.Referer = res.headers.get('location')!
     const ltWrapper = new URL(headers.Referer).search
     if (Object.keys(hiddenInputNameValueMap).length === 0) {
-      res = await fetch.get(
-        `${school.swms.origin}${schoolEdgeCases.lt}${ltWrapper}`
-      )
+      res = await fetch.get(`${school.swms}${schoolEdgeCases.lt}${ltWrapper}`)
       const { result } = await res.json()
       Object.defineProperties(hiddenInputNameValueMap, {
         lt: { value: result._lt, enumerable: true },
@@ -102,13 +103,15 @@ export async function login(school: SchoolConfOpts, user: UserConfOpts) {
   })
 
   // check captcha is needed
-  const addtionalParams = `?username=${user.username}&ltId=${hiddenInputNameValueMap.lt}`
+  const addtionalParams = `?username=${user.username}&ltId=${
+    hiddenInputNameValueMap.lt || ''
+  }`
   const needCaptcha =
     hiddenInputNameValueMap.needCaptcha === undefined
       ? (
           await (
             await fetch.get(
-              `${school.swms.origin}${schoolEdgeCases.checkCaptchaPath}${addtionalParams}`,
+              `${school.swms}${schoolEdgeCases.checkCaptchaPath}${addtionalParams}`,
               { cookiePath }
             )
           ).text()
@@ -122,7 +125,7 @@ export async function login(school: SchoolConfOpts, user: UserConfOpts) {
     })
     const captcha = (
       await ocr(
-        `${school.swms.origin}${schoolEdgeCases.getCaptchaPath}${addtionalParams}`
+        `${school.swms}${schoolEdgeCases.getCaptchaPath}${addtionalParams}`
       )
     ).replace(/\s/g, '')
 
