@@ -1,3 +1,3 @@
-export type AnyObject = {
+export type StringKV = {
   [key: string]: string
 }

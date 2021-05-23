@@ -2,13 +2,13 @@ import fetch from 'node-fetch'
 import { CookieMap, FetchCookieOptions } from '../../types/cookie'
 import { cookieParse, cookieStr } from './cookie-helper'
 import { Response } from 'node-fetch'
-import { AnyObject } from '../../types/helper'
+import { StringKV } from '../../types/helper'
 
 export class FetchWithCookie {
-  private headers: AnyObject
+  private headers: StringKV
   private cookieMap?: CookieMap
   private redirectUrl?: string
-  constructor(headers: AnyObject) {
+  constructor(headers: StringKV) {
     this.headers = headers
     this.cookieMap = undefined
     this.redirectUrl = undefined
@@ -67,7 +67,7 @@ export class FetchWithCookie {
   }
 
   getCookieObj() {
-    let obj: AnyObject = {}
+    let obj: StringKV = {}
     for (const [key, val] of this.cookieMap!.entries()) {
       const [_, feild, path] = key.match(/(.*)(::.*)/)!
       obj[`${feild.includes('campusphere') ? 'campusphere' : 'swms'}${path}`] =

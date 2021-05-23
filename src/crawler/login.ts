@@ -10,7 +10,7 @@ import {
   EdgeCasesSchools,
   DefaultProps,
 } from '../../types/conf'
-import { AnyObject } from '../../types/helper'
+import { StringKV } from '../../types/helper'
 import { FetchWithCookie } from '../utils/fetch-helper'
 import { Response } from 'node-fetch'
 
@@ -30,7 +30,7 @@ export default async function login(
     school.isIap
   )
 
-  const headers: AnyObject = {
+  const headers: StringKV = {
     'Cache-Control': 'max-age=0',
     'Accept-Encoding': 'gzip, deflate',
     'Upgrade-Insecure-Requests': '1',
@@ -51,7 +51,7 @@ export default async function login(
   res = await fetch.follow()
 
   // grab hidden input name-value, this maybe error-prone, but compatible
-  const hiddenInputNameValueMap: AnyObject = {}
+  const hiddenInputNameValueMap: StringKV = {}
   let pwdSalt
   if (schoolEdgeCases.formIdx !== undefined) {
     // create document for crawling

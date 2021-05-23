@@ -3,7 +3,7 @@ import { UsersConf, UserConfOpts, SchoolConf } from '../types/conf'
 import { parse } from '@iarna/toml'
 import { prompt } from 'enquirer'
 import { resolve } from 'path'
-import { AnyObject } from '../types/helper'
+import { StringKV } from '../types/helper'
 import { UserAction } from './constants'
 
 import fetch, { Response } from 'node-fetch'
@@ -108,7 +108,7 @@ export async function getSchoolInfos(
 
     const data = JSON.parse(
       (await res.text().catch((err) => log.error(err))) as string
-    ).data[0] as AnyObject
+    ).data[0] as StringKV
 
     let origin = new URL(data.ampUrl).origin
     const casOrigin = data.idsUrl
