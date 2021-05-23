@@ -1,49 +1,27 @@
-import { UsersConf, UserConfOpts } from './types/conf'
-import { UserAction } from './constants'
+import { UsersConf, UserConfOpts, SchoolConf } from './types/conf'
 
 import { parse } from '@iarna/toml'
 import { prompt } from 'enquirer'
 import { resolve } from 'path'
+import { AnyObject } from './types/helper'
+import { UserAction } from './constants'
+
+import fetch, { Response } from 'node-fetch'
+import log from './utils/logger'
 import fs from 'fs'
 
 export function loadConfFromToml(): UsersConf | null {
   const path = resolve('./conf.toml')
   if (fs.existsSync(path)) {
-    const usersConf = parse(fs.readFileSync(path, 'utf8')) as UsersConf
+    const usersConf = parse(fs.readFileSync(path, 'utf8'))!.users as UsersConf
     return usersConf
   }
   return null
 }
 
-export function loadConfFromEnv({
-  users,
-}: {
-  users: string
-}): UsersConf | null {
-  if (users) {
-    const loadedUsers = users.split('\n').map((user) => {
-      let addr: string | Array<string> = user.split('home ')[1]
-      addr = addr ? addr.split(' ') : ['']
-
-      const [school, username, password, alias] = user.split(' ')
-      const userConfOpts: UserConfOpts = {
-        school,
-        username,
-        password,
-        alias,
-        addr,
-      }
-      return userConfOpts
-    })
-    return { users: loadedUsers }
-  } else {
-    return null
-  }
-}
-
 export async function promptToGetConf(): Promise<UsersConf | null> {
   const toml = loadConfFromToml()
-  const loadedUsers = toml ? toml.users : []
+  const loadedUsers = toml ? toml : []
 
   const actionNaire = {
     type: 'list',
@@ -85,7 +63,7 @@ export async function promptToGetConf(): Promise<UsersConf | null> {
           {
             name: 'school',
             message:
-              '学校的英文简称（推荐，仅部分学校支持使用简称）\n请参阅 https://github.com/beetcb/cea/blob/master/docs/abbrList.sh 自行判断\n或中文全称（备用选项，所有学校均支持）:',
+              '学校的英文简称（推荐，仅部分学校支持使用简称）\n其它学校请参阅 https://github.com/beetcb/cea/blob/master/docs/abbrList.sh 寻找简称',
             initial: 'whu',
           },
           {
@@ -97,7 +75,7 @@ export async function promptToGetConf(): Promise<UsersConf | null> {
         ],
       }
       const { addUser } = (await prompt([form])) as { addUser: UserConfOpts }
-      return { users: [...loadedUsers, addUser] }
+      return [...loadedUsers, addUser]
     }
     case UserAction.DELETE: {
       const deleteUserNaire = {
@@ -107,12 +85,50 @@ export async function promptToGetConf(): Promise<UsersConf | null> {
         choices: loadedUsers.map((e) => e.alias),
       }
       const res = (await prompt([deleteUserNaire])) as { deleteUser: string }
-      return {
-        users: [...loadedUsers.filter((val) => val.alias !== res.deleteUser)],
-      }
+      return [...loadedUsers.filter((val) => val.alias !== res.deleteUser)]
     }
     case UserAction.CANCEL: {
       return null
     }
   }
+}
+
+export async function getSchoolInfos(
+  users: UsersConf
+): Promise<SchoolConf | null> {
+  let res: Response,
+    schoolInfos = {} as SchoolConf
+  const schoolNamesSet = new Set(...users.map((e) => e.school))
+  for (const abbreviation in schoolNamesSet) {
+    res = (await fetch(
+      `https://mobile.campushoy.com/v6/config/guest/tenant/info?ids=${abbreviation}`
+    ).catch((err) => log.error(err))) as Response
+
+    const data = JSON.parse(
+      (await res.text().catch((err) => log.error(err))) as string
+    ).data[0] as AnyObject
+
+    let origin = new URL(data.ampUrl).origin
+    const casOrigin = data.idsUrl
+
+    // fall back to ampUrl2 when campusphere not included in the `origin`
+    if (!origin.includes('campusphere')) {
+      origin = new URL(data.ampUrl2).origin
+    }
+
+    schoolInfos[abbreviation] = {
+      loginStartEndpoint: `${origin}/iap/login?service=${encodeURIComponent(
+        `${origin}/portal/login`
+      )}`,
+      swms: new URL(casOrigin),
+      chineseName: data.name,
+      campusphere: new URL(origin),
+      isIap: data.joinType !== 'NOTCLOUD',
+    }
+
+    log.success({ message: `你的学校 ${data.name} 已完成设定` })
+    return schoolInfos
+  }
+  log.error('未配置学校信息')
+  return null
 }

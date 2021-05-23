@@ -1,23 +1,24 @@
 import fetch from 'node-fetch'
 import { CookieMap, FetchCookieOptions } from '../types/cookie'
 import { cookieParse, cookieStr } from './cookie-helper'
-import { Headers, Response } from 'node-fetch'
+import { Response } from 'node-fetch'
+import { AnyObject } from '../types/helper'
 
 export class FetchWithCookie {
-  private headers: { [key: string]: any }
+  private headers: AnyObject
   private cookieMap?: CookieMap
   private redirectUrl?: string
-  constructor(headers: Headers) {
+  constructor(headers: AnyObject) {
     this.headers = headers
     this.cookieMap = undefined
     this.redirectUrl = undefined
   }
 
-  async get(url: string, options = {}) {
+  async get(url: string, options = {}): Promise<Response> {
     return await this.fetch(url, options)
   }
 
-  async post(url: string, options: FetchCookieOptions) {
+  async post(url: string, options: FetchCookieOptions): Promise<Response> {
     options.isPost = true
     return await this.fetch(url, options)
   }
@@ -26,10 +27,10 @@ export class FetchWithCookie {
    * keep requesting last request url
    * @param {} options
    */
-  async follow(options: FetchCookieOptions) {
+  async follow(options?: FetchCookieOptions): Promise<Response> {
     return new Promise((resolve, reject) =>
       this.redirectUrl
-        ? resolve(this.fetch(this.redirectUrl, options))
+        ? resolve(this.fetch(this.redirectUrl, options || {}))
         : reject({ status: 555 })
     )
   }
@@ -43,7 +44,7 @@ export class FetchWithCookie {
     headers.referer = origin
     headers.host = host
     headers.cookie = this.cookieMap
-      ? cookieStr(host, cookiePath!, this.cookieMap)
+      ? cookieStr(host, cookiePath!, this.cookieMap)!
       : ''
 
     headers['Content-Type'] =
@@ -66,7 +67,7 @@ export class FetchWithCookie {
   }
 
   getCookieObj() {
-    let obj: { [key: string]: string } = {}
+    let obj: AnyObject = {}
     for (const [key, val] of this.cookieMap!.entries()) {
       const [_, feild, path] = key.match(/(.*)(::.*)/)!
       obj[`${feild.includes('campusphere') ? 'campusphere' : 'swms'}${path}`] =
