@@ -1,8 +1,8 @@
 import fetch from 'node-fetch'
-import { CookieMap, FetchCookieOptions } from '../types/cookie'
+import { CookieMap, FetchCookieOptions } from '../../types/cookie'
 import { cookieParse, cookieStr } from './cookie-helper'
 import { Response } from 'node-fetch'
-import { AnyObject } from '../types/helper'
+import { AnyObject } from '../../types/helper'
 
 export class FetchWithCookie {
   private headers: AnyObject

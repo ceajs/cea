@@ -1,9 +1,9 @@
-import { UsersConf, UserConfOpts, SchoolConf } from './types/conf'
+import { UsersConf, UserConfOpts, SchoolConf } from '../types/conf'
 
 import { parse } from '@iarna/toml'
 import { prompt } from 'enquirer'
 import { resolve } from 'path'
-import { AnyObject } from './types/helper'
+import { AnyObject } from '../types/helper'
 import { UserAction } from './constants'
 
 import fetch, { Response } from 'node-fetch'
@@ -19,12 +19,13 @@ export function loadConfFromToml(): UsersConf | null {
   return null
 }
 
-export async function promptToGetConf(): Promise<UsersConf | null> {
-  const toml = loadConfFromToml()
-  const loadedUsers = toml ? toml : []
+export async function promptToGetConf(
+  users: Array<UserConfOpts>
+): Promise<UsersConf | null> {
+  const loadedUsers = users ? users : []
 
   const actionNaire = {
-    type: 'list',
+    type: 'select',
     name: 'actionType',
     message: `用户编辑(已有用户：${loadedUsers.reduce((s, e) => {
       const userInfo = e.alias
@@ -33,12 +34,15 @@ export async function promptToGetConf(): Promise<UsersConf | null> {
     choices: [
       {
         name: UserAction.CREATE,
+        value: UserAction.CREATE,
       },
       {
         name: UserAction.DELETE,
+        value: UserAction.DELETE,
       },
       {
         name: UserAction.CANCEL,
+        value: UserAction.CANCEL,
       },
     ],
   }
@@ -51,25 +55,23 @@ export async function promptToGetConf(): Promise<UsersConf | null> {
       const form = {
         type: 'form',
         name: 'addUser',
-        message: 'Please provide the following information:',
+        message: '请填写如下信息：',
         choices: [
-          { name: 'username', message: '请输入用户名', initial: '1913030099' },
-          { name: 'password', message: '请输入密码', initial: '081312' },
+          { name: 'username', message: '用户名', initial: '1913030099' },
+          { name: 'password', message: '密码', initial: '081312' },
           {
             name: 'alias',
-            message: '请输入用户别名',
+            message: '用户别名',
             initial: 'foo',
           },
           {
             name: 'school',
-            message:
-              '学校的英文简称（推荐，仅部分学校支持使用简称）\n其它学校请参阅 https://github.com/beetcb/cea/blob/master/docs/abbrList.sh 寻找简称',
+            message: '学校简称',
             initial: 'whu',
           },
           {
             name: 'addr',
-            message:
-              '签到地址数组，留空使用学校地址签到，自定义签到地址：经度, 纬度, 中文地址',
+            message: '签到地址',
             initial: '',
           },
         ],
@@ -98,8 +100,8 @@ export async function getSchoolInfos(
 ): Promise<SchoolConf | null> {
   let res: Response,
     schoolInfos = {} as SchoolConf
-  const schoolNamesSet = new Set(...users.map((e) => e.school))
-  for (const abbreviation in schoolNamesSet) {
+  const schoolNamesSet = new Set(users.map((e) => e.school))
+  for (const abbreviation of schoolNamesSet) {
     res = (await fetch(
       `https://mobile.campushoy.com/v6/config/guest/tenant/info?ids=${abbreviation}`
     ).catch((err) => log.error(err))) as Response
@@ -126,9 +128,7 @@ export async function getSchoolInfos(
       isIap: data.joinType !== 'NOTCLOUD',
     }
 
-    log.success({ message: `你的学校 ${data.name} 已完成设定` })
-    return schoolInfos
+    log.success({ message: `学校 ${data.name} 已完成设定` })
   }
-  log.error('未配置学校信息')
-  return null
+  return schoolInfos
 }

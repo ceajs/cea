@@ -20,18 +20,21 @@ All Commands:
       break
     }
     case 'user': {
-      const config = await promptToGetConf()
-      if (config) {
-        const schoolInfos = getSchoolInfos(config)
+      const users = await promptToGetConf(sstore.get('users'))
+      if (users) {
+        const schoolInfos = getSchoolInfos(users)
         if (schoolInfos) {
           sstore.set('schools', schoolInfos)
         }
-        sstore.set('users', config)
+        sstore.set('users', users)
       }
       break
     }
     case 'rm': {
-      sstore.delete(argv2)
+      sstore.del(argv2)
+      if (argv2 === 'all') {
+        sstore.clear()
+      }
       break
     }
     case 'sign': {
@@ -41,14 +44,13 @@ All Commands:
       break
     }
     case 'load': {
-      const config = loadConfFromToml()
-      if (config) {
-        const schoolInfos = getSchoolInfos(config)
+      const users = loadConfFromToml()
+      if (users) {
+        const schoolInfos = await getSchoolInfos(users)
         if (schoolInfos) {
           sstore.set('schools', schoolInfos)
         }
-        sstore.set('users', config)
-        sstore.set('config', config)
+        sstore.set('users', users)
       }
     }
   }
