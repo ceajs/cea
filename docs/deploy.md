@@ -2,9 +2,7 @@
 
 1. GitHub Actions：部署过程最简单（但少部分学校域名禁止海外 IP 访问，可能需要代理登录服务器），**向前兼容**，不必担心今日校园更新导致签到失效
 
-2. 云开发：签到最快，但需要实名认证; **无法向前兼容，需手动更新**，参考 [#27](https://github.com/beetcb/cea/issues/27) 
-
-3. Coding：部署和签到速度相对较快，过程相对繁琐，**向前兼容**
+2. 云开发：签到最快，但需要实名认证; **无法向前兼容，需手动更新**，参考 [#27](https://github.com/beetcb/cea/issues/27)
 
 <details><summary>Github Actions 部署</summary>
 
@@ -86,53 +84,3 @@
    ```
 
       </details>
-
-   <details><summary>Coding 持续集成</summary>
-
-   通过 Coding 的持续集成来部署签到程序，教程如下：
-
-   1. [注册 Coding](https://e.coding.net/register)
-   2. 单击创建项目按钮 ⇢ 选择代码托管项目 ⇢ 直接单击完成创建(取消邀请成员加入项目) ⇢ 右上角单击新建代码仓库
-
-   ![new repo](https://imgur.com/30kP4ri.png)
-
-   只需填入仓库 URL：`https://github.com/beetcb/cea.git`，完成创建
-
-   ![repo url](https://imgur.com/UFGbT7w.png)
-
-   3. 左栏持续集成下单击构建计划 ⇢ 右上角单击创建构建计划，页面下滑到底选择`自定义构建过程`
-
-   ![do not use template](https://i.imgur.com/WpcxrKv.png)
-
-   ⇢ 直接下滑到底勾选`使用代码库中的 Jenkinsfile`并单击确定按钮 ⇢ 变量与缓存 ⇢ 批量添加字符串类型环境变量
-
-   ![add mutli envs](https://i.imgur.com/XONsxye.png)
-
-   4. 在弹出的输入框内配置签到信息：
-
-   ```text
-   users: 123 321 beet home\n456 654 someone
-   school: whpu
-   ```
-
-   ![env config](https://i.imgur.com/dr6CAPl.jpg)
-
-   这会配置两个签到用户(同一个学校)，对这两项参数的详细描述为：
-
-   > **users 的值默认都以一个空格分隔，多用户使用 显示换行(`\n`) 分割**
-
-   > **school 的值可为英文简称，可为中文全称**
-
-   - `users`: e.g. `123 321 beet`(请在以下三种配置方式中选择一种)
-     - `用户名 密码 名称` 用学校地址签到
-     - `用户名 密码 名称 home` 在家用随机地址签到
-     - `用户名 密码 名称 home 经度 纬度 中文地址` 在家用自定义的经纬度和地址签到，请使用[此工具](https://api.map.baidu.com/lbsapi/getpoint/index.html)生成经纬度
-   - `school`: e.g. `whpu` 学校的英文简称（推荐，部分学校支持，请查阅[支持英文简称的学校列表](https://github.com/beetcb/cea/blob/master/docs/abbrList.sh)自行判断）或中文全称（备用选项，所有学校都支持）
-
-   5. ~~此操作会自动在每天 6:00 触发~~ Coding 目前不支持自动配置触发，你需要手动设置触发机制：单击触发机制，下滑添加定时触发，按照 Coding 的逻辑，你需要设置三次触发，分别是 6:00 ，当然你也可以自定义，图例如下
-
-   ![tigger](https://i.imgur.com/xYHsISg.png)
-
-   6. 配置成功后，请手动触发一次来测试配置的正确性
-
-  </details>
