@@ -20,7 +20,7 @@ async function downloadTessdata() {
   )
 }
 
-async function download(url: string, filename: string): string {
+async function download(url: string, filename: string): Promise<string> {
   const stream = fs.createWriteStream(filename)
   const res = await fetch(url)
   const result = await new Promise((resolve, reject) => {
