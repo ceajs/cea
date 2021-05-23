@@ -7,7 +7,7 @@
   "files": [
     "dist/"
   ],
-  "types": "lib/types/",
+  "types": "lib/src/index.d.ts",
   "scripts": {
     "prebuild": "rm -rf lib/",
     "build": "tsc --build"
@@ -41,8 +41,7 @@
     "enquirer": "^2.3.6",
     "node-fetch": "^2.6.1",
     "signale": "^1.4.0",
-    "tesseract.js": "^2.1.4",
-    "uuid": "^8.3.2"
+    "tesseract.js": "^2.1.4"
   },
   "devDependencies": {
     "@types/node-fetch": "^2.5.10",

@@ -1,5 +1,5 @@
 {
-  "name": "check-in",
+  "name": "cea-check-in",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,5 +8,12 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.6.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/uuid": "^8.3.0"
+  }
 }

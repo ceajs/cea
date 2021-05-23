@@ -99,8 +99,10 @@ export async function getSchoolInfos(
   users: UsersConf
 ): Promise<SchoolConf | null> {
   let res: Response,
+    defaultAddr: string,
     schoolInfos = {} as SchoolConf
   const schoolNamesSet = new Set(users.map((e) => e.school))
+  const isSchoolAddrNeeded = users.find((e) => e.addr.length === 1)
   for (const abbreviation of schoolNamesSet) {
     res = (await fetch(
       `https://mobile.campushoy.com/v6/config/guest/tenant/info?ids=${abbreviation}`
@@ -118,7 +120,16 @@ export async function getSchoolInfos(
       origin = new URL(data.ampUrl2).origin
     }
 
+    res = (await fetch(
+      `https://api.map.baidu.com/?qt=s&wd=${encodeURIComponent(
+        data.name
+      )}&ak=E4805d16520de693a3fe707cdc962045&rn=10&ie=utf-8&oue=1&fromproduct=jsapi&res=api`
+    ).catch((err) => log.error(err))) as Response
+    const addrInfo = await res.json()
+    defaultAddr = addrInfo.content[0].addr
+
     schoolInfos[abbreviation] = {
+      defaultAddr,
       loginStartEndpoint: `${origin}/iap/login?service=${encodeURIComponent(
         `${origin}/portal/login`
       )}`,
