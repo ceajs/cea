@@ -2,12 +2,18 @@ import log from './utils/logger'
 import login from './crawler/login'
 import { SchoolConf, UserConfOpts } from './types/conf'
 
+// sstore 
 export const sstore = require('@beetcb/sstore')
 
+// all the type definations for plugin & cli use
 export * from './types/conf'
 export * from './types/cookie'
 export * from './types/helper'
-export * from './campusphere/api'
+
+// methods for configuration
+export * from './conf'
+
+//log utils for plugin & cli use
 export { log }
 
 export async function handleCookie() {
@@ -39,5 +45,3 @@ async function handleLogin(i: UserConfOpts, storeCookiePath: string) {
     })
   }
 }
-
-// handleCookie()

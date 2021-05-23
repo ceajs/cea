@@ -1,1 +1,0 @@
-export { CampusphereEndpoint } from '../constants'
