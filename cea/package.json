@@ -1,0 +1,19 @@
+{
+  "name": "cea",
+  "version": "0.0.1",
+  "description": "cea",
+  "main": "lib/src/index.js",
+  "types": "lib/src/index.d.ts",
+  "files": [
+    "lib/src/**/*.[tj]s"
+  ],
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cea-core": "^0.1.1",
+    "enquirer": "^2.3.6"
+  },
+  "devDependencies": {}
+}
