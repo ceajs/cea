@@ -3,9 +3,11 @@
   "version": "0.0.0",
   "description": "campusphere-elegant-auth: login to swms/campusphere at ease",
   "scripts": {
+    "build": "tsc --build",
     "bootstrap": "lerna bootstrap --hoist",
-    "pretest": "eslint packages",
-    "test": "jest"
+    "pretest": "prettier . -w --ignore-path .gitignore",
+    "test": "jest",
+    "dry": "npm pack && tar -xvzf *.tgz | ls package && rm -rf package *.tgz"
   },
   "keywords": [
     "campusphere",
@@ -28,11 +30,12 @@
     "url": "https://github.com/beetcb/cea"
   },
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
+    "@types/jest": "^26.0.23",
     "jest": "^26.6.3",
     "lerna": "^4.0.0",
     "prettier": "2.3.0",
+    "ts-node": "^10.0.0",
     "typedoc": "^0.20.36",
     "typescript": "^4.2.4"
   }

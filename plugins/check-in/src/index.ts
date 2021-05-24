@@ -1,72 +1,88 @@
-// import {
-//   CampusphereEndpoint,
-//   sstore,
-//   handleCookie,
-//   log,
-//   StringKV,
-// } from '../../../src/'
+import {
+  CampusphereEndpoint,
+  sstore,
+  handleCookie,
+  log,
+  StringKV,
+  UserConfOpts,
+  SchoolConfOpts,
+  CookieRawObject,
+  UsersConf,
+} from 'cea-core'
+import {
+  SignTask,
+  SignTaskDetail,
+  LogInfo,
+  LogInfoKeys,
+  SignForm,
+  CpdailyExtension,
+  CpdailyExtensionEncrypted,
+  GlobalLogInfo,
+} from './types'
 
-import fetch from 'node-fetch'
+import fetch, { Response } from 'node-fetch'
 import crypto from 'crypto'
 import { v1 } from 'uuid'
-/*
-exports.signApp = class Checkin {
+
+export class CheckIn {
   private headers: StringKV
-  constructor(school, user) {
+  private user: UserConfOpts
+  private school: SchoolConfOpts
+  constructor(user: UserConfOpts) {
+    const school = sstore.get('schools')[user.school]
+    this.school = school
+    this.user = user
     this.headers = {
       'user-agent':
         'Mozilla/5.0 (Linux; Android 10; GM1910 Build/QKQ1.190716.003; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.101 Mobile Safari/537.36  cpdaily/8.2.13 wisedu/8.2.13',
       'content-type': 'application/json',
     }
-    this.addr = school.addr
-    this.id = user.username
-    // temporary store user info to reuse it, fix circular ref
-    process.env[user.username] = user
   }
-  async signInfo(cookie) {
-    const user = process.env[this.id]
+
+  async signInfo(): Promise<SignTask | void> {
+    await handleCookie()
+    const { user, school } = this
+    const storeCookiePath = `cookie.${user.alias}`
+    const cookie = sstore.get(storeCookiePath)
     if (!cookie) {
-      return true
+      log.error({
+        message: '登录需要验证码，正在用 OCR 识别',
+        suffix: `@${user.alias}`,
+      })
+      return
     }
     this.headers.cookie = cookie['campusphere::/']
-    const { signApi, headers } = this
+    const res = await fetch(
+      `${school.campusphere}${CampusphereEndpoint.getStuSignInfosInOneDay}`,
+      {
+        method: 'POST',
+        headers: this.headers,
+        body: JSON.stringify({}),
+      }
+    )
 
-    const res = await fetch(signApi.list, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({}),
-    })
-    // TODO: handle the responsed updated cookie
-    if (!res.headers.get('content-type').includes('application/json')) {
-      return true
-    }
     const signQ = await res.json()
     const isValidCookie = signQ.message === 'SUCCESS'
     if (isValidCookie) {
       const data = signQ.datas
-      this.curTask = data.unSignedTasks[0] || data.leaveTasks[0]
-      return false
+      return data.unSignedTasks[0] || data.leaveTasks[0]
     }
-    return true
   }
 
-  async signWithForm() {
-    if (!this.curTask) {
-      this.result = { 签到结果: '今日签到任务已完成或COOKIE无效，取消签到' }
-      return
-    }
-    const { signApi, headers } = this
-    const {
-      curTask: { signInstanceWid, signWid },
-    } = this
+  async signWithForm(curTask: SignTask): Promise<LogInfo> {
+    const { school, headers, user } = this
+    const { signInstanceWid, signWid } = curTask
 
-    let res = await fetch(signApi.detail, {
-      headers,
-      method: 'POST',
-      body: JSON.stringify({ signInstanceWid, signWid }),
-    })
+    let res = await fetch(
+      `${school.campusphere}${CampusphereEndpoint.detailSignInstance}`,
+      {
+        headers,
+        method: 'POST',
+        body: JSON.stringify({ signInstanceWid, signWid }),
+      }
+    )
+    const signDetails: SignTaskDetail = (await res.json()).data
 
-    const signDetails = await res.json()
     let {
       extraField,
       longitude,
@@ -74,17 +90,19 @@ exports.signApp = class Checkin {
       signPlaceSelected,
       isNeedExtra,
       signedStuInfo,
-    } = signDetails.datas
+    } = signDetails
 
-    const placeList = signPlaceSelected
-    const isSignAtHome = process.env[this.id].addr
-    ;[longitude, latitude] = isSignAtHome
-      ? this.signAtHomePos()
-      : this.locale(placeList[0])
+    let position: string
+
+    const placeList = signPlaceSelected[0]
+    const isSignAtHome = Boolean(school.defaultAddr)
+    ;[longitude, latitude, position] = isSignAtHome
+      ? this.user.addr
+      : [placeList.longitude, placeList.latitude, school.defaultAddr]
 
     const extraFieldItems = this.fillExtra(extraField)
 
-    const form = {
+    const form: SignForm = {
       signInstanceWid,
       longitude,
       latitude,
@@ -93,104 +111,71 @@ exports.signApp = class Checkin {
       isMalposition: isSignAtHome ? 1 : 0,
       abnormalReason: '',
       signPhotoUrl: '',
-      position: this.addr,
+      position,
       uaIsCpadaily: true,
       signVersion: '1.0.0',
     }
 
     headers['Cpdaily-Extension'] = this.extention(form)
-    res = await fetch(signApi.sign, {
-      headers,
-      method: 'POST',
-      body: JSON.stringify(form),
-    })
-    res = await res.json()
+    res = await fetch(
+      `${school.campusphere}${CampusphereEndpoint.submitSign}`,
+      {
+        headers,
+        method: 'POST',
+        body: JSON.stringify(form),
+      }
+    )
+    const result = await res.json()
 
-    const logInfo = {
-      签到结果: res.message,
-      签到地址: form.position,
-      真实信息: signedStuInfo.userName,
+    const logInfo: LogInfo = {
+      [LogInfoKeys.result]: result.message,
+      [LogInfoKeys.addr]: form.position,
+      [LogInfoKeys.name]: signedStuInfo.userName,
     }
 
     // Hide sensitive info on github actions, cause it's public by default
     if (process.env.GITHUB_ACTION) {
-      delete logInfo['签到地址']
-      delete logInfo['真实信息']
+      delete logInfo[LogInfoKeys.addr]
+      delete logInfo[LogInfoKeys.name]
     }
 
     // store result
-    this.result = logInfo
-  }
-
-  // TODO: decouple this.addr form signAtHomePos
-  signAtHomePos() {
-    const user = process.env[this.id]
-
-    // Hard coded position info
-    // Randomly generated from http://api.map.baidu.com/lbsapi
-    const userAddr = user.addr
-    const noRandom = userAddr instanceof Array
-    const posGenFromCitys = noRandom
-      ? [userAddr]
-      : [
-          ['116.622631', '40.204822', '北京市顺义区X012'],
-          ['115.825701', '32.914915', '安徽省阜阳市颍泉区胜利北路79'],
-          ['119.292590', '26.164789', '福建省福州市晋安区'],
-          ['103.836093', '36.068012', '甘肃省兰州市城关区南滨河东路709'],
-          ['108.360128', '22.883516', '广西壮族自治区南宁市兴宁区'],
-          ['113.391549', '22.590350', '广东省中山市兴港中路172号'],
-          ['111.292396', '30.718343', '湖北省宜昌市西陵区珍珠路32号'],
-          ['118.793117', '32.074771', '江苏省南京市玄武区昆仑路8号'],
-        ]
-    const genNum = Math.floor(Math.random() * posGenFromCitys.length)
-    this.addr = posGenFromCitys[genNum][2]
-    return this.locale({
-      longitude: posGenFromCitys[genNum][0] + '',
-      latitude: posGenFromCitys[genNum][1] + '',
-    })
-  }
-
-  // construct coordinates & format coordinates length
-  locale({ longitude, latitude }) {
-    return [longitude.slice(0, 10), latitude.slice(0, 9)].map((e) => {
-      if (e[e.length - 1] === '0') {
-        e = e.replace(/\d{1}$/, '1')
-      }
-      return Number(e)
-    })
+    return logInfo
   }
 
   // select right item with content&wid
-  fillExtra(extraField) {
+  private fillExtra(
+    extraField: SignTaskDetail['extraField']
+  ): SignForm['extraFieldItems'] {
     return extraField.map((e) => {
-      let chosenWid
+      let chosenWid: string
       const normal = e.extraFieldItems.filter((i) => {
         if (i.isAbnormal === false) chosenWid = i.wid
         return !i.isAbnormal
       })[0]
       return {
-        extraFieldItemWid: chosenWid,
+        extraFieldItemWid: chosenWid!,
         extraFieldItemValue: normal.content,
       }
     })
   }
 
   // construct and encrypte Cpdaily_Extension for header
-  extention(form) {
-    const Cpdaily_Extension = {
-      lon: form.longitude.toString(),
+  private extention(form: SignForm) {
+    const Cpdaily_Extension: CpdailyExtension = {
+      lon: form.longitude,
       model: 'Cock',
       appVersion: '8.2.14',
       systemVersion: '4.4.4',
-      userId: process.env[this.id].username,
+      userId: this.user.username,
       systemName: 'android',
-      lat: form.latitude.toString(),
+      lat: form.latitude,
       deviceId: v1(),
     }
     return this.encrypt(Cpdaily_Extension)
   }
 
-  encrypt(ce) {
+  private encrypt(ce: CpdailyExtension): CpdailyExtensionEncrypted {
     const algorithm = 'des-cbc'
     const key = 'b3L26XNL'
     const iv = Buffer.from([1, 2, 3, 4, 5, 6, 7, 8]) // Initialization vector.
@@ -202,7 +187,7 @@ exports.signApp = class Checkin {
     return encrypted
   }
 
-  decrypt() {
+  private decrypt() {
     const algorithm = 'des-cbc'
     const key = 'b3L26XNL'
     const iv = Buffer.from([1, 2, 3, 4, 5, 6, 7, 8]) // Initialization vector.
@@ -214,4 +199,27 @@ exports.signApp = class Checkin {
   }
 }
 
-*/
+export async function checkIn() {
+  // Log in and save cookie to cea, using cea.get('cookie') to get them (this function resolve with an users array)
+  const users = sstore.get('users')
+  // Sign in
+  const logs = await signIn(users)
+  // Log out sign in result
+  console.table(logs)
+}
+checkIn()
+async function signIn(users: UsersConf): Promise<GlobalLogInfo> {
+  const logs: GlobalLogInfo = {}
+  // sign in asynchronizedly with promise all and diff instance of signApp class
+  await Promise.all(
+    users.map(async (i) => {
+      const instance: CheckIn = new CheckIn(i)
+      const curTask = await instance.signInfo()
+      if (curTask) {
+        const result = await instance.signWithForm(curTask)
+        logs[i.alias] = result
+      }
+    })
+  )
+  return logs
+}

@@ -5,9 +5,10 @@
     "moduleResolution": "node",
     "strict": true,
     "composite": true,
+    "sourceMap": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "removeComments": true,
     "forceConsistentCasingInFileNames": true
-  }
+  },
 }

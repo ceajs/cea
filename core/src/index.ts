@@ -2,7 +2,7 @@ import log from './utils/logger'
 import login from './crawler/login'
 import { SchoolConf, UserConfOpts } from './types/conf'
 
-// sstore 
+// sstore
 export const sstore = require('@beetcb/sstore')
 
 // all the type definations for plugin & cli use

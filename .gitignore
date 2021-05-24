@@ -6,3 +6,5 @@ package-lock.json
 /conf.toml
 lib/
 *tsbuild*
+*.log
+*.map
