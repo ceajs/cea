@@ -2,11 +2,7 @@
 node_modules/
 dist/
 .cache/
-package-lock.json
 /conf.toml
 lib/
 *tsbuild*
-*.log
-*.map
 __test__/*.js*
-*.d.ts

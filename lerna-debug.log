@@ -1,12 +1,11 @@
-0 silly argv {
-0 silly argv   _: [ 'add' ],
-0 silly argv   globs: [ 'cea-core' ],
-0 silly argv   lernaVersion: '4.0.0',
-0 silly argv   '$0': 'lerna',
-0 silly argv   pkg: 'check-in'
-0 silly argv }
-1 notice cli v4.0.0
-2 verbose rootPath /home/beet/repo/cea
-3 info versioning independent
-4 error HttpErrorGeneral: 404 Not Found - GET https://registry.npmjs.org/check-in - Not found
-4 error     at /usr/local/lib/node_modules/lerna/node_modules/pacote/node_modules/npm-registry-fetch/check-response.js:134:15
+31 error Error: Command failed with exit code 1: git add -- core/package.json core/package-lock.json plugins/check-in/package.json plugins/check-in/package-lock.json
+31 error The following paths are ignored by one of your .gitignore files:
+31 error core/package-lock.json
+31 error plugins/check-in/package-lock.json
+31 error hint: Use -f if you really want to add them.
+31 error hint: Turn this message off by running
+31 error hint: "git config advice.addIgnoredFile false"
+31 error     at makeError (/home/beet/repo/cea/node_modules/@lerna/child-process/node_modules/execa/lib/error.js:59:11)
+31 error     at handlePromise (/home/beet/repo/cea/node_modules/@lerna/child-process/node_modules/execa/index.js:114:26)
+31 error     at processTicksAndRejections (node:internal/process/task_queues:96:5)
+31 error     at async Promise.all (index 0)
