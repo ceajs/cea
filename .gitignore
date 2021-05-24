@@ -8,3 +8,5 @@ lib/
 *tsbuild*
 *.log
 *.map
+__test__/*.js*
+*.d.ts
