@@ -2,15 +2,10 @@
   "name": "cea",
   "version": "0.0.0",
   "description": "campusphere-elegant-auth: login to swms/campusphere at ease",
-  "bin": "src/cli.js",
-  "files": [
-    "lib/src/"
-  ],
   "scripts": {
-    "prebuild": "find . -type d -name lib ! -path  '*node_modules*' -exec rm -rf {} +",
-    "build": "tsc --build",
-    "dry": "npm pack && tar -xvzf *.tgz | ls package && rm -rf package *.tgz",
-    "publish": "npm run build && npm publish --access public"
+    "bootstrap": "lerna bootstrap --hoist",
+    "pretest": "eslint packages",
+    "test": "jest"
   },
   "keywords": [
     "campusphere",
@@ -30,23 +25,13 @@
   "author": {
     "name": "beetcb",
     "email": "i@beetcb.com",
-    "url": "github.com/beetcb"
+    "url": "https://github.com/beetcb/cea"
   },
   "license": "MIT",
-  "dependencies": {
-    "@beetcb/sstore": "^0.1.0",
-    "@iarna/toml": "^2.2.5",
-    "@types/node-fetch": "^2.5.10",
-    "@types/signale": "^1.4.1",
-    "chalk": "^4.1.0",
-    "cheerio": "^1.0.0-rc.5",
-    "enquirer": "^2.3.6",
-    "node-fetch": "^2.6.1",
-    "signale": "^1.4.0",
-    "tesseract.js": "^2.1.4"
-  },
+  "dependencies": {},
   "devDependencies": {
     "jest": "^26.6.3",
+    "lerna": "^4.0.0",
     "prettier": "2.3.0",
     "typedoc": "^0.20.36",
     "typescript": "^4.2.4"

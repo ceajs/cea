@@ -1,0 +1,4 @@
+{
+  "packages": ["core", "src", "plugins/*"],
+  "version": "independent"
+}
