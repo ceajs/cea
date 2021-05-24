@@ -1,7 +1,7 @@
 export type CookieMap = Map<string, Array<[string, string]>>
 
 export type CookieRawObject = {
-  [key in `${'campusphere::' | 'swms::'}${string}`]: string
+  [key in `campusphere::/${string}` | `swms::/${string}`]: string
 }
 
 export interface FetchCookieOptions {

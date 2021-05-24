@@ -207,7 +207,7 @@ export async function checkIn() {
   // Log out sign in result
   console.table(logs)
 }
-checkIn()
+
 async function signIn(users: UsersConf): Promise<GlobalLogInfo> {
   const logs: GlobalLogInfo = {}
   // sign in asynchronizedly with promise all and diff instance of signApp class
