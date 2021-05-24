@@ -7,7 +7,7 @@
     "bootstrap": "lerna bootstrap --hoist",
     "pretest": "prettier . -w --ignore-path .gitignore",
     "test": "jest",
-    "dry": "npm pack && tar -xvzf *.tgz | ls package && rm -rf package *.tgz"
+    "dry": "npm pack && tar -xvzf *.tgz | tree && rm -rf package *.tgz"
   },
   "keywords": [
     "campusphere",
