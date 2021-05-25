@@ -12,6 +12,10 @@ export function loadConfFromToml(): UsersConf | null {
   const path = resolve('./conf.toml')
   if (fs.existsSync(path)) {
     const usersConf = parse(fs.readFileSync(path, 'utf8'))!.users as UsersConf
+    log.success({
+      message: '成功加载用户',
+      suffix: `${usersConf.map((u) => `@${u.alias}`).join(' ')}`,
+    })
     return usersConf
   }
   return null

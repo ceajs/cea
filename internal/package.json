@@ -12,8 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cea-check-in": "^0.0.1",
     "cea-core": "^0.1.1",
     "enquirer": "^2.3.6"
-  },
-  "devDependencies": {}
+  }
 }

@@ -6,6 +6,7 @@
     },
     {
       "path": "./core/"
-    }
+    },
+    { "path": "./internal" }
   ]
 }
