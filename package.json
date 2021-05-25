@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "campusphere-elegant-auth: login to swms/campusphere at ease",
   "scripts": {
-    "prebuild": "prettier . -w --ignore-path .gitignore",
+    "prebuild": "prettier . -w --ignore-path .gitignore && node build-docs.js",
     "build": "tsc --build",
     "bootstrap": "lerna bootstrap --hoist",
     "test": "jest",
@@ -37,6 +37,8 @@
     "prettier": "2.3.0",
     "ts-node": "^10.0.0",
     "typedoc": "^0.20.36",
+    "typedoc-github-wiki-theme": "^0.3.0",
+    "typedoc-plugin-markdown": "^3.8.1",
     "typescript": "^4.2.4"
   }
 }
