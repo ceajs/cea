@@ -31,7 +31,7 @@
 
 请确保 Node.js 和 NPM 包管理器在你的操作环境中正确安装
 
-### Compatibility
+### 兼容性说明
 
 统一身份认证地址包含 `iap`（表示已接入今日校园） 字段的实现是统一的，应该没有兼容性问题
 
@@ -43,8 +43,9 @@
 const schoolEdgeCases = {
 +  学校中文全称: {
 +    formIdx: 2, // 默认账号密码登录表单的索引，你需要手动查看 HTML 结构来确定
-+    checkCaptchaPath: '/getCaptcha.html', // 检测是否需要验证码的路径
-+    getCaptchaPath: '/checkNeedCaptcha.html', // 获取验证码的路径
++    checkCaptchaPath: '/getCaptcha.htl', // 检测是否需要验证码的路径
++    getCaptchaPath: '/checkNeedCaptcha.htl', // 获取验证码的路径
++    cookiePath: '/authserver', // Cookie 路径
 +    pwdEncrypt: true, // 密码是否加密，默认 true
 +    rememberMe: true, // [这一项不会影响登录结果]勾选*天免登录后的值，有些学校可能是不同的字符，默认为 true，你需要手动查看登录请求来确定
 +  },
@@ -53,121 +54,88 @@ const schoolEdgeCases = {
 
 若你不熟悉 Node.js，遇到登录问题，请附带日志提交 [Issue](https://github.com/beetcb/cea/issues/new/choose)
 
-## Get started
+## 开始使用
 
-1. 安装此项目
+### 作为命令行使用
 
-```sh
-# 使用命令行操作
-npm i -g cea
-# 使用脚本操作
-npm i cea
-```
+1. 安装
 
-2. 初始化学校及用户
+   ```bash
+   npm i -g cea
+   ```
 
-- 用户配置:
+2. 配置用户
 
-  交互式配置用户：
+   ```bash
+   # 使用交互式命令行配置
+   cea user
+   # 使用配置文件 ./conf.toml 加载用户
+   cea load
+   ```
 
-  ```sh
-  cea user
-  ```
+   配置文件语法示例：
 
-- 学校配置:
+   ```toml
+   # 学校的英文简称（推荐，部分学校支持，请查阅[支持英文简称的学校列表](https://github.com/beetcb/cea/blob/master/docs/abbrList.sh)自行判断）或中文全称（备用选项，所有学校都支持）
+   school = "whpu"
 
-  ```sh
-  cea school
-  ```
+   # 使用学校地址签到
+   [[users]]
+   username = "用户名"
+   password = "密码"
+   alias = "简称一"
+   addr = ""
 
-- (可选)使用文件配置用户: 根目录下创建 `conf.toml`, 参考以下示例:
+   # 使用自定义地址在家签到
+   [[users]]
+   username = "用户名"
+   password = "密码"
+   alias = "简称二"
+   addr = ["经度", "纬度", "实际地址"]
+   ```
 
-  ```toml
-  # 文件修改完后仍需执行 `cea load` 加载这些用户，根据提示确保用户已成功加载
-
-  # 学校的英文简称（推荐，部分学校支持，请查阅[支持英文简称的学校列表](https://github.com/beetcb/cea/blob/master/docs/abbrList.sh)自行判断）或中文全称（备用选项，所有学校都支持）
-  school = "whpu"
-
-  # 使用学校地址签到
-  [[users]]
-  username = "用户名"
-  password = "密码"
-  alias = "简称一"
-  addr = ""
-
-  # 使用随机地址在家签到
-  [[users]]
-  username = "用户名"
-  password = "密码"
-  alias = "简称二"
-  addr = "home"
-
-  # 使用自定义地址在家签到
-  [[users]]
-  username = "用户名"
-  password = "密码"
-  alias = "简称三"
-  addr = ["经度", "纬度", "实际地址"]
-  ```
-
-2. 工具使用:
-   本项目提供 **今日校园自动签到** 示例：执行主程序可自动签到：
+3. 执行签到
 
    ```bash
    cea sign
    ```
 
-3. 扩展:
+4. 查看 cea 的其它能力
 
-   若使用 cea 作为二次开发使用，请配置好学校和用户，然后在你的项目中导入 cea，参考自动签到示例：
-
-   ```js
-   const cea = require('@beetcb/cea')
-
-   ;(async () => {
-     // Log in and save cookie to cea, using cea.get('cookie') to get them (this function resolve an users array with cookie and sign in methods)
-     const usersWithTask = await cea.handleCookie()
-     // Sign in
-     const logs = await signIn(usersWithTask)
-     // Print prettier logs info
-     console.table(logs)
-   })()
-
-   async function signIn(usersWithTask) {
-     const logs = {}
-     // sign in asynchronizedly with promise all and diff instance of signApp class
-     await Promise.all(
-       usersWithTask.map(async (i) => {
-         await i.sign.signWithForm()
-         logs[i.alias || i.id] = i.sign.result
-       })
-     )
-     // store cookie using sstore module
-     cea.close()
-     return logs
-   }
+   ```bash
+   cea -h
    ```
 
-   使用 `handleCookie` 能够完成登录和 cookie 有效性验证，无需传入任何形参; 再通过 `conf` 可获得 cookie 信息对象，含 `swms` 和 `campusphere` 参数，分别对应 学工 和 金智教务(今日校园相关) 验证凭据
+### 作为模块使用
 
-4. 清空配置:
+> 基本流程：引入 cea 和对应插件 -> 创建 cea 实例 -> 注册插件 -> 运行
 
-```sh
-# 清空学校配置
-cea rm 'school'
-# 清空用户配置
-cea rm 'users'
-# 清空所有配置
-cea rm 'all'
+下面是今日校园签到的示例（`cea-check-in` 插件已内置，无需特别安装）
+
+```ts
+// 导入 Cea 和内置的签到插件中的函数 checkIn
+import { Cea, checkIn } from 'cea'
+// 创建 Cea 的实例
+const cea = new Cea()
+// 注册插件
+cea.addPlugin(checkIn)
+// 执行签到脚本
+cea.start()
 ```
 
-## Thanks
+## 插件开发
 
-登录中加解密过程大量参考 [wisedu-unified-login-api](https://github.com/ZimoLoveShuang/wisedu-unified-login-api) 项目，十分感谢
+> 插件开发流程：引入 cea-core 的功能 -> 开发功能 -> 导出一个无入参出参的函数
+
+插件核心 `cea-core` [docs/api/core/README.md](./docs/api/core/README.md)
+
+插件示例 `cea-check-in` [docs/api/plugins/check-in/README.md](./docs/api/plugins/check-in/README.md)
+
+## 鸣谢
 
 感谢 [Cloudbase-Framework](https://github.com/Tencent/cloudbase-framework)、[Github Actions](https://github.com/actions)、[Coding CI](https://help.coding.net/docs/ci/intro.html)、[Gitee Pages](https://gitee.com/help/articles/4136) 提供的优秀服务 🎉
 
-## Disclaimer
+## 声明
 
 `@beetcb/cea` - Licensed under [MIT](https://github.com/beetcb/cea/blob/master/LICENSE)
 
