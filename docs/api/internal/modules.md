@@ -20,4 +20,4 @@
 
 **Returns:** *Promise*<void\>
 
-Defined in: plugins/check-in/lib/src/index.d.ts:15
+Defined in: node_modules/cea-check-in/lib/src/index.d.ts:15

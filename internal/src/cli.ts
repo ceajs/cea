@@ -1,12 +1,6 @@
 #!/usr/bin/env node
-import {
-  log,
-  sstore,
-  UsersConf,
-  UserConfOpts,
-  getSchoolInfos,
-  loadConfFromToml,
-} from 'cea-core'
+import { log, sstore, UsersConf, UserConfOpts } from 'cea-core'
+import { confSet } from './conf-set'
 import { checkIn } from 'cea-check-in'
 import { prompt } from 'enquirer'
 import { UserAction } from './constants'
@@ -33,14 +27,14 @@ import { UserAction } from './constants'
       break
     }
     case 'load': {
-      const users = loadConfFromToml()
-      await confSet(users)
+      await confSet()
       break
     }
 
     default: {
       console.log(`
   Usage: cea <command>
+
   All Commands: 
         user      create|delete user
         school    config your school info
@@ -54,16 +48,6 @@ import { UserAction } from './constants'
 
   sstore.close()
 })()
-
-async function confSet(users: UsersConf | null) {
-  if (users) {
-    const schoolInfos = await getSchoolInfos(users)
-    if (schoolInfos) {
-      sstore.set('schools', schoolInfos)
-    }
-    sstore.set('users', users)
-  }
-}
 
 async function promptToGetConf(): Promise<UsersConf | null> {
   const loadedUsers = (sstore.get('users') as UsersConf) || []

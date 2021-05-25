@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "description": "campusphere-elegant-auth: login to swms/campusphere at ease",
   "scripts": {
-    "prebuild": "prettier . -w --ignore-path .gitignore && node build-docs.js",
-    "build": "tsc --build",
     "bootstrap": "lerna bootstrap --hoist",
+    "docs": "ts-node build/docs.ts",
+    "build": "tsc --build",
     "test": "jest",
-    "dry": "npm pack && tar -xvzf *.tgz | tree package && rm -rf package *.tgz"
+    "dry": "lerna exec -- npm pack && lerna exec -- rm -rf package *.tgz"
   },
   "keywords": [
     "campusphere",

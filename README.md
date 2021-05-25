@@ -122,6 +122,7 @@ cea.addPlugin(checkIn)
 // 执行签到脚本
 cea.start()
 ```
+
 ## 插件列表
 
 - [`cea-check-in`](./docs/api/plugins/check-in/README.md)
@@ -140,7 +141,7 @@ cea.start()
 
 ## 声明
 
-`@beetcb/cea` - Licensed under [MIT](https://github.com/beetcb/cea/blob/master/LICENSE)
+`cea` - Licensed under [MIT](https://github.com/ceajs/cea/blob/master/LICENSE)
 
 `campusphere-elegant-auth` 仅用于学习和研究 Node.js，请勿商用或违法使用。
 
