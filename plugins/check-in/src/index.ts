@@ -46,7 +46,7 @@ export class CheckIn {
     const cookie = sstore.get(storeCookiePath)
     if (!cookie) {
       log.error({
-        message: '登录需要验证码，正在用 OCR 识别',
+        message: 'COOKIE 无效',
         suffix: `@${user.alias}`,
       })
       return
