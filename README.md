@@ -7,9 +7,9 @@
   </a>
 </p>
   <p align="center">
-  <strong>高校统一身份验证及开发框架</strong>(已集成今日校园签到插件)
+  <strong>高校统一身份验证开发框架</strong>(已集成今日校园签到插件)
   <br>
-  欢迎右上角   <a href="https://github.com/beetcb/cea">
+  欢迎点击右上角   <a href="https://github.com/beetcb/cea">
     <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/beetcb/cea?style=social">
   </a> 支持此项目
   <p>
@@ -122,6 +122,9 @@ cea.addPlugin(checkIn)
 // 执行签到脚本
 cea.start()
 ```
+## 插件列表
+
+- [`cea-check-in`](./docs/api/plugins/check-in/README.md)
 
 ## 插件开发
 
