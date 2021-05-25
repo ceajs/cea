@@ -147,7 +147,7 @@ ___
 
 • `Const` **sstore**: *any*
 
-Defined in: [src/index.ts:6](https://github.com/beetcb/cea/blob/48b4d03/core/src/index.ts#L6)
+Defined in: [src/index.ts:6](https://github.com/ceajs/cea/blob/b22da07/core/src/index.ts#L6)
 
 ## Functions
 
@@ -163,7 +163,7 @@ Defined in: [src/index.ts:6](https://github.com/beetcb/cea/blob/48b4d03/core/src
 
 **Returns:** *Promise*<[*SchoolConf*](modules.md#schoolconf) \| ``null``\>
 
-Defined in: [src/conf.ts:24](https://github.com/beetcb/cea/blob/48b4d03/core/src/conf.ts#L24)
+Defined in: [src/conf.ts:24](https://github.com/ceajs/cea/blob/b22da07/core/src/conf.ts#L24)
 
 ___
 
@@ -173,7 +173,7 @@ ___
 
 **Returns:** *Promise*<void\>
 
-Defined in: [src/index.ts:19](https://github.com/beetcb/cea/blob/48b4d03/core/src/index.ts#L19)
+Defined in: [src/index.ts:19](https://github.com/ceajs/cea/blob/b22da07/core/src/index.ts#L19)
 
 ___
 
@@ -183,4 +183,4 @@ ___
 
 **Returns:** [*UsersConf*](modules.md#usersconf) \| ``null``
 
-Defined in: [src/conf.ts:11](https://github.com/beetcb/cea/blob/48b4d03/core/src/conf.ts#L11)
+Defined in: [src/conf.ts:11](https://github.com/ceajs/cea/blob/b22da07/core/src/conf.ts#L11)

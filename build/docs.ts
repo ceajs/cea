@@ -1,10 +1,11 @@
 const TypeDoc = require('typedoc')
-const { readFileSync } = require('fs')
+import { readFileSync } from 'fs'
 
 async function main() {
-  let tsconfig = readFileSync('tsconfig.json')
-  if (tsconfig) {
-    tsconfig = JSON.parse(tsconfig)
+  const tsconfigRaw = readFileSync('tsconfig.json', 'utf8')
+  let tsconfig: { references: Array<{ path: string }> }
+  if (tsconfigRaw) {
+    tsconfig = JSON.parse(tsconfigRaw)
   } else {
     console.error('tsconfig not found!')
     return
