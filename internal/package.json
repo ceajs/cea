@@ -1,6 +1,6 @@
 {
   "name": "cea",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "cea",
   "main": "lib/src/index.js",
   "types": "lib/src/index.d.ts",
@@ -12,8 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cea-check-in": "^0.0.1",
-    "cea-core": "^0.1.1",
+    "cea-check-in": "^0.0.2",
+    "cea-core": "^0.1.2",
     "enquirer": "^2.3.6"
   }
 }
