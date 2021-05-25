@@ -10,7 +10,7 @@
   <strong>高校统一身份验证开发框架</strong>(已集成今日校园签到插件)
   <br>
   欢迎点击右上角   <a href="https://github.com/ceajs/cea">
-    <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/cea?style=social">
+    <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/ceajs/cea?style=social">
   </a> 支持此项目
   <p>
 </p>
