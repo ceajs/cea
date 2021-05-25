@@ -3,6 +3,7 @@
   "version": "0.0.2",
   "description": "cea",
   "main": "lib/src/index.js",
+  "bin": "lib/src/cli.js",
   "types": "lib/src/index.d.ts",
   "files": [
     "lib/src/**/*.[tj]s"
