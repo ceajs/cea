@@ -1,5 +1,3 @@
-cea / [Exports](modules.md)
-
 ### 插件: <a align="center" href="https://www.npmjs.com/package/cea"><img alt="cea" src="https://img.shields.io/npm/v/cea?style=social&label=cea"></a>
 
 ### 安装

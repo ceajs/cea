@@ -37,7 +37,7 @@
 
 **Returns:** [*CheckIn*](checkin.md)
 
-Defined in: [src/index.ts:30](https://github.com/beetcb/cea/blob/9eabfbb/plugins/check-in/src/index.ts#L30)
+Defined in: [src/index.ts:30](https://github.com/beetcb/cea/blob/48b4d03/plugins/check-in/src/index.ts#L30)
 
 ## Properties
 
@@ -45,7 +45,7 @@ Defined in: [src/index.ts:30](https://github.com/beetcb/cea/blob/9eabfbb/plugins
 
 • `Private` **headers**: StringKV
 
-Defined in: [src/index.ts:28](https://github.com/beetcb/cea/blob/9eabfbb/plugins/check-in/src/index.ts#L28)
+Defined in: [src/index.ts:28](https://github.com/beetcb/cea/blob/48b4d03/plugins/check-in/src/index.ts#L28)
 
 ___
 
@@ -53,7 +53,7 @@ ___
 
 • `Private` **school**: SchoolConfOpts
 
-Defined in: [src/index.ts:30](https://github.com/beetcb/cea/blob/9eabfbb/plugins/check-in/src/index.ts#L30)
+Defined in: [src/index.ts:30](https://github.com/beetcb/cea/blob/48b4d03/plugins/check-in/src/index.ts#L30)
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 • `Private` **user**: UserConfOpts
 
-Defined in: [src/index.ts:29](https://github.com/beetcb/cea/blob/9eabfbb/plugins/check-in/src/index.ts#L29)
+Defined in: [src/index.ts:29](https://github.com/beetcb/cea/blob/48b4d03/plugins/check-in/src/index.ts#L29)
 
 ## Methods
 
@@ -71,7 +71,7 @@ Defined in: [src/index.ts:29](https://github.com/beetcb/cea/blob/9eabfbb/plugins
 
 **Returns:** *void*
 
-Defined in: [src/index.ts:190](https://github.com/beetcb/cea/blob/9eabfbb/plugins/check-in/src/index.ts#L190)
+Defined in: [src/index.ts:190](https://github.com/beetcb/cea/blob/48b4d03/plugins/check-in/src/index.ts#L190)
 
 ___
 
@@ -87,7 +87,7 @@ ___
 
 **Returns:** *string*
 
-Defined in: [src/index.ts:178](https://github.com/beetcb/cea/blob/9eabfbb/plugins/check-in/src/index.ts#L178)
+Defined in: [src/index.ts:178](https://github.com/beetcb/cea/blob/48b4d03/plugins/check-in/src/index.ts#L178)
 
 ___
 
@@ -103,7 +103,7 @@ ___
 
 **Returns:** *string*
 
-Defined in: [src/index.ts:164](https://github.com/beetcb/cea/blob/9eabfbb/plugins/check-in/src/index.ts#L164)
+Defined in: [src/index.ts:164](https://github.com/beetcb/cea/blob/48b4d03/plugins/check-in/src/index.ts#L164)
 
 ___
 
@@ -119,7 +119,7 @@ ___
 
 **Returns:** { `extraFieldItemValue`: *string* ; `extraFieldItemWid`: *string*  }[]
 
-Defined in: [src/index.ts:147](https://github.com/beetcb/cea/blob/9eabfbb/plugins/check-in/src/index.ts#L147)
+Defined in: [src/index.ts:147](https://github.com/beetcb/cea/blob/48b4d03/plugins/check-in/src/index.ts#L147)
 
 ___
 
@@ -129,7 +129,7 @@ ___
 
 **Returns:** *Promise*<void \| SignTask\>
 
-Defined in: [src/index.ts:42](https://github.com/beetcb/cea/blob/9eabfbb/plugins/check-in/src/index.ts#L42)
+Defined in: [src/index.ts:42](https://github.com/beetcb/cea/blob/48b4d03/plugins/check-in/src/index.ts#L42)
 
 ___
 
@@ -145,4 +145,4 @@ ___
 
 **Returns:** *Promise*<LogInfo\>
 
-Defined in: [src/index.ts:72](https://github.com/beetcb/cea/blob/9eabfbb/plugins/check-in/src/index.ts#L72)
+Defined in: [src/index.ts:72](https://github.com/beetcb/cea/blob/48b4d03/plugins/check-in/src/index.ts#L72)
