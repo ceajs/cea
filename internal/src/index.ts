@@ -1,4 +1,5 @@
 import { sstore } from 'cea-core'
+export { checkIn } from 'cea-check-in'
 
 export class Cea {
   private plugins: Set<() => Promise<void>> = new Set()
