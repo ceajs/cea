@@ -47,15 +47,17 @@ export type SignForm = {
 }
 
 export type CpdailyExtension = {
-  [K in
-    | 'lon'
-    | 'model'
-    | 'appVersion'
-    | 'systemVersion'
-    | 'userId'
-    | 'systemName'
-    | 'lat'
-    | 'deviceId']: string
+  [
+    K in
+      | 'lon'
+      | 'model'
+      | 'appVersion'
+      | 'systemVersion'
+      | 'userId'
+      | 'systemName'
+      | 'lat'
+      | 'deviceId'
+  ]: string
 }
 
 export type CpdailyExtensionEncrypted = string

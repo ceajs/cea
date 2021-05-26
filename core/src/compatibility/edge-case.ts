@@ -37,16 +37,16 @@ export type DefaultProps = NoIapDefaultProps & IapDefaultProps
 export default (schoolName: EdgeCasesSchools, isIap: boolean) =>
   schoolName
     ? (new Proxy(schoolEdgeCases[schoolName] || {}, {
-        get(target, prop, receiver) {
-          if (
-            target[prop as keyof NoIapDefaultProps & keyof IapDefaultProps] ===
-            undefined
-          ) {
-            return isIap
-              ? iapDefaultProps[prop as keyof IapDefaultProps]
-              : defaultProps[prop as keyof NoIapDefaultProps]
-          }
-          return Reflect.get(target, prop, receiver)
-        },
-      }) as unknown as DefaultProps)
+      get(target, prop, receiver) {
+        if (
+          target[prop as keyof NoIapDefaultProps & keyof IapDefaultProps]
+            === undefined
+        ) {
+          return isIap
+            ? iapDefaultProps[prop as keyof IapDefaultProps]
+            : defaultProps[prop as keyof NoIapDefaultProps]
+        }
+        return Reflect.get(target, prop, receiver)
+      },
+    }) as unknown as DefaultProps)
     : ({} as DefaultProps)

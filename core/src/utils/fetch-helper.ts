@@ -1,8 +1,8 @@
 import fetch from 'node-fetch'
-import { CookieMap, FetchCookieOptions } from '../types/cookie'
-import { cookieParse, cookieStr } from './cookie-helper'
 import { Response } from 'node-fetch'
+import { CookieMap, FetchCookieOptions } from '../types/cookie'
 import { StringKV } from '../types/helper'
+import { cookieParse, cookieStr } from './cookie-helper'
 
 export class FetchWithCookie {
   private headers: StringKV
@@ -47,8 +47,9 @@ export class FetchWithCookie {
       ? cookieStr(host, cookiePath!, this.cookieMap)!
       : ''
 
-    headers['Content-Type'] =
-      type === 'form' ? 'application/x-www-form-urlencoded' : 'application/json'
+    headers['Content-Type'] = type === 'form'
+      ? 'application/x-www-form-urlencoded'
+      : 'application/json'
 
     if (!type && headers['Content-Type']) {
       delete headers['Content-Type']

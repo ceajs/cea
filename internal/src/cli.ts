@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-import { log, sstore, UsersConf, UserConfOpts } from 'cea-core'
-import { confSet } from './conf-set'
 import { checkIn } from 'cea-check-in'
+import { log, sstore, UserConfOpts, UsersConf } from 'cea-core'
 import { prompt } from 'enquirer'
+import { confSet } from './conf-set'
 import { UserAction } from './constants'
 ;(async () => {
   const argv = process.argv[2] || ''
@@ -55,10 +55,12 @@ async function promptToGetConf(): Promise<UsersConf | null> {
   const actionNaire = {
     type: 'select',
     name: 'actionType',
-    message: `用户编辑(已有用户：${loadedUsers.reduce((s, e) => {
-      const userInfo = e.alias
-      return s + ' ' + userInfo
-    }, '')})`,
+    message: `用户编辑(已有用户：${
+      loadedUsers.reduce((s, e) => {
+        const userInfo = e.alias
+        return s + ' ' + userInfo
+      }, '')
+    })`,
     choices: [
       {
         name: UserAction.CREATE,

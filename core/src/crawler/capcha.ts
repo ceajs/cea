@@ -1,6 +1,6 @@
-import { createWorker } from 'tesseract.js'
-import fetch from 'node-fetch'
 import fs from 'fs'
+import fetch from 'node-fetch'
+import { createWorker } from 'tesseract.js'
 const tessdataPath = '/tmp/eng.traineddata.gz'
 
 async function downloadTessdata() {
@@ -16,7 +16,7 @@ async function downloadTessdata() {
   }
   download(
     'https://beetcb.gitee.io/filetransfer/tmp/eng.traineddata.gz',
-    tessdataPath
+    tessdataPath,
   )
 }
 

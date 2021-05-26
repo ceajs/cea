@@ -3,7 +3,8 @@ export type StringKV = {
 }
 
 export enum CampusphereEndpoint {
-  getStuSignInfosInOneDay = '/wec-counselor-sign-apps/stu/sign/getStuSignInfosInOneDay',
+  getStuSignInfosInOneDay =
+    '/wec-counselor-sign-apps/stu/sign/getStuSignInfosInOneDay',
   detailSignInstance = '/wec-counselor-sign-apps/stu/sign/detailSignInstance',
   submitSign = '/wec-counselor-sign-apps/stu/sign/submitSign',
 }

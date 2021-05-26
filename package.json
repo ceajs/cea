@@ -7,6 +7,7 @@
     "bootstrap": "lerna exec -- npm i",
     "postbootstrap": "npm run build && lerna bootstrap",
     "docs": "ts-node build/docs.ts",
+    "prebuild": "dprint fmt",
     "build": "tsc --build tsconfig.json",
     "test": "jest",
     "dry": "lerna exec -- npm pack && lerna exec -- rm -rf package *.tgz"

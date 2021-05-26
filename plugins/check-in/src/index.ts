@@ -1,27 +1,27 @@
 import {
   CampusphereEndpoint,
-  sstore,
+  CookieRawObject,
   handleCookie,
   log,
+  SchoolConfOpts,
+  sstore,
   StringKV,
   UserConfOpts,
-  SchoolConfOpts,
-  CookieRawObject,
   UsersConf,
 } from 'cea-core'
 import {
-  SignTask,
-  SignTaskDetail,
-  LogInfo,
-  LogInfoKeys,
-  SignForm,
   CpdailyExtension,
   CpdailyExtensionEncrypted,
   GlobalLogInfo,
+  LogInfo,
+  LogInfoKeys,
+  SignForm,
+  SignTask,
+  SignTaskDetail,
 } from './types'
 
-import fetch, { Response } from 'node-fetch'
 import crypto from 'crypto'
+import fetch, { Response } from 'node-fetch'
 import { v1 } from 'uuid'
 
 export class CheckIn {
@@ -58,7 +58,7 @@ export class CheckIn {
         method: 'POST',
         headers: this.headers,
         body: JSON.stringify({}),
-      }
+      },
     )
 
     const signQ = await res.json()
@@ -79,7 +79,7 @@ export class CheckIn {
         headers,
         method: 'POST',
         body: JSON.stringify({ signInstanceWid, signWid }),
-      }
+      },
     )
     const signDetails: SignTaskDetail = (await res.json()).data
 
@@ -123,7 +123,7 @@ export class CheckIn {
         headers,
         method: 'POST',
         body: JSON.stringify(form),
-      }
+      },
     )
     const result = await res.json()
 
@@ -145,7 +145,7 @@ export class CheckIn {
 
   // select right item with content&wid
   private fillExtra(
-    extraField: SignTaskDetail['extraField']
+    extraField: SignTaskDetail['extraField'],
   ): SignForm['extraFieldItems'] {
     return extraField.map((e) => {
       let chosenWid: string
@@ -219,7 +219,7 @@ async function signIn(users: UsersConf): Promise<GlobalLogInfo> {
         const result = await instance.signWithForm(curTask)
         logs[i.alias] = result
       }
-    })
+    }),
   )
   return logs
 }

@@ -1,6 +1,6 @@
-import log from './utils/logger'
 import login from './crawler/login'
 import { SchoolConf, UserConfOpts } from './types/conf'
+import log from './utils/logger'
 
 // sstore
 export const sstore = require('@beetcb/sstore')
@@ -13,7 +13,7 @@ export * from './types/helper'
 // methods for configuration
 export * from './conf'
 
-//log utils for plugin & cli use
+// log utils for plugin & cli use
 export { log }
 
 export async function handleCookie() {
@@ -21,7 +21,7 @@ export async function handleCookie() {
     sstore.get('users').map(async (i: UserConfOpts) => {
       const storeCookiePath = `cookie.${i.alias}`
       await handleLogin(i, storeCookiePath)
-    })
+    }),
   )
 }
 

@@ -1,9 +1,0 @@
-34 error Error: Command failed with exit code 1: git commit -F /tmp/1091beaf-88b8-48b9-8d13-39d6933461ea/lerna-commit.txt
-34 error On branch ts-refractor
-34 error Your branch is up to date with 'origin/ts-refractor'.
-34 error
-34 error nothing to commit, working tree clean
-34 error     at makeError (/home/beet/repo/cea/node_modules/@lerna/child-process/node_modules/execa/lib/error.js:59:11)
-34 error     at handlePromise (/home/beet/repo/cea/node_modules/@lerna/child-process/node_modules/execa/index.js:114:26)
-34 error     at processTicksAndRejections (node:internal/process/task_queues:96:5)
-34 error     at async Promise.all (index 0)

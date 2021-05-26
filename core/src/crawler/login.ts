@@ -1,18 +1,18 @@
 import cheerio from 'cheerio'
 import crypto from 'crypto'
-import ocr from './capcha'
-import log from '../utils/logger'
 import getEdgeCases from '../compatibility/edge-case'
+import log from '../utils/logger'
+import ocr from './capcha'
 
+import { Response } from 'node-fetch'
 import {
+  DefaultProps,
+  EdgeCasesSchools,
   SchoolConfOpts,
   UserConfOpts,
-  EdgeCasesSchools,
-  DefaultProps,
 } from '../types/conf'
 import { StringKV } from '../types/helper'
 import { FetchWithCookie } from '../utils/fetch-helper'
-import { Response } from 'node-fetch'
 
 /**
  * login to SWMS(stu work magagement system) process
@@ -22,12 +22,12 @@ import { Response } from 'node-fetch'
  */
 export default async function login(
   school: SchoolConfOpts,
-  user: UserConfOpts
+  user: UserConfOpts,
 ) {
   // improve school campatibility with defaults and edge-cases
   const schoolEdgeCases: DefaultProps = getEdgeCases(
     school.chineseName as EdgeCasesSchools,
-    school.isIap
+    school.isIap,
   )
 
   const headers: StringKV = {
@@ -103,20 +103,18 @@ export default async function login(
   })
 
   // check captcha is needed
-  const addtionalParams = `?username=${user.username}&ltId=${
-    hiddenInputNameValueMap.lt || ''
-  }`
-  const needCaptcha =
-    hiddenInputNameValueMap.needCaptcha === undefined
-      ? (
-          await (
-            await fetch.get(
-              `${school.swms}${schoolEdgeCases.checkCaptchaPath}${addtionalParams}`,
-              { cookiePath }
-            )
-          ).text()
-        ).includes('true')
-      : hiddenInputNameValueMap.needCaptcha
+  const addtionalParams =
+    `?username=${user.username}&ltId=${hiddenInputNameValueMap.lt || ''}`
+  const needCaptcha = hiddenInputNameValueMap.needCaptcha === undefined
+    ? (
+      await (
+        await fetch.get(
+          `${school.swms}${schoolEdgeCases.checkCaptchaPath}${addtionalParams}`,
+          { cookiePath },
+        )
+      ).text()
+    ).includes('true')
+    : hiddenInputNameValueMap.needCaptcha
 
   if (needCaptcha) {
     log.warn({
@@ -125,7 +123,7 @@ export default async function login(
     })
     const captcha = (
       await ocr(
-        `${school.swms}${schoolEdgeCases.getCaptchaPath}${addtionalParams}`
+        `${school.swms}${schoolEdgeCases.getCaptchaPath}${addtionalParams}`,
       )
     ).replace(/\s/g, '')
 

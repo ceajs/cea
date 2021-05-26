@@ -1,5 +1,5 @@
-import { CookieMap } from '../types/cookie'
 import { Headers } from 'node-fetch'
+import { CookieMap } from '../types/cookie'
 
 /**
  * Parse http response headers

@@ -1,12 +1,12 @@
-import { UsersConf, SchoolConf } from './types/conf'
+import { SchoolConf, UsersConf } from './types/conf'
 
 import { parse } from '@iarna/toml'
 import { resolve } from 'path'
 import { StringKV } from './types/helper'
 
+import fs from 'fs'
 import fetch, { Response } from 'node-fetch'
 import log from './utils/logger'
-import fs from 'fs'
 
 export function loadConfFromToml(): UsersConf | null {
   const path = resolve('./conf.toml')
@@ -22,7 +22,7 @@ export function loadConfFromToml(): UsersConf | null {
 }
 
 export async function getSchoolInfos(
-  users: UsersConf
+  users: UsersConf,
 ): Promise<SchoolConf | null> {
   let res: Response,
     defaultAddr = '',
@@ -31,11 +31,11 @@ export async function getSchoolInfos(
   const isSchoolAddrNeeded = users.find((e) => e.addr.length === 1)
   for (const abbreviation of schoolNamesSet) {
     res = (await fetch(
-      `https://mobile.campushoy.com/v6/config/guest/tenant/info?ids=${abbreviation}`
+      `https://mobile.campushoy.com/v6/config/guest/tenant/info?ids=${abbreviation}`,
     ).catch((err) => log.error(err))) as Response
 
     const data = JSON.parse(
-      (await res.text().catch((err) => log.error(err))) as string
+      (await res.text().catch((err) => log.error(err))) as string,
     ).data[0] as StringKV
 
     let origin = new URL(data.ampUrl).origin
@@ -47,18 +47,22 @@ export async function getSchoolInfos(
     }
     if (isSchoolAddrNeeded) {
       res = (await fetch(
-        `https://api.map.baidu.com/?qt=s&wd=${encodeURIComponent(
-          data.name
-        )}&ak=E4805d16520de693a3fe707cdc962045&rn=10&ie=utf-8&oue=1&fromproduct=jsapi&res=api`
+        `https://api.map.baidu.com/?qt=s&wd=${
+          encodeURIComponent(
+            data.name,
+          )
+        }&ak=E4805d16520de693a3fe707cdc962045&rn=10&ie=utf-8&oue=1&fromproduct=jsapi&res=api`,
       ).catch((err) => log.error(err))) as Response
       const addrInfo = await res.json()
       defaultAddr = addrInfo.content[0].addr
     }
     schoolInfos[abbreviation] = {
       defaultAddr,
-      loginStartEndpoint: `${origin}/iap/login?service=${encodeURIComponent(
-        `${origin}/portal/login`
-      )}`,
+      loginStartEndpoint: `${origin}/iap/login?service=${
+        encodeURIComponent(
+          `${origin}/portal/login`,
+        )
+      }`,
       swms: casOrigin,
       chineseName: data.name,
       campusphere: origin,
