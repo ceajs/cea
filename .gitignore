@@ -6,3 +6,4 @@ dist/
 lib/
 *tsbuild*
 __test__/*.js*
+package-lock.json

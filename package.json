@@ -3,9 +3,11 @@
   "version": "0.0.0",
   "description": "campusphere-elegant-auth: login to swms/campusphere at ease",
   "scripts": {
-    "bootstrap": "lerna bootstrap --hoist",
+    "prebootstrap": "npm i",
+    "bootstrap": "lerna exec -- npm i",
+    "postbootstrap": "npm run build && lerna bootstrap",
     "docs": "ts-node build/docs.ts",
-    "build": "tsc --build",
+    "build": "tsc --build tsconfig.json",
     "test": "jest",
     "dry": "lerna exec -- npm pack && lerna exec -- rm -rf package *.tgz"
   },
