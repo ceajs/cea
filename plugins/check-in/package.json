@@ -10,7 +10,7 @@
   "scripts": {},
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "cea-core": "^0.1.3",
     "node-fetch": "^2.6.1",

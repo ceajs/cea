@@ -58,7 +58,7 @@ export class CheckIn {
         method: 'POST',
         headers: this.headers,
         body: JSON.stringify({}),
-      }
+      },
     )
 
     const signQ = await res.json()
@@ -79,7 +79,7 @@ export class CheckIn {
         headers,
         method: 'POST',
         body: JSON.stringify({ signInstanceWid, signWid }),
-      }
+      },
     )
     const signDetails: SignTaskDetail = (await res.json()).datas
 
@@ -123,7 +123,7 @@ export class CheckIn {
         headers,
         method: 'POST',
         body: JSON.stringify(form),
-      }
+      },
     )
     const result = await res.json()
 
@@ -147,14 +147,14 @@ export class CheckIn {
     return parseFloat(
       floatStr.replace(
         /(\d+\.\d{5})(\d{1})(.*)/,
-        (s, p, p2) => `${p}${p2 == 0 ? 1 : p2}`
-      )
+        (s, p, p2) => `${p}${p2 == 0 ? 1 : p2}`,
+      ),
     )
   }
 
   // select right item with content&wid
   private fillExtra(
-    extraField: SignTaskDetail['extraField']
+    extraField: SignTaskDetail['extraField'],
   ): SignForm['extraFieldItems'] {
     return extraField.map((e) => {
       let chosenWid: string
@@ -228,7 +228,7 @@ async function signIn(users: UsersConf): Promise<GlobalLogInfo> {
         const result = await instance.signWithForm(curTask)
         logs[i.alias] = result
       }
-    })
+    }),
   )
   return logs
 }

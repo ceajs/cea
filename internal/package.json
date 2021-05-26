@@ -11,7 +11,7 @@
   "scripts": {},
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "cea-check-in": "^0.0.4",
     "cea-core": "^0.1.3",
