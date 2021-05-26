@@ -31,8 +31,8 @@ export type GlobalLogInfo = { [key: string]: LogInfo }
 
 export type SignForm = {
   signInstanceWid: string
-  longitude: string
-  latitude: string
+  longitude: number
+  latitude: number
   isNeedExtra: string
   abnormalReason: string
   signPhotoUrl: string

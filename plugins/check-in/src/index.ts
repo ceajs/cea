@@ -58,7 +58,7 @@ export class CheckIn {
         method: 'POST',
         headers: this.headers,
         body: JSON.stringify({}),
-      },
+      }
     )
 
     const signQ = await res.json()
@@ -79,9 +79,9 @@ export class CheckIn {
         headers,
         method: 'POST',
         body: JSON.stringify({ signInstanceWid, signWid }),
-      },
+      }
     )
-    const signDetails: SignTaskDetail = (await res.json()).data
+    const signDetails: SignTaskDetail = (await res.json()).datas
 
     let {
       extraField,
@@ -95,7 +95,7 @@ export class CheckIn {
     let position: string
 
     const placeList = signPlaceSelected[0]
-    const isSignAtHome = Boolean(school.defaultAddr)
+    const isSignAtHome = !Boolean(school.defaultAddr)
     ;[longitude, latitude, position] = isSignAtHome
       ? this.user.addr
       : [placeList.longitude, placeList.latitude, school.defaultAddr]
@@ -103,17 +103,17 @@ export class CheckIn {
     const extraFieldItems = this.fillExtra(extraField)
 
     const form: SignForm = {
+      longitude: this.fixedFloatRight(longitude),
+      latitude: this.fixedFloatRight(latitude),
+      isMalposition: isSignAtHome ? 1 : 0,
+      uaIsCpadaily: true,
+      signPhotoUrl: '',
+      abnormalReason: '',
+      signVersion: '1.0.0',
       signInstanceWid,
-      longitude,
-      latitude,
       isNeedExtra,
       extraFieldItems,
-      isMalposition: isSignAtHome ? 1 : 0,
-      abnormalReason: '',
-      signPhotoUrl: '',
       position,
-      uaIsCpadaily: true,
-      signVersion: '1.0.0',
     }
 
     headers['Cpdaily-Extension'] = this.extention(form)
@@ -123,7 +123,7 @@ export class CheckIn {
         headers,
         method: 'POST',
         body: JSON.stringify(form),
-      },
+      }
     )
     const result = await res.json()
 
@@ -143,9 +143,18 @@ export class CheckIn {
     return logInfo
   }
 
+  private fixedFloatRight(floatStr: string): number {
+    return parseFloat(
+      floatStr.replace(
+        /(\d+\.\d{5})(\d{1})(.*)/,
+        (s, p, p2) => `${p}${p2 == 0 ? 1 : p2}`
+      )
+    )
+  }
+
   // select right item with content&wid
   private fillExtra(
-    extraField: SignTaskDetail['extraField'],
+    extraField: SignTaskDetail['extraField']
   ): SignForm['extraFieldItems'] {
     return extraField.map((e) => {
       let chosenWid: string
@@ -163,13 +172,13 @@ export class CheckIn {
   // construct and encrypte Cpdaily_Extension for header
   private extention(form: SignForm) {
     const Cpdaily_Extension: CpdailyExtension = {
-      lon: form.longitude,
+      lon: form.longitude.toString(),
       model: 'Cock',
       appVersion: '8.2.14',
       systemVersion: '4.4.4',
       userId: this.user.username,
       systemName: 'android',
-      lat: form.latitude,
+      lat: form.latitude.toString(),
       deviceId: v1(),
     }
     return this.encrypt(Cpdaily_Extension)
@@ -219,7 +228,7 @@ async function signIn(users: UsersConf): Promise<GlobalLogInfo> {
         const result = await instance.signWithForm(curTask)
         logs[i.alias] = result
       }
-    }),
+    })
   )
   return logs
 }
