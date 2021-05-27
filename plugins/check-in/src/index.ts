@@ -40,15 +40,10 @@ export class CheckIn {
   }
 
   async signInfo(): Promise<SignTask | void> {
-    await handleCookie()
     const { user, school } = this
     const storeCookiePath = `cookie.${user.alias}`
-    const cookie = sstore.get(storeCookiePath)
+    const cookie: CookieRawObject = sstore.get(storeCookiePath)
     if (!cookie) {
-      log.error({
-        message: 'COOKIE 无效',
-        suffix: `@${user.alias}`,
-      })
       return
     }
     this.headers.cookie = cookie['campusphere::/']
@@ -61,11 +56,13 @@ export class CheckIn {
       },
     )
 
-    const signQ = await res.json()
-    const isValidCookie = signQ.message === 'SUCCESS'
-    if (isValidCookie) {
-      const data = signQ.datas
-      return data.unSignedTasks[0] || data.leaveTasks[0]
+    if (res.headers.get('content-type')?.includes('json')) {
+      const signQ = await res.json()
+      const isValidCookie = signQ.message === 'SUCCESS'
+      if (isValidCookie) {
+        const data = signQ.datas
+        return data.unSignedTasks[0] || data.leaveTasks[0]
+      }
     }
   }
 
@@ -209,10 +206,18 @@ export class CheckIn {
 }
 
 export async function checkIn() {
+  // Get cookie
+  await handleCookie()
   // Log in and save cookie to cea, using cea.get('cookie') to get them (this function resolve with an users array)
   const users = sstore.get('users')
   // Sign in
-  const logs = await signIn(users)
+  let logs = await signIn(users)
+  // Check if cookie is vaild
+  if (logs.notice[LogInfoKeys.refresh]) {
+    // Cookie is invalid, log in one more time
+    await handleCookie()
+    logs = await signIn(users)
+  }
   // Log out sign in result
   console.table(logs)
 }
@@ -227,6 +232,14 @@ async function signIn(users: UsersConf): Promise<GlobalLogInfo> {
       if (curTask) {
         const result = await instance.signWithForm(curTask)
         logs[i.alias] = result
+      } else {
+        log.error({
+          message: 'COOKIE 无效，将重新登录',
+          suffix: `@${i.alias}`,
+        })
+        logs.notice = {
+          [LogInfoKeys.refresh]: true,
+        }
       }
     }),
   )
