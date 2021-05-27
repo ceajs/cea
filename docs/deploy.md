@@ -45,7 +45,7 @@
 >
 > **未开通云开发&新注册用户**需要先开通云开发，具体过程为：在 [此地址](https://console.cloud.tencent.com/tcb?from=12335) 注册登录，完成后再进入 [开通地址](https://console.cloud.tencent.com/tcb?from=12335) 开通 ⇢ <strong>不创建环境(请勾选)</strong>，其它默认 ⇢ 跳转到授权界面并授权，开通成功
 
-[![](https://main.qcloudimg.com/raw/67f5a389f1ac6f3b4d04c7256438e44f.svg)](https://console.cloud.tencent.com/tcb/env/index?action=CreateAndDeployCloudBaseProject&appUrl=https%3A%2F%2Fgithub.com%2Fceajs%2Fcea&branch=master)
+[![](https://main.qcloudimg.com/raw/67f5a389f1ac6f3b4d04c7256438e44f.svg)](https://console.cloud.tencent.com/tcb/env/index?action=CreateAndDeployCloudBaseProject&appUrl=https%3A%2F%2Fgithub.com%2Fceajs%2Fcea&branch=main)
 
 1. 点击 ☝ 部署按钮 ⇢ 登录腾讯云 ⇢ <strong>使用免费资源(记得勾选)</strong>
    ⇢ `环境名称` 填入 cea ⇢ 下一步 ⇢ 完成

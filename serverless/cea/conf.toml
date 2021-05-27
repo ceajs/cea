@@ -1,6 +1,3 @@
-# 学校的英文简称（推荐，部分学校支持，请查阅[支持英文简称的学校列表](https://github.com/beetcb/cea/blob/master/docs/abbrList.sh)自行判断）或中文全称（备用选项，所有学校都支持）
-school = "whpu"
-
 # 用户配置，多用户配置方法(或更详细的配置说明)请查看 cea 文档: https://github.com/beetcb/cea#readme
 [[users]]
 # 账号用户名
@@ -10,7 +7,7 @@ password = "11"
 # 用户别名
 alias = "one"
 # 签到地址
-addr = "home"
+addr = [""]
 # 学校的英文简称
 school = "whpu"
 
