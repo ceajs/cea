@@ -16,6 +16,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@beetcb/cea": "latest"
+    "cea": "latest"
   }
 }

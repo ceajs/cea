@@ -54,33 +54,6 @@
 
    ![示例](https://i.imgur.com/co0zWxh.png)
 
-3. 教程结束 ⚡ (如有问题，请附带日志提交 issue)，此函数会自动在每天 6:00 触发，具体的配置文件示例如下：
+3. 教程结束 ⚡ (如有问题，请附带日志提交 issue)，此函数会自动在每天 6:00 触发
 
-   ```toml
-   # 学校的英文简称（推荐，部分学校支持，请参阅[支持英文简称的学校列表](https://github.com/beetcb/cea#abbrlist)自行判断）或中文全称（备用选项，所有学校都支持）
-   school = "whpu"
-
-   # 使用学校地址签到，第一个用户
-   [[users]]
-   username = "11"
-   password = "11"
-   alias = "one"
-   addr = ""
-
-   # 使用随机地址在家签到，第二个用户
-   [[users]]
-   username = "22"
-   password = "22"
-   alias = "two"
-   addr = "home"
-
-   # 使用自定义地址在家签到，第三个用户
-   # 推荐使用 https://api.map.baidu.com/lbsapi/getpoint/index.html 查询地址
-   [[users]]
-   username = "33"
-   password = "33"
-   alias = "three"
-   addr = ["116.622631", "40.204822", "北京市顺义区X012"]
-   ```
-
-      </details>
+  </details>

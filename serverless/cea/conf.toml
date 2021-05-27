@@ -11,3 +11,6 @@ password = "11"
 alias = "one"
 # 签到地址
 addr = "home"
+# 学校的英文简称
+school = "whpu"
+

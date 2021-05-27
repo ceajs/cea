@@ -76,15 +76,13 @@ const schoolEdgeCases = {
    配置文件语法示例：
 
    ```toml
-   # 学校的英文简称（推荐，部分学校支持，请查阅[支持英文简称的学校列表](https://github.com/beetcb/cea/blob/master/docs/abbrList.sh)自行判断）或中文全称（备用选项，所有学校都支持）
-   school = "whpu"
-
    # 使用学校地址签到
    [[users]]
    username = "用户名"
    password = "密码"
    alias = "简称一"
    addr = ""
+   school = "whpu"
 
    # 使用自定义地址在家签到
    [[users]]
@@ -92,6 +90,7 @@ const schoolEdgeCases = {
    password = "密码"
    alias = "简称二"
    addr = ["经度", "纬度", "实际地址"]
+   school = "whpu"
    ```
 
 3. 执行签到
