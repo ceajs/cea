@@ -73,7 +73,7 @@ const schoolEdgeCases = {
    cea load
    ```
 
-   配置文件[语法说明](./docs/config.md)
+   [配置文件说明](./docs/config.md)
 
 3. 执行签到
 
