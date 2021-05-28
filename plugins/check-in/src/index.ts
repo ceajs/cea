@@ -212,12 +212,6 @@ export async function checkIn() {
   const users = sstore.get('users')
   // Sign in
   let logs = await signIn(users)
-  // Check if cookie is vaild
-  if (logs.notice[LogInfoKeys.refresh]) {
-    // Cookie is invalid, log in one more time
-    await handleCookie()
-    logs = await signIn(users)
-  }
   // Log out sign in result
   console.table(logs)
 }
@@ -232,14 +226,6 @@ async function signIn(users: UsersConf): Promise<GlobalLogInfo> {
       if (curTask) {
         const result = await instance.signWithForm(curTask)
         logs[i.alias] = result
-      } else {
-        log.error({
-          message: 'COOKIE 无效，将重新登录',
-          suffix: `@${i.alias}`,
-        })
-        logs.notice = {
-          [LogInfoKeys.refresh]: true,
-        }
       }
     }),
   )

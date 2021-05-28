@@ -21,11 +21,10 @@ export enum LogInfoKeys {
   result = '签到结果',
   addr = '签到地址',
   name = '真实信息',
-  refresh = '刷新缓存',
 }
 
 export type LogInfo = {
-  [K in LogInfoKeys]?: string | boolean
+  [K in LogInfoKeys]?: string
 }
 
 export type GlobalLogInfo = { [key: string]: LogInfo }
