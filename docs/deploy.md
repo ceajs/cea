@@ -17,8 +17,6 @@
 
 2. 等待几秒(部署完成后) ⇢ 左栏 `云函数` ⇢ 点击 `cea` 进入此函数配置界面 ⇢ `函数代码` 拦下在线编辑器里修改 `conf.toml` 文件 ⇢ 请参考[配置文件说明](./config.md)请自行填入 ⇢ 先**保存**后测试，无报错则成功部署
 
-   ![示例](https://i.imgur.com/co0zWxh.png)
-
 3. 教程结束 ⚡ (如有问题，请附带日志提交 issue)，此函数会自动在每天 6:00 触发
 
   </details>
@@ -36,15 +34,12 @@
 3. 配置签到信息：单击 Settings ，在左侧边栏中，单击 Secrets，单击 New repository secret 开始创建签到信息
 
    ![actions](https://i.imgur.com/Lx6319H.png)
-   ![secret](https://i.imgur.com/nODikvG.png)
    ![secret-example](https://i.imgur.com/l8BzkEK.png)
 
-**你只需要添加 1 个 secrets，命名为 `conf.toml`，且内容和配置文件保持一致，请参考[配置文件说明](./config.md)请自行填入**
+   **你只需要添加 1 个 secrets，命名为 `conf.toml`，且内容和配置文件保持一致，请参考[配置文件说明](./config.md)请自行填入**
 
 4. 通过给自己仓库 Star 来测试 Actions 是否执行成功
 
-   ![star](https://i.imgur.com/83UE7lr.png)
-
-配置成功后，此操作会自动在每天 6:00 触发，尝试签到
+   配置成功后，此操作会自动在每天 6:00 触发，尝试签到
 
   </details>
