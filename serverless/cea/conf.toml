@@ -1,4 +1,4 @@
-# 用户配置，多用户配置方法(或更详细的配置说明)请查看 cea 文档: https://github.com/beetcb/cea#readme
+# 用户配置，更详细的配置说明，请查看配置文档: https://github.com/ceajs/cea/blob/main/docs/config.md
 [[users]]
 # 账号用户名
 username = "11"

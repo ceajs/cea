@@ -73,25 +73,7 @@ const schoolEdgeCases = {
    cea load
    ```
 
-   配置文件语法示例：
-
-   ```toml
-   # 使用学校地址签到
-   [[users]]
-   username = "用户名"
-   password = "密码"
-   alias = "简称一"
-   addr = ""
-   school = "whpu"
-
-   # 使用自定义地址在家签到
-   [[users]]
-   username = "用户名"
-   password = "密码"
-   alias = "简称二"
-   addr = ["经度", "纬度", "实际地址"]
-   school = "whpu"
-   ```
+   配置文件[语法说明](./docs/config.md)
 
 3. 执行签到
 

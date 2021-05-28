@@ -4,6 +4,25 @@
 
 2. 云开发：签到最快，但需要实名认证; **无法向前兼容，需手动更新**，参考 [#27](https://github.com/beetcb/cea/issues/27)
 
+<details><summary>腾讯云开发一键部署</summary>
+
+> 本说明帮助你**一键部署**自动签到程序到腾讯云开发
+>
+> **未开通云开发&新注册用户**需要先开通云开发，具体过程为：在 [此地址](https://console.cloud.tencent.com/tcb?from=12335) 注册登录，完成后再进入 [开通地址](https://console.cloud.tencent.com/tcb?from=12335) 开通 ⇢ <strong>不创建环境(请勾选)</strong>，其它默认 ⇢ 跳转到授权界面并授权，开通成功
+
+[![](https://main.qcloudimg.com/raw/67f5a389f1ac6f3b4d04c7256438e44f.svg)](https://console.cloud.tencent.com/tcb/env/index?action=CreateAndDeployCloudBaseProject&appUrl=https%3A%2F%2Fgithub.com%2Fceajs%2Fcea&branch=main)
+
+1. 点击 ☝ 部署按钮 ⇢ 登录腾讯云 ⇢ <strong>使用免费资源(记得勾选)</strong>
+   ⇢ `环境名称` 填入 cea ⇢ 下一步 ⇢ 完成
+
+2. 等待几秒(部署完成后) ⇢ 左栏 `云函数` ⇢ 点击 `cea` 进入此函数配置界面 ⇢ `函数代码` 拦下在线编辑器里修改 `conf.toml` 文件 ⇢ 请参考[配置文件说明](./config.md)请自行填入 ⇢ 先**保存**后测试，无报错则成功部署
+
+   ![示例](https://i.imgur.com/co0zWxh.png)
+
+3. 教程结束 ⚡ (如有问题，请附带日志提交 issue)，此函数会自动在每天 6:00 触发
+
+  </details>
+
 <details><summary>Github Actions 部署</summary>
 
 部署教程如下：
@@ -18,42 +37,14 @@
 
    ![actions](https://i.imgur.com/Lx6319H.png)
    ![secret](https://i.imgur.com/nODikvG.png)
+   ![secret-example](https://i.imgur.com/l8BzkEK.png)
 
-**你需要添加 2 个 secrets，他们的示例如下：**
-
-> **users 的值默认都以一个空格分隔，多用户使用 显示换行(`\n`) 分割**
-
-> **school 的值可为英文简称，可为中文全称**
-
-- `users`: e.g. `123 321 beet`(请在以下三种配置方式中选择一种)
-  - `用户名 密码 名称` 用学校地址签到
-  - `用户名 密码 名称 home` 在家用随机地址签到
-  - `用户名 密码 名称 home 经度 纬度 中文地址` 在家用自定义的经纬度和地址签到，请使用[此工具](https://api.map.baidu.com/lbsapi/getpoint/index.html)生成经纬度
-- `school`: e.g. `whpu` 学校的英文简称（推荐，部分学校支持，请查阅[支持英文简称的学校列表](https://github.com/beetcb/cea/blob/master/docs/abbrList.sh)自行判断）或中文全称（备用选项，所有学校都支持）
+**你只需要添加 1 个 secrets，命名为 `conf.toml`，且内容和配置文件保持一致，请参考[配置文件说明](./config.md)请自行填入**
 
 4. 通过给自己仓库 Star 来测试 Actions 是否执行成功
 
    ![star](https://i.imgur.com/83UE7lr.png)
 
 配置成功后，此操作会自动在每天 6:00 触发，尝试签到
-
-  </details>
-
-<details><summary>腾讯云开发一键部署</summary>
-
-> 本说明帮助你**一键部署**自动签到程序到腾讯云开发
->
-> **未开通云开发&新注册用户**需要先开通云开发，具体过程为：在 [此地址](https://console.cloud.tencent.com/tcb?from=12335) 注册登录，完成后再进入 [开通地址](https://console.cloud.tencent.com/tcb?from=12335) 开通 ⇢ <strong>不创建环境(请勾选)</strong>，其它默认 ⇢ 跳转到授权界面并授权，开通成功
-
-[![](https://main.qcloudimg.com/raw/67f5a389f1ac6f3b4d04c7256438e44f.svg)](https://console.cloud.tencent.com/tcb/env/index?action=CreateAndDeployCloudBaseProject&appUrl=https%3A%2F%2Fgithub.com%2Fceajs%2Fcea&branch=main)
-
-1. 点击 ☝ 部署按钮 ⇢ 登录腾讯云 ⇢ <strong>使用免费资源(记得勾选)</strong>
-   ⇢ `环境名称` 填入 cea ⇢ 下一步 ⇢ 完成
-
-2. 等待几秒(部署完成后) ⇢ 左栏 `云函数` ⇢ 点击 `cea` 进入此函数配置界面 ⇢ `函数代码` 拦下在线编辑器里修改 `conf.toml` 文件 ⇢ 相应注释都已写好，请自行填入 ⇢ 先**保存**后测试，无报错则成功部署
-
-   ![示例](https://i.imgur.com/co0zWxh.png)
-
-3. 教程结束 ⚡ (如有问题，请附带日志提交 issue)，此函数会自动在每天 6:00 触发
 
   </details>
