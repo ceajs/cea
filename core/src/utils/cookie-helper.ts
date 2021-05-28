@@ -11,9 +11,12 @@ export function cookieParse(host: string, headers: Headers): CookieMap {
     return map
   }
 
-  let [lastIdxMark, arr] = ['', []] as [string, Array<Array<string>>]
+  let [lastIdxMark, kv] = ['', new Map()] as [string, Map<string, string>]
   for (const e of rawCookies) {
-    const [_, keyVal, path] = e.match(/(.*);(?:\s?)path=((\w+|\/)*)/i)!
+    const [keyVal, ...optionals] = e.split('; ')
+    const [_, path] = optionals
+      .find((value) => value.match(/path/i))!
+      .split('=')
     if (!keyVal) {
       continue
     }
@@ -21,17 +24,17 @@ export function cookieParse(host: string, headers: Headers): CookieMap {
     const mapIdx = `${host}::${path}`
     if (lastIdxMark !== mapIdx) {
       if (lastIdxMark) {
-        map.set(lastIdxMark, arr)
-        arr = []
+        map.set(lastIdxMark, kv)
+        kv = new Map()
       }
     }
     lastIdxMark = mapIdx
-    arr.push([key, val])
+    kv.set(key, val)
     // deprecated because of the numerous map set operations
     // map.set(mapIdx, [...(ownedKeyVal ? ownedKeyVal : []), { [key]: val }])
   }
-  if (arr.length) {
-    map.set(lastIdxMark, arr)
+  if (kv.size) {
+    map.set(lastIdxMark, kv)
   }
   return map
 }
@@ -40,12 +43,15 @@ export function cookieParse(host: string, headers: Headers): CookieMap {
  * Construct a cookie obj base on path
  */
 export function cookieStr(host: string, path: string, cookieMap: CookieMap) {
+  let str = ''
   const mapIdx = `${host}::${path}`
   const cookie = cookieMap.get(mapIdx)
+
   if (cookie) {
-    return cookie.reduce((str, e) => {
-      const [key, val] = e
-      return str + `${key}=${val}; `
-    }, '')
+    for (const [key, value] of cookie.entries()) {
+      str += `${key}=${value}; `
+    }
   }
+
+  return str
 }

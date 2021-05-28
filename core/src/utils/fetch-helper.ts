@@ -72,7 +72,7 @@ export class FetchWithCookie {
     for (const [key, val] of this.cookieMap!.entries()) {
       const [_, feild, path] = key.match(/(.*)(::.*)/)!
       obj[`${feild.includes('campusphere') ? 'campusphere' : 'swms'}${path}`] =
-        val.reduce((str, e) => `${str}${e.join('=')}; `, '')
+        [...val].reduce((str, e) => `${str}${e.join('=')}; `, '')
     }
     return obj
   }
@@ -81,13 +81,8 @@ export class FetchWithCookie {
     if (!this.cookieMap) {
       this.cookieMap = newMap
     } else {
-      for (const [key, val] of newMap.entries()) {
-        const old = this.cookieMap ? this.cookieMap.get(key) : []
-        if (old) {
-          this.cookieMap.set(key, [...old, ...val])
-        } else {
-          this.cookieMap.set(key, val)
-        }
+      for (const [path, kv] of newMap.entries()) {
+        this.cookieMap.set(path, kv)
       }
     }
   }

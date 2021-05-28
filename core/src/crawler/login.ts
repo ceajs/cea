@@ -18,7 +18,6 @@ import { FetchWithCookie } from '../utils/fetch-helper'
  * login to SWMS(stu work magagement system) process
  * @param {object} school api info
  * @param {object} user user info for login
- * @return {map} cookie for cas and campusphere
  */
 export default async function login(
   school: SchoolConfOpts,

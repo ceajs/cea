@@ -1,4 +1,4 @@
-export type CookieMap = Map<string, Array<[string, string]>>
+export type CookieMap = Map<string, Map<string, string>>
 
 export type CookieRawObject = {
   [
