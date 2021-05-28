@@ -225,7 +225,7 @@ async function signIn(users: UsersConf): Promise<GlobalLogInfo> {
       const curTask = await instance.signInfo()
       if (curTask) {
         const needCheckInTasks = curTask.unSignedTasks || curTask.leaveTasks
-        if (needCheckInTasks) {
+        if (needCheckInTasks.length) {
           const result = await instance.signWithForm(needCheckInTasks[0])
           logs[i.alias] = result
         } else {
