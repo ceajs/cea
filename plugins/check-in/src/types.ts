@@ -1,5 +1,9 @@
+export type AllSignTasks = {
+  [key in 'unSignedTasks' | 'signedTasks' | 'leaveTasks']: Array<SignTask>
+}
+
 export type SignTask = {
-  [K in 'signInstanceWid' | 'signWid']: string
+  [K in 'signInstanceWid' | 'signWid' | 'taskName']: string
 }
 
 export type SignTaskDetail = {

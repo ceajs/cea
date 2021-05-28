@@ -10,6 +10,7 @@ import {
   UsersConf,
 } from 'cea-core'
 import {
+  AllSignTasks,
   CpdailyExtension,
   CpdailyExtensionEncrypted,
   GlobalLogInfo,
@@ -39,7 +40,7 @@ export class CheckIn {
     }
   }
 
-  async signInfo(): Promise<SignTask | void> {
+  async signInfo(): Promise<AllSignTasks | void> {
     const { user, school } = this
     const storeCookiePath = `cookie.${user.alias}`
     const cookie: CookieRawObject = sstore.get(storeCookiePath)
@@ -60,8 +61,7 @@ export class CheckIn {
       const signQ = await res.json()
       const isValidCookie = signQ.message === 'SUCCESS'
       if (isValidCookie) {
-        const data = signQ.datas
-        return data.unSignedTasks[0] || data.leaveTasks[0]
+        return signQ.datas
       }
     }
   }
@@ -224,8 +224,17 @@ async function signIn(users: UsersConf): Promise<GlobalLogInfo> {
       const instance: CheckIn = new CheckIn(i)
       const curTask = await instance.signInfo()
       if (curTask) {
-        const result = await instance.signWithForm(curTask)
-        logs[i.alias] = result
+        const needCheckInTasks = curTask.unSignedTasks || curTask.leaveTasks
+        if (needCheckInTasks) {
+          const result = await instance.signWithForm(needCheckInTasks[0])
+          logs[i.alias] = result
+        } else {
+          logs[i.alias] = {
+            [LogInfoKeys.result as string]: `已完成：${
+              curTask.signedTasks[0].taskName
+            }`,
+          }
+        }
       }
     }),
   )
