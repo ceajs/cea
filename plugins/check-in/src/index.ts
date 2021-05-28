@@ -127,13 +127,11 @@ export class CheckIn {
     const logInfo: LogInfo = {
       [LogInfoKeys.result]: result.message,
       [LogInfoKeys.addr]: form.position,
-      [LogInfoKeys.name]: signedStuInfo.userName,
     }
 
     // Hide sensitive info on github actions, cause it's public by default
     if (process.env.GITHUB_ACTION) {
       delete logInfo[LogInfoKeys.addr]
-      delete logInfo[LogInfoKeys.name]
     }
 
     // store result

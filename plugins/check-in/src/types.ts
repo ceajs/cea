@@ -24,7 +24,6 @@ export type SignTaskDetail = {
 export enum LogInfoKeys {
   result = '签到结果',
   addr = '签到地址',
-  name = '真实信息',
 }
 
 export type LogInfo = {
