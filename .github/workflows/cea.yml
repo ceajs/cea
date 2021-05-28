@@ -12,14 +12,14 @@ jobs:
   cea:
     runs-on: ubuntu-latest
     steps:
-      - name: 安装 cea
-        run: sudo npm i -g @beetcb/cea > /dev/null
+      - name: 安装 CEA
+        run: sudo npm i -g cea > /dev/null
+
+      - name: 创建配置文件
+        run: echo -e "$conf.toml" > conf.toml
 
       - name: 加载学校及用户信息
         run: cea load
-        env: # Or as an environment variable
-          users: ${{ secrets.users }}
-          school: ${{ secrets.school }}
 
       - name: 执行签到
         run: cea sign
