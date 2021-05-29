@@ -1,4 +1,7 @@
-<strong><p align="center"><code>c</code>ampusphere-<code>e</code>legant-<code>a</code>uth</p></strong>
+<strong><p align="center">
+<code>c</code>ampusphere-<code>e</code>legant-<code>a</code>uth
+
+</p></strong>
 
 <p align="center">
  <a align="center" href="https://www.npmjs.com/package/cea">
@@ -12,8 +15,13 @@
   欢迎点击右上角   <a href="https://github.com/ceajs/cea">
     <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/ceajs/cea?style=social">
   </a> 支持此项目
-  <p>
 </p>
+
+## Demo
+
+`cea` 命令行功能演示：
+
+<img alt="cea-demo" src="https://i.imgur.com/fIg7J84.png">
 
 ## 亮点
 
