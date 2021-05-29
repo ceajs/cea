@@ -1,6 +1,7 @@
 <strong><p align="center">
+<img alt="cea-logo" width="100" src="./assets/logo.png">
+<br>
 <code>c</code>ampusphere-<code>e</code>legant-<code>a</code>uth
-
 </p></strong>
 
 <p align="center">
