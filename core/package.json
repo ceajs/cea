@@ -20,7 +20,7 @@
   "author": "github.com/beetcb",
   "license": "MIT",
   "dependencies": {
-    "@beetcb/sstore": "^0.1.0",
+    "@beetcb/sstore": "^0.1.1",
     "@iarna/toml": "^2.2.5",
     "@types/node-fetch": "^2.5.10",
     "@types/signale": "^1.4.1",

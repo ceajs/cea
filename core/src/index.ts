@@ -6,7 +6,7 @@ import { CookieRawObject } from './types/cookie'
 import log from './utils/logger'
 
 // sstore
-export const sstore = require('@beetcb/sstore')
+import sstore from '@beetcb/sstore'
 
 // all the type definations for plugin & cli use
 export * from './types/conf'
@@ -18,6 +18,8 @@ export * from './conf'
 
 // log utils for plugin & cli use
 export { log }
+// export database
+export { sstore }
 
 export async function handleCookie(startPointFinder?: string) {
   await Promise.all(
