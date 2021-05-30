@@ -44,10 +44,11 @@ export class CheckIn {
     const { user, school } = this
     const storeCookiePath = `cookie.${user.alias}`
     const cookie: CookieRawObject = sstore.get(storeCookiePath)
+    const campusCookieIdx = new URL(school.campusphere).host
     if (!cookie) {
       return
     }
-    this.headers.cookie = cookie['campusphere::/']
+    this.headers.cookie = cookie[campusCookieIdx]
     const res = await fetch(
       `${school.campusphere}${CampusphereEndpoint.getStuSignInfosInOneDay}`,
       {
@@ -205,8 +206,9 @@ export class CheckIn {
 
 export async function checkIn() {
   // Get cookie
+  // `https://sec.whpu.edu.cn/rump_frontend/login/?next=${encodeURIComponent('https://jwglxt.whpu.edu.cn/sso/jziotlogin')}`
   await handleCookie()
-  // Log in and save cookie to cea, using cea.get('cookie') to get them (this function resolve with an users array)
+  // Log in and save cookie to cea
   const users = sstore.get('users')
   // Sign in
   let logs = await signIn(users)

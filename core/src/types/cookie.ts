@@ -6,7 +6,6 @@ export type CookieRawObject = {
 
 export interface FetchCookieOptions {
   type?: 'json' | 'form'
-  cookiePath?: string
   body?: string
   isPost?: boolean
 }

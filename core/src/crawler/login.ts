@@ -31,13 +31,8 @@ export default async function login(
   )
 
   const headers: StringKV = {
-    'Cache-Control': 'max-age=0',
-    'Accept-Encoding': 'gzip, deflate',
-    'Upgrade-Insecure-Requests': '1',
     'User-agent':
       'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
-    Accept:
-      'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
   }
 
   const fetch = new FetchWithCookie(headers)
@@ -46,6 +41,7 @@ export default async function login(
   let res: Response
   // ensure redirection to the right auth service
   res = await fetch.get(startPointFinder)
+  const authUrl = fetch.redirectUrl!
   // redirect to auth, start login
   res = await fetch.follow()
 
@@ -78,9 +74,7 @@ export default async function login(
     headers.Referer = res.headers.get('location')!
     const ltWrapper = new URL(headers.Referer).search
     if (Object.keys(hiddenInputNameValueMap).length === 0) {
-      res = await fetch.get(
-        `${school.auth}${schoolEdgeCases.lt}${ltWrapper}`,
-      )
+      res = await fetch.get(`${school.auth}${schoolEdgeCases.lt}${ltWrapper}`)
       const { result } = await res.json()
       Object.defineProperties(hiddenInputNameValueMap, {
         lt: { value: result._lt, enumerable: true },
@@ -141,8 +135,8 @@ export default async function login(
       return
     }
   }
-
-  res = await fetch.follow({
+  // xxx
+  res = await fetch.post(authUrl, {
     type: 'form',
     body: auth.toString(),
   })
@@ -157,27 +151,15 @@ export default async function login(
       suffix: `@${name}`,
     })
     return
-  }
-
-  // redirect to campus
-  res = await fetch.follow()
-
-  // get MOD_AUTH_CAS
-  res = await fetch.follow()
-
-  if (/30(1|2|7|8)/.test(res.status + '')) {
+  } else {
     log.success({
       message: `登录成功`,
       suffix: `@${name}`,
     })
-  } else {
-    log.error({
-      message: `登录失败，${res.statusText}`,
-      suffix: `@${name}`,
-    })
-    return
   }
 
+  // redirect to campus, get MOD_AUTH_CAS
+  await fetch.follow()
   return fetch.getCookieObj()
 }
 

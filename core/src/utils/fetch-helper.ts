@@ -7,11 +7,10 @@ import { cookieParse, cookieStr } from './cookie-helper'
 export class FetchWithCookie {
   private headers: StringKV
   private cookieMap?: CookieMap
-  private redirectUrl?: string
+  private lastRes?: Response
+  redirectUrl?: string
   constructor(headers: StringKV) {
     this.headers = headers
-    this.cookieMap = undefined
-    this.redirectUrl = undefined
   }
 
   async get(url: string, options = {}): Promise<Response> {
@@ -25,14 +24,17 @@ export class FetchWithCookie {
 
   /**
    * keep requesting last request url
-   * @param {} options
    */
   async follow(options?: FetchCookieOptions): Promise<Response> {
-    return new Promise((resolve, reject) =>
-      this.redirectUrl
-        ? resolve(this.fetch(this.redirectUrl, options || {}))
-        : reject({ status: 555 })
-    )
+    let res: Response
+    if (this.redirectUrl) {
+      res = await this.fetch(this.redirectUrl, options || {})
+      await this.follow(options || {})
+    } else {
+      res = this.lastRes!
+    }
+
+    return new Promise((resolve) => resolve(res))
   }
 
   async fetch(url: string, options: FetchCookieOptions) {
@@ -58,9 +60,10 @@ export class FetchWithCookie {
       method: type ? 'POST' : undefined,
       body: body,
       redirect: 'manual',
-    }).catch((err) => console.error(err))) as Response
+    }).catch(console.error)) as Response
 
-    this.redirectUrl = res.headers.get('location') || this.redirectUrl
+    this.redirectUrl = res.headers.get('location') || undefined
+    this.lastRes = res
     this.updateMap(cookieParse(host, res.headers))
     return res
   }
