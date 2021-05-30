@@ -19,22 +19,30 @@ export * from './conf'
 // log utils for plugin & cli use
 export { log }
 
-export async function handleCookie() {
+export async function handleCookie(startPointFinder: string) {
   await Promise.all(
     sstore.get('users').map(async (i: UserConfOpts) => {
       const storeCookiePath = `cookie.${i.alias}`
-      await handleLogin(i, storeCookiePath)
+      await handleLogin(i, storeCookiePath, startPointFinder)
     }),
   )
 }
 
-async function handleLogin(i: UserConfOpts, storeCookiePath: string) {
+async function handleLogin(
+  i: UserConfOpts,
+  storeCookiePath: string,
+  startPointFinder: string,
+) {
   let cookie: CookieRawObject = sstore.get(storeCookiePath)
   const name = i.alias
   const school = (sstore.get('schools') as SchoolConf)[i.school]
   // Check if the cookie is stored, if not, login in to eat them
   if (!cookie) {
-    const result = await login(school, i)
+    const result = await login(
+      school,
+      i,
+      startPointFinder || school.campuseAuthStartEndpoint,
+    )
     if (result) {
       sstore.set(storeCookiePath, result)
       log.success({
@@ -43,11 +51,13 @@ async function handleLogin(i: UserConfOpts, storeCookiePath: string) {
       })
     }
   } else {
-    // Check if the cookie is valid
-    const test = await fetch(school.campusphere + '/portal/login', {
+    const authCookieIdx = new URL(school.auth).host
+    // check if the cookie is valid
+    const test = await fetch(`${school.auth}/login`, {
       headers: {
-        cookie: cookie['campusphere::/'],
+        cookie: cookie[authCookieIdx],
       },
+      redirect: 'manual',
     })
     if (test.headers.get('set-cookie')) {
       // invaild cookie
@@ -56,7 +66,7 @@ async function handleLogin(i: UserConfOpts, storeCookiePath: string) {
         suffix: `@${name}`,
       })
       sstore.del(storeCookiePath)
-      await handleLogin(i, storeCookiePath)
+      await handleLogin(i, storeCookiePath, startPointFinder)
     }
     log.success({
       message: `尝试使用缓存中的 COOKIE`,

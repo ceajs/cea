@@ -22,6 +22,7 @@ import { FetchWithCookie } from '../utils/fetch-helper'
 export default async function login(
   school: SchoolConfOpts,
   user: UserConfOpts,
+  startPointFinder: string,
 ) {
   // improve school campatibility with defaults and edge-cases
   const schoolEdgeCases: DefaultProps = getEdgeCases(
@@ -41,12 +42,11 @@ export default async function login(
 
   const fetch = new FetchWithCookie(headers)
   const name = user.alias
-  const cookiePath = schoolEdgeCases.cookiePath
 
   let res: Response
-  // get base session
-  res = await fetch.get(school.loginStartEndpoint)
-  // redirect to auth
+  // ensure redirection to the right auth service
+  res = await fetch.get(startPointFinder)
+  // redirect to auth, start login
   res = await fetch.follow()
 
   // grab hidden input name-value, this maybe error-prone, but compatible
@@ -78,7 +78,9 @@ export default async function login(
     headers.Referer = res.headers.get('location')!
     const ltWrapper = new URL(headers.Referer).search
     if (Object.keys(hiddenInputNameValueMap).length === 0) {
-      res = await fetch.get(`${school.swms}${schoolEdgeCases.lt}${ltWrapper}`)
+      res = await fetch.get(
+        `${school.auth}${schoolEdgeCases.lt}${ltWrapper}`,
+      )
       const { result } = await res.json()
       Object.defineProperties(hiddenInputNameValueMap, {
         lt: { value: result._lt, enumerable: true },
@@ -108,8 +110,7 @@ export default async function login(
     ? (
       await (
         await fetch.get(
-          `${school.swms}${schoolEdgeCases.checkCaptchaPath}${addtionalParams}`,
-          { cookiePath },
+          `${school.auth}${schoolEdgeCases.checkCaptchaPath}${addtionalParams}`,
         )
       ).text()
     ).includes('true')
@@ -122,7 +123,7 @@ export default async function login(
     })
     const captcha = (
       await ocr(
-        `${school.swms}${schoolEdgeCases.getCaptchaPath}${addtionalParams}`,
+        `${school.auth}${schoolEdgeCases.getCaptchaPath}${addtionalParams}`,
       )
     ).replace(/\s/g, '')
 
@@ -144,7 +145,6 @@ export default async function login(
   res = await fetch.follow({
     type: 'form',
     body: auth.toString(),
-    cookiePath: cookiePath,
   })
 
   const isRedirect = res.headers.get('location')
@@ -160,10 +160,10 @@ export default async function login(
   }
 
   // redirect to campus
-  res = await fetch.follow({ cookiePath })
+  res = await fetch.follow()
 
   // get MOD_AUTH_CAS
-  res = await fetch.follow({ cookiePath })
+  res = await fetch.follow()
 
   if (/30(1|2|7|8)/.test(res.status + '')) {
     log.success({

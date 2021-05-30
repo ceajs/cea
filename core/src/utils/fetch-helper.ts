@@ -37,15 +37,13 @@ export class FetchWithCookie {
 
   async fetch(url: string, options: FetchCookieOptions) {
     const { host, origin } = new URL(url)
-    const { type, body, cookiePath } = options
+    const { type, body } = options
     const { headers } = this
 
     headers.origin = origin
     headers.referer = origin
     headers.host = host
-    headers.cookie = this.cookieMap
-      ? cookieStr(host, cookiePath!, this.cookieMap)!
-      : ''
+    headers.cookie = this.cookieMap ? cookieStr(host, this.cookieMap)! : ''
 
     headers['Content-Type'] = type === 'form'
       ? 'application/x-www-form-urlencoded'
@@ -70,9 +68,8 @@ export class FetchWithCookie {
   getCookieObj() {
     let obj: StringKV = {}
     for (const [key, val] of this.cookieMap!.entries()) {
-      const [_, feild, path] = key.match(/(.*)(::.*)/)!
-      obj[`${feild.includes('campusphere') ? 'campusphere' : 'swms'}${path}`] =
-        [...val].reduce((str, e) => `${str}${e.join('=')}; `, '')
+      // ignore cookie path, lower complexity
+      obj[key] = [...val].reduce((str, e) => `${str}${e.join('=')}; `, '')
     }
     return obj
   }
@@ -81,8 +78,9 @@ export class FetchWithCookie {
     if (!this.cookieMap) {
       this.cookieMap = newMap
     } else {
-      for (const [path, kv] of newMap.entries()) {
-        this.cookieMap.set(path, kv)
+      for (const [key, val] of newMap.entries()) {
+        const oldVal = this.cookieMap.get(key)
+        this.cookieMap.set(key, new Map(oldVal ? [...val, ...oldVal] : val))
       }
     }
   }

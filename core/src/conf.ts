@@ -58,12 +58,12 @@ export async function getSchoolInfos(
     }
     schoolInfos[abbreviation] = {
       defaultAddr,
-      loginStartEndpoint: `${origin}/iap/login?service=${
+      campuseAuthStartEndpoint: `${origin}/iap/login?service=${
         encodeURIComponent(
           `${origin}/portal/login`,
         )
       }`,
-      swms: casOrigin,
+      auth: casOrigin,
       chineseName: data.name,
       campusphere: origin,
       isIap: data.joinType !== 'NOTCLOUD',

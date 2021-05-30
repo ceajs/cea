@@ -21,7 +21,7 @@ export function cookieParse(host: string, headers: Headers): CookieMap {
       continue
     }
     const [key, val] = keyVal.split('=')
-    const mapIdx = `${host}::${path}`
+    const mapIdx = host
     if (lastIdxMark !== mapIdx) {
       if (lastIdxMark) {
         map.set(lastIdxMark, kv)
@@ -42,9 +42,9 @@ export function cookieParse(host: string, headers: Headers): CookieMap {
 /**
  * Construct a cookie obj base on path
  */
-export function cookieStr(host: string, path: string, cookieMap: CookieMap) {
+export function cookieStr(host: string, cookieMap: CookieMap) {
   let str = ''
-  const mapIdx = `${host}::${path}`
+  const mapIdx = host
   const cookie = cookieMap.get(mapIdx)
 
   if (cookie) {

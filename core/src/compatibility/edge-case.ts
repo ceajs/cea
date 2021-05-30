@@ -2,9 +2,14 @@ const schoolEdgeCases = {
   宁波大学: {
     formIdx: 0,
     rememberMe: 'on',
-    cookiePath: '/',
     checkCaptchaPath: '/needCaptcha.html',
     getCaptchaPath: '/captcha.html',
+  },
+  武汉大学: {
+    formIdx: 0,
+    rememberMe: 'on',
+    checkCaptchaPath: '/needCaptcha.html',
+    getCaptchaPath: '/sliderCaptcha.do',
   },
 }
 
@@ -13,7 +18,6 @@ const defaultProps = {
   rememberMe: true,
   getCaptchaPath: '/getCaptcha.htl',
   checkCaptchaPath: '/checkNeedCaptcha.htl',
-  cookiePath: '/authserver',
   formIdx: 2,
   pwdEncrypt: true,
 }
