@@ -20,6 +20,7 @@
 - [encrypt](checkin.md#encrypt)
 - [extention](checkin.md#extention)
 - [fillExtra](checkin.md#fillextra)
+- [fixedFloatRight](checkin.md#fixedfloatright)
 - [signInfo](checkin.md#signinfo)
 - [signWithForm](checkin.md#signwithform)
 
@@ -37,7 +38,7 @@
 
 **Returns:** [*CheckIn*](checkin.md)
 
-Defined in: [src/index.ts:30](https://github.com/ceajs/cea/blob/b22da07/plugins/check-in/src/index.ts#L30)
+Defined in: [index.ts:31](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L31)
 
 ## Properties
 
@@ -45,7 +46,7 @@ Defined in: [src/index.ts:30](https://github.com/ceajs/cea/blob/b22da07/plugins/
 
 • `Private` **headers**: StringKV
 
-Defined in: [src/index.ts:28](https://github.com/ceajs/cea/blob/b22da07/plugins/check-in/src/index.ts#L28)
+Defined in: [index.ts:29](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L29)
 
 ___
 
@@ -53,7 +54,7 @@ ___
 
 • `Private` **school**: SchoolConfOpts
 
-Defined in: [src/index.ts:30](https://github.com/ceajs/cea/blob/b22da07/plugins/check-in/src/index.ts#L30)
+Defined in: [index.ts:31](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L31)
 
 ___
 
@@ -61,7 +62,7 @@ ___
 
 • `Private` **user**: UserConfOpts
 
-Defined in: [src/index.ts:29](https://github.com/ceajs/cea/blob/b22da07/plugins/check-in/src/index.ts#L29)
+Defined in: [index.ts:30](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L30)
 
 ## Methods
 
@@ -71,7 +72,7 @@ Defined in: [src/index.ts:29](https://github.com/ceajs/cea/blob/b22da07/plugins/
 
 **Returns:** *void*
 
-Defined in: [src/index.ts:190](https://github.com/ceajs/cea/blob/b22da07/plugins/check-in/src/index.ts#L190)
+Defined in: [index.ts:195](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L195)
 
 ___
 
@@ -87,7 +88,7 @@ ___
 
 **Returns:** *string*
 
-Defined in: [src/index.ts:178](https://github.com/ceajs/cea/blob/b22da07/plugins/check-in/src/index.ts#L178)
+Defined in: [index.ts:183](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L183)
 
 ___
 
@@ -103,7 +104,7 @@ ___
 
 **Returns:** *string*
 
-Defined in: [src/index.ts:164](https://github.com/ceajs/cea/blob/b22da07/plugins/check-in/src/index.ts#L164)
+Defined in: [index.ts:169](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L169)
 
 ___
 
@@ -119,17 +120,33 @@ ___
 
 **Returns:** { `extraFieldItemValue`: *string* ; `extraFieldItemWid`: *string*  }[]
 
-Defined in: [src/index.ts:147](https://github.com/ceajs/cea/blob/b22da07/plugins/check-in/src/index.ts#L147)
+Defined in: [index.ts:152](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L152)
+
+___
+
+### fixedFloatRight
+
+▸ `Private` **fixedFloatRight**(`floatStr`: *string*): *number*
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `floatStr` | *string* |
+
+**Returns:** *number*
+
+Defined in: [index.ts:142](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L142)
 
 ___
 
 ### signInfo
 
-▸ **signInfo**(): *Promise*<void \| SignTask\>
+▸ **signInfo**(): *Promise*<void \| AllSignTasks\>
 
-**Returns:** *Promise*<void \| SignTask\>
+**Returns:** *Promise*<void \| AllSignTasks\>
 
-Defined in: [src/index.ts:42](https://github.com/ceajs/cea/blob/b22da07/plugins/check-in/src/index.ts#L42)
+Defined in: [index.ts:43](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L43)
 
 ___
 
@@ -145,4 +162,4 @@ ___
 
 **Returns:** *Promise*<LogInfo\>
 
-Defined in: [src/index.ts:72](https://github.com/ceajs/cea/blob/b22da07/plugins/check-in/src/index.ts#L72)
+Defined in: [index.ts:70](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L70)

@@ -7,7 +7,6 @@
 ### Properties
 
 - [body](fetchcookieoptions.md#body)
-- [cookiePath](fetchcookieoptions.md#cookiepath)
 - [isPost](fetchcookieoptions.md#ispost)
 - [type](fetchcookieoptions.md#type)
 
@@ -17,15 +16,7 @@
 
 • `Optional` **body**: *string*
 
-Defined in: lib/src/types/cookie.d.ts:8
-
-___
-
-### cookiePath
-
-• `Optional` **cookiePath**: *string*
-
-Defined in: lib/src/types/cookie.d.ts:7
+Defined in: [types/cookie.ts:9](https://github.com/ceajs/cea/blob/8952b25/core/src/types/cookie.ts#L9)
 
 ___
 
@@ -33,7 +24,7 @@ ___
 
 • `Optional` **isPost**: *boolean*
 
-Defined in: lib/src/types/cookie.d.ts:9
+Defined in: [types/cookie.ts:10](https://github.com/ceajs/cea/blob/8952b25/core/src/types/cookie.ts#L10)
 
 ___
 
@@ -41,4 +32,4 @@ ___
 
 • `Optional` **type**: ``"json"`` \| ``"form"``
 
-Defined in: lib/src/types/cookie.d.ts:6
+Defined in: [types/cookie.ts:8](https://github.com/ceajs/cea/blob/8952b25/core/src/types/cookie.ts#L8)

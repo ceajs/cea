@@ -24,9 +24,12 @@
 - [UserConfOpts](modules.md#userconfopts)
 - [UsersConf](modules.md#usersconf)
 
-### Variables
+### Properties
 
 - [log](modules.md#log)
+
+### Variables
+
 - [sstore](modules.md#sstore)
 
 ### Functions
@@ -39,17 +42,19 @@
 
 ### CookieMap
 
-Ƭ **CookieMap**: *Map*<string, [*string*, *string*][]\>
+Ƭ **CookieMap**: *Map*<string, Map<string, string\>\>
 
-Defined in: lib/src/types/cookie.d.ts:1
+Defined in: [types/cookie.ts:1](https://github.com/ceajs/cea/blob/8952b25/core/src/types/cookie.ts#L1)
 
 ___
 
 ### CookieRawObject
 
-Ƭ **CookieRawObject**: { [key in \`campusphere::/${string}\` \| \`swms::/${string}\`]: string}
+Ƭ **CookieRawObject**: *object*
 
-Defined in: lib/src/types/cookie.d.ts:2
+#### Type declaration
+
+Defined in: [types/cookie.ts:3](https://github.com/ceajs/cea/blob/8952b25/core/src/types/cookie.ts#L3)
 
 ___
 
@@ -57,7 +62,7 @@ ___
 
 Ƭ **DefaultProps**: NoIapDefaultProps & IapDefaultProps
 
-Defined in: lib/src/compatibility/edge-case.d.ts:27
+Defined in: [compatibility/edge-case.ts:36](https://github.com/ceajs/cea/blob/8952b25/core/src/compatibility/edge-case.ts#L36)
 
 ___
 
@@ -65,7 +70,7 @@ ___
 
 Ƭ **EdgeCasesSchools**: keyof *typeof* schoolEdgeCases
 
-Defined in: lib/src/compatibility/edge-case.d.ts:24
+Defined in: [compatibility/edge-case.ts:32](https://github.com/ceajs/cea/blob/8952b25/core/src/compatibility/edge-case.ts#L32)
 
 ___
 
@@ -75,7 +80,7 @@ ___
 
 #### Type declaration
 
-Defined in: lib/src/types/conf.d.ts:12
+Defined in: [types/conf.ts:15](https://github.com/ceajs/cea/blob/8952b25/core/src/types/conf.ts#L15)
 
 ___
 
@@ -87,14 +92,14 @@ ___
 
 | Name | Type |
 | :------ | :------ |
+| `auth` | *string* |
+| `campuseAuthStartEndpoint` | *string* |
 | `campusphere` | *string* |
 | `chineseName` | *string* |
 | `defaultAddr` | *string* |
 | `isIap` | *boolean* |
-| `loginStartEndpoint` | *string* |
-| `swms` | *string* |
 
-Defined in: lib/src/types/conf.d.ts:15
+Defined in: [types/conf.ts:19](https://github.com/ceajs/cea/blob/8952b25/core/src/types/conf.ts#L19)
 
 ___
 
@@ -104,7 +109,7 @@ ___
 
 #### Type declaration
 
-Defined in: lib/src/types/helper.d.ts:1
+Defined in: [types/helper.ts:1](https://github.com/ceajs/cea/blob/8952b25/core/src/types/helper.ts#L1)
 
 ___
 
@@ -123,7 +128,7 @@ ___
 | `school` | *string* |
 | `username` | *string* |
 
-Defined in: lib/src/types/conf.d.ts:4
+Defined in: [types/conf.ts:6](https://github.com/ceajs/cea/blob/8952b25/core/src/types/conf.ts#L6)
 
 ___
 
@@ -131,23 +136,21 @@ ___
 
 Ƭ **UsersConf**: [*UserConfOpts*](modules.md#userconfopts)[]
 
-Defined in: lib/src/types/conf.d.ts:3
+Defined in: [types/conf.ts:4](https://github.com/ceajs/cea/blob/8952b25/core/src/types/conf.ts#L4)
 
-## Variables
+## Properties
 
 ### log
 
-• `Const` **log**: Signale
+• **log**: *Signale*<DefaultMethods\>
 
-Defined in: lib/src/utils/logger.d.ts:2
-
-___
+## Variables
 
 ### sstore
 
 • `Const` **sstore**: *any*
 
-Defined in: [src/index.ts:6](https://github.com/ceajs/cea/blob/b22da07/core/src/index.ts#L6)
+Defined in: [index.ts:9](https://github.com/ceajs/cea/blob/8952b25/core/src/index.ts#L9)
 
 ## Functions
 
@@ -163,17 +166,23 @@ Defined in: [src/index.ts:6](https://github.com/ceajs/cea/blob/b22da07/core/src/
 
 **Returns:** *Promise*<[*SchoolConf*](modules.md#schoolconf) \| ``null``\>
 
-Defined in: [src/conf.ts:24](https://github.com/ceajs/cea/blob/b22da07/core/src/conf.ts#L24)
+Defined in: [conf.ts:24](https://github.com/ceajs/cea/blob/8952b25/core/src/conf.ts#L24)
 
 ___
 
 ### handleCookie
 
-▸ **handleCookie**(): *Promise*<void\>
+▸ **handleCookie**(`startPointFinder?`: *string*): *Promise*<void\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `startPointFinder?` | *string* |
 
 **Returns:** *Promise*<void\>
 
-Defined in: [src/index.ts:19](https://github.com/ceajs/cea/blob/b22da07/core/src/index.ts#L19)
+Defined in: [index.ts:22](https://github.com/ceajs/cea/blob/8952b25/core/src/index.ts#L22)
 
 ___
 
@@ -183,4 +192,4 @@ ___
 
 **Returns:** [*UsersConf*](modules.md#usersconf) \| ``null``
 
-Defined in: [src/conf.ts:11](https://github.com/ceajs/cea/blob/b22da07/core/src/conf.ts#L11)
+Defined in: [conf.ts:11](https://github.com/ceajs/cea/blob/8952b25/core/src/conf.ts#L11)

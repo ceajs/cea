@@ -1,13 +1,14 @@
 ## 配置文件的创建
 
-首先我们需要在当前工作目录下创建名为 `conf.toml` 的配置文件，该文件产出的数据结构如下：
+首先我们需要在当前工作目录下创建名为 `conf.toml` 的配置文件，该配置文件将在加载后得到如下的数据结构：
 
   ```ts
   interface ConfToml {
     users: User[]
   }
+  
   interface User {
-    addr: [string] | [string, string, string]
+    addr: [""] | [string, string, string]
     alias: string
     password: string
     school: string

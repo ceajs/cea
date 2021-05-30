@@ -31,7 +31,7 @@
 
 • `Private` **plugins**: *Set*<() => *Promise*<void\>\>
 
-Defined in: [src/index.ts:5](https://github.com/ceajs/cea/blob/b22da07/internal/src/index.ts#L5)
+Defined in: [internal/src/index.ts:6](https://github.com/ceajs/cea/blob/8952b25/internal/src/index.ts#L6)
 
 ## Methods
 
@@ -47,7 +47,7 @@ Defined in: [src/index.ts:5](https://github.com/ceajs/cea/blob/b22da07/internal/
 
 **Returns:** *void*
 
-Defined in: [src/index.ts:7](https://github.com/ceajs/cea/blob/b22da07/internal/src/index.ts#L7)
+Defined in: [internal/src/index.ts:8](https://github.com/ceajs/cea/blob/8952b25/internal/src/index.ts#L8)
 
 ___
 
@@ -57,4 +57,4 @@ ___
 
 **Returns:** *Promise*<void\>
 
-Defined in: [src/index.ts:11](https://github.com/ceajs/cea/blob/b22da07/internal/src/index.ts#L11)
+Defined in: [internal/src/index.ts:12](https://github.com/ceajs/cea/blob/8952b25/internal/src/index.ts#L12)

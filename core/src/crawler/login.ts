@@ -41,6 +41,7 @@ export default async function login(
   let res: Response
   // ensure redirection to the right auth service
   res = await fetch.get(startPointFinder)
+  // get basic auth url
   const authUrl = fetch.redirectUrl!
   // redirect to auth, start login
   res = await fetch.follow()
@@ -135,7 +136,7 @@ export default async function login(
       return
     }
   }
-  // xxx
+
   res = await fetch.post(authUrl, {
     type: 'form',
     body: auth.toString(),

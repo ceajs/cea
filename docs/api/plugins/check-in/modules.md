@@ -20,4 +20,4 @@
 
 **Returns:** *Promise*<void\>
 
-Defined in: [src/index.ts:202](https://github.com/ceajs/cea/blob/b22da07/plugins/check-in/src/index.ts#L202)
+Defined in: [index.ts:207](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L207)
