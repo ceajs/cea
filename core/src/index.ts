@@ -19,11 +19,11 @@ export * from './conf'
 // log utils for plugin & cli use
 export { log }
 
-export async function handleCookie(startPointFinder: string) {
+export async function handleCookie(startPointFinder?: string) {
   await Promise.all(
     sstore.get('users').map(async (i: UserConfOpts) => {
       const storeCookiePath = `cookie.${i.alias}`
-      await handleLogin(i, storeCookiePath, startPointFinder)
+      await handleLogin(i, storeCookiePath, startPointFinder || null)
     }),
   )
 }
@@ -31,7 +31,7 @@ export async function handleCookie(startPointFinder: string) {
 async function handleLogin(
   i: UserConfOpts,
   storeCookiePath: string,
-  startPointFinder: string,
+  startPointFinder: string | null,
 ) {
   let cookie: CookieRawObject = sstore.get(storeCookiePath)
   const name = i.alias
