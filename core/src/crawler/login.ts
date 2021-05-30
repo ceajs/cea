@@ -42,7 +42,7 @@ export default async function login(
   // ensure redirection to the right auth service
   res = await fetch.get(startPointFinder)
   // get basic auth url
-  const authUrl = fetch.redirectUrl!
+  const authUrl = fetch.redirectUrl || startPointFinder
   // redirect to auth, start login
   res = await fetch.follow()
 

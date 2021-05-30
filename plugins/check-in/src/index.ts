@@ -206,7 +206,6 @@ export class CheckIn {
 
 export async function checkIn() {
   // Get cookie
-  // `https://sec.whpu.edu.cn/rump_frontend/login/?next=${encodeURIComponent('https://jwglxt.whpu.edu.cn/sso/jziotlogin')}`
   await handleCookie()
   // Log in and save cookie to cea
   const users = sstore.get('users')

@@ -8,6 +8,7 @@ export class FetchWithCookie {
   private headers: StringKV
   private cookieMap?: CookieMap
   private lastRes?: Response
+  private lastRedirectUrl?: string
   redirectUrl?: string
   constructor(headers: StringKV) {
     this.headers = headers
@@ -27,7 +28,8 @@ export class FetchWithCookie {
    */
   async follow(options?: FetchCookieOptions): Promise<Response> {
     let res: Response
-    if (this.redirectUrl) {
+    // avoid callback hell
+    if (this.redirectUrl && this.lastRedirectUrl !== this.redirectUrl) {
       res = await this.fetch(this.redirectUrl, options || {})
       await this.follow(options || {})
     } else {
@@ -62,6 +64,7 @@ export class FetchWithCookie {
       redirect: 'manual',
     }).catch(console.error)) as Response
 
+    this.lastRedirectUrl = this.redirectUrl
     this.redirectUrl = res.headers.get('location') || undefined
     this.lastRes = res
     this.updateMap(cookieParse(host, res.headers))

@@ -14,9 +14,6 @@ export function cookieParse(host: string, headers: Headers): CookieMap {
   let [lastIdxMark, kv] = ['', new Map()] as [string, Map<string, string>]
   for (const e of rawCookies) {
     const [keyVal, ...optionals] = e.split('; ')
-    const [_, path] = optionals
-      .find((value) => value.match(/path/i))!
-      .split('=')
     if (!keyVal) {
       continue
     }
