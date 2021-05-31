@@ -2,7 +2,7 @@ import fetch from 'node-fetch'
 import login from './crawler/login'
 
 import { SchoolConf, UserConfOpts } from './types/conf'
-import { CookieRawObject } from './types/cookie'
+import { CookieRawObject, handleCookieOptions } from './types/cookie'
 import log from './utils/logger'
 
 // sstore
@@ -21,11 +21,11 @@ export { log }
 // export database
 export { sstore }
 
-export async function handleCookie(startPointFinder?: string) {
+export async function handleCookie(options?: handleCookieOptions) {
   await Promise.all(
     sstore.get('users').map(async (i: UserConfOpts) => {
       const storeCookiePath = `cookie.${i.alias}`
-      await handleLogin(i, storeCookiePath, startPointFinder || null)
+      await handleLogin(i, storeCookiePath, options || {})
     }),
   )
 }
@@ -33,7 +33,7 @@ export async function handleCookie(startPointFinder?: string) {
 async function handleLogin(
   i: UserConfOpts,
   storeCookiePath: string,
-  startPointFinder: string | null,
+  options: handleCookieOptions,
 ) {
   let cookie: CookieRawObject = sstore.get(storeCookiePath)
   const name = i.alias
@@ -43,7 +43,7 @@ async function handleLogin(
     const result = await login(
       school,
       i,
-      startPointFinder || school.campuseAuthStartEndpoint,
+      options,
     )
     if (result) {
       sstore.set(storeCookiePath, result)
@@ -68,7 +68,7 @@ async function handleLogin(
         suffix: `@${name}`,
       })
       sstore.del(storeCookiePath)
-      await handleLogin(i, storeCookiePath, startPointFinder)
+      await handleLogin(i, storeCookiePath, options)
     }
     log.success({
       message: `尝试使用缓存中的 COOKIE`,

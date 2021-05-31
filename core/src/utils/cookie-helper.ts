@@ -18,6 +18,15 @@ export function cookieParse(host: string, headers: Headers): CookieMap {
       continue
     }
     const [key, val] = keyVal.split('=')
+
+    const domainVal = optionals.find((e) => e.includes('Domain'))
+
+    // set root domain cookie
+    if (domainVal) {
+      const [_, domain] = domainVal.split('=')
+      map.set(domain, new Map([[key, val]]))
+    }
+
     const mapIdx = host
     if (lastIdxMark !== mapIdx) {
       if (lastIdxMark) {
@@ -43,9 +52,16 @@ export function cookieStr(host: string, cookieMap: CookieMap) {
   let str = ''
   const mapIdx = host
   const cookie = cookieMap.get(mapIdx)
+  const rootCookie = cookieMap.get(mapIdx.replace(/\w+\./, ''))
 
   if (cookie) {
     for (const [key, value] of cookie.entries()) {
+      str += `${key}=${value}; `
+    }
+  }
+
+  if (rootCookie) {
+    for (const [key, value] of rootCookie.entries()) {
       str += `${key}=${value}; `
     }
   }

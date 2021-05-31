@@ -9,3 +9,8 @@ export interface FetchCookieOptions {
   body?: string
   isPost?: boolean
 }
+
+export interface handleCookieOptions {
+  startPointUrl?: string
+  authUrl?: string
+}

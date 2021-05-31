@@ -11,6 +11,7 @@ import {
   SchoolConfOpts,
   UserConfOpts,
 } from '../types/conf'
+import { handleCookieOptions } from '../types/cookie'
 import { StringKV } from '../types/helper'
 import { FetchWithCookie } from '../utils/fetch-helper'
 
@@ -22,7 +23,7 @@ import { FetchWithCookie } from '../utils/fetch-helper'
 export default async function login(
   school: SchoolConfOpts,
   user: UserConfOpts,
-  startPointFinder: string,
+  { startPointUrl, authUrl }: handleCookieOptions,
 ) {
   // improve school campatibility with defaults and edge-cases
   const schoolEdgeCases: DefaultProps = getEdgeCases(
@@ -39,12 +40,20 @@ export default async function login(
   const name = user.alias
 
   let res: Response
-  // ensure redirection to the right auth service
-  res = await fetch.get(startPointFinder)
-  // get basic auth url
-  const authUrl = fetch.redirectUrl || startPointFinder
-  // redirect to auth, start login
-  res = await fetch.follow()
+  // ensure redirecting to the right auth service, fallback to campuseAuthStartEndpoint
+  res = await fetch.get(startPointUrl || school.campuseAuthStartEndpoint)
+
+  if (authUrl) {
+    // manually redirect
+    res = await fetch.get(authUrl)
+  } else if (fetch.redirectUrl) {
+    // redirect to auth, start login
+    authUrl = fetch.redirectUrl
+    res = await fetch.follow()
+  } else {
+    // failed to get auth url
+    return
+  }
 
   // grab hidden input name-value, this maybe error-prone, but compatible
   const hiddenInputNameValueMap: StringKV = {}
