@@ -4,6 +4,10 @@
 
 ## Table of contents
 
+### Namespaces
+
+- [sstore](modules/sstore.md)
+
 ### Enumerations
 
 - [CampusphereEndpoint](enums/campusphereendpoint.md)
@@ -11,6 +15,7 @@
 ### Interfaces
 
 - [FetchCookieOptions](interfaces/fetchcookieoptions.md)
+- [handleCookieOptions](interfaces/handlecookieoptions.md)
 
 ### Type aliases
 
@@ -28,10 +33,6 @@
 
 - [log](modules.md#log)
 
-### Variables
-
-- [sstore](modules.md#sstore)
-
 ### Functions
 
 - [getSchoolInfos](modules.md#getschoolinfos)
@@ -44,7 +45,7 @@
 
 Ƭ **CookieMap**: *Map*<string, Map<string, string\>\>
 
-Defined in: [types/cookie.ts:1](https://github.com/ceajs/cea/blob/8952b25/core/src/types/cookie.ts#L1)
+Defined in: [src/types/cookie.ts:1](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/cookie.ts#L1)
 
 ___
 
@@ -54,7 +55,7 @@ ___
 
 #### Type declaration
 
-Defined in: [types/cookie.ts:3](https://github.com/ceajs/cea/blob/8952b25/core/src/types/cookie.ts#L3)
+Defined in: [src/types/cookie.ts:3](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/cookie.ts#L3)
 
 ___
 
@@ -62,7 +63,7 @@ ___
 
 Ƭ **DefaultProps**: NoIapDefaultProps & IapDefaultProps
 
-Defined in: [compatibility/edge-case.ts:36](https://github.com/ceajs/cea/blob/8952b25/core/src/compatibility/edge-case.ts#L36)
+Defined in: [src/compatibility/edge-case.ts:36](https://github.com/ceajs/cea/blob/9a35a33/core/src/compatibility/edge-case.ts#L36)
 
 ___
 
@@ -70,7 +71,7 @@ ___
 
 Ƭ **EdgeCasesSchools**: keyof *typeof* schoolEdgeCases
 
-Defined in: [compatibility/edge-case.ts:32](https://github.com/ceajs/cea/blob/8952b25/core/src/compatibility/edge-case.ts#L32)
+Defined in: [src/compatibility/edge-case.ts:32](https://github.com/ceajs/cea/blob/9a35a33/core/src/compatibility/edge-case.ts#L32)
 
 ___
 
@@ -80,7 +81,7 @@ ___
 
 #### Type declaration
 
-Defined in: [types/conf.ts:15](https://github.com/ceajs/cea/blob/8952b25/core/src/types/conf.ts#L15)
+Defined in: [src/types/conf.ts:15](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/conf.ts#L15)
 
 ___
 
@@ -99,7 +100,7 @@ ___
 | `defaultAddr` | *string* |
 | `isIap` | *boolean* |
 
-Defined in: [types/conf.ts:19](https://github.com/ceajs/cea/blob/8952b25/core/src/types/conf.ts#L19)
+Defined in: [src/types/conf.ts:19](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/conf.ts#L19)
 
 ___
 
@@ -109,7 +110,7 @@ ___
 
 #### Type declaration
 
-Defined in: [types/helper.ts:1](https://github.com/ceajs/cea/blob/8952b25/core/src/types/helper.ts#L1)
+Defined in: [src/types/helper.ts:1](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/helper.ts#L1)
 
 ___
 
@@ -128,7 +129,7 @@ ___
 | `school` | *string* |
 | `username` | *string* |
 
-Defined in: [types/conf.ts:6](https://github.com/ceajs/cea/blob/8952b25/core/src/types/conf.ts#L6)
+Defined in: [src/types/conf.ts:6](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/conf.ts#L6)
 
 ___
 
@@ -136,21 +137,13 @@ ___
 
 Ƭ **UsersConf**: [*UserConfOpts*](modules.md#userconfopts)[]
 
-Defined in: [types/conf.ts:4](https://github.com/ceajs/cea/blob/8952b25/core/src/types/conf.ts#L4)
+Defined in: [src/types/conf.ts:4](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/conf.ts#L4)
 
 ## Properties
 
 ### log
 
 • **log**: *Signale*<DefaultMethods\>
-
-## Variables
-
-### sstore
-
-• `Const` **sstore**: *any*
-
-Defined in: [index.ts:9](https://github.com/ceajs/cea/blob/8952b25/core/src/index.ts#L9)
 
 ## Functions
 
@@ -166,23 +159,23 @@ Defined in: [index.ts:9](https://github.com/ceajs/cea/blob/8952b25/core/src/inde
 
 **Returns:** *Promise*<[*SchoolConf*](modules.md#schoolconf) \| ``null``\>
 
-Defined in: [conf.ts:24](https://github.com/ceajs/cea/blob/8952b25/core/src/conf.ts#L24)
+Defined in: [src/conf.ts:24](https://github.com/ceajs/cea/blob/9a35a33/core/src/conf.ts#L24)
 
 ___
 
 ### handleCookie
 
-▸ **handleCookie**(`startPointFinder?`: *string*): *Promise*<void\>
+▸ **handleCookie**(`options?`: [*handleCookieOptions*](interfaces/handlecookieoptions.md)): *Promise*<void\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `startPointFinder?` | *string* |
+| `options?` | [*handleCookieOptions*](interfaces/handlecookieoptions.md) |
 
 **Returns:** *Promise*<void\>
 
-Defined in: [index.ts:22](https://github.com/ceajs/cea/blob/8952b25/core/src/index.ts#L22)
+Defined in: [src/index.ts:24](https://github.com/ceajs/cea/blob/9a35a33/core/src/index.ts#L24)
 
 ___
 
@@ -192,4 +185,4 @@ ___
 
 **Returns:** [*UsersConf*](modules.md#usersconf) \| ``null``
 
-Defined in: [conf.ts:11](https://github.com/ceajs/cea/blob/8952b25/core/src/conf.ts#L11)
+Defined in: [src/conf.ts:11](https://github.com/ceajs/cea/blob/9a35a33/core/src/conf.ts#L11)

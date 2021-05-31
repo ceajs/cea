@@ -16,7 +16,7 @@
 
 • **detailSignInstance**: = "/wec-counselor-sign-apps/stu/sign/detailSignInstance"
 
-Defined in: [types/helper.ts:8](https://github.com/ceajs/cea/blob/8952b25/core/src/types/helper.ts#L8)
+Defined in: [src/types/helper.ts:8](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/helper.ts#L8)
 
 ___
 
@@ -24,7 +24,7 @@ ___
 
 • **getStuSignInfosInOneDay**: = "/wec-counselor-sign-apps/stu/sign/getStuSignInfosInOneDay"
 
-Defined in: [types/helper.ts:6](https://github.com/ceajs/cea/blob/8952b25/core/src/types/helper.ts#L6)
+Defined in: [src/types/helper.ts:6](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/helper.ts#L6)
 
 ___
 
@@ -32,4 +32,4 @@ ___
 
 • **submitSign**: = "/wec-counselor-sign-apps/stu/sign/submitSign"
 
-Defined in: [types/helper.ts:9](https://github.com/ceajs/cea/blob/8952b25/core/src/types/helper.ts#L9)
+Defined in: [src/types/helper.ts:9](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/helper.ts#L9)

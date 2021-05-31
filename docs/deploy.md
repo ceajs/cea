@@ -1,8 +1,3 @@
-**两种部署方式的区别**
-
-1. GitHub Actions：部署过程最简单（但少部分学校域名禁止海外 IP 访问，可能需要代理登录服务器），**向前兼容**，不必担心今日校园更新导致签到失效
-
-2. 云开发：签到最快，但需要实名认证; **无法向前兼容，需手动更新**，参考 [#27](https://github.com/beetcb/cea/issues/27)
 
 <details><summary>腾讯云开发一键部署</summary>
 
@@ -21,25 +16,19 @@
 
   </details>
 
-<details><summary>Github Actions 部署</summary>
+<details><summary>GitHub Actions</summary>
 
-部署教程如下：
+> 考虑到 GitHub 近期对 Actions 监管（并且部分学校限制国外主机访问），本项目将禁用 Actions 部署
+  </details>
 
-1. 右上角 Fork 本项目(可以顺手 Star ✨ 支持一下，谢谢)
+<details><summary>服务器部署</summary>
 
-2. Fork 下来的项目默认是关闭 Actions 的，需要手动开启：单击 Actions，按下图开启 cea 这个 GitHub Action：
-   ![enable workflows](https://i.imgur.com/1myiezK.png)
-   ![enable cea action](https://i.imgur.com/RQ4gEJA.png)
+1. 按照 [README.md](https://github.com/ceajs/cea#%E4%BD%9C%E4%B8%BA%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%BD%BF%E7%94%A8) 安装 cea，配置用户
 
-3. 配置签到信息：单击 Settings ，在左侧边栏中，单击 Secrets，单击 New repository secret 开始创建签到信息
+2. 正确配置 cron 服务，以下命令仅供参考
 
-   ![actions](https://i.imgur.com/Lx6319H.png)
-   ![secret-example](https://i.imgur.com/l8BzkEK.png)
-
-   **你只需要添加 1 个 secrets，命名为 `conf.toml`，且内容和配置文件保持一致，请参考[配置文件说明](./config.md)请自行填入**
-
-4. 通过给自己仓库 Star 来测试 Actions 是否执行成功
-
-   配置成功后，此操作会自动在每天 6:00 触发，尝试签到
+   ```bash
+   0 6 * * * /usr/local/bin/node /usr/local/bin/cea sign
+   ```
 
   </details>

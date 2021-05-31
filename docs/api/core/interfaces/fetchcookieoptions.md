@@ -16,7 +16,7 @@
 
 • `Optional` **body**: *string*
 
-Defined in: [types/cookie.ts:9](https://github.com/ceajs/cea/blob/8952b25/core/src/types/cookie.ts#L9)
+Defined in: [src/types/cookie.ts:9](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/cookie.ts#L9)
 
 ___
 
@@ -24,7 +24,7 @@ ___
 
 • `Optional` **isPost**: *boolean*
 
-Defined in: [types/cookie.ts:10](https://github.com/ceajs/cea/blob/8952b25/core/src/types/cookie.ts#L10)
+Defined in: [src/types/cookie.ts:10](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/cookie.ts#L10)
 
 ___
 
@@ -32,4 +32,4 @@ ___
 
 • `Optional` **type**: ``"json"`` \| ``"form"``
 
-Defined in: [types/cookie.ts:8](https://github.com/ceajs/cea/blob/8952b25/core/src/types/cookie.ts#L8)
+Defined in: [src/types/cookie.ts:8](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/cookie.ts#L8)

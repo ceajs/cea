@@ -38,7 +38,7 @@
 
 **Returns:** [*CheckIn*](checkin.md)
 
-Defined in: [index.ts:31](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L31)
+Defined in: [index.ts:31](https://github.com/ceajs/cea/blob/9a35a33/plugins/check-in/src/index.ts#L31)
 
 ## Properties
 
@@ -46,7 +46,7 @@ Defined in: [index.ts:31](https://github.com/ceajs/cea/blob/8952b25/plugins/chec
 
 • `Private` **headers**: StringKV
 
-Defined in: [index.ts:29](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L29)
+Defined in: [index.ts:29](https://github.com/ceajs/cea/blob/9a35a33/plugins/check-in/src/index.ts#L29)
 
 ___
 
@@ -54,7 +54,7 @@ ___
 
 • `Private` **school**: SchoolConfOpts
 
-Defined in: [index.ts:31](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L31)
+Defined in: [index.ts:31](https://github.com/ceajs/cea/blob/9a35a33/plugins/check-in/src/index.ts#L31)
 
 ___
 
@@ -62,7 +62,7 @@ ___
 
 • `Private` **user**: UserConfOpts
 
-Defined in: [index.ts:30](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L30)
+Defined in: [index.ts:30](https://github.com/ceajs/cea/blob/9a35a33/plugins/check-in/src/index.ts#L30)
 
 ## Methods
 
@@ -72,7 +72,7 @@ Defined in: [index.ts:30](https://github.com/ceajs/cea/blob/8952b25/plugins/chec
 
 **Returns:** *void*
 
-Defined in: [index.ts:195](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L195)
+Defined in: [index.ts:195](https://github.com/ceajs/cea/blob/9a35a33/plugins/check-in/src/index.ts#L195)
 
 ___
 
@@ -88,7 +88,7 @@ ___
 
 **Returns:** *string*
 
-Defined in: [index.ts:183](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L183)
+Defined in: [index.ts:183](https://github.com/ceajs/cea/blob/9a35a33/plugins/check-in/src/index.ts#L183)
 
 ___
 
@@ -104,7 +104,7 @@ ___
 
 **Returns:** *string*
 
-Defined in: [index.ts:169](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L169)
+Defined in: [index.ts:169](https://github.com/ceajs/cea/blob/9a35a33/plugins/check-in/src/index.ts#L169)
 
 ___
 
@@ -120,7 +120,7 @@ ___
 
 **Returns:** { `extraFieldItemValue`: *string* ; `extraFieldItemWid`: *string*  }[]
 
-Defined in: [index.ts:152](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L152)
+Defined in: [index.ts:152](https://github.com/ceajs/cea/blob/9a35a33/plugins/check-in/src/index.ts#L152)
 
 ___
 
@@ -136,7 +136,7 @@ ___
 
 **Returns:** *number*
 
-Defined in: [index.ts:142](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L142)
+Defined in: [index.ts:142](https://github.com/ceajs/cea/blob/9a35a33/plugins/check-in/src/index.ts#L142)
 
 ___
 
@@ -146,7 +146,7 @@ ___
 
 **Returns:** *Promise*<void \| AllSignTasks\>
 
-Defined in: [index.ts:43](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L43)
+Defined in: [index.ts:43](https://github.com/ceajs/cea/blob/9a35a33/plugins/check-in/src/index.ts#L43)
 
 ___
 
@@ -162,4 +162,4 @@ ___
 
 **Returns:** *Promise*<LogInfo\>
 
-Defined in: [index.ts:70](https://github.com/ceajs/cea/blob/8952b25/plugins/check-in/src/index.ts#L70)
+Defined in: [index.ts:70](https://github.com/ceajs/cea/blob/9a35a33/plugins/check-in/src/index.ts#L70)
