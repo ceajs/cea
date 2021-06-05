@@ -6,9 +6,12 @@
   ],
   "version": "independent",
   "command": {
-    "publish": {
+    "version": {
+      "allowBranch": "main",
       "conventionalCommits": true,
-      "message": "chore(release): publish"
+      "createRelease": "github",
+      "exact": true,
+      "message": "chore(release): %s"
     }
   }
 }
