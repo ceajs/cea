@@ -46,7 +46,7 @@ export function cookieParse(host: string, headers: Headers): CookieMap {
 }
 
 /**
- * Construct a cookie obj base on host
+ * Construct a cookie object based on host
  */
 export function cookieStr(host: string, cookieMap: CookieMap) {
   let str = ''
