@@ -2,7 +2,7 @@ import { sstore } from 'cea-core'
 export { checkIn } from 'cea-check-in'
 import { confSet } from './conf-set'
 
-export class Cea {
+export default class Cea {
   private plugins: Set<() => Promise<void>> = new Set()
 
   addPlugin(plugin: () => Promise<void>) {

@@ -13,12 +13,10 @@ import {
 } from '../types/conf'
 import { handleCookieOptions } from '../types/cookie'
 import { StringKV } from '../types/helper'
-import { FetchWithCookie } from '../utils/fetch-helper'
+import FetchWithCookie from '../utils/fetch-helper'
 
 /**
- * login to SWMS(stu work magagement system) process
- * @param {object} school api info
- * @param {object} user user info for login
+ * Process to login to the unified auth
  */
 export default async function login(
   school: SchoolConfOpts,

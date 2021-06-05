@@ -3,7 +3,9 @@ import login from './crawler/login'
 
 import { SchoolConf, UserConfOpts } from './types/conf'
 import { CookieRawObject, handleCookieOptions } from './types/cookie'
+
 import log from './utils/logger'
+export * from './utils/cookie-helper'
 
 // sstore
 import sstore from '@beetcb/sstore'
@@ -21,6 +23,9 @@ export { log }
 // export database
 export { sstore }
 
+/**
+ * Iterate through all users: complete unified auth -> store cookie
+ */
 export async function handleCookie(options?: handleCookieOptions) {
   await Promise.all(
     sstore.get('users').map(async (i: UserConfOpts) => {
@@ -40,11 +45,7 @@ async function handleLogin(
   const school = (sstore.get('schools') as SchoolConf)[i.school]
   // Check if the cookie is stored, if not, login in to eat them
   if (!cookie) {
-    const result = await login(
-      school,
-      i,
-      options,
-    )
+    const result = await login(school, i, options)
     if (result) {
       sstore.set(storeCookiePath, result)
       log.success({

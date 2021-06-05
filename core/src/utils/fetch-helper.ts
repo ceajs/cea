@@ -4,7 +4,10 @@ import { CookieMap, FetchCookieOptions } from '../types/cookie'
 import { StringKV } from '../types/helper'
 import { cookieParse, cookieStr } from './cookie-helper'
 
-export class FetchWithCookie {
+/**
+ * Node-fetch wrapper for contantly cookie handling
+ */
+export default class FetchWithCookie {
   private headers: StringKV
   private cookieMap?: CookieMap
   private lastRes?: Response
@@ -23,9 +26,6 @@ export class FetchWithCookie {
     return await this.fetch(url, options)
   }
 
-  /**
-   * keep requesting last request url
-   */
   async follow(options?: FetchCookieOptions): Promise<Response> {
     let res: Response
     // avoid callback hell

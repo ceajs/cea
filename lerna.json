@@ -1,4 +1,14 @@
 {
-  "packages": ["core", "internal", "plugins/*"],
-  "version": "independent"
+  "packages": [
+    "core",
+    "internal",
+    "plugins/*"
+  ],
+  "version": "independent",
+  "command": {
+    "publish": {
+      "conventionalCommits": true,
+      "message": "chore(release): publish"
+    }
+  }
 }
