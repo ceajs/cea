@@ -7,3 +7,4 @@ lib/
 *tsbuild*
 __test__/*.js*
 package-lock.json
+lerna-debug.log
