@@ -27,11 +27,11 @@
     "singleQuote": true,
     "printWidth": 80
   },
-  "repository": "beetcb/cea",
+  "repository": "ceajs/cea",
   "author": {
     "name": "beetcb",
     "email": "i@beetcb.com",
-    "url": "https://github.com/beetcb/cea"
+    "url": "https://github.com/ceajs/cea"
   },
   "license": "MIT",
   "devDependencies": {
