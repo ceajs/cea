@@ -10,6 +10,7 @@
     "prebuild": "dprint fmt",
     "build": "tsc --build tsconfig.json",
     "test": "jest",
+    "pub": "npm run build && lerna publish",
     "dry": "lerna exec -- npm pack && lerna exec -- rm -rf package *.tgz"
   },
   "keywords": [
@@ -37,8 +38,6 @@
     "@types/jest": "^26.0.23",
     "jest": "^26.6.3",
     "lerna": "^4.0.0",
-    "prettier": "2.3.0",
-    "ts-node": "^10.0.0",
     "typedoc": "^0.20.36",
     "typedoc-github-wiki-theme": "^0.3.0",
     "typedoc-plugin-markdown": "^3.8.1",
