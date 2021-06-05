@@ -39,7 +39,7 @@ export default async function login(
 
   let res: Response
   // ensure redirecting to the right auth service, fallback to campuseAuthStartEndpoint
-  res = await fetch.get(startPointUrl || school.campuseAuthStartEndpoint)
+  res = await fetch.get(startPointUrl || school.campusAuthStartEndpoint)
 
   if (authUrl) {
     // manually redirect
