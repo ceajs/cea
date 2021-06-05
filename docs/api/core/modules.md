@@ -35,6 +35,8 @@
 
 ### Functions
 
+- [cookieParse](modules.md#cookieparse)
+- [cookieStr](modules.md#cookiestr)
 - [getSchoolInfos](modules.md#getschoolinfos)
 - [handleCookie](modules.md#handlecookie)
 - [loadConfFromToml](modules.md#loadconffromtoml)
@@ -45,7 +47,7 @@
 
 Ƭ **CookieMap**: *Map*<string, Map<string, string\>\>
 
-Defined in: [src/types/cookie.ts:1](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/cookie.ts#L1)
+Defined in: [src/types/cookie.ts:1](https://github.com/ceajs/cea/blob/97b9b5d/core/src/types/cookie.ts#L1)
 
 ___
 
@@ -55,7 +57,7 @@ ___
 
 #### Type declaration
 
-Defined in: [src/types/cookie.ts:3](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/cookie.ts#L3)
+Defined in: [src/types/cookie.ts:3](https://github.com/ceajs/cea/blob/97b9b5d/core/src/types/cookie.ts#L3)
 
 ___
 
@@ -63,7 +65,7 @@ ___
 
 Ƭ **DefaultProps**: NoIapDefaultProps & IapDefaultProps
 
-Defined in: [src/compatibility/edge-case.ts:36](https://github.com/ceajs/cea/blob/9a35a33/core/src/compatibility/edge-case.ts#L36)
+Defined in: [src/compatibility/edge-case.ts:36](https://github.com/ceajs/cea/blob/97b9b5d/core/src/compatibility/edge-case.ts#L36)
 
 ___
 
@@ -71,7 +73,7 @@ ___
 
 Ƭ **EdgeCasesSchools**: keyof *typeof* schoolEdgeCases
 
-Defined in: [src/compatibility/edge-case.ts:32](https://github.com/ceajs/cea/blob/9a35a33/core/src/compatibility/edge-case.ts#L32)
+Defined in: [src/compatibility/edge-case.ts:32](https://github.com/ceajs/cea/blob/97b9b5d/core/src/compatibility/edge-case.ts#L32)
 
 ___
 
@@ -81,7 +83,7 @@ ___
 
 #### Type declaration
 
-Defined in: [src/types/conf.ts:15](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/conf.ts#L15)
+Defined in: [src/types/conf.ts:15](https://github.com/ceajs/cea/blob/97b9b5d/core/src/types/conf.ts#L15)
 
 ___
 
@@ -94,13 +96,13 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `auth` | *string* |
-| `campuseAuthStartEndpoint` | *string* |
+| `campusAuthStartEndpoint` | *string* |
 | `campusphere` | *string* |
 | `chineseName` | *string* |
 | `defaultAddr` | *string* |
 | `isIap` | *boolean* |
 
-Defined in: [src/types/conf.ts:19](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/conf.ts#L19)
+Defined in: [src/types/conf.ts:19](https://github.com/ceajs/cea/blob/97b9b5d/core/src/types/conf.ts#L19)
 
 ___
 
@@ -110,7 +112,7 @@ ___
 
 #### Type declaration
 
-Defined in: [src/types/helper.ts:1](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/helper.ts#L1)
+Defined in: [src/types/helper.ts:1](https://github.com/ceajs/cea/blob/97b9b5d/core/src/types/helper.ts#L1)
 
 ___
 
@@ -129,7 +131,7 @@ ___
 | `school` | *string* |
 | `username` | *string* |
 
-Defined in: [src/types/conf.ts:6](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/conf.ts#L6)
+Defined in: [src/types/conf.ts:6](https://github.com/ceajs/cea/blob/97b9b5d/core/src/types/conf.ts#L6)
 
 ___
 
@@ -137,7 +139,7 @@ ___
 
 Ƭ **UsersConf**: [*UserConfOpts*](modules.md#userconfopts)[]
 
-Defined in: [src/types/conf.ts:4](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/conf.ts#L4)
+Defined in: [src/types/conf.ts:4](https://github.com/ceajs/cea/blob/97b9b5d/core/src/types/conf.ts#L4)
 
 ## Properties
 
@@ -146,6 +148,44 @@ Defined in: [src/types/conf.ts:4](https://github.com/ceajs/cea/blob/9a35a33/core
 • **log**: *Signale*<DefaultMethods\>
 
 ## Functions
+
+### cookieParse
+
+▸ **cookieParse**(`host`: *string*, `headers`: Headers): [*CookieMap*](modules.md#cookiemap)
+
+Parse http response headers' cookie
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `host` | *string* |
+| `headers` | Headers |
+
+**Returns:** [*CookieMap*](modules.md#cookiemap)
+
+Defined in: [src/utils/cookie-helper.ts:7](https://github.com/ceajs/cea/blob/97b9b5d/core/src/utils/cookie-helper.ts#L7)
+
+___
+
+### cookieStr
+
+▸ **cookieStr**(`host`: *string*, `cookieMap`: [*CookieMap*](modules.md#cookiemap)): *string*
+
+Construct a cookie object based on host
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `host` | *string* |
+| `cookieMap` | [*CookieMap*](modules.md#cookiemap) |
+
+**Returns:** *string*
+
+Defined in: [src/utils/cookie-helper.ts:51](https://github.com/ceajs/cea/blob/97b9b5d/core/src/utils/cookie-helper.ts#L51)
+
+___
 
 ### getSchoolInfos
 
@@ -159,13 +199,15 @@ Defined in: [src/types/conf.ts:4](https://github.com/ceajs/cea/blob/9a35a33/core
 
 **Returns:** *Promise*<[*SchoolConf*](modules.md#schoolconf) \| ``null``\>
 
-Defined in: [src/conf.ts:24](https://github.com/ceajs/cea/blob/9a35a33/core/src/conf.ts#L24)
+Defined in: [src/conf.ts:24](https://github.com/ceajs/cea/blob/97b9b5d/core/src/conf.ts#L24)
 
 ___
 
 ### handleCookie
 
 ▸ **handleCookie**(`options?`: [*handleCookieOptions*](interfaces/handlecookieoptions.md)): *Promise*<void\>
+
+Iterate through all users: complete unified auth -> store cookie
 
 #### Parameters
 
@@ -175,7 +217,7 @@ ___
 
 **Returns:** *Promise*<void\>
 
-Defined in: [src/index.ts:24](https://github.com/ceajs/cea/blob/9a35a33/core/src/index.ts#L24)
+Defined in: [src/index.ts:29](https://github.com/ceajs/cea/blob/97b9b5d/core/src/index.ts#L29)
 
 ___
 
@@ -185,4 +227,4 @@ ___
 
 **Returns:** [*UsersConf*](modules.md#usersconf) \| ``null``
 
-Defined in: [src/conf.ts:11](https://github.com/ceajs/cea/blob/9a35a33/core/src/conf.ts#L11)
+Defined in: [src/conf.ts:11](https://github.com/ceajs/cea/blob/97b9b5d/core/src/conf.ts#L11)

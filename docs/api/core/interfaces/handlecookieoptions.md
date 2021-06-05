@@ -15,7 +15,7 @@
 
 • `Optional` **authUrl**: *string*
 
-Defined in: [src/types/cookie.ts:15](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/cookie.ts#L15)
+Defined in: [src/types/cookie.ts:15](https://github.com/ceajs/cea/blob/97b9b5d/core/src/types/cookie.ts#L15)
 
 ___
 
@@ -23,4 +23,4 @@ ___
 
 • `Optional` **startPointUrl**: *string*
 
-Defined in: [src/types/cookie.ts:14](https://github.com/ceajs/cea/blob/9a35a33/core/src/types/cookie.ts#L14)
+Defined in: [src/types/cookie.ts:14](https://github.com/ceajs/cea/blob/97b9b5d/core/src/types/cookie.ts#L14)

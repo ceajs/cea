@@ -6,7 +6,7 @@
 
 ### Classes
 
-- [Cea](classes/cea.md)
+- [default](classes/default.md)
 
 ### Functions
 
