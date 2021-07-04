@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package cea-core
 
-
-
-
-
 # 0.3.0 (2021-06-05)
 
 ### Bug Fixes

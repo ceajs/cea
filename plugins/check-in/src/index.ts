@@ -22,7 +22,7 @@ import {
 } from './types'
 
 import crypto from 'crypto'
-import fetch, { Response } from 'node-fetch'
+import fetch from 'node-fetch'
 import { v1 } from 'uuid'
 
 export class CheckIn {
@@ -223,7 +223,9 @@ async function signIn(users: UsersConf): Promise<GlobalLogInfo> {
       const instance: CheckIn = new CheckIn(i)
       const curTask = await instance.signInfo()
       if (curTask) {
-        const needCheckInTasks = curTask.unSignedTasks || curTask.leaveTasks
+        const needCheckInTasks = curTask.unSignedTasks.concat(
+          curTask.leaveTasks,
+        )
         if (needCheckInTasks.length) {
           const result = await instance.signWithForm(needCheckInTasks[0])
           logs[i.alias] = result
