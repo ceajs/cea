@@ -21,7 +21,7 @@ import FetchWithCookie from '../utils/fetch-helper'
 export default async function login(
   school: SchoolConfOpts,
   user: UserConfOpts,
-  { startPointUrl, authUrl }: handleCookieOptions,
+  { preAuthURL, preCookieURLArray, authURL }: handleCookieOptions,
 ) {
   // improve school campatibility with defaults and edge-cases
   const schoolEdgeCases: DefaultProps = getEdgeCases(
@@ -38,22 +38,22 @@ export default async function login(
   const name = user.alias
 
   let res: Response
-  // ensure redirecting to the right auth service, fallback to campuseAuthStartEndpoint
-  res = await fetch.get(startPointUrl || school.campusAuthStartEndpoint)
 
-  if (authUrl) {
-    // manually redirect
-    res = await fetch.get(authUrl)
-  } else if (fetch.redirectUrl) {
-    // redirect to auth, start login
-    authUrl = fetch.redirectUrl
-    res = await fetch.follow()
-  } else {
-    // failed to get auth url
-    return
+  if (preCookieURLArray?.length) {
+    for (const preCookieURL of preCookieURLArray) {
+      await fetch.get(preCookieURL)
+    }
   }
 
-  // grab hidden input name-value, this maybe error-prone, but compatible
+  // ensure redirecting to the right auth service, fallback to campuseAuthStartEndpoint
+  res = await fetch.get(authURL || preAuthURL || school.preAuthURL)
+
+  if (!authURL) {
+    authURL = fetch.redirectUrl!
+    res = await fetch.follow()
+  }
+
+  // grab hidden input name-val ue, this maybe error-prone, but compatible
   const hiddenInputNameValueMap: StringKV = {}
   let pwdSalt
   if (schoolEdgeCases.formIdx !== undefined) {
@@ -144,7 +144,7 @@ export default async function login(
     }
   }
 
-  res = await fetch.post(authUrl, {
+  res = await fetch.post(authURL, {
     type: 'form',
     body: auth.toString(),
   })

@@ -54,7 +54,7 @@ export default class FetchWithCookie {
       : 'application/json'
 
     if (!type && headers['Content-Type']) {
-      delete headers['Content-Type']
+      Reflect.deleteProperty(headers, 'Content-Type')
     }
 
     const res = (await fetch(url, {

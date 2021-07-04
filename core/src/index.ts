@@ -22,6 +22,7 @@ export * from './conf'
 export { log }
 // export database
 export { sstore }
+export { handleCookieOptions }
 
 /**
  * Iterate through all users: complete unified auth -> store cookie

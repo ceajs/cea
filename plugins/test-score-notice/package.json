@@ -1,0 +1,19 @@
+{
+  "name": "test-score-notice",
+  "version": "0.3.2",
+  "description": "test score notice plugin for cea",
+  "main": "lib/src/index.js",
+  "types": "lib/src/index.d.ts",
+  "files": [
+    "lib/src/**/*.[tj]s"
+  ],
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cea-core": "0.3.2",
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {}
+}

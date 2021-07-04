@@ -5,15 +5,10 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.3.2](https://github.com/ceajs/cea/compare/v0.3.1...v0.3.2) (2021-07-04)
 
-
 ### Bug Fixes
 
-* **build:** repo url typo ([3f209ea](https://github.com/ceajs/cea/commit/3f209ea56491ffe2efda0e04b2e7bede7e9836de))
-* **check-in:** emply array is not falsy ([c63919d](https://github.com/ceajs/cea/commit/c63919dfe59566e964b7e70aa1d20fa8a53415f3))
-
-
-
-
+- **build:** repo url typo ([3f209ea](https://github.com/ceajs/cea/commit/3f209ea56491ffe2efda0e04b2e7bede7e9836de))
+- **check-in:** emply array is not falsy ([c63919d](https://github.com/ceajs/cea/commit/c63919dfe59566e964b7e70aa1d20fa8a53415f3))
 
 ## [0.3.1](https://github.com/beetcb/cea/compare/v0.3.0...v0.3.1) (2021-06-05)
 

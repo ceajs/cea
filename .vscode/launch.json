@@ -7,15 +7,21 @@
     {
       "type": "pwa-node",
       "request": "launch",
-      "name": "Sign Test",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "name": "Check In Test",
+      "skipFiles": ["<node_internals>/**"],
+      "preLaunchTask": "npm: build",
       "program": "${workspaceFolder}/internal/src/cli.ts",
       "args": ["sign"],
-      "outFiles": [
-        "${workspaceFolder}/**/*.js"
-      ]
+      "outFiles": ["${workspaceFolder}/**/*.js"]
+    },
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Test Score Notice Test",
+      "skipFiles": ["<node_internals>/**"],
+      "preLaunchTask": "npm: build",
+      "program": "${workspaceFolder}/plugins/test-score-notice/src/index.ts",
+      "outFiles": ["${workspaceFolder}/**/*.js"]
     }
   ]
 }

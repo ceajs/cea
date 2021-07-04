@@ -18,7 +18,6 @@ export function cookieParse(host: string, headers: Headers): CookieMap {
       continue
     }
     const [key, val] = keyVal.split('=')
-
     const domainVal = optionals.find((e) => e.includes('Domain'))
 
     // set root domain cookie

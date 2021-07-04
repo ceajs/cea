@@ -6,21 +6,30 @@
 
 ### Properties
 
-- [authUrl](handlecookieoptions.md#authurl)
-- [startPointUrl](handlecookieoptions.md#startpointurl)
+- [authURL](handlecookieoptions.md#authurl)
+- [preAuthURL](handlecookieoptions.md#preauthurl)
+- [preCookieURLArray](handlecookieoptions.md#precookieurlarray)
 
 ## Properties
 
-### authUrl
+### authURL
 
-• `Optional` **authUrl**: *string*
+• `Optional` **authURL**: *string*
 
-Defined in: [src/types/cookie.ts:15](https://github.com/ceajs/cea/blob/97b9b5d/core/src/types/cookie.ts#L15)
+Defined in: [src/types/cookie.ts:16](https://github.com/ceajs/cea/blob/8526aa4/core/src/types/cookie.ts#L16)
 
 ___
 
-### startPointUrl
+### preAuthURL
 
-• `Optional` **startPointUrl**: *string*
+• `Optional` **preAuthURL**: *string*
 
-Defined in: [src/types/cookie.ts:14](https://github.com/ceajs/cea/blob/97b9b5d/core/src/types/cookie.ts#L14)
+Defined in: [src/types/cookie.ts:15](https://github.com/ceajs/cea/blob/8526aa4/core/src/types/cookie.ts#L15)
+
+___
+
+### preCookieURLArray
+
+• `Optional` **preCookieURLArray**: *string*[]
+
+Defined in: [src/types/cookie.ts:14](https://github.com/ceajs/cea/blob/8526aa4/core/src/types/cookie.ts#L14)

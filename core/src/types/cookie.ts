@@ -11,6 +11,7 @@ export interface FetchCookieOptions {
 }
 
 export interface handleCookieOptions {
-  startPointUrl?: string
-  authUrl?: string
+  preCookieURLArray?: Array<string>
+  preAuthURL?: string
+  authURL?: string
 }
