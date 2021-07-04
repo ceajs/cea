@@ -1,6 +1,6 @@
 {
   "name": "cea",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "cea",
   "main": "lib/src/index.js",
   "bin": "lib/src/cli.js",
@@ -13,8 +13,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "cea-check-in": "0.3.1",
-    "cea-core": "0.3.1",
+    "cea-check-in": "0.3.2",
+    "cea-core": "0.3.2",
     "enquirer": "^2.3.6"
   }
 }
