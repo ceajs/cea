@@ -31,7 +31,7 @@ import fetch from 'node-fetch'
         headers: {
           cookie: cookie['jwglxt.whpu.edu.cn'],
         },
-      }
+      },
     ).then((d) => console.log(Object.fromEntries(d.headers)))
   })
 })()
