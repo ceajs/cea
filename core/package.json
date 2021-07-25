@@ -8,7 +8,7 @@
     "lib/src/**/*.[tj]s"
   ],
   "scripts": {
-    "build:debug": "esbuild src/*.ts src/**/*.ts --outdir=lib --format=cjs --sourcemap"
+    "build:debug": "esbuild ./src/*.ts ./src/**/*.ts --outdir=lib/src/ --format=cjs --sourcemap"
   },
   "keywords": [
     "今日校园",
