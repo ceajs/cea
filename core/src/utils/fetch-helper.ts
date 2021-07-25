@@ -47,8 +47,9 @@ export default class FetchWithCookie {
     headers.host = host
     headers.cookie = this.cookieMap ? cookieStr(host, this.cookieMap)! : ''
 
-    headers['Content-Type'] =
-      type === 'form' ? 'application/x-www-form-urlencoded' : 'application/json'
+    headers['Content-Type'] = type === 'form'
+      ? 'application/x-www-form-urlencoded'
+      : 'application/json'
 
     if (!type && headers['Content-Type']) {
       Reflect.deleteProperty(headers, 'Content-Type')
