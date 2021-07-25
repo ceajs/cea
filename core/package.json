@@ -8,7 +8,7 @@
     "lib/src/**/*.[tj]s"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:debug": "esbuild src/*.ts src/**/*.ts --outdir=lib --format=cjs --sourcemap"
   },
   "keywords": [
     "今日校园",

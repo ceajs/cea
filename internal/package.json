@@ -8,7 +8,9 @@
   "files": [
     "lib/src/**/*.[tj]s"
   ],
-  "scripts": {},
+  "scripts": {
+    "build:debug": "esbuild src/*.ts --outdir=lib --format=cjs --sourcemap"
+  },
   "keywords": [],
   "author": "",
   "license": "MIT",

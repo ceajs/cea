@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "Check In Test",
       "skipFiles": ["<node_internals>/**"],
-      "preLaunchTask": "npm: build",
+      "preLaunchTask": "npm: build:debug",
       "program": "${workspaceFolder}/internal/src/cli.ts",
       "args": ["sign"],
       "outFiles": ["${workspaceFolder}/**/*.js"]
@@ -17,7 +17,7 @@
     {
       "type": "pwa-node",
       "request": "launch",
-      "name": "Test Score Notice Test",
+      "name": "Score Notice Test",
       "skipFiles": ["<node_internals>/**"],
       "preLaunchTask": "npm: build",
       "program": "${workspaceFolder}/plugins/test-score-notice/src/index.ts",

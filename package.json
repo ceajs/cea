@@ -7,7 +7,8 @@
     "postbootstrap": "npm run build && lerna bootstrap",
     "docs": "node -e \"$(esbuild build/docs.ts --minify --format=cjs)\"",
     "prebuild": "dprint fmt",
-    "build": "lerna exec -- esbuild src/**/*.ts --outdir=lib --platform=node --format=cjs --sourcemap",
+    "build": "tsc --build",
+    "build:debug": "lerna run build:debug",
     "test": "jest",
     "pub": "npm run build && env-cmd lerna publish",
     "dry": "lerna exec -- npm pack && lerna exec -- rm -rf package *.tgz"

@@ -13,6 +13,7 @@ import {
 import fetch from 'node-fetch'
 ;(async () => {
   await handleCookie({
+    // @ts-ignore
     preCookieURLArray: [
       'https://jwglxt.whpu.edu.cn/rump_frontend/login/?next=https%3A%2F%2Fjwglxt.whpu.edu.cn%2Fsso%2Fjziotlogin',
       'https://sec.whpu.edu.cn/rump_frontend/login/?next=https://jwglxt.whpu.edu.cn/sso/jziotlogin',
