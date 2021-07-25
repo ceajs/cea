@@ -24,8 +24,12 @@ cea sign
 今日校园签到：
 
 ```ts
-import { Cea, checkIn } from 'cea'
+// 导入 Cea 和内置的签到插件中的函数 checkIn
+import Cea, { checkIn } from 'cea'
+// 创建 Cea 的实例
 const cea = new Cea()
+// 注册插件
 cea.addPlugin(checkIn)
+// 执行签到脚本
 cea.start()
 ```
