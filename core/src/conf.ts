@@ -58,11 +58,7 @@ export async function getSchoolInfos(
     }
     schoolInfos[abbreviation] = {
       defaultAddr,
-      preAuthURL: `${origin}/iap/login?service=${
-        encodeURIComponent(
-          `${origin}/portal/login`,
-        )
-      }`,
+      preAuthURL: `${origin}/portal/login`,
       auth: casOrigin,
       chineseName: data.name,
       campusphere: origin,

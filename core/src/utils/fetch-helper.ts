@@ -11,7 +11,7 @@ export default class FetchWithCookie {
   private headers: StringKV
   private cookieMap?: CookieMap
   private lastRes?: Response
-  private lastRedirectUrl?: string
+  lastRedirectUrl?: string
   redirectUrl?: string
   constructor(headers: StringKV) {
     this.headers = headers
@@ -28,13 +28,11 @@ export default class FetchWithCookie {
 
   async follow(options?: FetchCookieOptions): Promise<Response> {
     let res: Response
-    // avoid callback hell
-    if (this.redirectUrl && this.lastRedirectUrl !== this.redirectUrl) {
+    if (this.redirectUrl) {
       res = await this.fetch(this.redirectUrl, options || {})
       await this.follow(options || {})
-    } else {
-      res = this.lastRes!
     }
+    res = this.lastRes!
 
     return new Promise((resolve) => resolve(res))
   }
@@ -49,9 +47,8 @@ export default class FetchWithCookie {
     headers.host = host
     headers.cookie = this.cookieMap ? cookieStr(host, this.cookieMap)! : ''
 
-    headers['Content-Type'] = type === 'form'
-      ? 'application/x-www-form-urlencoded'
-      : 'application/json'
+    headers['Content-Type'] =
+      type === 'form' ? 'application/x-www-form-urlencoded' : 'application/json'
 
     if (!type && headers['Content-Type']) {
       Reflect.deleteProperty(headers, 'Content-Type')

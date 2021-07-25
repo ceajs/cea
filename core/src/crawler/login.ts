@@ -49,8 +49,8 @@ export default async function login(
   res = await fetch.get(authURL || preAuthURL || school.preAuthURL)
 
   if (!authURL) {
-    authURL = fetch.redirectUrl!
     res = await fetch.follow()
+    authURL = fetch.lastRedirectUrl!
   }
 
   // grab hidden input name-val ue, this maybe error-prone, but compatible
