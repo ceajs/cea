@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/ceajs/cea/compare/v0.3.2...v0.4.0) (2021-07-25)
+
+
+### Bug Fixes
+
+* **build:** make sure src is kept as subfolder after esbuild ([e03b631](https://github.com/ceajs/cea/commit/e03b631b748cb2d78b783acd993952926c632843))
+* cea commonjs syntax ([4fc3982](https://github.com/ceajs/cea/commit/4fc39827da0bbefe5f7457a8819f7f3a98cc65c3))
+* **debug:** use esbuild only for debug ([e6d6a6d](https://github.com/ceajs/cea/commit/e6d6a6d8880eda647f831d9cae4257afbbb612a7))
+* **login:** change preAuthURL to campusphere endpoint ([43bb894](https://github.com/ceajs/cea/commit/43bb8946179208efe738ace20636b09aa2fa8040))
+* monorepo declaration, use esbuild ([47b2c2d](https://github.com/ceajs/cea/commit/47b2c2d6cf869098ba11ad7d51bc59164a0843c7))
+* **tcb:** change import namespace ([48e2e77](https://github.com/ceajs/cea/commit/48e2e77c790b5f6cb1a2d7554b253dbcfb442164))
+
+
+### Features
+
+* add test-score-notice plugin ([a3d149b](https://github.com/ceajs/cea/commit/a3d149be0b115c1b8b8918a345a8826d8e81159b))
+* **campatibility:** add fzu edge-case formIdx ([984b40c](https://github.com/ceajs/cea/commit/984b40c9ad2ec584ff524c74950728fb462e76ce))
+
+
+
+
+
 ## [0.3.2](https://github.com/ceajs/cea/compare/v0.3.1...v0.3.2) (2021-07-04)
 
 ### Bug Fixes
