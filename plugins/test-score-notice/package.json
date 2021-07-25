@@ -1,5 +1,5 @@
 {
-  "name": "test-score-notice",
+  "name": "cea-test-score-notice",
   "version": "0.4.0",
   "description": "test score notice plugin for cea",
   "main": "lib/src/index.js",
