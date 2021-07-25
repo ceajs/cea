@@ -11,6 +11,12 @@ const schoolEdgeCases = {
     checkCaptchaPath: '/needCaptcha.html',
     getCaptchaPath: '/sliderCaptcha.do',
   },
+  福州大学: {
+    formIdx: 0,
+    rememberMe: 'on',
+    checkCaptchaPath: '/needCaptcha.html',
+    getCaptchaPath: '/captcha.html',
+  },
 }
 
 // we will using proxy to get the default properties
