@@ -1,14 +1,13 @@
 import {
   CampusphereEndpoint,
   CookieRawObject,
-  handleCookie,
-  log,
   SchoolConfOpts,
-  sstore,
   StringKV,
   UserConfOpts,
   UsersConf,
 } from 'cea-core'
+import { handleCookie, sstore } from 'cea-core'
+
 import {
   AllSignTasks,
   CpdailyExtension,
