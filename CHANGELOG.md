@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/ceajs/cea/compare/v0.4.0...v0.5.0) (2021-09-07)
+
+
+### Bug Fixes
+
+* standardize plugin name ([eee5425](https://github.com/ceajs/cea/commit/eee542503aedf204464a628547132f5c43bbd085))
+* **tcb:** dep update ([19bcf8e](https://github.com/ceajs/cea/commit/19bcf8e55698a30450aa93044d3c8b008fbbfa97))
+
+
+### Features
+
+* better scraping practice ([09b73aa](https://github.com/ceajs/cea/commit/09b73aa3d5e529599e6356b7ffc820eedf1f1a46))
+
+
+
+
+
 # [0.4.0](https://github.com/ceajs/cea/compare/v0.3.2...v0.4.0) (2021-07-25)
 
 ### Bug Fixes

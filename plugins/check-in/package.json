@@ -1,6 +1,6 @@
 {
   "name": "cea-check-in",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "check in plugin for cea",
   "main": "lib/src/index.js",
   "types": "lib/src/index.d.ts",
@@ -14,7 +14,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "cea-core": "0.4.0",
+    "cea-core": "0.5.0",
     "node-fetch": "^2.6.1",
     "uuid": "^8.3.2"
   },
