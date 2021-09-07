@@ -2,7 +2,7 @@ import fetch from 'node-fetch'
 import login from './crawler/login'
 
 import { SchoolConf, UserConfOpts } from './types/conf'
-import { CookieRawObject, handleCookieOptions } from './types/cookie'
+import { CookieRawObject, HandleCookieOptions } from './types/cookie'
 
 import log from './utils/logger'
 export * from './utils/cookie-helper'
@@ -22,12 +22,12 @@ export * from './conf'
 export { log }
 // export database
 export { sstore }
-export { handleCookieOptions }
+export { HandleCookieOptions }
 
 /**
  * Iterate through all users: complete unified auth -> store cookie
  */
-export async function handleCookie(options?: handleCookieOptions) {
+export async function handleCookie(options?: HandleCookieOptions) {
   await Promise.all(
     sstore.get('users').map(async (i: UserConfOpts) => {
       const storeCookiePath = `cookie.${i.alias}`
@@ -39,7 +39,7 @@ export async function handleCookie(options?: handleCookieOptions) {
 async function handleLogin(
   i: UserConfOpts,
   storeCookiePath: string,
-  options: handleCookieOptions,
+  options: HandleCookieOptions,
 ) {
   let cookie: CookieRawObject = sstore.get(storeCookiePath)
   const name = i.alias

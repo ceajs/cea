@@ -35,14 +35,11 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "^26.0.24",
     "conventional-changelog-cli": "^2.1.1",
     "env-cmd": "^10.1.0",
     "esbuild": "^0.12.15",
-    "jest": "^27.0.6",
     "lerna": "^4.0.0",
     "ts-jest": "^27.0.4",
-    "typedoc": "^0.20.36",
     "typedoc-github-wiki-theme": "^0.3.0",
     "typedoc-plugin-markdown": "^3.8.1",
     "typescript": "^4.2.4"

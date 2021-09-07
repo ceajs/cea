@@ -10,7 +10,7 @@ export interface FetchCookieOptions {
   isPost?: boolean
 }
 
-export interface handleCookieOptions {
+export interface HandleCookieOptions {
   preCookieURLArray?: Array<string>
   preAuthURL?: string
   authURL?: string

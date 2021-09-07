@@ -4,15 +4,17 @@ import getEdgeCases from '../compatibility/edge-case'
 import log from '../utils/logger'
 import ocr from './capcha'
 
-import { Response } from 'node-fetch'
-import {
+import type { Response } from 'node-fetch'
+import type {
   DefaultProps,
   EdgeCasesSchools,
   SchoolConfOpts,
   UserConfOpts,
 } from '../types/conf'
-import { handleCookieOptions } from '../types/cookie'
-import { StringKV } from '../types/helper'
+import type { HandleCookieOptions } from '../types/cookie'
+import type { StringKV } from '../types/helper'
+
+import UserAgent from 'user-agents'
 import FetchWithCookie from '../utils/fetch-helper'
 
 /**
@@ -21,7 +23,7 @@ import FetchWithCookie from '../utils/fetch-helper'
 export default async function login(
   school: SchoolConfOpts,
   user: UserConfOpts,
-  { preAuthURL, preCookieURLArray, authURL }: handleCookieOptions,
+  { preAuthURL, preCookieURLArray, authURL }: HandleCookieOptions,
 ) {
   // improve school campatibility with defaults and edge-cases
   const schoolEdgeCases: DefaultProps = getEdgeCases(
@@ -30,8 +32,8 @@ export default async function login(
   )
 
   const headers: StringKV = {
-    'User-agent':
-      'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
+    'User-agent': new UserAgent().toString(),
+    'Upgrade-Insecure-Requests': '1',
   }
 
   const fetch = new FetchWithCookie(headers)
