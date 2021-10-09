@@ -55,6 +55,7 @@ export async function getSchoolInfos(
       ).catch((err) => log.error(err))) as Response
       const addrInfo = await res.json()
       defaultAddr = addrInfo.content[0].addr
+      log.success({ message: `学校 ${data.name} 默认签到地址：${defaultAddr}` })
     }
     schoolInfos[abbreviation] = {
       defaultAddr,
@@ -64,7 +65,6 @@ export async function getSchoolInfos(
       campusphere: origin,
       isIap: data.joinType !== 'NOTCLOUD',
     }
-    log.success({ message: `学校 ${data.name} 默认签到地址：${defaultAddr}` })
     log.success({ message: `学校 ${data.name} 已完成设定` })
   }
   return schoolInfos

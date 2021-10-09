@@ -5,14 +5,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [0.5.0](https://github.com/ceajs/cea/compare/v0.4.0...v0.5.0) (2021-09-07)
 
-
 ### Features
 
-* better scraping practice ([09b73aa](https://github.com/ceajs/cea/commit/09b73aa3d5e529599e6356b7ffc820eedf1f1a46))
-
-
-
-
+- better scraping practice ([09b73aa](https://github.com/ceajs/cea/commit/09b73aa3d5e529599e6356b7ffc820eedf1f1a46))
 
 # [0.4.0](https://github.com/ceajs/cea/compare/v0.3.2...v0.4.0) (2021-07-25)
 
