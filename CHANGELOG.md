@@ -5,14 +5,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.5.1](https://github.com/ceajs/cea/compare/v0.5.0...v0.5.1) (2021-10-09)
 
-
 ### Bug Fixes
 
-* **tcb:** deps update ([3e3b804](https://github.com/ceajs/cea/commit/3e3b8043d51c0b24df6fec9581fa36999c60d7ee))
-
-
-
-
+- **tcb:** deps update ([3e3b804](https://github.com/ceajs/cea/commit/3e3b8043d51c0b24df6fec9581fa36999c60d7ee))
 
 # [0.5.0](https://github.com/ceajs/cea/compare/v0.4.0...v0.5.0) (2021-09-07)
 

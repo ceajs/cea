@@ -7,16 +7,11 @@
 
 <p align="center">
  <a align="center" href="https://www.npmjs.com/package/cea">
-    <img alt="npm" src="https://img.shields.io/npm/v/cea?style=social">
     <img alt="NPM" src="https://img.shields.io/npm/l/cea?style=social">
   </a>
 </p>
   <p align="center">
   <strong>高校统一身份验证开发框架</strong>(已集成今日校园签到插件)
-  <br>
-  欢迎点击右上角   <a href="https://github.com/ceajs/cea">
-    <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/ceajs/cea?style=social">
-  </a> 支持此项目
 </p>
 
 ## Demo
@@ -70,7 +65,7 @@ const schoolEdgeCases = {
 1. 安装
 
    ```bash
-   npm i -g cea
+   npm i -g cea@cjs
    ```
 
 2. 配置用户
