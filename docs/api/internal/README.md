@@ -1,4 +1,8 @@
-cea / [Exports](modules.md)
+cea / [Exports](../wiki/modules)
+
+## 详细说明
+
+https://github.com/ceajs/cea/tree/main
 
 ### 插件: <a align="center" href="https://www.npmjs.com/package/cea"><img alt="cea" src="https://img.shields.io/npm/v/cea?style=social&label=cea"></a>
 
@@ -26,8 +30,12 @@ cea sign
 今日校园签到：
 
 ```ts
-import { Cea, checkIn } from 'cea'
+// 导入 Cea 和内置的签到插件中的函数 checkIn
+import Cea, { checkIn } from 'cea'
+// 创建 Cea 的实例
 const cea = new Cea()
+// 注册插件
 cea.addPlugin(checkIn)
+// 执行签到脚本
 cea.start()
 ```

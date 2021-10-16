@@ -1,5 +1,5 @@
-const TypeDoc = require('typedoc')
 import { readFileSync } from 'fs'
+import TypeDoc from 'typedoc'
 
 async function main() {
   const tsconfigRaw = readFileSync('tsconfig.json', 'utf8')
@@ -21,7 +21,7 @@ async function main() {
     app.bootstrap({
       // typedoc options here
       entryPoints: [`${path}src/index.ts`],
-      theme: './node_modules/typedoc-gitlab-wiki-theme/dist',
+      theme: './node_modules/typedoc-github-wiki-theme/dist',
     })
 
     const project = app.convert()

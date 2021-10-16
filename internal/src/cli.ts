@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { checkIn } from 'cea-check-in'
 import { log, sstore, UserConfOpts, UsersConf } from 'cea-core'
-import * as enquirer from 'enquirer'
+import enquirer from 'enquirer'
 import { confSet } from './conf-set.js'
 import { UserAction } from './constants.js'
 const { prompt } = enquirer
