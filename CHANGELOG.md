@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://github.com/ceajs/cea/compare/v0.5.1...v1.0.0) (2021-10-16)
+
+
+### Bug Fixes
+
+* pack for cjs version ([fb70a98](https://github.com/ceajs/cea/commit/fb70a98a27e98ef0ce4c26e0bcc354625625696b))
+
+
+
+
+
 ## [0.5.1](https://github.com/ceajs/cea/compare/v0.5.0...v0.5.1) (2021-10-09)
 
 ### Bug Fixes

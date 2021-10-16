@@ -1,6 +1,6 @@
 {
   "name": "cea-core",
-  "version": "0.5.1",
+  "version": "1.0.0",
   "description": "basic cea api",
   "main": "lib/src/index.js",
   "types": "lib/src/index.d.ts",

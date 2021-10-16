@@ -4,7 +4,7 @@
     "internal",
     "plugins/*"
   ],
-  "version": "0.5.1",
+  "version": "1.0.0",
   "command": {
     "version": {
       "allowBranch": "cjs",
