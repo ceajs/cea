@@ -1,6 +1,10 @@
 {
-  "packages": ["core", "internal", "plugins/*"],
-  "version": "0.5.1",
+  "packages": [
+    "core",
+    "internal",
+    "plugins/*"
+  ],
+  "version": "2.0.0",
   "command": {
     "version": {
       "allowBranch": "main",
