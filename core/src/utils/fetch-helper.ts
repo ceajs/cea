@@ -1,8 +1,9 @@
 import fetch from 'node-fetch'
-import { Response } from 'node-fetch'
-import { CookieMap, FetchCookieOptions } from '../types/cookie'
-import { StringKV } from '../types/helper'
-import { cookieParse, cookieStr } from './cookie-helper'
+import { cookieParse, cookieStr } from './cookie-helper.js'
+
+import type { Response } from 'node-fetch'
+import type { CookieMap, FetchCookieOptions } from '../types/cookie'
+import type { StringKV } from '../types/helper'
 
 /**
  * Node-fetch wrapper for contantly cookie handling

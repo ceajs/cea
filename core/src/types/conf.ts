@@ -1,5 +1,5 @@
 import { CookieRawObject } from './cookie'
-export { DefaultProps, EdgeCasesSchools } from '../compatibility/edge-case'
+export { DefaultProps, EdgeCasesSchools } from '../compatibility/edge-case.js'
 
 export type UsersConf = Array<UserConfOpts>
 

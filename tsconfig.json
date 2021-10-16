@@ -4,7 +4,6 @@
     {
       "path": "./plugins/check-in/"
     },
-    { "path": "./plugins/test-score-notice/" },
     {
       "path": "./core/"
     },

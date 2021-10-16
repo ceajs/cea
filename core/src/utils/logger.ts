@@ -1,4 +1,6 @@
-import { Signale, SignaleOptions } from 'signale'
+import type { SignaleOptions } from 'signale'
+import signale from 'signale'
+const { Signale } = signale
 
 export default new Signale({
   types: {

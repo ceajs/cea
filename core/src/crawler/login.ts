@@ -1,8 +1,8 @@
 import cheerio from 'cheerio'
 import crypto from 'crypto'
-import getEdgeCases from '../compatibility/edge-case'
-import log from '../utils/logger'
-import ocr from './capcha'
+import getEdgeCases from '../compatibility/edge-case.js'
+import log from '../utils/logger.js'
+import ocr from './capcha.js'
 
 import type { Response } from 'node-fetch'
 import type {
@@ -15,7 +15,7 @@ import type { HandleCookieOptions } from '../types/cookie'
 import type { StringKV } from '../types/helper'
 
 import UserAgent from 'user-agents'
-import FetchWithCookie from '../utils/fetch-helper'
+import FetchWithCookie from '../utils/fetch-helper.js'
 
 /**
  * Process to login to the unified auth
@@ -85,7 +85,7 @@ export default async function login(
     const ltWrapper = new URL(headers.Referer).search
     if (Object.keys(hiddenInputNameValueMap).length === 0) {
       res = await fetch.get(`${school.auth}${schoolEdgeCases.lt}${ltWrapper}`)
-      const { result } = await res.json()
+      const { result } = (await res.json()) as any
       Object.defineProperties(hiddenInputNameValueMap, {
         lt: { value: result._lt, enumerable: true },
         needCaptcha: { value: result.needCapt, enumerable: true },

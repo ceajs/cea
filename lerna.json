@@ -1,9 +1,5 @@
 {
-  "packages": [
-    "core",
-    "internal",
-    "plugins/*"
-  ],
+  "packages": ["core", "internal", "plugins/*"],
   "version": "0.5.1",
   "command": {
     "version": {

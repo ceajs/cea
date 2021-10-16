@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package cea
 
-
-
-
-
 # [0.5.0](https://github.com/ceajs/cea/compare/v0.4.0...v0.5.0) (2021-09-07)
 
 ### Features

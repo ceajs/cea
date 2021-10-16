@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 import { checkIn } from 'cea-check-in'
 import { log, sstore, UserConfOpts, UsersConf } from 'cea-core'
-import { prompt } from 'enquirer'
-import { confSet } from './conf-set'
-import { UserAction } from './constants'
+import * as enquirer from 'enquirer'
+import { confSet } from './conf-set.js'
+import { UserAction } from './constants.js'
+const { prompt } = enquirer
 ;(async () => {
   const argv = process.argv[2] || ''
   const argv2 = process.argv[3]

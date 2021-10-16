@@ -1,6 +1,8 @@
 import fs from 'fs'
 import fetch from 'node-fetch'
-import { createWorker } from 'tesseract.js'
+import * as tesseract from 'tesseract.js'
+const { createWorker } = tesseract
+
 const tessdataPath = '/tmp/eng.traineddata.gz'
 
 async function downloadTessdata() {
@@ -24,8 +26,8 @@ async function download(url: string, filename: string): Promise<string> {
   const stream = fs.createWriteStream(filename)
   const res = await fetch(url)
   const result = await new Promise((resolve, reject) => {
-    res.body.pipe(stream)
-    res.body.on('error', reject)
+    res.body?.pipe(stream)
+    res.body?.on('error', reject)
     stream.on('close', () => resolve(`Downloaded tess data as ${filename}`))
   })
   return result as string

@@ -2,7 +2,9 @@
   "name": "cea",
   "version": "0.5.1",
   "description": "cea",
-  "main": "lib/src/index.js",
+  "type": "module",
+  "node": "^12.20.0 || ^14.13.1 || >=16.0.0",
+  "exports": "./lib/src/index.js",
   "bin": "lib/src/cli.js",
   "types": "lib/src/index.d.ts",
   "files": [

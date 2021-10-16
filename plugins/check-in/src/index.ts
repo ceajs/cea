@@ -1,28 +1,27 @@
-import {
-  CampusphereEndpoint,
+import { CampusphereEndpoint } from 'cea-core'
+import { handleCookie, sstore } from 'cea-core'
+import crypto from 'crypto'
+import fetch from 'node-fetch'
+import * as uuid from 'uuid'
+import { LogInfoKeys } from './types.js'
+
+import type {
   CookieRawObject,
   SchoolConfOpts,
   StringKV,
   UserConfOpts,
   UsersConf,
 } from 'cea-core'
-import { handleCookie, sstore } from 'cea-core'
-
-import {
+import type {
   AllSignTasks,
   CpdailyExtension,
   CpdailyExtensionEncrypted,
   GlobalLogInfo,
   LogInfo,
-  LogInfoKeys,
   SignForm,
   SignTask,
   SignTaskDetail,
 } from './types'
-
-import crypto from 'crypto'
-import fetch from 'node-fetch'
-import { v1 } from 'uuid'
 
 export class CheckIn {
   private headers: StringKV
@@ -58,7 +57,7 @@ export class CheckIn {
     )
 
     if (res.headers.get('content-type')?.includes('json')) {
-      const signQ = await res.json()
+      const signQ = (await res.json()) as any
       const isValidCookie = signQ.message === 'SUCCESS'
       if (isValidCookie) {
         return signQ.datas
@@ -78,7 +77,7 @@ export class CheckIn {
         body: JSON.stringify({ signInstanceWid, signWid }),
       },
     )
-    const signDetails: SignTaskDetail = (await res.json()).datas
+    const signDetails: SignTaskDetail = ((await res.json()) as any).datas
 
     let {
       extraField,
@@ -122,7 +121,7 @@ export class CheckIn {
         body: JSON.stringify(form),
       },
     )
-    const result = await res.json()
+    const result = (await res.json()) as any
 
     const logInfo: LogInfo = {
       [LogInfoKeys.result]: result.message,
@@ -174,7 +173,7 @@ export class CheckIn {
       userId: this.user.username,
       systemName: 'android',
       lat: form.latitude.toString(),
-      deviceId: v1(),
+      deviceId: uuid.v1(),
     }
     return this.encrypt(Cpdaily_Extension)
   }

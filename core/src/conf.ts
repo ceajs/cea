@@ -1,12 +1,13 @@
-import { SchoolConf, UsersConf } from './types/conf'
-
-import { parse } from '@iarna/toml'
-import { resolve } from 'path'
-import { StringKV } from './types/helper'
-
+import * as toml from '@iarna/toml'
 import fs from 'fs'
-import fetch, { Response } from 'node-fetch'
-import log from './utils/logger'
+import fetch from 'node-fetch'
+import { resolve } from 'path'
+import log from './utils/logger.js'
+const { parse } = toml
+
+import type { Response } from 'node-fetch'
+import type { SchoolConf, UsersConf } from './types/conf'
+import type { StringKV } from './types/helper'
 
 export function loadConfFromToml(): UsersConf | null {
   const path = resolve('./conf.toml')
@@ -53,7 +54,7 @@ export async function getSchoolInfos(
           )
         }&ak=E4805d16520de693a3fe707cdc962045&rn=10&ie=utf-8&oue=1&fromproduct=jsapi&res=api`,
       ).catch((err) => log.error(err))) as Response
-      const addrInfo = await res.json()
+      const addrInfo = (await res.json()) as any
       defaultAddr = addrInfo.content[0].addr
       log.success({ message: `学校 ${data.name} 默认签到地址：${defaultAddr}` })
     }

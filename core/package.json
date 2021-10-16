@@ -2,7 +2,9 @@
   "name": "cea-core",
   "version": "0.5.1",
   "description": "basic cea api",
-  "main": "lib/src/index.js",
+  "type": "module",
+  "exports": "./lib/src/index.js",
+  "node": "^12.20.0 || ^14.13.1 || >=16.0.0",
   "types": "lib/src/index.d.ts",
   "files": [
     "lib/src/**/*.[tj]s"

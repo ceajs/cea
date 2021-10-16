@@ -1,4 +1,5 @@
-import { getSchoolInfos, loadConfFromToml, sstore, UsersConf } from 'cea-core'
+import { getSchoolInfos, loadConfFromToml, sstore } from 'cea-core'
+import type { UsersConf } from 'cea-core'
 
 export async function confSet(users: UsersConf | null = loadConfFromToml()) {
   if (users) {

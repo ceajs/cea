@@ -1,22 +1,20 @@
-import fetch from 'node-fetch'
-import login from './crawler/login'
-
-import { SchoolConf, UserConfOpts } from './types/conf'
-import { CookieRawObject, HandleCookieOptions } from './types/cookie'
-
-import log from './utils/logger'
-export * from './utils/cookie-helper'
-
-// sstore
 import sstore from '@beetcb/sstore'
+import fetch from 'node-fetch'
+import login from './crawler/login.js'
+import log from './utils/logger.js'
+
+import type { SchoolConf, UserConfOpts } from './types/conf'
+import type { CookieRawObject, HandleCookieOptions } from './types/cookie'
+
+export * from './utils/cookie-helper.js'
 
 // all the type definations for plugin & cli use
-export * from './types/conf'
-export * from './types/cookie'
-export * from './types/helper'
+export * from './types/conf.js'
+export * from './types/cookie.js'
+export * from './types/helper.js'
 
 // methods for configuration
-export * from './conf'
+export * from './conf.js'
 
 // log utils for plugin & cli use
 export { log }
