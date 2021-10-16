@@ -17,8 +17,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "cea-check-in": "0.5.1",
-    "cea-core": "0.5.1",
+    "cea-check-in": "2.0.0",
+    "cea-core": "2.0.0",
     "enquirer": "^2.3.6"
   }
 }
