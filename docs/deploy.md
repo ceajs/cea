@@ -20,6 +20,20 @@
 
 > 考虑到 GitHub 近期对 Actions 监管（并且部分学校限制国外主机访问），本项目将禁用 Actions 部署
   </details>
+    </details>
+
+<details><summary>Docker 部署</summary>
+
+1. 新建文件夹,按照[README.md](https://github.com/ceajs/cea/blob/main/docs/config.md) 配置用户
+
+2. 将下行/example替换成刚刚新建的文件夹的绝对路径
+    ```bash
+   docker run -v /example:/config -d ghcr.io/beetcb/cea/caution:main
+    ```
+   
+ docker 容器设置了cron定时任务 将会在6:30加载用户配置以及签到,也可用命令进入容器测试用户是否能成功登陆.
+  </details>
+
 
 <details><summary>服务器部署</summary>
 
