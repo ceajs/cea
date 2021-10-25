@@ -38,7 +38,6 @@ const { prompt } = enquirer
 
   All Commands: 
         user      create|delete user
-        school    config your school info
         sign      campusphere check in
         load      load config info from conf.toml
         rm        remove stored config feilds
