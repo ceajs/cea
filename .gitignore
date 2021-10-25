@@ -6,6 +6,6 @@ dist/
 lib/
 *tsbuild*
 __test__/*.js*
-/package-lock.json
+package-lock.json
 lerna-debug.log
 .env
