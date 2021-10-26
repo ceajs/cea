@@ -40,7 +40,7 @@ export type SignForm = {
   abnormalReason: string
   signPhotoUrl: string
   position: string
-  signVersion: '1.0.0'
+  signVersion: string
   extraFieldItems: Array<{
     extraFieldItemWid: string
     extraFieldItemValue: string

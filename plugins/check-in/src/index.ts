@@ -1,9 +1,10 @@
 import { CampusphereEndpoint } from 'cea-core'
+import { LogInfoKeys } from './types.js'
+
 import { handleCookie, sstore } from 'cea-core'
 import crypto from 'crypto'
 import fetch from 'node-fetch'
 import * as uuid from 'uuid'
-import { LogInfoKeys } from './types.js'
 
 import type {
   CookieRawObject,
@@ -105,7 +106,7 @@ export class CheckIn {
       uaIsCpadaily: true,
       signPhotoUrl: '',
       abnormalReason: '',
-      signVersion: '1.0.0',
+      signVersion: 'first_v2',
       signInstanceWid,
       isNeedExtra,
       extraFieldItems,
@@ -168,8 +169,8 @@ export class CheckIn {
     const Cpdaily_Extension: CpdailyExtension = {
       lon: form.longitude.toString(),
       model: 'Cock',
-      appVersion: '8.2.14',
-      systemVersion: '4.4.4',
+      appVersion: '9.0.12',
+      systemVersion: '11',
       userId: this.user.username,
       systemName: 'android',
       lat: form.latitude.toString(),
