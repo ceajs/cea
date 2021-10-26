@@ -10,7 +10,7 @@
     "lib/src/**/*.[tj]s"
   ],
   "scripts": {
-    "build:debug": "esbuild ./src/*.ts --outdir=lib/src/ --format=cjs --sourcemap"
+    "build:debug": "npx esbuild $(npx globby ./src/*.ts) --outdir=lib/src/ --sourcemap"
   },
   "keywords": [],
   "author": "",

@@ -47,7 +47,7 @@
 
 若未接入今日校园，只能爬取网页获得凭据：cea 的登录页爬取策略比较智能（并非 `hard coded`），默认根据第一个登录表单完成全部逻辑，这保证了不错的兼容性
 
-如确实遇到了边缘情况，有能力的话可以提交 PR ，只需修改 `./core/src/compatibility/edge-case.ts` 文件，添加你的学校：
+如确实遇到了边缘情况，有能力的话可以提交 PR (参考 [Contribution Guide](./CONTRIBUTING.md))，只需修改 `./core/src/compatibility/edge-case.ts` 文件，添加你的学校：
 
 ```diff
 const schoolEdgeCases = {
@@ -116,6 +116,10 @@ cea.start()
 ## 插件列表
 
 - [`cea-check-in`](./docs/api/plugins/check-in/README.md)
+
+## 贡献指南
+
+参考 [Contribution Guide](./CONTRIBUTING.md)
 
 ## 插件开发
 

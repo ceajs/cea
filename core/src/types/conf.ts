@@ -1,8 +1,6 @@
 import { CookieRawObject } from './cookie'
-export { DefaultProps, EdgeCasesSchools } from '../compatibility/edge-case.js'
 
 export type UsersConf = Array<UserConfOpts>
-
 export type UserConfOpts = {
   username: string
   password: string

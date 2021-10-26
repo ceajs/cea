@@ -39,6 +39,7 @@
     "env-cmd": "^10.1.0",
     "esbuild": "^0.12.15",
     "esno": "^0.10.1",
+    "globby-cli": "^1.0.1",
     "lerna": "^4.0.0",
     "ts-jest": "^27.0.4",
     "typedoc-github-wiki-theme": "^0.3.0",
