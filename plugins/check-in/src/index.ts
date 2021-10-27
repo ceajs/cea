@@ -123,7 +123,7 @@ export class CheckIn {
       lon: form.longitude.toString(),
       model: 'Cock',
       systemName: 'android',
-      systemVersion: 'Cock',
+      systemVersion: '11',
       userId: this.user.username,
     }
     let body_to_string = ''
