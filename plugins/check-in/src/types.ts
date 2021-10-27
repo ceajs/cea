@@ -40,7 +40,6 @@ export type SignForm = {
   abnormalReason: string
   signPhotoUrl: string
   position: string
-  signVersion: string
   extraFieldItems: Array<{
     extraFieldItemWid: string
     extraFieldItemValue: string
@@ -51,16 +50,17 @@ export type SignForm = {
 
 export type CpdailyExtension = {
   [
-    K in
-      | 'lon'
-      | 'model'
-      | 'appVersion'
-      | 'systemVersion'
-      | 'userId'
-      | 'systemName'
-      | 'lat'
-      | 'deviceId'
+  K in
+  | 'lon'
+  | 'model'
+  | 'appVersion'
+  | 'systemVersion'
+  | 'userId'
+  | 'systemName'
+  | 'lat'
+  | 'deviceId'
   ]: string
 }
 
 export type CpdailyExtensionEncrypted = string
+export type bodyStringEncrypted = string

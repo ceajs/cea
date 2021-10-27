@@ -1,6 +1,6 @@
 import { CampusphereEndpoint } from 'cea-core'
 import { LogInfoKeys } from './types.js'
-
+import { Md5 } from 'ts-md5/dist/md5'
 import { handleCookie, sstore } from 'cea-core'
 import crypto from 'crypto'
 import fetch from 'node-fetch'
@@ -17,12 +17,15 @@ import type {
   AllSignTasks,
   CpdailyExtension,
   CpdailyExtensionEncrypted,
+  bodyStringEncrypted,
   GlobalLogInfo,
   LogInfo,
   SignForm,
   SignTask,
   SignTaskDetail,
 } from './types'
+import { json } from 'stream/consumers'
+import { version } from 'os'
 
 export class CheckIn {
   private headers: StringKV
@@ -93,9 +96,9 @@ export class CheckIn {
 
     const placeList = signPlaceSelected[0]
     const isSignAtHome = !Boolean(school.defaultAddr)
-    ;[longitude, latitude, position] = isSignAtHome
-      ? this.user.addr
-      : [placeList.longitude, placeList.latitude, school.defaultAddr]
+      ;[longitude, latitude, position] = isSignAtHome
+        ? this.user.addr
+        : [placeList.longitude, placeList.latitude, school.defaultAddr]
 
     const extraFieldItems = this.fillExtra(extraField)
 
@@ -103,23 +106,61 @@ export class CheckIn {
       longitude: this.fixedFloatRight(longitude),
       latitude: this.fixedFloatRight(latitude),
       isMalposition: isSignAtHome ? 1 : 0,
-      uaIsCpadaily: true,
-      signPhotoUrl: '',
       abnormalReason: '',
-      signVersion: 'first_v2',
-      signInstanceWid,
+      signPhotoUrl: '',
       isNeedExtra,
-      extraFieldItems,
       position,
+      uaIsCpadaily: true,
+      signInstanceWid,
+      extraFieldItems,
     }
-
+    const bodyString = this.Aes_encrpt(JSON.stringify(form))
+    const signbody = {
+      appVersion: '9.0.12',
+      bodyString: bodyString,
+      deviceId: uuid.v1(),
+      lat: form.latitude.toString(),
+      lon: form.longitude.toString(),
+      model: 'Cock',
+      systemName: 'android',
+      systemVersion: 'Cock',
+      userId: this.user.username,
+    }
+    let body_to_string = ''
+    for (const key in signbody) {
+      body_to_string += '${key}=${signBody[key]}&'
+    }
+    body_to_string += "ytUQ7l2ZZu8mLvJZ"
+    const sign = Md5.hashStr(body_to_string)
+    /* 按照抓包顺序
+    const final_form = {
+      lon: signbody.lon,
+      version: 'first_v2',
+      calVersion: 'firstv',
+      deviceId: signbody.deviceId,
+      userId: signbody.userId,
+      systemName: signbody.systemName,
+      bodyString: bodyString,
+      lat: signbody.lat,
+      systemVersion: signbody.systemVersion,
+      appVersion: signbody.appVersion,
+      module:signbody.model,
+      sign: sign,
+    }
+    */
+    const final_form = {
+      ...signbody,
+      version: 'first_v2',
+      calVersion: 'firstv',
+      sign: sign,
+    }
     headers['Cpdaily-Extension'] = this.extention(form)
     res = await fetch(
       `${school.campusphere}${CampusphereEndpoint.submitSign}`,
       {
         headers,
         method: 'POST',
-        body: JSON.stringify(form),
+        body: JSON.stringify(final_form),
       },
     )
     const result = (await res.json()) as any
@@ -190,6 +231,15 @@ export class CheckIn {
     encrypted += cipher.final('base64')
     return encrypted
   }
+  private Aes_encrpt(ce: string): bodyStringEncrypted {
+    const algorithm = 'aes-cbc'
+    const key = 'ytUQ7l2ZZu8mLvJZ'
+    const iv = Buffer.from([1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7])
+    const cipher = crypto.createCipheriv(algorithm, key, iv)
+    let encrypted = cipher.update(JSON.stringify(ce), 'utf8', 'base64')
+    encrypted += cipher.final('base64')
+    return encrypted
+  }
 
   private decrypt() {
     const algorithm = 'des-cbc'
@@ -230,9 +280,8 @@ async function signIn(users: UsersConf): Promise<GlobalLogInfo> {
           logs[i.alias] = result
         } else {
           logs[i.alias] = {
-            [LogInfoKeys.result as string]: `已完成：${
-              curTask.signedTasks[0].taskName
-            }`,
+            [LogInfoKeys.result as string]: `已完成：${curTask.signedTasks[0].taskName
+              }`,
           }
         }
       }
