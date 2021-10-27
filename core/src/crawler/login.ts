@@ -5,12 +5,8 @@ import log from '../utils/logger.js'
 import ocr from './capcha.js'
 
 import type { Response } from 'node-fetch'
-import type {
-  DefaultProps,
-  EdgeCasesSchools,
-  SchoolConfOpts,
-  UserConfOpts,
-} from '../types/conf'
+import { DefaultProps, EdgeCasesSchools } from '../compatibility/edge-case.js'
+import { SchoolConfOpts, UserConfOpts } from '../types/conf'
 import type { HandleCookieOptions } from '../types/cookie'
 import type { StringKV } from '../types/helper'
 

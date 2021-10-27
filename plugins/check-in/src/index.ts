@@ -1,10 +1,9 @@
 import { CampusphereEndpoint } from 'cea-core'
-import { LogInfoKeys } from './types.js'
-import { Md5 } from 'ts-md5/dist/md5'
 import { handleCookie, sstore } from 'cea-core'
 import crypto from 'crypto'
 import fetch from 'node-fetch'
 import * as uuid from 'uuid'
+import { LogInfoKeys, PostFormBody } from './types.js'
 
 import type {
   CookieRawObject,
@@ -15,19 +14,32 @@ import type {
 } from 'cea-core'
 import type {
   AllSignTasks,
-  CpdailyExtension,
-  CpdailyExtensionEncrypted,
-  bodyStringEncrypted,
   GlobalLogInfo,
   LogInfo,
-  SignForm,
+  SignExtensionBody,
+  SignFormBody,
+  SignHashBody,
   SignTask,
   SignTaskDetail,
 } from './types'
-import { json } from 'stream/consumers'
-import { version } from 'os'
 
 export class CheckIn {
+  static readonly VERSION = {
+    app: '9.0.12',
+    version: 'first_v2',
+    calVersion: 'firstv',
+  }
+  static readonly EXTENSION_ENCRYPT = {
+    key: 'b3L26XNL',
+    iv: Buffer.from([1, 2, 3, 4, 5, 6, 7, 8]),
+    algo: 'des-cbc',
+  }
+  static readonly FORMBODY_ENCRYPT = {
+    key: 'ytUQ7l2ZZu8mLvJZ',
+    iv: Buffer.from([1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7]),
+    algo: 'aes-128-cbc',
+  }
+
   private headers: StringKV
   private user: UserConfOpts
   private school: SchoolConfOpts
@@ -96,15 +108,15 @@ export class CheckIn {
 
     const placeList = signPlaceSelected[0]
     const isSignAtHome = !Boolean(school.defaultAddr)
-      ;[longitude, latitude, position] = isSignAtHome
-        ? this.user.addr
-        : [placeList.longitude, placeList.latitude, school.defaultAddr]
+    ;[longitude, latitude, position] = isSignAtHome
+      ? this.user.addr
+      : [placeList.longitude, placeList.latitude, school.defaultAddr]
 
-    const extraFieldItems = this.fillExtra(extraField)
+    const extraFieldItems = CheckIn.fillExtra(extraField)
 
-    const form: SignForm = {
-      longitude: this.fixedFloatRight(longitude),
-      latitude: this.fixedFloatRight(latitude),
+    const formBody: SignFormBody = {
+      longitude: CheckIn.fixedFloatRight(longitude),
+      latitude: CheckIn.fixedFloatRight(latitude),
       isMalposition: isSignAtHome ? 1 : 0,
       abnormalReason: '',
       signPhotoUrl: '',
@@ -114,60 +126,56 @@ export class CheckIn {
       signInstanceWid,
       extraFieldItems,
     }
-    const bodyString = this.Aes_encrpt(JSON.stringify(form))
-    const signbody = {
-      appVersion: '9.0.12',
-      bodyString: bodyString,
+    const bodyString = CheckIn.formBodyEncrypt(formBody)
+
+    const signHashBody: SignHashBody = {
+      appVersion: CheckIn.VERSION.app,
+      bodyString,
       deviceId: uuid.v1(),
-      lat: form.latitude.toString(),
-      lon: form.longitude.toString(),
+      lat: formBody.latitude,
+      lon: formBody.longitude,
       model: 'Cock',
       systemName: 'android',
-      systemVersion: 'Cock',
+      systemVersion: '11',
       userId: this.user.username,
     }
-    let body_to_string = ''
-    for (const key in signbody) {
-      body_to_string += '${key}=${signBody[key]}&'
+
+    // Hack to ensure signHashBody is alphabet-ordered
+    const signExtensionBody: SignExtensionBody & { bodyString: undefined } = {
+      ...signHashBody,
+      bodyString: undefined,
     }
-    body_to_string += "ytUQ7l2ZZu8mLvJZ"
-    const sign = Md5.hashStr(body_to_string)
-    /* 按照抓包顺序
-    const final_form = {
-      lon: signbody.lon,
-      version: 'first_v2',
-      calVersion: 'firstv',
-      deviceId: signbody.deviceId,
-      userId: signbody.userId,
-      systemName: signbody.systemName,
-      bodyString: bodyString,
-      lat: signbody.lat,
-      systemVersion: signbody.systemVersion,
-      appVersion: signbody.appVersion,
-      module:signbody.model,
-      sign: sign,
+
+    const signHash = crypto
+      .createHash('md5')
+      .update(
+        `${
+          new URLSearchParams(signHashBody as any).toString()
+        }&${CheckIn.FORMBODY_ENCRYPT.key}`,
+      )
+      .digest('hex')
+
+    const postBody: PostFormBody = {
+      sign: signHash,
+      version: CheckIn.VERSION.version,
+      calVersion: CheckIn.VERSION.calVersion,
+      ...signHashBody,
     }
-    */
-    const final_form = {
-      ...signbody,
-      version: 'first_v2',
-      calVersion: 'firstv',
-      sign: sign,
-    }
-    headers['Cpdaily-Extension'] = this.extention(form)
+
+    headers['Cpdaily-Extension'] = CheckIn.extensionEncrypt(signExtensionBody)
     res = await fetch(
       `${school.campusphere}${CampusphereEndpoint.submitSign}`,
       {
         headers,
         method: 'POST',
-        body: JSON.stringify(final_form),
+        body: JSON.stringify(postBody),
       },
     )
     const result = (await res.json()) as any
 
     const logInfo: LogInfo = {
       [LogInfoKeys.result]: result.message,
-      [LogInfoKeys.addr]: form.position,
+      [LogInfoKeys.addr]: formBody.position,
     }
 
     // Hide sensitive info on github actions, cause it's public by default
@@ -179,7 +187,7 @@ export class CheckIn {
     return logInfo
   }
 
-  private fixedFloatRight(floatStr: string): number {
+  private static fixedFloatRight(floatStr: string): number {
     return parseFloat(
       floatStr.replace(
         /(\d+\.\d{5})(\d{1})(.*)/,
@@ -189,9 +197,9 @@ export class CheckIn {
   }
 
   // select right item with content&wid
-  private fillExtra(
+  private static fillExtra(
     extraField: SignTaskDetail['extraField'],
-  ): SignForm['extraFieldItems'] {
+  ): SignFormBody['extraFieldItems'] {
     return extraField.map((e) => {
       let chosenWid: string
       const normal = e.extraFieldItems.filter((i) => {
@@ -205,51 +213,20 @@ export class CheckIn {
     })
   }
 
-  // construct and encrypte Cpdaily_Extension for header
-  private extention(form: SignForm) {
-    const Cpdaily_Extension: CpdailyExtension = {
-      lon: form.longitude.toString(),
-      model: 'Cock',
-      appVersion: '9.0.12',
-      systemVersion: '11',
-      userId: this.user.username,
-      systemName: 'android',
-      lat: form.latitude.toString(),
-      deviceId: uuid.v1(),
-    }
-    return this.encrypt(Cpdaily_Extension)
-  }
-
-  private encrypt(ce: CpdailyExtension): CpdailyExtensionEncrypted {
-    const algorithm = 'des-cbc'
-    const key = 'b3L26XNL'
-    const iv = Buffer.from([1, 2, 3, 4, 5, 6, 7, 8]) // Initialization vector.
-
-    const cipher = crypto.createCipheriv(algorithm, key, iv)
-
-    let encrypted = cipher.update(JSON.stringify(ce), 'utf8', 'base64')
-    encrypted += cipher.final('base64')
-    return encrypted
-  }
-  private Aes_encrpt(ce: string): bodyStringEncrypted {
-    const algorithm = 'aes-cbc'
-    const key = 'ytUQ7l2ZZu8mLvJZ'
-    const iv = Buffer.from([1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7])
-    const cipher = crypto.createCipheriv(algorithm, key, iv)
-    let encrypted = cipher.update(JSON.stringify(ce), 'utf8', 'base64')
+  private static extensionEncrypt(body: SignExtensionBody): string {
+    const { algo, key, iv } = CheckIn.EXTENSION_ENCRYPT
+    const cipher = crypto.createCipheriv(algo, key, iv)
+    let encrypted = cipher.update(JSON.stringify(body), 'utf8', 'base64')
     encrypted += cipher.final('base64')
     return encrypted
   }
 
-  private decrypt() {
-    const algorithm = 'des-cbc'
-    const key = 'b3L26XNL'
-    const iv = Buffer.from([1, 2, 3, 4, 5, 6, 7, 8]) // Initialization vector.
-    const decipher = crypto.createDecipheriv(algorithm, key, iv)
-    const encrypted = 'long base 64'
-
-    let decrypted = decipher.update(encrypted, 'base64', 'utf8')
-    decrypted += decipher.final('utf8')
+  private static formBodyEncrypt(body: SignFormBody): string {
+    const { algo, key, iv } = CheckIn.FORMBODY_ENCRYPT
+    const cipher = crypto.createCipheriv(algo, key, iv)
+    let encrypted = cipher.update(JSON.stringify(body), 'utf8', 'base64')
+    encrypted += cipher.final('base64')
+    return encrypted
   }
 }
 
@@ -280,8 +257,9 @@ async function signIn(users: UsersConf): Promise<GlobalLogInfo> {
           logs[i.alias] = result
         } else {
           logs[i.alias] = {
-            [LogInfoKeys.result as string]: `已完成：${curTask.signedTasks[0].taskName
-              }`,
+            [LogInfoKeys.result as string]: `已完成：${
+              curTask.signedTasks[0].taskName
+            }`,
           }
         }
       }
