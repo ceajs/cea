@@ -13,13 +13,19 @@
     "build:debug": "npx esbuild $(npx globby src/*.ts src/**/*.ts) --outdir=lib/src/ --sourcemap"
   },
   "keywords": [
+    "签到",
     "今日校园",
     "campusphere",
-    "cli",
+    "cpdaily",
     "cea-cli",
     "cea"
   ],
-  "author": "github.com/beetcb",
+  "author": "beetcb <i@beetcb.com> (https://github.com/beetcb)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ceajs/cea.git",
+    "directory": "core"
+  },
   "license": "MIT",
   "dependencies": {
     "@beetcb/sstore": "^0.2.0",
