@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/ceajs/cea/compare/v2.0.1...v2.1.0) (2021-10-27)
+
+
+### Bug Fixes
+
+* delete school command, closes [#4](https://github.com/ceajs/cea/issues/4) ([4a31e26](https://github.com/ceajs/cea/commit/4a31e2606ade3d291a522d32c8638926d9fd1adf))
+* remove package-lock file ([ebb8385](https://github.com/ceajs/cea/commit/ebb8385bead190245fff6c551873685b49782e1d))
+
+
+
+
+
 ## [2.0.1](https://github.com/ceajs/cea/compare/v2.0.0...v2.0.1) (2021-10-16)
 
 ### Bug Fixes
