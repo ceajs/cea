@@ -1,9 +1,17 @@
 import { readFileSync } from 'fs'
 import TypeDoc from 'typedoc'
 
+type PackageRefs = {
+  path: string
+}
+
+type TSConfigJSON = {
+  references: Array<PackageRefs>
+}
+
 async function main() {
   const tsconfigRaw = readFileSync('tsconfig.json', 'utf8')
-  let tsconfig: { references: Array<{ path: string }> }
+  let tsconfig: TSConfigJSON
   if (tsconfigRaw) {
     tsconfig = JSON.parse(tsconfigRaw)
   } else {
@@ -11,8 +19,19 @@ async function main() {
     return
   }
 
-  // asynchronizedly build api docs
-  for (const { path } of tsconfig.references) {
+  const pkgRefs: Array<PackageRefs> = tsconfig.references
+  const isPluginPackage = (is: boolean) =>
+    ({ path }: any) =>
+      is ? path.includes('/plugins/') : !path.includes('/plugins/')
+
+  // asynchronizedly build non-plugins api docs
+  build(pkgRefs.filter(isPluginPackage(false)))
+  // asynchronizedly build plugins api docs
+  build(pkgRefs.filter(isPluginPackage(true)))
+}
+
+function build(refs: Array<PackageRefs>) {
+  for (const { path } of refs) {
     const app = new TypeDoc.Application()
     // If you want TypeDoc to load tsconfig.json / typedoc.json files
     app.options.addReader(new TypeDoc.TSConfigReader())
@@ -21,7 +40,6 @@ async function main() {
     app.bootstrap({
       // typedoc options here
       entryPoints: [`${path}src/index.ts`],
-      theme: './node_modules/typedoc-github-wiki-theme/dist',
     })
 
     const project = app.convert()
@@ -34,5 +52,4 @@ async function main() {
     }
   }
 }
-
 main().catch(console.error)

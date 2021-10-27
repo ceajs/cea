@@ -1,4 +1,4 @@
-[cea](../wiki/README) / Exports
+[cea-check-in](../README.md) / Exports
 
 # cea
 
@@ -6,11 +6,11 @@
 
 ### Classes
 
-- [default](../wiki/Class:%20default)
+- [default](default.md)
 
 ### Functions
 
-- [checkIn](../wiki/Exports#checkin)
+- [checkIn](../modules.md#checkin)
 
 ## Functions
 
@@ -24,4 +24,4 @@
 
 #### Defined in
 
-plugins/check-in/lib/src/index.d.ts:16
+plugins/check-in/lib/src/index.d.ts:32

@@ -1,4 +1,4 @@
-cea / [Exports](../wiki/modules)
+cea-check-in / [Exports](../modules.md)
 
 ## 详细说明
 
@@ -39,3 +39,9 @@ cea.addPlugin(checkIn)
 // 执行签到脚本
 cea.start()
 ```
+
+# 文档
+
+- 项目说明：https://github.com/ceajs/cea/tree/main/internal
+- API 文档：https://github.com/ceajs/cea/blob/main/docs/api/- internal/modules.md
+- 配置文档：https://github.com/ceajs/cea

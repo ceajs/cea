@@ -5,13 +5,9 @@ import log from './utils/logger.js'
 
 import type { SchoolConf, UserConfOpts } from './types/conf'
 import type { CookieRawObject, HandleCookieOptions } from './types/cookie'
+import type { StringKV } from './types/helper'
 
 export * from './utils/cookie-helper.js'
-
-// all the type definations for plugin & cli use
-export * from './types/conf.js'
-export * from './types/cookie.js'
-export * from './types/helper.js'
 
 // methods for configuration
 export * from './conf.js'
@@ -20,7 +16,16 @@ export * from './conf.js'
 export { log }
 // export database
 export { sstore }
-export { HandleCookieOptions }
+
+// export useful type definations for plugin & cli use
+export type {
+  SchoolConf,
+  SchoolConfOpts,
+  UserConfOpts,
+  UsersConf,
+} from './types/conf.js'
+export type { CookieRawObject, HandleCookieOptions, StringKV }
+export { CampusphereEndpoint } from './types/helper.js'
 
 /**
  * Iterate through all users: complete unified auth -> store cookie

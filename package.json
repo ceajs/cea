@@ -42,7 +42,6 @@
     "globby-cli": "^1.0.1",
     "lerna": "^4.0.0",
     "ts-jest": "^27.0.4",
-    "typedoc-github-wiki-theme": "^0.3.0",
     "typedoc-plugin-markdown": "^3.8.1",
     "typescript": "^4.4.4",
     "dprint": "^0.18.1"

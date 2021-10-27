@@ -5,3 +5,9 @@
 ```bash
 npm i cea-check-in
 ```
+
+## 文档
+
+- 项目说明：https://github.com/ceajs/cea/tree/main/plugins/check-in
+- API 文档：https://github.com/ceajs/cea/blob/main/docs/api/plugins/check-in/modules.md
+- 配置文档：https://github.com/ceajs/cea

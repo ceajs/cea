@@ -23,6 +23,9 @@ import type {
   SignTaskDetail,
 } from './types'
 
+import type * as CheckInTypes from './types'
+export type { CheckInTypes }
+
 export class CheckIn {
   static readonly VERSION = {
     app: '9.0.12',

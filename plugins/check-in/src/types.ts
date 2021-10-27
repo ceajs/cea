@@ -20,6 +20,7 @@ export type SignTaskDetail = {
     }>
   }>
 }
+
 /**用于记录签到表单的对象 */
 export type SignFormBody = {
   signInstanceWid: string
@@ -36,6 +37,7 @@ export type SignFormBody = {
   uaIsCpadaily: true
   isMalposition: 1 | 0
 }
+
 /**用于提交签到的对象 */
 export type PostFormBody = {
   /**由 SignHashBody 序列字符 MD5 Hash 处理得到*/
