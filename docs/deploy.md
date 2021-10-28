@@ -6,7 +6,7 @@
 2. 构建 Image 并运行 Container
 
    ```bash
-   sudo docker build -t cea-check-in https://github.com/ceajs/cea.git#main:cea
+   sudo docker build -t cea-check-in https://github.com/ceajs/cea.git#main:docker
    
    sudo docker run -dv /tmp/conf:/tmp/conf cea-check-in
    ```
