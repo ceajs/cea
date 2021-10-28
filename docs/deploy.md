@@ -1,4 +1,18 @@
 
+<details><summary>Docker 部署</summary>
+
+1. 按照 [README.md](https://github.com/ceajs/cea#%E4%BD%9C%E4%B8%BA%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%BD%BF%E7%94%A8) 安装 cea，使用 CLI 配置用户(如果你用配置文件，记得运行 `cea load` 来加载用户)
+
+2. 构建 Image 并运行 Container
+
+   ```bash
+   sudo docker build -t cea-check-in https://github.com/ceajs/cea.git#main:cea
+   
+   sudo docker run -dv /tmp/conf:/tmp/conf cea-check-in
+   ```
+
+  </details>
+
 <details><summary>腾讯云开发一键部署</summary>
 
 > 本说明帮助你**一键部署**自动签到程序到腾讯云开发
