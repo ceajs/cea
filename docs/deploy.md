@@ -15,7 +15,7 @@
    如果使用境内服务器，由于网络问题，构建可能失败，可以使用本仓库已经构建完成的镜像
 
    ```bash
-   sudo docker run --name auto-check-in -dv /tmp/conf:/tmp/conf ghcr.io/ceajs/cea/cea-check-in
+   sudo docker run --name auto-check-in -dv /tmp/conf:/tmp/conf ghcr.io/ceajs/cea/cea-check-in:main
    ```
 
    此容器自动设置了 Cron 任务，将会在每天 6:30 触发执行签到，如需自定义触发时间，请 Fork 本仓库(或者 Clone 本仓库)，修改 `docker/cea-cron`，并另行构建镜像与容器
