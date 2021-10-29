@@ -8,6 +8,11 @@
    sudo docker build -t cea-check-in https://github.com/ceajs/cea.git#main:docker
    sudo docker run -dv /tmp/conf:/tmp/conf cea-check-in
    ```
+   
+   如果使用境内服务器,由于网络问题,构建可能失败,可以使用本仓库构建镜像
+   ```bash
+   sudo docker run -dv /tmp/conf:/tmp/conf ghcr.io/ceajs/cea/autosign
+   ```
 
    此容器自动设置了 Cron 任务，将会在每天 6:30 触发执行签到，如需自定义触发时间，请 Fork 本仓库，修改 `docker/cea-cron`，并另行构建镜像与容器
 
@@ -15,7 +20,6 @@
    sudo docker build -t cea-check-in Fork仓库的GitURL#main:docker
    sudo docker run -dv /tmp/conf:/tmp/conf cea-check-in
    ```
-
   </details>
 
 <details><summary>腾讯云开发一键部署</summary>
