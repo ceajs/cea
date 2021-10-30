@@ -33,9 +33,8 @@
     "cheerio": "^1.0.0-rc.10",
     "node-fetch": "^2.6.5",
     "signale": "^1.4.0",
-    "terminal-image": "2.0.0",
+    "terminal-image": "^2.0.0",
     "tesseract.js": "^2.1.5",
-    "enquirer": "^2.3.6",
     "user-agents": "^1.0.799"
   },
   "devDependencies": {

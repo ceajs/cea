@@ -6,7 +6,6 @@ import log from '../utils/logger.js'
 import ocr from './capcha.js'
 import * as readline from 'node:readline'
 import { stdin, stdout } from 'node:process'
-import enquirer from 'enquirer'
 import fs from 'fs'
 import type { Response } from 'node-fetch'
 import UserAgent from 'user-agents'
@@ -15,8 +14,6 @@ import { SchoolConfOpts, UserConfOpts } from '../types/conf'
 import type { HandleCookieOptions } from '../types/cookie'
 import type { StringKV } from '../types/helper'
 import FetchWithCookie from '../utils/fetch-helper.js'
-
-const { prompt } = enquirer
 
 /**
  * Process to login to the unified auth
