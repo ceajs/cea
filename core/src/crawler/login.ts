@@ -142,16 +142,15 @@ export default async function login(
       })
       console.log(await terminalImage.buffer(body));
       console.log(`手动输入验证码模式,验证码图片保存至 /tmp/captcha.jpg`)
-      const rl = readline.createInterface({ input: stdin, output: stdout })
-      rl.question('请输入验证码: ', (an) => {
-        get_captcha = an
-        console.log(`使用验证码 ${an} 登录`)
-        rl.close()
+      const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
+      const answer: string = await new Promise(resolve => {
+        rl.question("请输入验证码", resolve)
       })
+      get_captcha = answer
     }
     const captcha = get_captcha ? get_captcha : ''
     if (captcha.length >= 4) {
-      log.success({
+      log.info({
         message: `使用验证码 ${captcha} 登录`,
         suffix: `@${name}`,
       })
