@@ -5,18 +5,33 @@
 2. 构建 Image 并运行 Container
 
    ```bash
+   # 在本地构建 Image
    sudo docker build -t cea-check-in https://github.com/ceajs/cea.git#main:docker
-   sudo docker run -dv /tmp/conf:/tmp/conf cea-check-in
+
+   # 创建容器
+   sudo docker run --name auto-check-in -dv /tmp/conf:/tmp/conf cea-check-in
    ```
 
-   此容器自动设置了 Cron 任务，将会在每天 6:30 触发执行签到，如需自定义触发时间，请 Fork 本仓库，修改 `docker/cea-cron`，并另行构建镜像与容器
+   如果使用境内服务器，由于网络问题，构建可能失败，可以使用本仓库已经构建完成的镜像
+
+   ```bash
+   sudo docker run --name auto-check-in -dv /tmp/conf:/tmp/conf ghcr.io/ceajs/cea/cea-check-in:main
+   ```
+
+   此容器自动设置了 Cron 任务，将会在每天 6:30 触发执行签到，如需自定义触发时间，请 Fork 本仓库(或者 Clone 本仓库)，修改 `docker/cea-cron`，并另行构建镜像与容器
 
    ```
+   # 如果你是 Fork 并 Push 了修改
    sudo docker build -t cea-check-in Fork仓库的GitURL#main:docker
-   sudo docker run -dv /tmp/conf:/tmp/conf cea-check-in
+
+   # 如果你是 Clone 并在本地修改，请进入 docker 文件夹
+   sudo docker build -t cea-check-in .
+
+   # 创建容器
+   sudo docker run --name auto-check-in -dv /tmp/conf:/tmp/conf cea-check-in
    ```
 
-  </details>
+   </details>
 
 <details><summary>腾讯云开发一键部署</summary>
 
