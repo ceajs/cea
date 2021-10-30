@@ -39,12 +39,15 @@ export async function handleCookie(options?: HandleCookieOptions) {
       }),
     )
   } catch (error: any) {
-    if (error.message == 'Cannot read properties of undefined (reading \'map\')')
+    if (
+      error.message == "Cannot read properties of undefined (reading 'map')"
+    ) {
       log.error({
-        message: '请先加载用户'
+        message: '请先加载用户',
       })
-    else
+    } else {
       throw error
+    }
   }
   /* 未加载用户执行sign 会报错
 

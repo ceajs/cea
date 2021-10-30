@@ -52,7 +52,7 @@ export default (schoolName: EdgeCasesSchools, isIap: boolean) =>
       get(target, prop, receiver) {
         if (
           target[prop as keyof NoIapDefaultProps & keyof IapDefaultProps]
-          === undefined
+            === undefined
         ) {
           return isIap
             ? iapDefaultProps[prop as keyof IapDefaultProps]
