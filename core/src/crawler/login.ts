@@ -162,6 +162,7 @@ export default async function login(
           rl.close()
         })
       })
+      get_captcha = answer
     }
 
     if (captchaCode?.length >= 4) {
