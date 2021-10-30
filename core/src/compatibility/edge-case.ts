@@ -16,6 +16,7 @@ const schoolEdgeCases = {
     rememberMe: 'on',
     checkCaptchaPath: '/needCaptcha.html',
     getCaptchaPath: '/captcha.html',
+    submitCaptchakey: 'captchaResponse',
   },
 }
 
@@ -33,6 +34,7 @@ const iapDefaultProps = {
   rememberMe: true,
   checkCaptchaPath: '/checkNeedCaptcha',
   getCaptchaPath: '/generateCaptcha',
+  submitCaptchakey: 'captcha',
 }
 
 export type EdgeCasesSchools = keyof typeof schoolEdgeCases

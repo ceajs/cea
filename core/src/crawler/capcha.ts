@@ -16,9 +16,11 @@ async function downloadTessdata() {
       return
     }
   }
-  download(
-    'https://beetcb.gitee.io/filetransfer/tmp/eng.traineddata.gz',
-    tessdataPath,
+  console.log(
+    await download(
+      'https://beetcb.gitee.io/filetransfer/tmp/eng.traineddata.gz',
+      tessdataPath,
+    ),
   )
 }
 
@@ -27,9 +29,9 @@ async function download(url: string, filename: string): Promise<string> {
   const res = await fetch(url)
   const result = await new Promise((resolve, reject) => {
     res.body?.pipe(stream)
-    res.body?.on('error', reject)
+    res.body?.on('error', (e) => reject(e))
     stream.on('close', () => resolve(`Downloaded tess data as ${filename}`))
-  })
+  }).catch((err) => console.error(err))
   return result as string
 }
 
