@@ -7,7 +7,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -yq cron tzdata curl \
     && ln -fs /usr/share/zoneinfo/$TZ /etc/localtime  \
     && dpkg-reconfigure -f noninteractive tzdata \
-    && curl -fsSL https://deb.nodesource.com/setup_17.x | bash - \
+    && curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
     && apt-get install -y nodejs \
     && crontab ./cea-cron \
     && npm install -g cea \
