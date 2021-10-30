@@ -1,19 +1,22 @@
 import cheerio from 'cheerio'
-import crypto from 'crypto'
+import fs from 'fs'
+import crypto from 'node:crypto'
+import { stdin, stdout } from 'node:process'
+import readline from 'node:readline'
 import terminalImage from 'terminal-image'
+import UserAgent from 'user-agents'
 import getEdgeCases from '../compatibility/edge-case.js'
+import FetchWithCookie from '../utils/fetch-helper.js'
+
 import log from '../utils/logger.js'
 import ocr from './capcha.js'
-import * as readline from 'node:readline'
-import { stdin, stdout } from 'node:process'
-import fs from 'fs'
-import type { Response } from 'node-fetch'
-import UserAgent from 'user-agents'
+
 import { DefaultProps, EdgeCasesSchools } from '../compatibility/edge-case.js'
 import { SchoolConfOpts, UserConfOpts } from '../types/conf'
+
+import type { Response } from 'node-fetch'
 import type { HandleCookieOptions } from '../types/cookie'
 import type { StringKV } from '../types/helper'
-import FetchWithCookie from '../utils/fetch-helper.js'
 
 /**
  * Process to login to the unified auth
@@ -101,7 +104,7 @@ export default async function login(
       ? new AES(user.password, pwdSalt).encrypt()
       : user.password,
     ...hiddenInputNameValueMap,
-    rememberMe: String(schoolEdgeCases.rememberMe),
+    rememberMe: schoolEdgeCases.rememberMe.toString(),
   })
 
   // check captcha is needed
@@ -122,48 +125,60 @@ export default async function login(
       message: '登录需要验证码',
       suffix: `@${name}`,
     })
-    let get_captcha
-    if (user.captcha == 1) {
+
+    let captchaCode = ''
+
+    if (user.captcha == 'OCR') {
       log.warn({
-        message: '正在使用ocr识别验证码',
+        message: '正在使用 ocr 识别验证码',
         suffix: `@${name}`,
       })
-      get_captcha = (
+      captchaCode = (
         await ocr(
           `${school.auth}${schoolEdgeCases.getCaptchaPath}${addtionalParams}`,
         )
       ).replace(/\s/g, '')
-    } else if (user.captcha == 2) {
-      const body: Buffer = await fetch.get(
-        `${school.auth}${schoolEdgeCases.getCaptchaPath}${addtionalParams}`
-      ).then(res => res.buffer().then())
-      fs.writeFile('/tmp/captcha.jpg', body, function (err) {
+    } else {
+      const body = await fetch
+        .get(
+          `${school.auth}${schoolEdgeCases.getCaptchaPath}${addtionalParams}`,
+        )
+        .then((res) => res.buffer())
+
+      // Save image to localhost, backup plan
+      fs.writeFile('/tmp/captcha.jpg', body, function(err) {
         if (err) console.error(err)
       })
-      console.log(await terminalImage.buffer(body));
+
+      // Manually input captcha by user
+      console.log(await terminalImage.buffer(body))
       console.log(`手动输入验证码模式,验证码图片保存至 /tmp/captcha.jpg`)
       const rl = readline.createInterface({ input: stdin, output: stdout })
-      rl.question('请输入验证码: ', (an) => {
-        get_captcha = an
-        console.log(`使用验证码 ${an} 登录`)
-        rl.close()
+      await new Promise((resolve) => {
+        rl.question('请输入验证码: ', (an) => {
+          captchaCode = an
+          console.log(`使用验证码 ${an} 登录`)
+          resolve(an)
+          rl.close()
+        })
       })
     }
-    const captcha = get_captcha ? get_captcha : ''
-    if (captcha.length >= 4) {
+
+    if (captchaCode?.length >= 4) {
       log.success({
-        message: `使用验证码 ${captcha} 登录`,
+        message: `使用验证码 ${captchaCode} 登录`,
         suffix: `@${name}`,
       })
-      auth.append(schoolEdgeCases.submitCaptchakey, captcha)
+      auth.append(schoolEdgeCases.submitCaptchakey, captchaCode)
     } else {
       log.error({
-        message: `验证码识别失败，长度${captcha.length}错误`,
+        message: `验证码格式错误，结果为${captchaCode}，长度错误`,
         suffix: `@${name}`,
       })
       return
     }
   }
+
   res = await fetch.post(authURL, {
     type: 'form',
     body: auth.toString(),
