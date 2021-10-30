@@ -4,6 +4,7 @@ export type UsersConf = Array<UserConfOpts>
 export type UserConfOpts = {
   username: string
   password: string
+  captcha: number
   alias: string
   school: string
   addr: Array<string>

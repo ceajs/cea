@@ -9,10 +9,12 @@ import { DefaultProps, EdgeCasesSchools } from '../compatibility/edge-case.js'
 import { SchoolConfOpts, UserConfOpts } from '../types/conf'
 import type { HandleCookieOptions } from '../types/cookie'
 import type { StringKV } from '../types/helper'
-
+import fs from 'fs'
+import enquirer from 'enquirer'
 import UserAgent from 'user-agents'
 import FetchWithCookie from '../utils/fetch-helper.js'
 
+const { prompt } = enquirer
 /**
  * Process to login to the unified auth
  */
@@ -42,7 +44,6 @@ export default async function login(
       await fetch.get(preCookieURL)
     }
   }
-
   // ensure redirecting to the right auth service, fallback to campuseAuthStartEndpoint
   res = await fetch.get(authURL || preAuthURL || school.preAuthURL)
 
@@ -118,21 +119,48 @@ export default async function login(
 
   if (needCaptcha) {
     log.warn({
-      message: '登录需要验证码，正在用 OCR 识别',
+      message: '登录需要验证码',
       suffix: `@${name}`,
     })
-    const captcha = (
-      await ocr(
-        `${school.auth}${schoolEdgeCases.getCaptchaPath}${addtionalParams}`,
-      )
-    ).replace(/\s/g, '')
-
+    let get_captcha
+    if (user.captcha == 1) {
+      log.warn({
+        message: '正在使用ocr识别验证码',
+        suffix: `@${name}`,
+      })
+      get_captcha = (
+        await ocr(
+          `${school.auth}${schoolEdgeCases.getCaptchaPath}${addtionalParams}`,
+        )
+      ).replace(/\s/g, '')
+    } else if (user.captcha == 2) {
+      await fetch.get(`${school.auth}${schoolEdgeCases.getCaptchaPath}${addtionalParams}`).then(res => res.buffer()).then(_ => {
+        fs.writeFile("/tmp/captcha.jpg", _, "binary", function (err) {
+          if (err) console.error(err);
+        });
+      })
+      log.warn({
+        message: '手动输入验证码模式,验证码图片保存至 /tmp/captcha.jpg',
+        suffix: `@${name}`,
+      })
+      const get_captcha_from_user = {
+        name: 'input_captcha',
+        type: 'input',
+        message: '请输入验证码',
+        initial: '',
+      }
+      const user_input: { input_captcha: string } = await prompt([
+        get_captcha_from_user,
+      ])
+      get_captcha = user_input.input_captcha
+    }
+    const captcha = get_captcha ? get_captcha : ''
     if (captcha.length >= 4) {
       log.success({
         message: `使用验证码 ${captcha} 登录`,
         suffix: `@${name}`,
       })
-      auth.append('captcha', captcha)
+      auth.append(schoolEdgeCases.submitCaptchakey, captcha)
     } else {
       log.error({
         message: `验证码识别失败，长度${captcha.length}错误`,
@@ -141,7 +169,6 @@ export default async function login(
       return
     }
   }
-
   res = await fetch.post(authURL, {
     type: 'form',
     body: auth.toString(),

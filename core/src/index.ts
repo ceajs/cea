@@ -31,12 +31,39 @@ export { CampusphereEndpoint } from './types/helper.js'
  * Iterate through all users: complete unified auth -> store cookie
  */
 export async function handleCookie(options?: HandleCookieOptions) {
-  await Promise.all(
-    sstore.get('users').map(async (i: UserConfOpts) => {
-      const storeCookiePath = `cookie.${i.alias}`
-      await handleLogin(i, storeCookiePath, options || {})
-    }),
-  )
+  try {
+    await Promise.all(
+      sstore.get('users').map(async (i: UserConfOpts) => {
+        const storeCookiePath = `cookie.${i.alias}`
+        await handleLogin(i, storeCookiePath, options || {})
+      }),
+    )
+  } catch (error: any) {
+    if (error.message == 'Cannot read properties of undefined (reading \'map\')')
+      log.error({
+        message: '请先加载用户'
+      })
+    else
+      throw error
+  }
+  /* 未加载用户执行sign 会报错
+
+  file:///root/cea/core/lib/src/index.js:11
+  await Promise.all(sstore.get("users").map(async (i) => {
+                                       ^
+
+TypeError: Cannot read properties of undefined (reading 'map')
+    at handleCookie (file:///root/cea/core/lib/src/index.js:11:40)
+    at checkIn (file:///root/cea/plugins/check-in/lib/src/index.js:162:9)
+    at file:///root/cea/internal/lib/src/cli.js:26:13
+    at file:///root/cea/internal/lib/src/cli.js:47:3
+    at ModuleJob.run (node:internal/modules/esm/module_job:185:25)
+    at async Promise.all (index 0)
+    at async ESMLoader.import (node:internal/modules/esm/loader:281:24)
+    at async loadESM (node:internal/process/esm_loader:88:5)
+    at async handleMainPromise (node:internal/modules/run_main:65:12)
+
+    */
 }
 
 async function handleLogin(
