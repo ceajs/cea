@@ -9,6 +9,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && dpkg-reconfigure -f noninteractive tzdata \
     && curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
     && apt-get install -y nodejs \
+    && apt-get install -y postfix \
     && crontab ./cea-cron \
     && npm install -g cea \
     && apt-get clean \
@@ -18,4 +19,4 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     /var/cache/* \
     /var/lib/apt/lists/* \
     /var/tmp/*
-CMD ["cron","-f"]
+CMD postfix start && cron -f
