@@ -1,4 +1,5 @@
-import fs from 'fs'
+import fs from 'node:fs'
+
 import fetch from 'node-fetch'
 import * as tesseract from 'tesseract.js'
 const { createWorker } = tesseract

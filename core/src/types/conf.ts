@@ -1,6 +1,6 @@
 import { CookieRawObject } from './cookie'
 
-export type UsersConf = Array<UserConfOpts>
+export type UsersConf = { notifier?: Array<string>; users: Array<UserConfOpts> }
 export type UserConfOpts = {
   username: string
   password: string

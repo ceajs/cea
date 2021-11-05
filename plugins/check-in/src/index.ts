@@ -1,6 +1,7 @@
-import { CampusphereEndpoint } from 'cea-core'
-import { handleCookie, sstore } from 'cea-core'
 import crypto from 'crypto'
+
+import { CampusphereEndpoint } from 'cea-core'
+import { handleCookie, log, sstore } from 'cea-core'
 import fetch from 'node-fetch'
 import * as uuid from 'uuid'
 import { LogInfoKeys, PostFormBody } from './types.js'
@@ -244,7 +245,7 @@ export async function checkIn() {
   console.table(logs)
 }
 
-async function signIn(users: UsersConf): Promise<GlobalLogInfo> {
+async function signIn(users: UsersConf['users']): Promise<GlobalLogInfo> {
   const logs: GlobalLogInfo = {}
   // sign in asynchronizedly with promise all and diff instance of signApp class
   await Promise.all(
@@ -268,5 +269,6 @@ async function signIn(users: UsersConf): Promise<GlobalLogInfo> {
       }
     }),
   )
+  log.notify()
   return logs
 }

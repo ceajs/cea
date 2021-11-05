@@ -12,7 +12,9 @@ const { prompt } = enquirer
   switch (argv) {
     case 'user': {
       const users = await promptToGetConf()
-      await confSet(users)
+      if (users) {
+        await confSet({ users })
+      }
       break
     }
     case 'rm': {
@@ -49,8 +51,8 @@ const { prompt } = enquirer
   sstore.close()
 })()
 
-async function promptToGetConf(): Promise<UsersConf | null> {
-  const loadedUsers = (sstore.get('users') as UsersConf) || []
+async function promptToGetConf(): Promise<UsersConf['users'] | null> {
+  const loadedUsers = (sstore.get('users') as UsersConf['users']) || []
 
   const actionNaire = {
     type: 'select',

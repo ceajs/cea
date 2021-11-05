@@ -1,7 +1,8 @@
+import fs from 'node:fs'
+import { resolve } from 'node:path'
+
 import * as toml from '@iarna/toml'
-import fs from 'fs'
 import fetch from 'node-fetch'
-import { resolve } from 'path'
 import log from './utils/logger.js'
 const { parse } = toml
 
@@ -12,19 +13,19 @@ import type { StringKV } from './types/helper'
 export function loadConfFromToml(): UsersConf | null {
   const path = resolve('./conf.toml')
   if (fs.existsSync(path)) {
-    const usersConf = parse(fs.readFileSync(path, 'utf8'))!.users as UsersConf
+    const usersConf = parse(fs.readFileSync(path, 'utf8')) as UsersConf
     log.success({
       message: '成功加载用户',
-      suffix: `${usersConf.map((u) => `@${u.alias}`).join(' ')}`,
+      suffix: `${usersConf.users.map((u) => `@${u.alias}`).join(' ')}`,
     })
     return usersConf
   }
   return null
 }
 
-export async function getSchoolInfos(
-  users: UsersConf,
-): Promise<SchoolConf | null> {
+export async function getSchoolInfos({
+  users,
+}: UsersConf): Promise<SchoolConf | null> {
   let res: Response,
     defaultAddr = '',
     schoolInfos = {} as SchoolConf

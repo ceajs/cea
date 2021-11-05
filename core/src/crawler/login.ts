@@ -1,5 +1,5 @@
-import fs from 'node:fs'
 import crypto from 'node:crypto'
+import fs from 'node:fs'
 import { stdin, stdout } from 'node:process'
 import readline from 'node:readline'
 
@@ -14,8 +14,8 @@ import ocr from './captcha.js'
 
 import { DefaultProps, EdgeCasesSchools } from '../compatibility/edge-case.js'
 
-import type { SchoolConfOpts, UserConfOpts } from '../types/conf'
 import type { Response } from 'node-fetch'
+import type { SchoolConfOpts, UserConfOpts } from '../types/conf'
 import type { HandleCookieOptions } from '../types/cookie'
 import type { StringKV } from '../types/helper'
 
@@ -25,12 +25,12 @@ import type { StringKV } from '../types/helper'
 export default async function login(
   school: SchoolConfOpts,
   user: UserConfOpts,
-  { preAuthURL, preCookieURLArray, authURL }: HandleCookieOptions
+  { preAuthURL, preCookieURLArray, authURL }: HandleCookieOptions,
 ) {
   // improve school campatibility with defaults and edge-cases
   const schoolEdgeCases: DefaultProps = getEdgeCases(
     school.chineseName as EdgeCasesSchools,
-    school.isIap
+    school.isIap,
   )
 
   const headers: StringKV = {
@@ -109,19 +109,17 @@ export default async function login(
   })
 
   // check captcha is needed
-  const addtionalParams = `?username=${user.username}&ltId=${
-    hiddenInputNameValueMap.lt || ''
-  }`
-  const needCaptcha =
-    hiddenInputNameValueMap.needCaptcha === undefined
-      ? (
-          await (
-            await fetch.get(
-              `${school.auth}${schoolEdgeCases.checkCaptchaPath}${addtionalParams}`
-            )
-          ).text()
-        ).includes('true')
-      : hiddenInputNameValueMap.needCaptcha
+  const addtionalParams =
+    `?username=${user.username}&ltId=${hiddenInputNameValueMap.lt || ''}`
+  const needCaptcha = hiddenInputNameValueMap.needCaptcha === undefined
+    ? (
+      await (
+        await fetch.get(
+          `${school.auth}${schoolEdgeCases.checkCaptchaPath}${addtionalParams}`,
+        )
+      ).text()
+    ).includes('true')
+    : hiddenInputNameValueMap.needCaptcha
 
   if (needCaptcha) {
     log.warn({
@@ -138,18 +136,18 @@ export default async function login(
       })
       captchaCode = (
         await ocr(
-          `${school.auth}${schoolEdgeCases.getCaptchaPath}${addtionalParams}`
+          `${school.auth}${schoolEdgeCases.getCaptchaPath}${addtionalParams}`,
         )
       ).replace(/\s/g, '')
     } else {
       const body = await fetch
         .get(
-          `${school.auth}${schoolEdgeCases.getCaptchaPath}${addtionalParams}`
+          `${school.auth}${schoolEdgeCases.getCaptchaPath}${addtionalParams}`,
         )
         .then((res) => res.buffer())
 
       // Save image to localhost, backup plan
-      fs.writeFile('/tmp/captcha.jpg', body, function (err) {
+      fs.writeFile('/tmp/captcha.jpg', body, function(err) {
         if (err) console.error(err)
       })
 
