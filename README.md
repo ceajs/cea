@@ -78,7 +78,7 @@ const schoolEdgeCases = {
 2. 配置用户
 
    ```bash
-   # 使用交互式命令行配置
+   # 使用交互式命令行配置，暂无推送功能和验证码识别模式配置
    cea user
    # 使用配置文件 ./conf.toml 加载用户
    cea load
