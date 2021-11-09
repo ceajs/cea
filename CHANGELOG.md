@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/ceajs/cea/compare/v2.1.0...v2.2.0) (2021-11-09)
+
+
+### Bug Fixes
+
+* codebase clean up ([f532e05](https://github.com/ceajs/cea/commit/f532e05f7c290d86d6029d2a2bdbfa4ef14d3575))
+* **core:** legacy lines from merge, filename typo ([13e4512](https://github.com/ceajs/cea/commit/13e451271c0ced152efd5c87ed59a9030d67a2db))
+* cron trigger time ([edaf8e7](https://github.com/ceajs/cea/commit/edaf8e71135b2dde53c1c3179fb225b30829df77))
+
+
+### Features
+
+* **core:** add notifier utils ([bb7a369](https://github.com/ceajs/cea/commit/bb7a369814507aa4434276095cd7bb4a03a1aeee))
+* implement notifier ([2c9a5d7](https://github.com/ceajs/cea/commit/2c9a5d73e6620acfef91f19bd37dc709297a3ae3))
+
+
+
+
+
 # [2.1.0](https://github.com/ceajs/cea/compare/v2.0.1...v2.1.0) (2021-10-27)
 
 ### Bug Fixes
