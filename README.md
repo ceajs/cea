@@ -35,6 +35,8 @@
 
 - 关于签到插件: (学校配置时)使用百度地图 API 获取学校全局签到地址, 使用今日校园接口返回的签到数据获取签到经纬度, 简单来说, 只需知道学校英文简称即可配置好所有签到信息, 充分懒人化
 
+- 支持日志路由转发到微信：方便查看运行结果日志 (详见 [部署指南](./docs/deploy.md))，这也方便 Cea 插件开发者实现推送和统一日志输出 (详见 [插件开发](https://github.com/ceajs/cea#%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91))
+
 - 支持一键部署签到程序：依赖自动安装、触发器自动配置，可能是全网最快最方便的部署 (详见 [部署指南](./docs/deploy.md))
 
 ## 准备工作
@@ -128,6 +130,17 @@ cea.start()
 插件核心 `cea-core` [docs/api/core/README.md](./docs/api/core/README.md)
 
 插件示例 `cea-check-in` [docs/api/plugins/check-in/README.md](./docs/api/plugins/check-in/README.md)
+
+我们鼓励插件开发者使用日志统一输出和路由转发到微信的功能，操作方法是：
+
+```js
+// 导入 cea-core 包提供的日志工具 log
+import { log } from 'cea-core'
+// 输出统一的命令行日志
+log.success('hello')
+// 异步推送日志，此函数也可接受字符串形参，当作日志一同推送
+log.notify()
+```
 
 ## 鸣谢
 

@@ -1,5 +1,3 @@
-import { CookieRawObject } from './cookie'
-
 export type UsersConf = {
   notifier?: [`${number}`, string]
   users: Array<UserConfOpts>
@@ -11,7 +9,6 @@ export type UserConfOpts = {
   alias: string
   school: string
   addr: Array<string>
-  cookie?: CookieRawObject
 }
 
 export type SchoolConf = {
