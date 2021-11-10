@@ -1,23 +1,18 @@
-import crypto from 'node:crypto'
-import fs from 'node:fs'
-import { stdin, stdout } from 'node:process'
-import readline from 'node:readline'
-
 import cheerio from 'cheerio'
-import terminalImage from 'terminal-image'
 import UserAgent from 'user-agents'
 import getEdgeCases from '../compatibility/edge-case.js'
 import FetchWithCookie from '../utils/fetch-helper.js'
 
+import AES from '../utils/encrypt.js'
 import log from '../utils/logger.js'
-import ocr from './captcha.js'
+import { captchaHandler } from './captcha.js'
 
 import { DefaultProps, EdgeCasesSchools } from '../compatibility/edge-case.js'
+import { UnifiedLoginResultCodeMsg } from '../types/login.js'
 
-import type { Response } from 'node-fetch'
 import type { SchoolConfOpts, UserConfOpts } from '../types/conf'
-import type { HandleCookieOptions } from '../types/cookie'
 import type { StringKV } from '../types/helper'
+import type { UnifiedLoginResult } from '../types/login'
 
 /**
  * Process to login to the unified auth
@@ -25,12 +20,11 @@ import type { StringKV } from '../types/helper'
 export default async function login(
   school: SchoolConfOpts,
   user: UserConfOpts,
-  { preAuthURL, preCookieURLArray, authURL }: HandleCookieOptions,
 ) {
   // improve school campatibility with defaults and edge-cases
   const schoolEdgeCases: DefaultProps = getEdgeCases(
     school.chineseName as EdgeCasesSchools,
-    school.isIap,
+    school.isCloud,
   )
 
   const headers: StringKV = {
@@ -41,25 +35,17 @@ export default async function login(
   const fetch = new FetchWithCookie(headers)
   const name = user.alias
 
-  let res: Response
-
-  if (preCookieURLArray?.length) {
-    for (const preCookieURL of preCookieURLArray) {
-      await fetch.get(preCookieURL)
-    }
-  }
-  // ensure redirecting to the right auth service, fallback to campuseAuthStartEndpoint
-  res = await fetch.get(authURL || preAuthURL || school.preAuthURL)
+  let res = await fetch.get(school.preAuthURL)
+  let authURL = school.authURL
 
   if (!authURL) {
     res = await fetch.follow()
     authURL = fetch.lastRedirectUrl!
   }
 
-  // grab hidden input name-val ue, this maybe error-prone, but compatible
   const hiddenInputNameValueMap: StringKV = {}
-  let pwdSalt
-  if (schoolEdgeCases.formIdx !== undefined) {
+  let pwdSalt, needCaptcha: boolean
+  if (!school.isCloud) {
     // create document for crawling
     const body = await res.text()
     const $ = cheerio.load(body)
@@ -79,26 +65,38 @@ export default async function login(
         pwdSalt = value
       }
     })
+
+    // Check captcha
+    const addtionalParams =
+      `?username=${user.username}&ltId=${hiddenInputNameValueMap.lt || ''}`
+    needCaptcha = (
+      await (
+        await fetch.get(
+          `${school.auth}${schoolEdgeCases.checkCaptchaPath}${addtionalParams}`,
+        )
+      ).text()
+    ).includes('true')
   } else {
-    // if we got here, this site definitely uses AJAX to get those props (`iap`)
+    // If we got here, this site definitely uses AJAX to get those props (`CLOUD`)
     // we need to request those properties manually
-    headers.Referer = res.headers.get('location')!
-    const ltWrapper = new URL(headers.Referer).search
-    if (Object.keys(hiddenInputNameValueMap).length === 0) {
-      res = await fetch.get(`${school.auth}${schoolEdgeCases.lt}${ltWrapper}`)
-      const { result } = (await res.json()) as any
-      Object.defineProperties(hiddenInputNameValueMap, {
-        lt: { value: result._lt, enumerable: true },
-        needCaptcha: { value: result.needCapt, enumerable: true },
-        dllt: { value: '', enumerable: true },
-        iap: { value: true, enumerable: true },
-      })
-      // seems dcampus forgot to impl _encryptSalt, comment it out temporarily
-      // pwdSalt = result._encryptSalt
-    }
+    res = await fetch.get(res.headers.get('location')!)
+    const ltWrapper = res.headers.get('location')?.split('_2lBepC=')[1]
+    res = await fetch.post(`${school.auth}${schoolEdgeCases.lt}`, {
+      type: 'form',
+      body: `lt=${ltWrapper}`,
+    })
+    const { result } = (await res.json()) as any
+    // Based on cur logic, result.needCaptcha will never be true
+    needCaptcha = false
+    Object.defineProperties(hiddenInputNameValueMap, {
+      lt: { value: result._lt, enumerable: true },
+      dllt: { value: '', enumerable: true },
+    })
+    // Seems dcampus forgot to impl _encryptSalt, comment it out temporarily
+    // pwdSalt = result._encryptSalt
   }
 
-  // construct login form
+  // Construct login form
   const auth = new URLSearchParams({
     username: user.username,
     password: pwdSalt
@@ -108,132 +106,72 @@ export default async function login(
     rememberMe: schoolEdgeCases.rememberMe.toString(),
   })
 
-  // check captcha is needed
-  const addtionalParams =
-    `?username=${user.username}&ltId=${hiddenInputNameValueMap.lt || ''}`
-  const needCaptcha = hiddenInputNameValueMap.needCaptcha === undefined
-    ? (
-      await (
-        await fetch.get(
-          `${school.auth}${schoolEdgeCases.checkCaptchaPath}${addtionalParams}`,
-        )
-      ).text()
-    ).includes('true')
-    : hiddenInputNameValueMap.needCaptcha
-
-  if (needCaptcha) {
-    log.warn({
-      message: '登录需要验证码',
-      suffix: `@${name}`,
-    })
-
-    let captchaCode = ''
-
-    if (user.captcha == 'OCR') {
+  // Handle captcha
+  while (true) {
+    if (needCaptcha) {
+      const captchaUrl =
+        `${school.auth}${schoolEdgeCases.getCaptchaPath}?username=${user.username}&ltId=${hiddenInputNameValueMap
+          .lt ?? ''}`
       log.warn({
-        message: '正在使用 ocr 识别验证码',
+        message: '登录需要验证码',
         suffix: `@${name}`,
       })
-      captchaCode = (
-        await ocr(
-          `${school.auth}${schoolEdgeCases.getCaptchaPath}${addtionalParams}`,
-        )
-      ).replace(/\s/g, '')
-    } else {
-      const body = await fetch
-        .get(
-          `${school.auth}${schoolEdgeCases.getCaptchaPath}${addtionalParams}`,
-        )
-        .then((res) => res.buffer())
-
-      // Save image to localhost, backup plan
-      fs.writeFile('/tmp/captcha.jpg', body, function(err) {
-        if (err) console.error(err)
-      })
-
-      // Manually input captcha by user
-      console.log(await terminalImage.buffer(body))
-      console.log(`手动输入验证码模式,验证码图片保存至 /tmp/captcha.jpg`)
-      const rl = readline.createInterface({ input: stdin, output: stdout })
-      await new Promise((resolve) => {
-        rl.question('请输入验证码: ', (an) => {
-          captchaCode = an
-          console.log(`使用验证码 ${an} 登录`)
-          resolve(an)
-          rl.close()
+      let captchaCode = await captchaHandler(captchaUrl, fetch, user.captcha)
+      if (captchaCode?.length >= 4) {
+        log.warn({
+          message: `使用验证码 ${captchaCode} 登录`,
+          suffix: `@${name}`,
         })
-      })
+        auth.append(schoolEdgeCases.submitCaptchakey, captchaCode)
+      } else {
+        log.error({
+          message: `验证码格式错误，结果为${captchaCode}，长度错误`,
+          suffix: `@${name}`,
+        })
+        return
+      }
     }
 
-    if (captchaCode?.length >= 4) {
-      log.success({
-        message: `使用验证码 ${captchaCode} 登录`,
-        suffix: `@${name}`,
-      })
-      auth.append(schoolEdgeCases.submitCaptchakey, captchaCode)
-    } else {
+    res = await fetch.post(authURL, {
+      type: 'form',
+      body: auth.toString(),
+    })
+
+    const isRedirect = res.headers.get('location')
+    if (!isRedirect) {
+      if (school.isCloud) {
+        const result = (await res.json()) as UnifiedLoginResult
+        log.error({
+          message: UnifiedLoginResultCodeMsg[result.resultCode],
+          suffix: `@${name}`,
+        })
+        // Handle captcha(CLOUD)
+        if (result.needCaptcha && !needCaptcha) {
+          needCaptcha = true
+          continue
+        }
+      } else {
+        log.error({
+          message: `登录失败，${res.statusText}`,
+          suffix: `@${name}`,
+        })
+      }
+      return
+    } else if (isRedirect.includes('.do')) {
       log.error({
-        message: `验证码格式错误，结果为${captchaCode}，长度错误`,
+        message: `登录失败，密码安全等级低，需要修改`,
         suffix: `@${name}`,
       })
       return
+    } else {
+      log.success({
+        message: `登录成功`,
+        suffix: `@${name}`,
+      })
     }
-  }
 
-  res = await fetch.post(authURL, {
-    type: 'form',
-    body: auth.toString(),
-  })
-
-  const isRedirect = res.headers.get('location')
-  if (!isRedirect) {
-    log.error({ message: `登录失败，${res.statusText}`, suffix: `@${name}` })
-    return
-  } else if (isRedirect.includes('.do')) {
-    log.error({
-      message: `登录失败，密码安全等级低，需要修改`,
-      suffix: `@${name}`,
-    })
-    return
-  } else {
-    log.success({
-      message: `登录成功`,
-      suffix: `@${name}`,
-    })
-  }
-
-  // redirect to campus, get MOD_AUTH_CAS
-  await fetch.follow()
-  return fetch.getCookieObj()
-}
-
-class AES {
-  private pwd: string
-  private key: string
-  constructor(pwd: string, key: string) {
-    this.pwd = pwd
-    this.key = key
-  }
-
-  encrypt() {
-    const { key, pwd } = this
-
-    const rs = this.randomString
-    const data = rs(64) + pwd
-
-    const algorithm = 'aes-128-cbc'
-    const iv = Buffer.alloc(16, 0)
-
-    const cipher = crypto.createCipheriv(algorithm, key, iv)
-    let en = cipher.update(data, 'utf8', 'base64')
-    en += cipher.final('base64')
-    return en
-  }
-
-  randomString(len: number) {
-    const str = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
-    return Array(len)
-      .fill(null)
-      .reduce((s = '') => (s += str.charAt(Math.floor(Math.random() * 48))), '')
+    // Redirect to campus, get MOD_AUTH_CAS
+    await fetch.follow()
+    return fetch.getCookieObj()
   }
 }

@@ -17,10 +17,11 @@
     {
       "type": "pwa-node",
       "request": "launch",
-      "name": "Score Notice Test",
+      "name": "Load Config Test",
       "skipFiles": ["<node_internals>/**"],
-      "preLaunchTask": "npm: build",
-      "program": "${workspaceFolder}/plugins/test-score-notice/src/index.ts",
+      "preLaunchTask": "npm: build:debug",
+      "program": "${workspaceFolder}/internal/src/cli.ts",
+      "args": ["load"],
       "outFiles": ["${workspaceFolder}/**/*.js"]
     }
   ]

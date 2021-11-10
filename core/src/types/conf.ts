@@ -20,8 +20,9 @@ export type SchoolConfOpts = {
   campusphere: string
   // `${compusphere.origin}/iap/login?service=${encodeURIComponent(`${campusphere}/portal/login`)}`
   preAuthURL: string
+  authURL?: string
   chineseName: string
   defaultAddr: string
-  isIap: boolean
+  isCloud: boolean
   auth: string
 }

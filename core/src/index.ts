@@ -4,7 +4,7 @@ import login from './crawler/login.js'
 import log from './utils/logger.js'
 
 import type { SchoolConf, UserConfOpts } from './types/conf'
-import type { CookieRawObject, HandleCookieOptions } from './types/cookie'
+import type { CookieRawObject } from './types/cookie'
 import type { StringKV } from './types/helper'
 
 export * from './utils/cookie-helper.js'
@@ -24,18 +24,18 @@ export type {
   UserConfOpts,
   UsersConf,
 } from './types/conf.js'
-export type { CookieRawObject, HandleCookieOptions, StringKV }
+export type { CookieRawObject, StringKV }
 export { CampusphereEndpoint } from './types/helper.js'
 
 /**
  * Iterate through all users: complete unified auth -> store cookie
  */
-export async function handleCookie(options?: HandleCookieOptions) {
+export async function handleCookie() {
   try {
     await Promise.all(
       sstore.get('users').map(async (i: UserConfOpts) => {
         const storeCookiePath = `cookie.${i.alias}`
-        await handleLogin(i, storeCookiePath, options || {})
+        await handleLogin(i, storeCookiePath)
       }),
     )
   } catch (error: any) {
@@ -54,14 +54,13 @@ export async function handleCookie(options?: HandleCookieOptions) {
 async function handleLogin(
   i: UserConfOpts,
   storeCookiePath: string,
-  options: HandleCookieOptions,
 ) {
   let cookie: CookieRawObject = sstore.get(storeCookiePath)
   const name = i.alias
   const school = (sstore.get('schools') as SchoolConf)[i.school]
   // Check if the cookie is stored, if not, login in to eat them
   if (!cookie) {
-    const result = await login(school, i, options)
+    const result = await login(school, i)
     if (result) {
       sstore.set(storeCookiePath, result)
       log.success({
@@ -85,7 +84,7 @@ async function handleLogin(
         suffix: `@${name}`,
       })
       sstore.del(storeCookiePath)
-      await handleLogin(i, storeCookiePath, options)
+      await handleLogin(i, storeCookiePath)
     }
     log.success({
       message: `尝试使用缓存中的 COOKIE`,

@@ -29,7 +29,7 @@ const defaultProps = {
   pwdEncrypt: true,
 }
 
-const iapDefaultProps = {
+const cloudDefaultProps = {
   lt: '/security/lt',
   rememberMe: true,
   checkCaptchaPath: '/checkNeedCaptcha',
@@ -38,25 +38,25 @@ const iapDefaultProps = {
 }
 
 export type EdgeCasesSchools = keyof typeof schoolEdgeCases
-type NoIapDefaultProps = typeof defaultProps
-type IapDefaultProps = typeof iapDefaultProps
+type NoCloudDefaultProps = typeof defaultProps
+type CloudDefaultProps = typeof cloudDefaultProps
 
-export type DefaultProps = NoIapDefaultProps & IapDefaultProps
+export type DefaultProps = NoCloudDefaultProps & CloudDefaultProps
 
 /**
  * handle edge cases, proxy default properties
  */
-export default (schoolName: EdgeCasesSchools, isIap: boolean) =>
+export default (schoolName: EdgeCasesSchools, isCloud: boolean) =>
   schoolName
     ? (new Proxy(schoolEdgeCases[schoolName] || {}, {
       get(target, prop, receiver) {
         if (
-          target[prop as keyof NoIapDefaultProps & keyof IapDefaultProps]
+          target[prop as keyof NoCloudDefaultProps & keyof CloudDefaultProps]
             === undefined
         ) {
-          return isIap
-            ? iapDefaultProps[prop as keyof IapDefaultProps]
-            : defaultProps[prop as keyof NoIapDefaultProps]
+          return isCloud
+            ? cloudDefaultProps[prop as keyof CloudDefaultProps]
+            : defaultProps[prop as keyof NoCloudDefaultProps]
         }
         return Reflect.get(target, prop, receiver)
       },

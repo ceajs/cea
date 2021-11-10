@@ -38,7 +38,7 @@ export default class FetchWithCookie {
     return new Promise((resolve) => resolve(res))
   }
 
-  async fetch(url: string, options: FetchCookieOptions) {
+  private async fetch(url: string, options: FetchCookieOptions) {
     const { host, origin } = new URL(url)
     const { type, body } = options
     const { headers } = this
@@ -79,7 +79,7 @@ export default class FetchWithCookie {
     return obj
   }
 
-  updateMap(newMap: CookieMap) {
+  private updateMap(newMap: CookieMap) {
     if (!this.cookieMap) {
       this.cookieMap = newMap
     } else {

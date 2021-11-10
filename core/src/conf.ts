@@ -59,13 +59,15 @@ export async function getSchoolInfos({
       defaultAddr = addrInfo.content[0].addr
       log.success({ message: `学校 ${data.name} 默认签到地址：${defaultAddr}` })
     }
+    const isCloud = data.joinType !== 'NOTCLOUD'
     schoolInfos[abbreviation] = {
       defaultAddr,
       preAuthURL: `${origin}/portal/login`,
       auth: casOrigin,
       chineseName: data.name,
       campusphere: origin,
-      isIap: data.joinType !== 'NOTCLOUD',
+      authURL: isCloud ? `${origin}/iap/doLogin` : undefined,
+      isCloud,
     }
     log.success({ message: `学校 ${data.name} 已完成设定` })
   }

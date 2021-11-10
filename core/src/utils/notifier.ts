@@ -14,7 +14,7 @@ const notify = async function(addtionalMessage: string) {
   if (!notifyConf?.length) {
     return
   }
-  const [pushPlatform, pushToken] = notifyConf 
+  const [pushPlatform, pushToken] = notifyConf
   const content = `${notifications.join(`<br>`)}<br>${
     addtionalMessage.replace(/\n/g, '<br>').replace(/\s/g, '&nbsp')
   }`
