@@ -10,7 +10,11 @@ const saveNotifications = (args: Array<any>) => {
 }
 
 const notify = async function(addtionalMessage: string) {
-  const [pushPlatform, pushToken] = sstore.get('notifier')
+  const notifyConf = sstore.get('notifier')
+  if (!notifyConf?.length) {
+    return
+  }
+  const [pushPlatform, pushToken] = notifyConf 
   const content = `${notifications.join(`<br>`)}<br>${
     addtionalMessage.replace(/\n/g, '<br>').replace(/\s/g, '&nbsp')
   }`
