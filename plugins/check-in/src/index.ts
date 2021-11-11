@@ -237,17 +237,24 @@ export class CheckIn {
 export async function checkIn() {
   // Get cookie
   await handleCookie()
-  // Log in and save cookie to cea
+  // Grab users
   const users = sstore.get('users')
-  // Sign in
-  const logs = await signIn(users)
-  // Log out results
-  console.table(logs)
+  if (users?.length) {
+    // Sign in
+    const logs = await signIn(users)
+    // Log out results
+    if (logs) {
+      console.table(logs)
+    }
+  }
 }
 
-async function signIn(users: UsersConf['users']): Promise<GlobalLogInfo> {
-  const logs: GlobalLogInfo = {}
+async function signIn(
+  users: UsersConf['users'],
+): Promise<GlobalLogInfo | null> {
   // Sign in asynchronizedly with promise all and diff instance of signApp class
+
+  const logs: GlobalLogInfo = {}
   await Promise.all(
     users.map(async (i) => {
       const instance: CheckIn = new CheckIn(i)
@@ -270,5 +277,5 @@ async function signIn(users: UsersConf['users']): Promise<GlobalLogInfo> {
     }),
   )
   log.notify(`签到结果 => \n${JSON.stringify(logs, null, '  ')}`)
-  return logs
+  return Object.keys(logs).length ? logs : null
 }

@@ -32,7 +32,6 @@ const defaultProps = {
 const cloudDefaultProps = {
   lt: '/security/lt',
   rememberMe: true,
-  checkCaptchaPath: '/checkNeedCaptcha',
   getCaptchaPath: '/generateCaptcha',
   submitCaptchakey: 'captcha',
 }

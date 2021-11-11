@@ -3,14 +3,14 @@
 首先我们需要在当前工作目录下创建名为 `conf.toml` 的配置文件，该配置文件将在加载后得到如下的数据结构：
 
   ```ts
-  export type UsersConf = {
+  type UsersConf = {
     notifier?: [`${number}`, string]
     users: Array<UserConfOpts>
   }
-  export type UserConfOpts = {
+  type UserConfOpts = {
     username: string
     password: string
-    captcha?: 'OCR'
+    captcha?: 'MANUAL' | 'OCR'
     alias: string
     school: string
     addr: Array<string>
@@ -31,7 +31,7 @@
 - `username`：学校统一身份验证的账号
 - `password`: 学校统一身份验证的密码
 - `school`：学校简称，部分学校是英文简称，其它学校是随机字符，请使用 **[学校 ID 查询工具](https://cea.beetcb.com)** 搜索查询
-- `captcha`：可选配置项，决定登录时验证码的填写方式，缺省为用户手动填写，填写值只能为 `OCR`，代表使用机器识别自动填写
+- `captcha`：可选配置项，决定登录时验证码的填写方式，缺省为 `OCR`，可填写 `MANUAL`，代表人工手动填写(交互式)
 
 ## 配置格式及语法
 

@@ -1,13 +1,13 @@
 export type UsersConf = {
-  notifier?: [`${number}`, string]
-  users: Array<UserConfOpts>
+  readonly notifier?: [`${number}`, string]
+  readonly users: Array<UserConfOpts>
 }
 export type UserConfOpts = {
-  username: string
-  password: string
-  captcha?: 'OCR'
-  alias: string
-  school: string
+  readonly username: string
+  readonly password: string
+  readonly captcha?: 'MANUAL' | 'OCR'
+  readonly alias: string
+  readonly school: string
   addr: Array<string>
 }
 
@@ -17,12 +17,12 @@ export type SchoolConf = {
 
 export type SchoolConfOpts = {
   // idsUrl
-  campusphere: string
+  readonly campusphere: string
   // `${compusphere.origin}/iap/login?service=${encodeURIComponent(`${campusphere}/portal/login`)}`
-  preAuthURL: string
-  authURL?: string
-  chineseName: string
-  defaultAddr: string
-  isCloud: boolean
-  auth: string
+  readonly preAuthURL: string
+  readonly authURL?: string
+  readonly chineseName: string
+  readonly defaultAddr: string
+  readonly isCloud: boolean
+  readonly auth: string
 }

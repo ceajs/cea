@@ -1,8 +1,13 @@
 import fs from 'node:fs'
+import { stdin, stdout } from 'node:process'
+import readline from 'node:readline'
 
 import fetch from 'node-fetch'
-import * as tesseract from 'tesseract.js'
-const { createWorker } = tesseract
+import terminalImage from 'terminal-image'
+import { createWorker } from 'tesseract.js'
+
+import type { UserConfOpts } from '../types/conf'
+import type FetchWithCookie from '../utils/fetch-helper.js'
 
 const tessdataPath = '/tmp/eng.traineddata.gz'
 
@@ -56,4 +61,29 @@ async function ocr(captchaUrl: string) {
   return text
 }
 
-export default ocr
+export async function captchaHandler(
+  url: string,
+  fetch: FetchWithCookie,
+  mode: UserConfOpts['captcha'],
+): Promise<string> {
+  if (mode === 'MANUAL') {
+    const body = await fetch.get(url).then((res) => res.buffer())
+    // Save image to localhost, backup plan
+    fs.writeFile('/tmp/captcha.jpg', body, function(err) {
+      if (err) console.error(err)
+    })
+
+    // Manually input captcha by user
+    console.log(await terminalImage.buffer(body))
+    console.log(`手动输入验证码模式,验证码图片保存至 /tmp/captcha.jpg`)
+    const rl = readline.createInterface({ input: stdin, output: stdout })
+    return await new Promise((resolve) => {
+      rl.question('请输入验证码: ', (an) => {
+        resolve(an)
+        rl.close()
+      })
+    })
+  } else {
+    return (await ocr(url)).replace(/\s/g, '')
+  }
+}
