@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[types.ts:75](https://github.com/ceajs/cea/blob/08338e7/plugins/check-in/src/types.ts#L75)
+[types.ts:75](https://github.com/ceajs/cea/blob/137f0b9/plugins/check-in/src/types.ts#L75)
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 #### Defined in
 
-[types.ts:74](https://github.com/ceajs/cea/blob/08338e7/plugins/check-in/src/types.ts#L74)
+[types.ts:74](https://github.com/ceajs/cea/blob/137f0b9/plugins/check-in/src/types.ts#L74)

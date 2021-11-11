@@ -5,15 +5,10 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.2.1](https://github.com/ceajs/cea/compare/v2.2.0...v2.2.1) (2021-11-11)
 
-
 ### Bug Fixes
 
-* **core:** CLOUD join type result handling ([0924be8](https://github.com/ceajs/cea/commit/0924be8da53c6fcee829ea10e9d36a58e30e4ea1))
-* **core:** login process for CLOUD ([5740f84](https://github.com/ceajs/cea/commit/5740f84f1701e170e2158fc840a08db174a0075a))
-
-
-
-
+- **core:** CLOUD join type result handling ([0924be8](https://github.com/ceajs/cea/commit/0924be8da53c6fcee829ea10e9d36a58e30e4ea1))
+- **core:** login process for CLOUD ([5740f84](https://github.com/ceajs/cea/commit/5740f84f1701e170e2158fc840a08db174a0075a))
 
 # [2.2.0](https://github.com/ceajs/cea/compare/v2.1.0...v2.2.0) (2021-11-09)
 

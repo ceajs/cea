@@ -40,7 +40,7 @@
 
 #### Defined in
 
-[index.ts:49](https://github.com/ceajs/cea/blob/08338e7/plugins/check-in/src/index.ts#L49)
+[index.ts:50](https://github.com/ceajs/cea/blob/137f0b9/plugins/check-in/src/index.ts#L50)
 
 ## Properties
 
@@ -50,7 +50,7 @@
 
 #### Defined in
 
-[index.ts:46](https://github.com/ceajs/cea/blob/08338e7/plugins/check-in/src/index.ts#L46)
+[index.ts:47](https://github.com/ceajs/cea/blob/137f0b9/plugins/check-in/src/index.ts#L47)
 
 ___
 
@@ -60,7 +60,7 @@ ___
 
 #### Defined in
 
-[index.ts:48](https://github.com/ceajs/cea/blob/08338e7/plugins/check-in/src/index.ts#L48)
+[index.ts:49](https://github.com/ceajs/cea/blob/137f0b9/plugins/check-in/src/index.ts#L49)
 
 ___
 
@@ -70,7 +70,7 @@ ___
 
 #### Defined in
 
-[index.ts:47](https://github.com/ceajs/cea/blob/08338e7/plugins/check-in/src/index.ts#L47)
+[index.ts:48](https://github.com/ceajs/cea/blob/137f0b9/plugins/check-in/src/index.ts#L48)
 
 ___
 
@@ -88,7 +88,7 @@ ___
 
 #### Defined in
 
-[index.ts:35](https://github.com/ceajs/cea/blob/08338e7/plugins/check-in/src/index.ts#L35)
+[index.ts:36](https://github.com/ceajs/cea/blob/137f0b9/plugins/check-in/src/index.ts#L36)
 
 ___
 
@@ -106,7 +106,7 @@ ___
 
 #### Defined in
 
-[index.ts:40](https://github.com/ceajs/cea/blob/08338e7/plugins/check-in/src/index.ts#L40)
+[index.ts:41](https://github.com/ceajs/cea/blob/137f0b9/plugins/check-in/src/index.ts#L41)
 
 ___
 
@@ -124,7 +124,7 @@ ___
 
 #### Defined in
 
-[index.ts:30](https://github.com/ceajs/cea/blob/08338e7/plugins/check-in/src/index.ts#L30)
+[index.ts:31](https://github.com/ceajs/cea/blob/137f0b9/plugins/check-in/src/index.ts#L31)
 
 ## Methods
 
@@ -138,7 +138,7 @@ ___
 
 #### Defined in
 
-[index.ts:60](https://github.com/ceajs/cea/blob/08338e7/plugins/check-in/src/index.ts#L60)
+[index.ts:61](https://github.com/ceajs/cea/blob/137f0b9/plugins/check-in/src/index.ts#L61)
 
 ___
 
@@ -158,7 +158,7 @@ ___
 
 #### Defined in
 
-[index.ts:87](https://github.com/ceajs/cea/blob/08338e7/plugins/check-in/src/index.ts#L87)
+[index.ts:88](https://github.com/ceajs/cea/blob/137f0b9/plugins/check-in/src/index.ts#L88)
 
 ___
 
@@ -178,7 +178,7 @@ ___
 
 #### Defined in
 
-[index.ts:219](https://github.com/ceajs/cea/blob/08338e7/plugins/check-in/src/index.ts#L219)
+[index.ts:220](https://github.com/ceajs/cea/blob/137f0b9/plugins/check-in/src/index.ts#L220)
 
 ___
 
@@ -198,7 +198,7 @@ ___
 
 #### Defined in
 
-[index.ts:203](https://github.com/ceajs/cea/blob/08338e7/plugins/check-in/src/index.ts#L203)
+[index.ts:204](https://github.com/ceajs/cea/blob/137f0b9/plugins/check-in/src/index.ts#L204)
 
 ___
 
@@ -218,7 +218,7 @@ ___
 
 #### Defined in
 
-[index.ts:193](https://github.com/ceajs/cea/blob/08338e7/plugins/check-in/src/index.ts#L193)
+[index.ts:194](https://github.com/ceajs/cea/blob/137f0b9/plugins/check-in/src/index.ts#L194)
 
 ___
 
@@ -238,4 +238,4 @@ ___
 
 #### Defined in
 
-[index.ts:227](https://github.com/ceajs/cea/blob/08338e7/plugins/check-in/src/index.ts#L227)
+[index.ts:228](https://github.com/ceajs/cea/blob/137f0b9/plugins/check-in/src/index.ts#L228)

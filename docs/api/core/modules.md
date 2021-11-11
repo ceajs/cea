@@ -12,10 +12,6 @@
 
 - [CampusphereEndpoint](../enums/CampusphereEndpoint.md)
 
-### Interfaces
-
-- [HandleCookieOptions](../interfaces/HandleCookieOptions.md)
-
 ### Type aliases
 
 - [CookieRawObject](../modules.md#cookierawobject)
@@ -25,7 +21,7 @@
 - [UserConfOpts](../modules.md#userconfopts)
 - [UsersConf](../modules.md#usersconf)
 
-### Properties
+### Variables
 
 - [log](../modules.md#log)
 
@@ -49,7 +45,7 @@
 
 #### Defined in
 
-[src/types/cookie.ts:3](https://github.com/ceajs/cea/blob/08338e7/core/src/types/cookie.ts#L3)
+[src/types/cookie.ts:3](https://github.com/ceajs/cea/blob/137f0b9/core/src/types/cookie.ts#L3)
 
 ___
 
@@ -63,7 +59,7 @@ ___
 
 #### Defined in
 
-[src/types/conf.ts:13](https://github.com/ceajs/cea/blob/08338e7/core/src/types/conf.ts#L13)
+[src/types/conf.ts:14](https://github.com/ceajs/cea/blob/137f0b9/core/src/types/conf.ts#L14)
 
 ___
 
@@ -76,15 +72,16 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `auth` | `string` |
+| `authURL?` | `string` |
 | `campusphere` | `string` |
 | `chineseName` | `string` |
 | `defaultAddr` | `string` |
-| `isIap` | `boolean` |
+| `isCloud` | `boolean` |
 | `preAuthURL` | `string` |
 
 #### Defined in
 
-[src/types/conf.ts:17](https://github.com/ceajs/cea/blob/08338e7/core/src/types/conf.ts#L17)
+[src/types/conf.ts:18](https://github.com/ceajs/cea/blob/137f0b9/core/src/types/conf.ts#L18)
 
 ___
 
@@ -98,7 +95,7 @@ ___
 
 #### Defined in
 
-[src/types/helper.ts:1](https://github.com/ceajs/cea/blob/08338e7/core/src/types/helper.ts#L1)
+[src/types/helper.ts:1](https://github.com/ceajs/cea/blob/137f0b9/core/src/types/helper.ts#L1)
 
 ___
 
@@ -112,30 +109,41 @@ ___
 | :------ | :------ |
 | `addr` | `string`[] |
 | `alias` | `string` |
-| `cookie?` | [`CookieRawObject`](../modules.md#cookierawobject) |
+| `captcha?` | ``"MANUAL"`` \| ``"OCR"`` |
 | `password` | `string` |
 | `school` | `string` |
 | `username` | `string` |
 
 #### Defined in
 
-[src/types/conf.ts:4](https://github.com/ceajs/cea/blob/08338e7/core/src/types/conf.ts#L4)
+[src/types/conf.ts:5](https://github.com/ceajs/cea/blob/137f0b9/core/src/types/conf.ts#L5)
 
 ___
 
 ### UsersConf
 
-Ƭ **UsersConf**: [`UserConfOpts`](../modules.md#userconfopts)[]
+Ƭ **UsersConf**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `notifier?` | [\`${number}\`, `string`] |
+| `users` | [`UserConfOpts`](../modules.md#userconfopts)[] |
 
 #### Defined in
 
-[src/types/conf.ts:3](https://github.com/ceajs/cea/blob/08338e7/core/src/types/conf.ts#L3)
+[src/types/conf.ts:1](https://github.com/ceajs/cea/blob/137f0b9/core/src/types/conf.ts#L1)
 
-## Properties
+## Variables
 
 ### log
 
-• **log**: `Signale`<`DefaultMethods`\>
+• **log**: `LogRouter` & { `notify`: () => `Promise`<`void`\> ; `object`: (`obj`: { [K: string]: `string`;  }) => `void`  }
+
+#### Defined in
+
+[src/utils/logger.ts:28](https://github.com/ceajs/cea/blob/137f0b9/core/src/utils/logger.ts#L28)
 
 ## Functions
 
@@ -158,7 +166,7 @@ Parse http response headers' cookie
 
 #### Defined in
 
-[src/utils/cookie-helper.ts:7](https://github.com/ceajs/cea/blob/08338e7/core/src/utils/cookie-helper.ts#L7)
+[src/utils/cookie-helper.ts:7](https://github.com/ceajs/cea/blob/137f0b9/core/src/utils/cookie-helper.ts#L7)
 
 ___
 
@@ -181,19 +189,19 @@ Construct a cookie object based on host
 
 #### Defined in
 
-[src/utils/cookie-helper.ts:50](https://github.com/ceajs/cea/blob/08338e7/core/src/utils/cookie-helper.ts#L50)
+[src/utils/cookie-helper.ts:50](https://github.com/ceajs/cea/blob/137f0b9/core/src/utils/cookie-helper.ts#L50)
 
 ___
 
 ### getSchoolInfos
 
-▸ **getSchoolInfos**(`users`): `Promise`<[`SchoolConf`](../modules.md#schoolconf) \| ``null``\>
+▸ **getSchoolInfos**(`__namedParameters`): `Promise`<[`SchoolConf`](../modules.md#schoolconf) \| ``null``\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `users` | [`UsersConf`](../modules.md#usersconf) |
+| `__namedParameters` | [`UsersConf`](../modules.md#usersconf) |
 
 #### Returns
 
@@ -201,21 +209,15 @@ ___
 
 #### Defined in
 
-[src/conf.ts:25](https://github.com/ceajs/cea/blob/08338e7/core/src/conf.ts#L25)
+[src/conf.ts:26](https://github.com/ceajs/cea/blob/137f0b9/core/src/conf.ts#L26)
 
 ___
 
 ### handleCookie
 
-▸ **handleCookie**(`options?`): `Promise`<`void`\>
+▸ **handleCookie**(): `Promise`<`void`\>
 
 Iterate through all users: complete unified auth -> store cookie
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `options?` | [`HandleCookieOptions`](../interfaces/HandleCookieOptions.md) |
 
 #### Returns
 
@@ -223,7 +225,7 @@ Iterate through all users: complete unified auth -> store cookie
 
 #### Defined in
 
-[src/index.ts:33](https://github.com/ceajs/cea/blob/08338e7/core/src/index.ts#L33)
+[src/index.ts:33](https://github.com/ceajs/cea/blob/137f0b9/core/src/index.ts#L33)
 
 ___
 
@@ -237,4 +239,4 @@ ___
 
 #### Defined in
 
-[src/conf.ts:12](https://github.com/ceajs/cea/blob/08338e7/core/src/conf.ts#L12)
+[src/conf.ts:13](https://github.com/ceajs/cea/blob/137f0b9/core/src/conf.ts#L13)
