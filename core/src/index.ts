@@ -31,30 +31,20 @@ export { CampusphereEndpoint } from './types/helper.js'
  * Iterate through all users: complete unified auth -> store cookie
  */
 export async function handleCookie() {
-  try {
+  const users = sstore.get('users')
+  if (users?.length) {
     await Promise.all(
-      sstore.get('users').map(async (i: UserConfOpts) => {
+      users.map(async (i: UserConfOpts) => {
         const storeCookiePath = `cookie.${i.alias}`
         await handleLogin(i, storeCookiePath)
       }),
     )
-  } catch (error: any) {
-    if (
-      error.message == "Cannot read properties of undefined (reading 'map')"
-    ) {
-      log.error({
-        message: '请先加载用户',
-      })
-    } else {
-      throw error
-    }
+  } else {
+    log.error('请先加载用户 <cea load>')
   }
 }
 
-async function handleLogin(
-  i: UserConfOpts,
-  storeCookiePath: string,
-) {
+async function handleLogin(i: UserConfOpts, storeCookiePath: string) {
   let cookie: CookieRawObject = sstore.get(storeCookiePath)
   const name = i.alias
   const school = (sstore.get('schools') as SchoolConf)[i.school]
