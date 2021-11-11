@@ -59,7 +59,7 @@ export async function getSchoolInfos({
       defaultAddr = addrInfo.content[0].addr
       log.success({ message: `学校 ${data.name} 默认签到地址：${defaultAddr}` })
     }
-    const isCloud = data.joinType !== 'NOTCLOUD'
+    const isCloud = data.joinType === 'CLOUD'
     schoolInfos[abbreviation] = {
       defaultAddr,
       preAuthURL: `${origin}/portal/login`,
@@ -69,7 +69,9 @@ export async function getSchoolInfos({
       authURL: isCloud ? `${origin}/iap/doLogin` : undefined,
       isCloud,
     }
-    log.success({ message: `学校 ${data.name} 已完成设定` })
+    log.success(
+      `学校 ${data.name} 已完成设定，接入方式为 ${isCloud ? 'CLOUD' : 'NOTCLOUD'}`,
+    )
   }
   return schoolInfos
 }
