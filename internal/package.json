@@ -1,6 +1,6 @@
 {
   "name": "cea",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "cea cli application",
   "type": "module",
   "node": "^12.20.0 || ^14.13.1 || >=16.0.0",
@@ -29,8 +29,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "cea-check-in": "2.2.0",
-    "cea-core": "2.2.0",
+    "cea-check-in": "2.2.1",
+    "cea-core": "2.2.1",
     "enquirer": "^2.3.6"
   }
 }

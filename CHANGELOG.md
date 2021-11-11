@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.1](https://github.com/ceajs/cea/compare/v2.2.0...v2.2.1) (2021-11-11)
+
+
+### Bug Fixes
+
+* **core:** CLOUD join type result handling ([0924be8](https://github.com/ceajs/cea/commit/0924be8da53c6fcee829ea10e9d36a58e30e4ea1))
+* **core:** login process for CLOUD ([5740f84](https://github.com/ceajs/cea/commit/5740f84f1701e170e2158fc840a08db174a0075a))
+* **internal:** print school join type CLOUD | NOTCLOUD ([2264028](https://github.com/ceajs/cea/commit/226402871e2b84d8c7345428af9a40141000bd8b))
+* **notifier:** add error handling ([063c38a](https://github.com/ceajs/cea/commit/063c38a2fd54a72bba2d7fe90f67bd3c7ba6a32f))
+* presize error handling ([0759c25](https://github.com/ceajs/cea/commit/0759c25628a571e7afb12e30bc25b9825973edd6))
+
+
+
+
+
 # [2.2.0](https://github.com/ceajs/cea/compare/v2.1.0...v2.2.0) (2021-11-09)
 
 ### Bug Fixes

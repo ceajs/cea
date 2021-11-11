@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.1](https://github.com/ceajs/cea/compare/v2.2.0...v2.2.1) (2021-11-11)
+
+
+### Bug Fixes
+
+* **core:** login process for CLOUD ([5740f84](https://github.com/ceajs/cea/commit/5740f84f1701e170e2158fc840a08db174a0075a))
+
+
+
+
+
 # [2.2.0](https://github.com/ceajs/cea/compare/v2.1.0...v2.2.0) (2021-11-09)
 
 ### Features
