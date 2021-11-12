@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/gridjs/dist/theme/mermaid.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tailwindcss/ui@latest/dist/tailwind-ui.min.css"
+    />
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div class="container mx-auto justify-center font-serif">
+      <h1 class="m-4 text-purple-600 text-center text-2xl">
+        Cea Utils : 学校 ID 查询页面
+      </h1>
+      <p class="m-1 text-center text-gray-400">
+        使用方法：请在下方搜索框输入学校中文全称
+      </p>
+      <div id="wrapper"></div>
+      <footer>
+        <div class="text-gray-400 text-center m-8">
+          Made by
+          <a href="https://github.com/beetcb" class="text-purple-600"
+            >@beetcb</a
+          >
+        </div>
+      </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.production.min.js"></script>
+    <script>
+      new gridjs.Grid({
+        columns: ['Name', 'ID'],
+        search: true,
+        pagination: {
+          enabled: true,
+          limit: 6,
+          summary: false,
+        },
+        server: {
+          url: `${location.href}/api/school-id`,
+          then: (data) =>
+            data.map(({ id, name }) => {
+              const item = {
+                name,
+                id,
+              }
+              return item
+            }),
+        },
+      }).render(document.getElementById('wrapper'))
+    </script>
+  </body>
+</html>

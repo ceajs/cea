@@ -1,0 +1,23 @@
+{
+  "宁波大学": {
+    "formIdx": 0,
+    "checkCaptchaPath": "/needCaptcha.html",
+    "getCaptchaPath": "/captcha.html"
+  },
+  "武汉大学": {
+    "formIdx": 0,
+    "checkCaptchaPath": "/needCaptcha.html",
+    "getCaptchaPath": "/sliderCaptcha.do"
+  },
+  "CLOUD": {
+    "getLtPath": "/security/lt",
+    "getCaptchaPath": "/generateCaptcha",
+    "submitCaptchakey": "captcha"
+  },
+  "NOTCLOUD": {
+    "getCaptchaPath": "/getCaptcha.htl",
+    "checkCaptchaPath": "/checkNeedCaptcha.htl",
+    "formIdx": 2,
+    "pwdEncrypt": true
+  }
+}

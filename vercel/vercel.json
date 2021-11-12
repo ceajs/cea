@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/edge-case.ts": { "includeFiles": "data/*.json" },
+    "api/school-id.ts": { "includeFiles": "data/*.json" }
+  },
+  "cleanUrls": true
+}
