@@ -1,6 +1,7 @@
-exports.main = () => {
+exports.main = async () => {
   // 导入 Cea 和内置的签到插件中的函数 checkIn
-  const { default: Cea, checkIn } = require('cea')
+  // Cea 为 ESM ，低版本 Node 需要动态导入
+  const { default: Cea, checkIn } = await import('cea')
   // 创建 Cea 的实例
   const cea = new Cea()
   // 注册插件
