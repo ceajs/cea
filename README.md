@@ -113,7 +113,7 @@ cea.start()
 
 ## 贡献指南
 
-参考 [Contribution Guide](./CONTRIBUTING.md)
+参考 [Contributing Guide](./CONTRIBUTING.md)
 
 ## 插件开发
 
@@ -138,7 +138,13 @@ log.notify()
 
 感谢 [Cloudbase-Framework](https://github.com/Tencent/cloudbase-framework)、[Github Actions](https://github.com/actions)、[Coding CI](https://help.coding.net/docs/ci/intro.html)、[Gitee Pages](https://gitee.com/help/articles/4136) 提供的优秀服务 🎉
 
+感谢 [wisedu-unified-login-api](https://github.com/ZimoLoveShuang/wisedu-unified-login-api) 提供的最初灵感 ❤️
 
+感谢同类项目的存在，让社区能够相互学习和进步：
+
+- [CarltonHere/auto-cpdaily](https://github.com/CarltonHere/auto-cpdaily)
+- [AntaresQAQ/campushoy-auto-sign](https://github.com/AntaresQAQ/campushoy-auto-sign)
+- [ZimoLoveShuang/auto-submit](https://github.com/ZimoLoveShuang/auto-submit)
 
 ## 声明
 
