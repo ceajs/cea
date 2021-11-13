@@ -1,3 +1,5 @@
+import type { SchoolEdgeCase } from './edge-case'
+
 export type UsersConf = {
   readonly notifier?: [`${number}`, string]
   readonly users: Array<UserConfOpts>
@@ -16,13 +18,11 @@ export type SchoolConf = {
 }
 
 export type SchoolConfOpts = {
-  // idsUrl
-  readonly campusphere: string
-  // `${compusphere.origin}/iap/login?service=${encodeURIComponent(`${campusphere}/portal/login`)}`
   readonly preAuthURL: string
-  readonly authURL?: string
+  readonly loginURL?: string
   readonly chineseName: string
   readonly defaultAddr: string
   readonly isCloud: boolean
-  readonly auth: string
+  readonly authOrigin: string
+  readonly edgeCase: SchoolEdgeCase
 }

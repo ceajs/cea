@@ -8,6 +8,7 @@ const { parse } = toml
 
 import type { Response } from 'node-fetch'
 import type { SchoolConf, UsersConf } from './types/conf'
+import type { SchoolEdgeCase } from './types/edge-case'
 import type { StringKV } from './types/helper'
 
 export function loadConfFromToml(): UsersConf | null {
@@ -34,14 +35,13 @@ export async function getSchoolInfos({
   for (const abbreviation of schoolNamesSet) {
     res = (await fetch(
       `https://mobile.campushoy.com/v6/config/guest/tenant/info?ids=${abbreviation}`,
-    ).catch((err) => log.error(err))) as Response
+    ).catch(log.error)) as Response
 
-    const data = JSON.parse(
-      (await res.text().catch((err) => log.error(err))) as string,
-    ).data[0] as StringKV
+    const data = JSON.parse((await res.text().catch(log.error)) as string)
+      .data[0] as StringKV
 
     let origin = new URL(data.ampUrl).origin
-    const casOrigin = data.idsUrl
+    const authOrigin = data.idsUrl
 
     // fall back to ampUrl2 when campusphere not included in the `origin`
     if (!origin.includes('campusphere')) {
@@ -54,24 +54,38 @@ export async function getSchoolInfos({
             data.name,
           )
         }&ak=E4805d16520de693a3fe707cdc962045&rn=10&ie=utf-8&oue=1&fromproduct=jsapi&res=api`,
-      ).catch((err) => log.error(err))) as Response
+      ).catch(log.error)) as Response
       const addrInfo = (await res.json()) as any
       defaultAddr = addrInfo.content[0].addr
       log.success({ message: `学校 ${data.name} 默认签到地址：${defaultAddr}` })
     }
     const isCloud = data.joinType === 'CLOUD'
-    schoolInfos[abbreviation] = {
-      defaultAddr,
-      preAuthURL: `${origin}/portal/login`,
-      auth: casOrigin,
-      chineseName: data.name,
-      campusphere: origin,
-      authURL: isCloud ? `${origin}/iap/doLogin` : undefined,
-      isCloud,
+
+    // Get Edge-cases
+    const edgeCaseRes = await fetch(
+      `https://cea.beetcb.com/api/edge-case?name=${
+        encodeURIComponent(
+          data.name,
+        )
+      }&c=${isCloud ? 'true' : ''}`,
+    ).catch(log.error)
+    if (edgeCaseRes?.ok) {
+      const edgeCase = (await edgeCaseRes.json()) as SchoolEdgeCase
+      schoolInfos[abbreviation] = {
+        defaultAddr,
+        preAuthURL: `${origin}/portal/login`,
+        loginURL: isCloud ? `${origin}/iap/doLogin` : undefined,
+        chineseName: data.name,
+        authOrigin,
+        isCloud,
+        edgeCase,
+      }
+      log.success(
+        `学校 ${data.name} 已完成设定，接入方式为 ${isCloud ? 'CLOUD' : 'NOTCLOUD'}`,
+      )
+    } else {
+      throw new Error('Failed to get school edge case!')
     }
-    log.success(
-      `学校 ${data.name} 已完成设定，接入方式为 ${isCloud ? 'CLOUD' : 'NOTCLOUD'}`,
-    )
   }
   return schoolInfos
 }

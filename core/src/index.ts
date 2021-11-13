@@ -59,9 +59,9 @@ async function handleLogin(i: UserConfOpts, storeCookiePath: string) {
       })
     }
   } else {
-    const authCookieIdx = new URL(school.auth).host
+    const authCookieIdx = new URL(school.authOrigin).host
     // check if the cookie is valid
-    const test = await fetch(`${school.auth}/login`, {
+    const test = await fetch(`${school.authOrigin}/login`, {
       headers: {
         cookie: cookie[authCookieIdx],
       },

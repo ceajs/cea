@@ -1,16 +1,14 @@
 import cheerio from 'cheerio'
 import UserAgent from 'user-agents'
-import getEdgeCases from '../compatibility/edge-case.js'
 import FetchWithCookie from '../utils/fetch-helper.js'
 
+import { UnifiedLoginResultCodeMsg } from '../types/login.js'
 import AES from '../utils/encrypt.js'
 import log from '../utils/logger.js'
 import { captchaHandler } from './captcha.js'
 
-import { DefaultProps, EdgeCasesSchools } from '../compatibility/edge-case.js'
-import { UnifiedLoginResultCodeMsg } from '../types/login.js'
-
 import type { SchoolConfOpts, UserConfOpts } from '../types/conf'
+import type { SchoolEdgeCase } from '../types/edge-case'
 import type { StringKV } from '../types/helper'
 import type { UnifiedLoginResult } from '../types/login'
 
@@ -22,10 +20,7 @@ export default async function login(
   user: UserConfOpts,
 ) {
   // improve school campatibility with defaults and edge-cases
-  const schoolEdgeCases: DefaultProps = getEdgeCases(
-    school.chineseName as EdgeCasesSchools,
-    school.isCloud,
-  )
+  const schoolEdgeCase: SchoolEdgeCase = school.edgeCase
 
   const headers: StringKV = {
     'User-agent': new UserAgent().toString(),
@@ -36,11 +31,11 @@ export default async function login(
   const name = user.alias
 
   let res = await fetch.get(school.preAuthURL)
-  let authURL = school.authURL
+  let loginURL = school.loginURL
 
-  if (!authURL) {
+  if (!loginURL) {
     res = await fetch.follow()
-    authURL = fetch.lastRedirectUrl!
+    loginURL = fetch.lastRedirectUrl!
   }
 
   const hiddenInputNameValueMap: StringKV = {}
@@ -49,7 +44,7 @@ export default async function login(
     // create document for crawling
     const body = await res.text()
     const $ = cheerio.load(body)
-    const form = $('form[method=post]').get(schoolEdgeCases.formIdx)
+    const form = $('form[method=post]').get(schoolEdgeCase.formIdx)
     const hiddenInputList = $('input[type=hidden]', form!)
 
     hiddenInputList.each((e: number) => {
@@ -72,7 +67,7 @@ export default async function login(
     needCaptcha = (
       await (
         await fetch.get(
-          `${school.auth}${schoolEdgeCases.checkCaptchaPath}${addtionalParams}`,
+          `${school.authOrigin}${schoolEdgeCase.checkCaptchaPath}${addtionalParams}`,
         )
       ).text()
     ).includes('true')
@@ -81,7 +76,7 @@ export default async function login(
     // we need to request those properties manually
     res = await fetch.get(res.headers.get('location')!)
     const ltWrapper = res.headers.get('location')?.split('_2lBepC=')[1]
-    res = await fetch.post(`${school.auth}${schoolEdgeCases.lt}`, {
+    res = await fetch.post(`${school.authOrigin}${schoolEdgeCase.getLtPath}`, {
       type: 'form',
       body: `lt=${ltWrapper}`,
     })
@@ -103,14 +98,13 @@ export default async function login(
       ? new AES(user.password, pwdSalt).encrypt()
       : user.password,
     ...hiddenInputNameValueMap,
-    rememberMe: schoolEdgeCases.rememberMe.toString(),
   })
 
   // Handle captcha
   while (true) {
     if (needCaptcha) {
       const captchaUrl =
-        `${school.auth}${schoolEdgeCases.getCaptchaPath}?username=${user.username}&ltId=${hiddenInputNameValueMap
+        `${school.authOrigin}${schoolEdgeCase.getCaptchaPath}?username=${user.username}&ltId=${hiddenInputNameValueMap
           .lt ?? ''}`
       log.warn({
         message: '登录需要验证码',
@@ -122,7 +116,7 @@ export default async function login(
           message: `使用验证码 ${captchaCode} 登录`,
           suffix: `@${name}`,
         })
-        auth.append(schoolEdgeCases.submitCaptchakey, captchaCode)
+        auth.append(schoolEdgeCase.submitCaptchakey, captchaCode)
       } else {
         log.error({
           message: `验证码格式错误，结果为${captchaCode}，长度错误`,
@@ -132,7 +126,7 @@ export default async function login(
       }
     }
 
-    res = await fetch.post(authURL, {
+    res = await fetch.post(loginURL, {
       type: 'form',
       body: auth.toString(),
     })

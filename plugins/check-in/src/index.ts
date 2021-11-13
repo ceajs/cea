@@ -47,10 +47,12 @@ export class CheckIn {
   private headers: StringKV
   private user: UserConfOpts
   private school: SchoolConfOpts
+  private readonly campusphereHost: string
   constructor(user: UserConfOpts) {
     const school = sstore.get('schools')[user.school]
     this.school = school
     this.user = user
+    this.campusphereHost = new URL(school.preAuthURL).origin
     this.headers = {
       'user-agent':
         'Mozilla/5.0 (Linux; Android 10; GM1910 Build/QKQ1.190716.003; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.101 Mobile Safari/537.36  cpdaily/8.2.13 wisedu/8.2.13',
@@ -59,16 +61,17 @@ export class CheckIn {
   }
 
   async signInfo(): Promise<AllSignTasks | void> {
-    const { user, school } = this
+    const { user, school, campusphereHost } = this
     const storeCookiePath = `cookie.${user.alias}`
     const cookie: CookieRawObject = sstore.get(storeCookiePath)
-    const campusCookieIdx = new URL(school.campusphere).host
+
+    const campusCookieIdx = new URL(campusphereHost).host
     if (!cookie) {
       return
     }
     this.headers.cookie = cookie[campusCookieIdx]
     const res = await fetch(
-      `${school.campusphere}${CampusphereEndpoint.getStuSignInfosInOneDay}`,
+      `${campusphereHost}${CampusphereEndpoint.getStuSignInfosInOneDay}`,
       {
         method: 'POST',
         headers: this.headers,
@@ -86,11 +89,10 @@ export class CheckIn {
   }
 
   async signWithForm(curTask: SignTask): Promise<LogInfo> {
-    const { school, headers, user } = this
+    const { school, headers, campusphereHost } = this
     const { signInstanceWid, signWid } = curTask
-
     let res = await fetch(
-      `${school.campusphere}${CampusphereEndpoint.detailSignInstance}`,
+      `${campusphereHost}${CampusphereEndpoint.detailSignInstance}`,
       {
         headers,
         method: 'POST',
@@ -167,14 +169,11 @@ export class CheckIn {
     }
 
     headers['Cpdaily-Extension'] = CheckIn.extensionEncrypt(signExtensionBody)
-    res = await fetch(
-      `${school.campusphere}${CampusphereEndpoint.submitSign}`,
-      {
-        headers,
-        method: 'POST',
-        body: JSON.stringify(postBody),
-      },
-    )
+    res = await fetch(`${campusphereHost}${CampusphereEndpoint.submitSign}`, {
+      headers,
+      method: 'POST',
+      body: JSON.stringify(postBody),
+    })
     const result = (await res.json()) as any
 
     const logInfo: LogInfo = {
