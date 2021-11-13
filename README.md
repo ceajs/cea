@@ -51,21 +51,9 @@
 
 `NOTCLOUD` (表示学校未接入今日校园) 只能爬取网页获得凭据：cea 的登录页爬取策略比较智能（并非 `hard coded`），默认根据第一个登录表单完成全部逻辑，这保证了不错的兼容性
 
-如确实遇到了边缘情况，有能力的话可以提交 PR (参考 [Contribution Guide](./CONTRIBUTING.md))，只需修改 `./core/src/compatibility/edge-case.ts` 文件，添加你的学校：
+如确实遇到了边缘情况，可以提交 PR (参考 [Contributing Guide](./CONTRIBUTING.md))，只需修改 `./vercel/data/school-edge-cases.json` 文件，添加你的学校。所填字段将作为改学校的特殊值覆盖默认值，默认值就是 NOTCLOUD 对象，详细教程请关注讨论 [#20](https://github.com/ceajs/cea/issues/20)
 
-```diff
-const schoolEdgeCases = {
-+  学校中文全称: {
-+    formIdx: 2, // 默认账号密码登录表单的索引，你需要手动查看 HTML 结构来确定
-+    checkCaptchaPath: '/getCaptcha.htl', // 检测是否需要验证码的路径
-+    getCaptchaPath: '/checkNeedCaptcha.htl', // 获取验证码的路径
-+    pwdEncrypt: true, // 密码是否加密，默认 true
-+    rememberMe: true, // [这一项不会影响登录结果]勾选*天免登录后的值，有些学校可能是不同的字符，默认为 true，你需要手动查看登录请求来确定
-+  },
-}
-```
-
-若你不熟悉 Node.js，遇到登录问题，请附带日志提交 [Issue](https://github.com/beetcb/cea/issues/new/choose)
+若你遇到其它问题，请附带日志提交 [Issue](https://github.com/beetcb/cea/issues/new/choose)
 
 ## 开始使用
 
@@ -149,6 +137,8 @@ log.notify()
 ## 鸣谢
 
 感谢 [Cloudbase-Framework](https://github.com/Tencent/cloudbase-framework)、[Github Actions](https://github.com/actions)、[Coding CI](https://help.coding.net/docs/ci/intro.html)、[Gitee Pages](https://gitee.com/help/articles/4136) 提供的优秀服务 🎉
+
+
 
 ## 声明
 
