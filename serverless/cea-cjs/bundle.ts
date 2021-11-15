@@ -25,10 +25,10 @@ const ceaPluginCheckIn = JSON.parse(
 )?.dependencies
 
 const externalDeps = [
-  ...Object.keys(ceaCoreDeps),
-  ...Object.keys(ceaPluginCheckIn),
-  ...Object.keys(ceaCLIDeps),
-]?.filter((dep: string) => !esmPkgs.includes(dep))
+  ...Object.entries(ceaCoreDeps),
+  ...Object.entries(ceaPluginCheckIn),
+  ...Object.entries(ceaCLIDeps),
+]?.filter(([depName]: [string, string]) => !esmPkgs.includes(depName))
 
 console.log(externalDeps)
 
@@ -36,10 +36,23 @@ esbuild
   .build({
     entryPoints: ['index.ts'],
     bundle: true,
-    external: externalDeps,
+    external: externalDeps.map(([depName]: [string, string]) => depName),
     platform: 'node',
     target: 'node11',
     outfile: 'lib/src/index.js',
     minify: true,
   })
   .then(console.log)
+
+const curPackageJSON = JSON.parse(
+  fs.readFileSync('./package.json', { encoding: 'utf8' }),
+)
+for (const dep of externalDeps) {
+  const [depName, depValue] = dep
+  if (!curPackageJSON.dependencies) {
+    curPackageJSON.dependencies = {}
+  }
+  curPackageJSON.dependencies[depName] = depValue
+}
+
+fs.writeFileSync('./package.json', JSON.stringify(curPackageJSON, null, 2))
