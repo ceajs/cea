@@ -1,7 +1,7 @@
 import esbuild from 'esbuild'
-import url from 'node:url'
-import path from 'node:path'
 import fs from 'node:fs'
+import path from 'node:path'
+import url from 'node:url'
 
 const esmPkgs = ['cea-core', 'cea-check-in', 'app-path', 'terminal-image']
 
@@ -11,17 +11,17 @@ const getPkgPath = (l: string) =>
     '..',
     '..',
     '..',
-    `${l}/package.json`
+    `${l}/package.json`,
   )
 
 const ceaCoreDeps = JSON.parse(
-  fs.readFileSync(getPkgPath('core'), { encoding: 'utf8' })
+  fs.readFileSync(getPkgPath('core'), { encoding: 'utf8' }),
 )?.dependencies
 const ceaCLIDeps = JSON.parse(
-  fs.readFileSync(getPkgPath('internal'), { encoding: 'utf8' })
+  fs.readFileSync(getPkgPath('internal'), { encoding: 'utf8' }),
 )?.dependencies
 const ceaPluginCheckIn = JSON.parse(
-  fs.readFileSync(getPkgPath('plugins/check-in'), { encoding: 'utf8' })
+  fs.readFileSync(getPkgPath('plugins/check-in'), { encoding: 'utf8' }),
 )?.dependencies
 
 const externalDeps = [

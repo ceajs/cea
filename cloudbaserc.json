@@ -8,10 +8,10 @@
       "func": {
         "use": "@cloudbase/framework-plugin-function",
         "inputs": {
-          "functionRootPath": "./serverless",
+          "functionRootPath": "./serverless/",
           "functions": [
             {
-              "name": "cea",
+              "name": "cea-tcb",
               "memory": 256,
               "timeout": 10,
               "runtime": "Nodejs10.15",
