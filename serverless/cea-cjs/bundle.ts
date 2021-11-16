@@ -2,6 +2,7 @@ import esbuild from 'esbuild'
 import fs from 'node:fs'
 import path from 'node:path'
 import url from 'node:url'
+import { nodeProtocolPlugin } from './esbuild/legacy-cjs-plugins'
 
 const esmPkgs = ['cea-core', 'cea-check-in', 'app-path', 'terminal-image']
 
@@ -41,6 +42,11 @@ esbuild
     target: 'node11',
     outfile: 'lib/src/index.js',
     minify: true,
+    inject: ['./esbuild/inject.ts'],
+    define: {
+      'import.meta.url': 'importMetaURL',
+    },
+    plugins: [nodeProtocolPlugin],
   })
   .then(console.log)
 
@@ -56,3 +62,7 @@ for (const dep of externalDeps) {
 }
 
 fs.writeFileSync('./package.json', JSON.stringify(curPackageJSON, null, 2))
+
+// https://github.com/evanw/esbuild/issues/1633
+const findDirName = () => __dirname
+export { findDirName }
