@@ -62,7 +62,3 @@ for (const dep of externalDeps) {
 }
 
 fs.writeFileSync('./package.json', JSON.stringify(curPackageJSON, null, 2))
-
-// https://github.com/evanw/esbuild/issues/1633
-const findDirName = () => __dirname
-export { findDirName }
