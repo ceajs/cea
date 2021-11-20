@@ -7,9 +7,10 @@ export type UsersConf = {
 export type UserConfOpts = {
   readonly username: string
   readonly password: string
-  readonly captcha?: 'MANUAL' | 'OCR'
   readonly alias: string
   readonly school: string
+  readonly captcha?: 'MANUAL' | 'OCR'
+  readonly signedPhotoMonth?: `${number}-${number}`
   addr: Array<string>
 }
 

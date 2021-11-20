@@ -1,5 +1,9 @@
-export type AllSignTasks = {
+export type SignTaskPerDay = {
   [key in 'unSignedTasks' | 'signedTasks' | 'leaveTasks']: Array<SignTask>
+}
+
+export type SignTaskInMonth = {
+  rows: Array<SignTaskPerDay>
 }
 
 export type SignTask = {
@@ -7,18 +11,20 @@ export type SignTask = {
 }
 
 export type SignTaskDetail = {
+  isPhoto: boolean
   longitude: string
   latitude: string
   isNeedExtra: string
   signPlaceSelected: Array<{ longitude: string; latitude: string }>
   signedStuInfo: { userName: string }
-  extraField: Array<{
+  extraField?: Array<{
     extraFieldItems: Array<{
       isAbnormal: boolean
       wid: string
       content: string
     }>
   }>
+  signPhotoUrl?: string
 }
 
 /**用于记录签到表单的对象 */
@@ -30,7 +36,7 @@ export type SignFormBody = {
   abnormalReason: string
   signPhotoUrl: string
   position: string
-  extraFieldItems: Array<{
+  extraFieldItems?: Array<{
     extraFieldItemWid: string
     extraFieldItemValue: string
   }>

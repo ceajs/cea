@@ -1,10 +1,10 @@
 import crypto from 'crypto'
 
-import { CampusphereEndpoint } from 'cea-core'
 import { handleCookie, log, sstore } from 'cea-core'
 import fetch from 'node-fetch'
 import * as uuid from 'uuid'
-import { LogInfoKeys, PostFormBody } from './types.js'
+import { CampusphereEndpoint } from './constant.js'
+import { LogInfoKeys, PostFormBody, SignTaskInMonth } from './types.js'
 
 import type {
   CookieRawObject,
@@ -14,7 +14,6 @@ import type {
   UsersConf,
 } from 'cea-core'
 import type {
-  AllSignTasks,
   GlobalLogInfo,
   LogInfo,
   SignExtensionBody,
@@ -22,11 +21,14 @@ import type {
   SignHashBody,
   SignTask,
   SignTaskDetail,
+  SignTaskPerDay,
 } from './types'
 
-import type * as CheckInTypes from './types'
-export type { CheckInTypes }
+type CheckInType = keyof typeof CampusphereEndpoint
 
+/**
+ * Universal Check In helper for `sign` | `attendance`
+ */
 export class CheckIn {
   static readonly VERSION = {
     app: '9.0.12',
@@ -48,11 +50,13 @@ export class CheckIn {
   private user: UserConfOpts
   private school: SchoolConfOpts
   private readonly campusphereHost: string
-  constructor(user: UserConfOpts) {
+  private readonly checkInType: CheckInType
+  constructor(user: UserConfOpts, checkInType: CheckInType) {
     const school = sstore.get('schools')[user.school]
     this.school = school
     this.user = user
     this.campusphereHost = new URL(school.preAuthURL).origin
+    this.checkInType = checkInType
     this.headers = {
       'user-agent':
         'Mozilla/5.0 (Linux; Android 10; GM1910 Build/QKQ1.190716.003; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.101 Mobile Safari/537.36  cpdaily/8.2.13 wisedu/8.2.13',
@@ -60,8 +64,8 @@ export class CheckIn {
     }
   }
 
-  async signInfo(): Promise<AllSignTasks | void> {
-    const { user, school, campusphereHost } = this
+  async signInfo(): Promise<SignTaskPerDay | void> {
+    const { user, checkInType, campusphereHost } = this
     const storeCookiePath = `cookie.${user.alias}`
     const cookie: CookieRawObject = sstore.get(storeCookiePath)
 
@@ -71,7 +75,7 @@ export class CheckIn {
     }
     this.headers.cookie = cookie[campusCookieIdx]
     const res = await fetch(
-      `${campusphereHost}${CampusphereEndpoint.getStuSignInfosInOneDay}`,
+      `${campusphereHost}${CampusphereEndpoint[checkInType].tasksToday}`,
       {
         method: 'POST',
         headers: this.headers,
@@ -80,7 +84,10 @@ export class CheckIn {
     )
 
     if (res.headers.get('content-type')?.includes('json')) {
-      const signQ = (await res.json()) as any
+      const signQ = (await res.json()) as {
+        datas: SignTaskPerDay
+        message: string
+      }
       const isValidCookie = signQ.message === 'SUCCESS'
       if (isValidCookie) {
         return signQ.datas
@@ -88,11 +95,14 @@ export class CheckIn {
     }
   }
 
+  /**
+   * Cookie is preconfigured by singInfo method
+   */
   async signWithForm(curTask: SignTask): Promise<LogInfo> {
-    const { school, headers, campusphereHost } = this
+    const { school, headers, checkInType, campusphereHost } = this
     const { signInstanceWid, signWid } = curTask
     let res = await fetch(
-      `${campusphereHost}${CampusphereEndpoint.detailSignInstance}`,
+      `${campusphereHost}${CampusphereEndpoint[checkInType].taskDetails}`,
       {
         headers,
         method: 'POST',
@@ -101,34 +111,32 @@ export class CheckIn {
     )
     const signDetails: SignTaskDetail = ((await res.json()) as any).datas
 
-    let {
-      extraField,
-      longitude,
-      latitude,
-      signPlaceSelected,
-      isNeedExtra,
-      signedStuInfo,
-    } = signDetails
+    const { extraField, signPlaceSelected, isNeedExtra, isPhoto } = signDetails
 
-    let position: string
+    // Find the right photo in the signed-in tasks
+    const signPhotoUrl = isPhoto
+      ? (await this.grabSignedData())?.signPhotoUrl ?? ''
+      : ''
 
     const placeList = signPlaceSelected[0]
     const isSignAtHome = !Boolean(school.defaultAddr)
-    ;[longitude, latitude, position] = isSignAtHome
+    const [longitude, latitude, position] = isSignAtHome
       ? this.user.addr
       : [placeList.longitude, placeList.latitude, school.defaultAddr]
 
-    const extraFieldItems = CheckIn.fillExtra(extraField)
+    const extraFieldItems = extraField
+      ? CheckIn.fillExtra(extraField)
+      : undefined
 
     const formBody: SignFormBody = {
       longitude: CheckIn.fixedFloatRight(longitude),
       latitude: CheckIn.fixedFloatRight(latitude),
       isMalposition: isSignAtHome ? 1 : 0,
       abnormalReason: '',
-      signPhotoUrl: '',
+      uaIsCpadaily: true,
+      signPhotoUrl,
       isNeedExtra,
       position,
-      uaIsCpadaily: true,
       signInstanceWid,
       extraFieldItems,
     }
@@ -169,11 +177,14 @@ export class CheckIn {
     }
 
     headers['Cpdaily-Extension'] = CheckIn.extensionEncrypt(signExtensionBody)
-    res = await fetch(`${campusphereHost}${CampusphereEndpoint.submitSign}`, {
-      headers,
-      method: 'POST',
-      body: JSON.stringify(postBody),
-    })
+    res = await fetch(
+      `${campusphereHost}${CampusphereEndpoint[checkInType].submitSign}`,
+      {
+        headers,
+        method: 'POST',
+        body: JSON.stringify(postBody),
+      },
+    )
     const result = (await res.json()) as any
 
     const logInfo: LogInfo = {
@@ -190,6 +201,49 @@ export class CheckIn {
     return logInfo
   }
 
+  async signTaskDetails(task: SignTask) {
+    const { headers, checkInType, campusphereHost } = this
+    const { signInstanceWid, signWid } = task
+    let res = await fetch(
+      `${campusphereHost}${CampusphereEndpoint[checkInType].taskDetails}`,
+      {
+        headers,
+        method: 'POST',
+        body: JSON.stringify({ signInstanceWid, signWid }),
+      },
+    )
+    const signDetails: SignTaskDetail = (await res.json()).datas
+    return signDetails
+  }
+
+  async grabSignedData() {
+    const { headers, user, checkInType, campusphereHost } = this
+    let res = await fetch(
+      `${campusphereHost}${CampusphereEndpoint[checkInType].tasksInMonth}`,
+      {
+        headers,
+        method: 'POST',
+        body: JSON.stringify({
+          statisticYearMonth: user?.signedPhotoMonth ?? '2021-11',
+        }),
+      },
+    )
+    const tasksInMonth = (await res.json())?.datas as SignTaskInMonth
+    if (tasksInMonth?.rows.length) {
+      const signedTaskDay = tasksInMonth.rows.find(
+        (row) => row.signedTasks.length,
+      )
+      if (signedTaskDay) {
+        const { signedTasks } = signedTaskDay
+        const signInstance = signedTasks?.[0]
+        if (signInstance) {
+          const taskDetail = await this.signTaskDetails(signInstance)
+          return taskDetail
+        }
+      }
+    }
+  }
+
   private static fixedFloatRight(floatStr: string): number {
     return parseFloat(
       floatStr.replace(
@@ -201,7 +255,7 @@ export class CheckIn {
 
   // select right item with content&wid
   private static fillExtra(
-    extraField: SignTaskDetail['extraField'],
+    extraField: NonNullable<SignTaskDetail['extraField']>,
   ): SignFormBody['extraFieldItems'] {
     return extraField.map((e) => {
       let chosenWid: string
@@ -231,6 +285,37 @@ export class CheckIn {
     encrypted += cipher.final('base64')
     return encrypted
   }
+
+  static async signIn(
+    users: UsersConf['users'],
+    checkInType: CheckInType,
+  ): Promise<GlobalLogInfo | null> {
+    // Sign in asynchronizedly with promise all and diff instance of signApp class
+    const logs: GlobalLogInfo = {}
+    await Promise.all(
+      users.map(async (i) => {
+        const instance: CheckIn = new CheckIn(i, checkInType)
+        const curTask = await instance.signInfo()
+        if (curTask) {
+          const needCheckInTasks = curTask.unSignedTasks.concat(
+            curTask.leaveTasks,
+          )
+          if (needCheckInTasks.length) {
+            const result = await instance.signWithForm(needCheckInTasks[0])
+            logs[i.alias] = result
+          } else {
+            logs[i.alias] = {
+              [LogInfoKeys.result as string]: `已完成：${
+                curTask.signedTasks[0].taskName
+              }`,
+            }
+          }
+        }
+      }),
+    )
+    log.notify(`签到结果 => \n${JSON.stringify(logs, null, '  ')}`)
+    return Object.keys(logs).length ? logs : null
+  }
 }
 
 export async function checkIn() {
@@ -240,41 +325,10 @@ export async function checkIn() {
   const users = sstore.get('users')
   if (users?.length) {
     // Sign in
-    const logs = await signIn(users)
+    const logs = await CheckIn.signIn(users, 'sign')
     // Log out results
     if (logs) {
       console.table(logs)
     }
   }
-}
-
-async function signIn(
-  users: UsersConf['users'],
-): Promise<GlobalLogInfo | null> {
-  // Sign in asynchronizedly with promise all and diff instance of signApp class
-
-  const logs: GlobalLogInfo = {}
-  await Promise.all(
-    users.map(async (i) => {
-      const instance: CheckIn = new CheckIn(i)
-      const curTask = await instance.signInfo()
-      if (curTask) {
-        const needCheckInTasks = curTask.unSignedTasks.concat(
-          curTask.leaveTasks,
-        )
-        if (needCheckInTasks.length) {
-          const result = await instance.signWithForm(needCheckInTasks[0])
-          logs[i.alias] = result
-        } else {
-          logs[i.alias] = {
-            [LogInfoKeys.result as string]: `已完成：${
-              curTask.signedTasks[0].taskName
-            }`,
-          }
-        }
-      }
-    }),
-  )
-  log.notify(`签到结果 => \n${JSON.stringify(logs, null, '  ')}`)
-  return Object.keys(logs).length ? logs : null
 }

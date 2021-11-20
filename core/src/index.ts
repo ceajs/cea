@@ -25,7 +25,6 @@ export type {
   UsersConf,
 } from './types/conf.js'
 export type { CookieRawObject, StringKV }
-export { CampusphereEndpoint } from './types/helper.js'
 
 /**
  * Iterate through all users: complete unified auth -> store cookie
