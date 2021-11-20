@@ -310,10 +310,11 @@ export class CheckIn {
             const result = await instance.signWithForm(needCheckInTasks[0])
             logs[i.alias] = result
           } else {
+            const { signedTasks } = curTask
             logs[i.alias] = {
-              [LogInfoKeys.result as string]: `已完成：${
-                curTask.signedTasks[0].taskName
-              }`,
+              [LogInfoKeys.result as string]: signedTasks.length
+                ? `已完成：${curTask.signedTasks[0]?.taskName}`
+                : '当前无签到任务',
             }
           }
         }
