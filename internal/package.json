@@ -1,6 +1,6 @@
 {
   "name": "cea",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "cea cli application",
   "type": "module",
   "node": "^12.20.0 || ^14.13.1 || >=16.0.0",
@@ -29,9 +29,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@ceajs/sign-plugin": "1.0.0",
-    "@ceajs/attendance-plugin": "1.0.0",
-    "@ceajs/core": "1.0.0",
+    "@ceajs/attendance-plugin": "1.1.0",
+    "@ceajs/core": "1.1.0",
+    "@ceajs/sign-plugin": "1.1.0",
     "enquirer": "^2.3.6"
   }
 }
