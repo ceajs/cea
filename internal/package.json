@@ -1,6 +1,6 @@
 {
   "name": "cea",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "cea cli application",
   "type": "module",
   "node": "^12.20.0 || ^14.13.1 || >=16.0.0",
