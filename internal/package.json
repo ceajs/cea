@@ -30,6 +30,7 @@
   "license": "MIT",
   "dependencies": {
     "@ceajs/sign-plugin": "1.0.0",
+    "@ceajs/attendance-plugin": "1.0.0",
     "@ceajs/core": "1.0.0",
     "enquirer": "^2.3.6"
   }

@@ -7,7 +7,7 @@ export async function checkIn() {
   const users = sstore.get('users')
   if (users?.length) {
     // Sign in
-    const logs = await CheckIn.signIn(users, 'attendance')
+    const logs = await CheckIn.signIn(users, 'sign')
     // Log out results
     if (logs) {
       console.table(logs)

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { attendanceCheckIn } from '@ceajs/attendance-plugin'
 import { log, sstore, UserConfOpts, UsersConf } from '@ceajs/core'
 import { checkIn } from '@ceajs/sign-plugin'
 import enquirer from 'enquirer'
@@ -29,6 +30,10 @@ const { prompt } = enquirer
       await checkIn()
       break
     }
+    case 'attendance': {
+      await attendanceCheckIn()
+      break
+    }
     case 'load': {
       await confSet()
       break
@@ -41,6 +46,7 @@ const { prompt } = enquirer
   All Commands: 
         user      create|delete user
         sign      campusphere check in
+        attendance  attendance check in
         load      load config info from conf.toml
         rm        remove stored config feilds
   `)

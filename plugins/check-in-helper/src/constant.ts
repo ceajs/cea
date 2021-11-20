@@ -8,12 +8,12 @@ export const CampusphereEndpoint = {
     tasksToday: `${signPath}/getStuSignInfosInOneDay`,
     tasksInMonth: `${signPath}/getStuSignInfosByWeekMonth`,
     taskDetails: `${signPath}/detailSignInstance`,
-    submitSign: `${signPath}/submitSign`
+    submitSign: `${signPath}/submitSign`,
   },
   attendance: {
     tasksToday: `${attendancePath}/getStuAttendacesInOneDay`,
     tasksInMonth: `${attendancePath}/getStuSignInfosByWeekMonth`,
     taskDetails: `${attendancePath}/detailSignInstance`,
-    submitSign: `${attendancePath}/submitSign`
+    submitSign: `${attendancePath}/submitSign`,
   },
 } as const

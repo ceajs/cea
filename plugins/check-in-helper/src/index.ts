@@ -111,7 +111,13 @@ export class CheckIn {
     )
     const signDetails: SignTaskDetail = ((await res.json()) as any).datas
 
-    const { extraField, signPlaceSelected, isNeedExtra, isPhoto, isMalposition } = signDetails
+    const {
+      extraField,
+      signPlaceSelected,
+      isNeedExtra,
+      isPhoto,
+      isMalposition,
+    } = signDetails
 
     // Find the right photo in the signed-in tasks
     const signPhotoUrl = isPhoto
