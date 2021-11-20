@@ -1,6 +1,6 @@
 {
-  "name": "cea-core",
-  "version": "2.2.1",
+  "name": "@ceajs/core",
+  "version": "1.0.0",
   "description": "basic cea api",
   "type": "module",
   "exports": "./lib/src/index.js",

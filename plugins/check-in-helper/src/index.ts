@@ -1,6 +1,6 @@
 import crypto from 'crypto'
 
-import { handleCookie, log, sstore } from 'cea-core'
+import { log, sstore } from '@ceajs/core'
 import fetch from 'node-fetch'
 import * as uuid from 'uuid'
 import { CampusphereEndpoint } from './constant.js'
@@ -12,7 +12,7 @@ import type {
   StringKV,
   UserConfOpts,
   UsersConf,
-} from 'cea-core'
+} from '@ceajs/core'
 import type {
   GlobalLogInfo,
   LogInfo,
@@ -315,20 +315,5 @@ export class CheckIn {
     )
     log.notify(`签到结果 => \n${JSON.stringify(logs, null, '  ')}`)
     return Object.keys(logs).length ? logs : null
-  }
-}
-
-export async function checkIn() {
-  // Get cookie
-  await handleCookie()
-  // Grab users
-  const users = sstore.get('users')
-  if (users?.length) {
-    // Sign in
-    const logs = await CheckIn.signIn(users, 'sign')
-    // Log out results
-    if (logs) {
-      console.table(logs)
-    }
   }
 }

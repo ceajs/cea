@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import { checkIn } from 'cea-check-in'
-import { log, sstore, UserConfOpts, UsersConf } from 'cea-core'
+import { log, sstore, UserConfOpts, UsersConf } from '@ceajs/core'
+import { checkIn } from '@ceajs/sign-plugin'
 import enquirer from 'enquirer'
 import { confSet } from './conf-set.js'
 import { UserAction } from './constants.js'

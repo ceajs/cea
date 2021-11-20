@@ -1,11 +1,10 @@
 {
-  "name": "cea",
-  "version": "2.2.1",
-  "description": "cea cli application",
+  "name": "@ceajs/attendance-plugin",
+  "version": "1.0.0",
+  "description": "attendance plugin for cea",
   "type": "module",
   "node": "^12.20.0 || ^14.13.1 || >=16.0.0",
   "exports": "./lib/src/index.js",
-  "bin": "lib/src/cli.js",
   "types": "lib/src/index.d.ts",
   "files": [
     "lib/src/**/*.[tj]s"
@@ -25,12 +24,11 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/ceajs/cea.git",
-    "directory": "internal"
+    "directory": "plugins/check-in"
   },
   "license": "MIT",
   "dependencies": {
-    "@ceajs/sign-plugin": "1.0.0",
-    "@ceajs/core": "1.0.0",
-    "enquirer": "^2.3.6"
+    "@ceajs/core": "^1.0.0",
+    "@ceajs/check-in-helper": "^1.0.0"
   }
 }

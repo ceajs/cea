@@ -2,8 +2,12 @@
   "files": [],
   "references": [
     {
-      "path": "./plugins/check-in/"
+      "path": "./plugins/check-in-helper/"
     },
+    {
+      "path": "./plugins/sign/"
+    },
+    { "path": "./plugins/attendance/" },
     {
       "path": "./core/"
     },

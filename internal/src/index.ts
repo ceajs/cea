@@ -1,6 +1,6 @@
-import { sstore } from 'cea-core'
+import { sstore } from '@ceajs/core'
+export { checkIn } from '@ceajs/sign-plugin'
 import { confSet } from './conf-set.js'
-export { checkIn } from 'cea-check-in'
 export default class Cea {
   private plugins: Set<() => Promise<void>> = new Set()
 
