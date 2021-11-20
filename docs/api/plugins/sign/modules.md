@@ -1,12 +1,8 @@
 [@ceajs/attendance-plugin](README.md) / Exports
 
-# cea
+# @ceajs/sign-plugin
 
 ## Table of contents
-
-### Classes
-
-- [default](classes/default.md)
 
 ### Functions
 
@@ -24,4 +20,4 @@
 
 #### Defined in
 
-plugins/sign/lib/src/index.d.ts:1
+[index.ts:3](https://github.com/ceajs/cea/blob/a82f96f/plugins/sign/src/index.ts#L3)

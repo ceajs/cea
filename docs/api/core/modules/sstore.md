@@ -1,4 +1,4 @@
-[cea-check-in](../README.md) / [Exports](../modules.md) / sstore
+[@ceajs/attendance-plugin](README.md) / [Exports](modules.md) / sstore
 
 # Namespace: sstore
 
@@ -6,14 +6,14 @@
 
 ### Functions
 
-- [clear](../modules/sstore.md#clear)
-- [close](../modules/sstore.md#close)
-- [del](../modules/sstore.md#del)
-- [delGlEnv](../modules/sstore.md#delglenv)
-- [get](../modules/sstore.md#get)
-- [getGlEnv](../modules/sstore.md#getglenv)
-- [set](../modules/sstore.md#set)
-- [setGlEnv](../modules/sstore.md#setglenv)
+- [clear](modules/sstore.md#clear)
+- [close](modules/sstore.md#close)
+- [del](modules/sstore.md#del)
+- [delGlEnv](modules/sstore.md#delglenv)
+- [get](modules/sstore.md#get)
+- [getGlEnv](modules/sstore.md#getglenv)
+- [set](modules/sstore.md#set)
+- [setGlEnv](modules/sstore.md#setglenv)
 
 ## Functions
 

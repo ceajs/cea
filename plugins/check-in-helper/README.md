@@ -1,13 +1,15 @@
-### 插件: <a align="center" href="https://www.npmjs.com/package/cea-check-in"><img alt="cea-check-in" src="https://img.shields.io/npm/v/cea-check-in?style=social&label=cea-check-in"></a>
+### 简介
+
+为 Cea 插件提供与今日校园相关工具
 
 ### 安装
 
 ```bash
-npm i cea-check-in
+npm i @ceajs/check-in-helper
 ```
 
 ## 文档
 
-- 项目说明：https://github.com/ceajs/cea/tree/main/plugins/check-in
-- API 文档：https://github.com/ceajs/cea/blob/main/docs/api/plugins/check-in/modules.md
+- 项目说明：https://github.com/ceajs/cea/tree/main/plugins/check-in-helper
+- API 文档：https://github.com/ceajs/cea/blob/main/docs/api/plugins/check-in-helper/modules.md
 - 配置文档：https://github.com/ceajs/cea

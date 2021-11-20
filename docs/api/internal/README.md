@@ -1,4 +1,4 @@
-cea-check-in / [Exports](../modules.md)
+@ceajs/attendance-plugin / [Exports](modules.md)
 
 ## 详细说明
 

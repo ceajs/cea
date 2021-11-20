@@ -4,15 +4,16 @@
 
   ```ts
   type UsersConf = {
-    notifier?: [`${number}`, string]
-    users: Array<UserConfOpts>
+    readonly notifier?: [`${number}`, string, string]
+    readonly users: Array<UserConfOpts>
   }
   type UserConfOpts = {
-    username: string
-    password: string
-    captcha?: 'MANUAL' | 'OCR'
-    alias: string
-    school: string
+    readonly username: string
+    readonly password: string
+    readonly alias: string
+    readonly school: string
+    readonly captcha?: 'MANUAL' | 'OCR'
+    readonly signedDataMonth?: `${number}-${number}`
     addr: Array<string>
   }
   ```
@@ -48,7 +49,7 @@ school = "whpu"
 
 `[[users]]` 表示这是 users 数组中的一项，下方内容便是我们之前说的配置字段了，很简单吧
 
-接下来我们看看在家签到的配置方法：
+接下来我们看看在家签到(或者说自定义签到地址)的配置方法：
 
 ```diff
 [[users]]
@@ -83,12 +84,13 @@ school = "whpu"
 
 跟上面的模式一样，`[[users]]` 表示在用户数组中添加一个 ，然后开始各字段的配置
 
-最重要的用户组配置完毕，我们还可以选择日志推送服务，目前推送是基于微信的，配合 [pushplus](http://pushplus.hxtrip.com/message) 可在几秒钟内完成配置。具体操作是，去 [pushplus](http://pushplus.hxtrip.com/message) 微信登录，获取 `token`，然后修改我们的配置文件，加上 `notifier` 字段：
+最重要的用户组配置完毕，我们还可以选择**日志推送服务**，目前推送是基于微信的，配合 [pushplus](http://pushplus.hxtrip.com/message) 可在几秒钟内完成配置。具体操作是，去 [pushplus](http://pushplus.hxtrip.com/message) 微信登录，获取 `token`，然后修改我们的配置文件，加上 `notifier` 字段：
 
 ```diff
+# notifier 字段可选的，你也可以不配置此项
 # 这里的 0 表示选择推送服务平台的索引是 0，暂时只支持 pushplus 平台，后期可能加入其它平台支持
-# 此字段可选的，你也可以不配置此项
-+notifier = ["0", "Your Token"]
+# 对于一对多的情况, 请在 push plus 中配置一对多，填入 topic 值
++notifier = ["0", "Your Token", "topic"]
 
 [[users]]
 username = "11"
@@ -98,5 +100,18 @@ addr = [""]
 school = "whu"
 ```
 
+除此之外，对于签到需要上传图片的情况，请确保至少成功签到过一次，然后配置好 signedDataMouth 字段：
+```diff
+# 填入成功历史签到中存在成功签到的月份，格式严格遵循 YYYY-MM，默认值为 2020-11，如果你在此月有成功签到记录，可以省此字段的配置
++signedDataMouth = "2021-10"
+notifier = ["0", "Your Token", "topic"]
+
+[[users]]
+username = "11"
+password = "11"
+alias = "one"
+addr = [""]
+school = "whu"
+```
 
 好啦！配置教学到此结束，快去使用起来吧！

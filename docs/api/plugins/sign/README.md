@@ -1,3 +1,5 @@
+@ceajs/attendance-plugin / [Exports](modules.md)
+
 <strong><p align="center">
 <img alt="cea-logo" width="100" src="./assets/logo.png">
 <br>

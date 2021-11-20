@@ -3,7 +3,7 @@
 ### 安装
 
 ```bash
-npm i cea-core
+npm i @ceajs/core
 ```
 
 ## 文档

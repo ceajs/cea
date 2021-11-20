@@ -1,4 +1,4 @@
-[cea-check-in](../README.md) / [Exports](../modules.md) / default
+[@ceajs/attendance-plugin](README.md) / [Exports](modules.md) / default
 
 # Class: default
 
@@ -6,16 +6,16 @@
 
 ### Constructors
 
-- [constructor](default.md#constructor)
+- [constructor](classes/default.md#constructor)
 
 ### Properties
 
-- [plugins](default.md#plugins)
+- [plugins](classes/default.md#plugins)
 
 ### Methods
 
-- [addPlugin](default.md#addplugin)
-- [start](default.md#start)
+- [addPlugin](classes/default.md#addplugin)
+- [start](classes/default.md#start)
 
 ## Constructors
 
@@ -31,7 +31,7 @@
 
 #### Defined in
 
-[internal/src/index.ts:5](https://github.com/ceajs/cea/blob/137f0b9/internal/src/index.ts#L5)
+[internal/src/index.ts:5](https://github.com/ceajs/cea/blob/a82f96f/internal/src/index.ts#L5)
 
 ## Methods
 
@@ -51,7 +51,7 @@
 
 #### Defined in
 
-[internal/src/index.ts:7](https://github.com/ceajs/cea/blob/137f0b9/internal/src/index.ts#L7)
+[internal/src/index.ts:7](https://github.com/ceajs/cea/blob/a82f96f/internal/src/index.ts#L7)
 
 ___
 
@@ -65,4 +65,4 @@ ___
 
 #### Defined in
 
-[internal/src/index.ts:11](https://github.com/ceajs/cea/blob/137f0b9/internal/src/index.ts#L11)
+[internal/src/index.ts:11](https://github.com/ceajs/cea/blob/a82f96f/internal/src/index.ts#L11)
