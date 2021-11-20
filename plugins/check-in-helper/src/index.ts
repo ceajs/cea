@@ -224,7 +224,7 @@ export class CheckIn {
         headers,
         method: 'POST',
         body: JSON.stringify({
-          statisticYearMonth: user?.signedPhotoMonth ?? '2021-11',
+          statisticYearMonth: user?.signedDataMonth ?? '2021-11',
         }),
       },
     )
