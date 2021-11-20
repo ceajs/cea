@@ -1,3 +1,3 @@
-import Cea, { checkIn } from 'cea'
+import Cea, { checkIn, attendanceCheckIn } from 'cea'
 export default Cea
-export { checkIn }
+export { checkIn, attendanceCheckIn }

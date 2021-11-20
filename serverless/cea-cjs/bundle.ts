@@ -4,7 +4,14 @@ import path from 'node:path'
 import url from 'node:url'
 import { nodeProtocolPlugin } from './esbuild/legacy-cjs-plugins'
 
-const esmPkgs = ['cea-core', 'cea-check-in', 'app-path', 'terminal-image']
+const esmPkgs = [
+  '@ceajs/core',
+  '@ceajs/check-in-helper',
+  '@ceajs/attendance-plugin',
+  '@ceajs/sign-plugin',
+  'app-path',
+  'terminal-image',
+]
 
 const getPkgPath = (l: string) =>
   path.join(
@@ -21,13 +28,22 @@ const ceaCoreDeps = JSON.parse(
 const ceaCLIDeps = JSON.parse(
   fs.readFileSync(getPkgPath('internal'), { encoding: 'utf8' }),
 )?.dependencies
-const ceaPluginCheckIn = JSON.parse(
-  fs.readFileSync(getPkgPath('plugins/check-in'), { encoding: 'utf8' }),
+const ceaCheckIn = JSON.parse(
+  fs.readFileSync(getPkgPath('plugins/check-in-helper'), { encoding: 'utf8' }),
+)?.dependencies
+const ceaSignPlugin = JSON.parse(
+  fs.readFileSync(getPkgPath('plugins/sign'), { encoding: 'utf8' }),
+)?.dependencies
+
+const ceaAttendancePlugin = JSON.parse(
+  fs.readFileSync(getPkgPath('plugins/attendance'), { encoding: 'utf8' }),
 )?.dependencies
 
 const externalDeps = [
   ...Object.entries(ceaCoreDeps),
-  ...Object.entries(ceaPluginCheckIn),
+  ...Object.entries(ceaCheckIn),
+  ...Object.entries(ceaSignPlugin),
+  ...Object.entries(ceaAttendancePlugin),
   ...Object.entries(ceaCLIDeps),
 ]?.filter(([depName]: [string, string]) => !esmPkgs.includes(depName))
 
