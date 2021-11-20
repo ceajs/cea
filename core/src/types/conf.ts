@@ -1,7 +1,7 @@
 import type { SchoolEdgeCase } from './edge-case'
 
 export type UsersConf = {
-  readonly notifier?: [`${number}`, string]
+  readonly notifier?: [`${number}`, string, string]
   readonly users: Array<UserConfOpts>
 }
 export type UserConfOpts = {

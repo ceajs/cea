@@ -1,5 +1,7 @@
 import sstore from '@beetcb/sstore'
 import fetch from 'node-fetch'
+import type { UsersConf } from '../types/conf'
+
 const pushEndpoints = ['http://pushplus.hxtrip.com/send']
 const notifications: Array<string> = []
 
@@ -10,11 +12,11 @@ const saveNotifications = (args: Array<any>) => {
 }
 
 const notify = async function(addtionalMessage: string) {
-  const notifyConf = sstore.get('notifier')
+  const notifyConf: UsersConf['notifier'] = sstore.get('notifier')
   if (!notifyConf?.length) {
     return
   }
-  const [pushPlatform, pushToken] = notifyConf
+  const [pushPlatform, pushToken, groupNumber] = notifyConf
   const content = `${notifications.join(`<br>`)}<br>${
     addtionalMessage.replace(/\n/g, '<br>').replace(/\s/g, '&nbsp')
   }`
@@ -29,6 +31,7 @@ const notify = async function(addtionalMessage: string) {
         content,
         token: pushToken,
         title: 'Cea.js 消息推送服务',
+        topic: groupNumber,
       }),
     })
   }
