@@ -11,6 +11,7 @@ export type SignTask = {
 }
 
 export type SignTaskDetail = {
+  isMalposition: 1 | 0
   isPhoto: boolean
   longitude: string
   latitude: string

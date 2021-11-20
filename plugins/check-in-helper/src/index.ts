@@ -111,7 +111,7 @@ export class CheckIn {
     )
     const signDetails: SignTaskDetail = ((await res.json()) as any).datas
 
-    const { extraField, signPlaceSelected, isNeedExtra, isPhoto } = signDetails
+    const { extraField, signPlaceSelected, isNeedExtra, isPhoto, isMalposition } = signDetails
 
     // Find the right photo in the signed-in tasks
     const signPhotoUrl = isPhoto
@@ -131,9 +131,9 @@ export class CheckIn {
     const formBody: SignFormBody = {
       longitude: CheckIn.fixedFloatRight(longitude),
       latitude: CheckIn.fixedFloatRight(latitude),
-      isMalposition: isSignAtHome ? 1 : 0,
       abnormalReason: '',
       uaIsCpadaily: true,
+      isMalposition,
       signPhotoUrl,
       isNeedExtra,
       position,
