@@ -30,5 +30,9 @@
   "dependencies": {
     "@ceajs/check-in-helper": "1.1.0",
     "@ceajs/core": "1.1.0"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "5dad4d5981f99f28b939d3ae1706aae2d9a59fde"
 }

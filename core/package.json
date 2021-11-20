@@ -41,5 +41,9 @@
     "@types/node-fetch": "^2.5.12",
     "@types/signale": "^1.4.2",
     "@types/user-agents": "^1.0.2"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "5dad4d5981f99f28b939d3ae1706aae2d9a59fde"
 }

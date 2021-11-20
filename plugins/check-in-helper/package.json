@@ -36,5 +36,9 @@
     "@types/node": "^16.11.6",
     "@types/node-fetch": "^2.5.12",
     "@types/uuid": "^8.3.1"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "5dad4d5981f99f28b939d3ae1706aae2d9a59fde"
 }

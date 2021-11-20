@@ -33,5 +33,6 @@
     "@ceajs/core": "1.1.0",
     "@ceajs/sign-plugin": "1.1.0",
     "enquirer": "^2.3.6"
-  }
+  },
+  "gitHead": "5dad4d5981f99f28b939d3ae1706aae2d9a59fde"
 }
