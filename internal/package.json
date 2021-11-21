@@ -1,7 +1,7 @@
 {
   "name": "cea",
   "version": "2.3.1",
-  "description": "cea cli application",
+  "description": "cea cli application (with built-in plugins)",
   "type": "module",
   "node": "^12.20.0 || ^14.13.1 || >=16.0.0",
   "exports": "./lib/src/index.js",
