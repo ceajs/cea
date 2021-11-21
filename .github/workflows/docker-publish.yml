@@ -4,6 +4,7 @@ on:
   push:
     paths: 
       - 'internal/package.json'
+      - 'docker/*'
 
   # Run tests for any PRs.
   pull_request:
