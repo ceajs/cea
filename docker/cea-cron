@@ -1,6 +1,6 @@
 SHELL=/bin/bash
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
 MAILTO=root
-30 6 * * * cea sign
+0 6 * * * cea sign
 0 21 * * * cea attendance
 # An empty line is required at the end of this file for a valid cron file.

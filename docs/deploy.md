@@ -18,7 +18,7 @@
    sudo docker run --name auto-check-in -dv /tmp/conf:/tmp/conf ghcr.io/ceajs/cea/cea-check-in:main
    ```
 
-   此容器自动设置了 Cron 任务，将会在每天 6:30 触发执行签到，如需自定义触发时间，请 Fork 本仓库(或者 Clone 本仓库)，修改 `docker/cea-cron`，并另行构建镜像与容器
+   此容器自动设置了 Cron 任务，将会在每天 6:00 触发执行签到，21:00 触发执行查寝，如需自定义触发时间，请 Fork 本仓库(或者 Clone 本仓库)，修改 `docker/cea-cron`，并另行构建镜像与容器
 
    ```
    # 如果你是 Fork 并 Push 了修改
@@ -46,7 +46,7 @@
 
 2. 等待几秒(部署完成后) ⇢ 左栏 `云函数` ⇢ 点击 `cea` 进入此函数配置界面 ⇢ `函数代码` 拦下在线编辑器里修改 `conf.toml` 文件 ⇢ 请参考[配置文件说明](./config.md)请自行填入 ⇢ 先**保存**后测试，无报错则成功部署
 
-3. 教程结束 ⚡ (如有问题，请附带日志提交 issue)，此函数会自动在每天 6:00 触发
+3. 教程结束 ⚡ (如有问题，请附带日志提交 issue)，此函数会自动在每天 6:00 、21:00 触发将会同时检查查寝和签到任务
 
   </details>
 
@@ -63,7 +63,11 @@
 2. 正确配置 cron 服务，以下命令仅供参考
 
    ```bash
+   # 将NPM全局包的PATH加入下方路径
+   PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
    0 6 * * * /usr/local/bin/node /usr/local/bin/cea sign
+   0 21 * * * /usr/local/bin/node /usr/local/bin/cea attendance
+   # empty 
    ```
 
   </details>
