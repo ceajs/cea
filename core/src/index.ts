@@ -3,7 +3,7 @@ import fetch from 'node-fetch'
 import login from './crawler/login.js'
 import log from './utils/logger.js'
 
-import type { SchoolConf, UserConfOpts } from './types/conf'
+import type { SchoolConf, SchoolConfOpts, UserConfOpts } from './types/conf'
 import type { CookieRawObject } from './types/cookie'
 import type { StringKV } from './types/helper'
 
@@ -36,48 +36,66 @@ export async function handleCookie() {
       users.map(async (i: UserConfOpts) => {
         const storeCookiePath = `cookie.${i.alias}`
         await handleLogin(i, storeCookiePath)
-      }),
+      })
     )
   } else {
     log.error('请先加载用户 <cea load>')
   }
 }
 
-async function handleLogin(i: UserConfOpts, storeCookiePath: string) {
-  let cookie: CookieRawObject = sstore.get(storeCookiePath)
-  const name = i.alias
-  const school = (sstore.get('schools') as SchoolConf)[i.school]
-  // Check if the cookie is stored, if not, login in to eat them
-  if (!cookie) {
-    const result = await login(school, i)
-    if (result) {
-      sstore.set(storeCookiePath, result)
-      log.success({
-        message: `已成功获取并缓存 COOKIE`,
-        suffix: `@${name}`,
-      })
-    }
-  } else {
-    const authCookieIdx = new URL(school.authOrigin).host
-    // check if the cookie is valid
-    const test = await fetch(`${school.authOrigin}/login`, {
-      headers: {
-        cookie: cookie[authCookieIdx],
-      },
-      redirect: 'manual',
-    })
-    if (test.headers.get('set-cookie')) {
-      // invaild cookie
-      log.warn({
-        message: `COOKIE 失效，准备刷新`,
-        suffix: `@${name}`,
-      })
-      sstore.del(storeCookiePath)
-      await handleLogin(i, storeCookiePath)
-    }
+async function loginAndStoreCookie(
+  school: SchoolConfOpts,
+  user: UserConfOpts,
+  storeCookiePath: string
+) {
+  const result = await login(school, user)
+  if (result) {
+    sstore.set(storeCookiePath, result)
     log.success({
-      message: `尝试使用缓存中的 COOKIE`,
-      suffix: `@${name}`,
+      message: `已成功获取并缓存 COOKIE`,
+      suffix: `@${user.alias}`,
     })
+    return true
+  }
+  return false
+}
+
+async function handleLogin(i: UserConfOpts, storeCookiePath: string) {
+  const name = i.alias
+  const retryLimit = i.retry ?? 1
+  const school = (sstore.get('schools') as SchoolConf)[i.school]
+  // Check if the cookie is stored, if not, login to eat them
+  for (let r = 0; r < retryLimit; r++) {
+    const cookie: CookieRawObject = sstore.get(storeCookiePath)
+    if (!cookie) {
+      if (await loginAndStoreCookie(school, i, storeCookiePath)) {
+        break
+      }
+    } else {
+      const authCookieIdx = new URL(school.authOrigin).host
+      // Check cookie validity
+      const test = await fetch(`${school.authOrigin}/login`, {
+        headers: {
+          cookie: cookie[authCookieIdx],
+        },
+        redirect: 'manual',
+      })
+      if (test.headers.get('set-cookie')) {
+        // invaild cookie
+        log.warn({
+          message: `COOKIE 失效，准备刷新`,
+          suffix: `@${name}`,
+        })
+        sstore.del(storeCookiePath)
+        if (await loginAndStoreCookie(school, i, storeCookiePath)) {
+          break
+        }
+      }
+      log.success({
+        message: `尝试使用缓存中的 COOKIE`,
+        suffix: `@${name}`,
+      })
+      break
+    }
   }
 }

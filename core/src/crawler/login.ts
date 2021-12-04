@@ -29,8 +29,8 @@ export default async function login(
   const schoolEdgeCase: SchoolEdgeCase = school.edgeCase
 
   const headers: StringKV = {
-    'User-agent': new UserAgent().toString(),
-    'Upgrade-Insecure-Requests': '1',
+    'user-agent': new UserAgent({ deviceCategory: 'desktop' }).toString(),
+    'upgrade-insecure-requests': '1',
   }
 
   const fetch = new FetchWithCookie(headers)
@@ -47,7 +47,7 @@ export default async function login(
   const hiddenInputNameValueMap: StringKV = {}
   let pwdSalt, needCaptcha: boolean
   if (!school.isCloud) {
-    // create document for crawling
+    // Create document for crawling
     const body = await res.text()
     const $ = cheerio.load(body)
     const form = $('form[method=post]').get(schoolEdgeCase.formIdx)
@@ -157,18 +157,23 @@ export default async function login(
           const moveLength = Math.floor(sliderCanvasLength * percentage)
           const verifySliderUrl = `${school.authOrigin}${schoolEdgeCase.verifySliderCaptchaPath}?canvasLength=${sliderCanvasLength}&moveLength=${moveLength}`
           log.warn({
-            message: `开始自动滑块验证，移动比例：${moveLength} / ${sliderCanvasLength}`,
+            message: `开始滑块验证，移动比例：${moveLength} / ${sliderCanvasLength}`,
             suffix: `@${name}`,
           })
           const respose = await fetch.get(verifySliderUrl)
           const result: SliderCaptchaVerifyResult = await respose.json()
           if (result.sign) {
             auth.append('sign', result.sign)
+            log.success({
+              message: `成功通过滑块验证`,
+              suffix: `@${name}`,
+            })
           } else {
-            log.warn({
+            log.error({
               message: `自动滑块验证失败`,
               suffix: `@${name}`,
             })
+            return
           }
         }
       }
@@ -194,8 +199,8 @@ export default async function login(
         }
       } else {
         log.error({
-          message: `登录失败，${res.statusText}`,
-          suffix: `@${name}`,
+          message: `登录失败，请尝试本地登录此地址以确保账号密码正确 @${name}
+               ${school.preAuthURL}`,
         })
       }
       return

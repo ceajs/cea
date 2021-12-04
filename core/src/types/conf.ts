@@ -14,6 +14,7 @@ export type UserConfOpts = {
   readonly password: string
   readonly alias: string
   readonly school: string
+  readonly retry?: number
   readonly captcha?: 'MANUAL' | 'OCR'
   readonly signedDataMonth?: `${number}-${number}`
   addr: Array<string>
