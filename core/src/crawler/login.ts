@@ -1,8 +1,14 @@
+import sliderCaptchaRecognizer from '@ceajs/slider-captcha'
 import cheerio from 'cheerio'
 import UserAgent from 'user-agents'
 import FetchWithCookie from '../utils/fetch-helper.js'
 
-import { UnifiedLoginResultCodeMsg } from '../types/login.js'
+import { CaptchaAuthMode } from '../types/conf.js'
+import {
+  SliderCaptchaGetResult,
+  SliderCaptchaVerifyResult,
+  UnifiedLoginResultCodeMsg,
+} from '../types/login.js'
 import AES from '../utils/encrypt.js'
 import log from '../utils/logger.js'
 import { captchaHandler } from './captcha.js'
@@ -17,7 +23,7 @@ import type { UnifiedLoginResult } from '../types/login'
  */
 export default async function login(
   school: SchoolConfOpts,
-  user: UserConfOpts,
+  user: UserConfOpts
 ) {
   // improve school campatibility with defaults and edge-cases
   const schoolEdgeCase: SchoolEdgeCase = school.edgeCase
@@ -62,12 +68,13 @@ export default async function login(
     })
 
     // Check captcha
-    const addtionalParams =
-      `?username=${user.username}&ltId=${hiddenInputNameValueMap.lt || ''}`
+    const addtionalParams = `?username=${user.username}&ltId=${
+      hiddenInputNameValueMap.lt || ''
+    }&_=${Date.now()}`
     needCaptcha = (
       await (
         await fetch.get(
-          `${school.authOrigin}${schoolEdgeCase.checkCaptchaPath}${addtionalParams}`,
+          `${school.authOrigin}${schoolEdgeCase.checkCaptchaPath}${addtionalParams}`
         )
       ).text()
     ).includes('true')
@@ -103,26 +110,67 @@ export default async function login(
   // Handle captcha
   while (true) {
     if (needCaptcha) {
-      const captchaUrl =
-        `${school.authOrigin}${schoolEdgeCase.getCaptchaPath}?username=${user.username}&ltId=${hiddenInputNameValueMap
-          .lt ?? ''}`
+      const captchaUrl = `${school.authOrigin}${
+        schoolEdgeCase.getCaptchaPath
+      }?username=${user.username}&ltId=${
+        hiddenInputNameValueMap.lt ?? ''
+      }&_=${Date.now()}`
       log.warn({
         message: '登录需要验证码',
         suffix: `@${name}`,
       })
-      let captchaCode = await captchaHandler(captchaUrl, fetch, user.captcha)
-      if (captchaCode?.length >= 4) {
-        log.warn({
-          message: `使用验证码 ${captchaCode} 登录`,
-          suffix: `@${name}`,
-        })
-        auth.append(schoolEdgeCase.submitCaptchakey, captchaCode)
-      } else {
-        log.error({
-          message: `验证码格式错误，结果为${captchaCode}，长度错误`,
-          suffix: `@${name}`,
-        })
-        return
+
+      if (school.captchaAuthMode === CaptchaAuthMode.IMAGE) {
+        // Handle image captcha using ocr
+        let captchaCode = await captchaHandler(captchaUrl, fetch, user.captcha)
+        if (captchaCode?.length >= 4) {
+          log.warn({
+            message: `使用验证码 ${captchaCode} 登录`,
+            suffix: `@${name}`,
+          })
+          auth.append(schoolEdgeCase.submitCaptchakey, captchaCode)
+        } else {
+          log.error({
+            message: `验证码格式错误，结果为${captchaCode}，长度错误`,
+            suffix: `@${name}`,
+          })
+          return
+        }
+      } else if (school.captchaAuthMode === CaptchaAuthMode.SLIDER) {
+        // Handle slider captcha using @ceajs/slider-captcha
+        if (!schoolEdgeCase.verifySliderCaptchaPath?.length) {
+          log.error({
+            message: `学校边缘配置中未出现 verifySliderCaptchaPath 字段，放弃登录`,
+            suffix: `@${name}`,
+          })
+          return
+        }
+
+        const response = await fetch.get(captchaUrl)
+        const source: SliderCaptchaGetResult = await response.json()
+        const percentage = await sliderCaptchaRecognizer(
+          source.bigImage,
+          source.smallImage
+        )
+        const sliderCanvasLength = schoolEdgeCase.sliderCanvasLength ?? 280
+        if (percentage) {
+          const moveLength = Math.floor(sliderCanvasLength * percentage)
+          const verifySliderUrl = `${school.authOrigin}${schoolEdgeCase.verifySliderCaptchaPath}?canvasLength=${sliderCanvasLength}&moveLength=${moveLength}`
+          log.warn({
+            message: `开始自动滑块验证，移动比例：${moveLength} / ${sliderCanvasLength}`,
+            suffix: `@${name}`,
+          })
+          const respose = await fetch.get(verifySliderUrl)
+          const result: SliderCaptchaVerifyResult = await respose.json()
+          if (result.sign) {
+            auth.append('sign', result.sign)
+          } else {
+            log.warn({
+              message: `自动滑块验证失败`,
+              suffix: `@${name}`,
+            })
+          }
+        }
       }
     }
 
@@ -150,12 +198,6 @@ export default async function login(
           suffix: `@${name}`,
         })
       }
-      return
-    } else if (isRedirect.includes('.do')) {
-      log.error({
-        message: `登录失败，密码安全等级低，需要修改`,
-        suffix: `@${name}`,
-      })
       return
     } else {
       log.success({

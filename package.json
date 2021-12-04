@@ -11,7 +11,7 @@
     "build:debug": "lerna run build:debug",
     "test": "jest",
     "pub": "npm run build && env-cmd lerna publish",
-    "dry": "lerna exec -- npm pack && lerna exec -- rm -rf package *.tgz"
+    "dry": "lerna exec -- npm pack --json --dry-run"
   },
   "keywords": [
     "campusphere",

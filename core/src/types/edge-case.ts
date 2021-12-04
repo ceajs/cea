@@ -5,6 +5,8 @@ export type SchoolEdgeCase = {
 } & {
   getCaptchaPath: string
   checkCaptchaPath: string
+  verifySliderCaptchaPath?: string
+  sliderCanvasLength?: number
   formIdx: number
   pwdEncrypt: boolean
 }

@@ -1,5 +1,10 @@
 import type { SchoolEdgeCase } from './edge-case'
 
+export enum CaptchaAuthMode {
+  IMAGE,
+  SLIDER,
+}
+
 export type UsersConf = {
   readonly notifier?: [`${number}`, string, string]
   readonly users: Array<UserConfOpts>
@@ -21,6 +26,7 @@ export type SchoolConf = {
 export type SchoolConfOpts = {
   readonly preAuthURL: string
   readonly loginURL?: string
+  readonly captchaAuthMode: CaptchaAuthMode
   readonly chineseName: string
   readonly defaultAddr: string
   readonly isCloud: boolean

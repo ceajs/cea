@@ -76,6 +76,7 @@ export async function getSchoolInfos({
         preAuthURL: `${origin}/portal/login`,
         loginURL: isCloud ? `${origin}/iap/doLogin` : undefined,
         chineseName: data.name,
+        captchaAuthMode: edgeCase.getCaptchaPath.includes('slide') ? 1 : 0,
         authOrigin,
         isCloud,
         edgeCase,
