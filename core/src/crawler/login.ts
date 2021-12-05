@@ -1,4 +1,3 @@
-import sliderCaptchaRecognizer from '@ceajs/slider-captcha'
 import cheerio from 'cheerio'
 import UserAgent from 'user-agents'
 import FetchWithCookie from '../utils/fetch-helper.js'
@@ -13,6 +12,7 @@ import AES from '../utils/encrypt.js'
 import log from '../utils/logger.js'
 import { captchaHandler } from './captcha.js'
 
+import type SliderCaptchaRecognizer from '@ceajs/slider-captcha'
 import type { SchoolConfOpts, UserConfOpts } from '../types/conf'
 import type { SchoolEdgeCase } from '../types/edge-case'
 import type { StringKV } from '../types/helper'
@@ -136,6 +136,9 @@ export default async function login(
         }
       } else if (school.captchaAuthMode === CaptchaAuthMode.SLIDER) {
         // Handle slider captcha using @ceajs/slider-captcha
+        const { default: sliderCaptchaRecognizer } = (await import(
+          '@ceajs/slider-captcha'
+        )) as { default: typeof SliderCaptchaRecognizer }
         if (!schoolEdgeCase.verifySliderCaptchaPath?.length) {
           log.error({
             message: `学校边缘配置中未出现 verifySliderCaptchaPath 字段，放弃登录`,
@@ -143,7 +146,6 @@ export default async function login(
           })
           return
         }
-
         const response = await fetch.get(captchaUrl)
         const source: SliderCaptchaGetResult = await response.json()
         const percentage = await sliderCaptchaRecognizer(

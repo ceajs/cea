@@ -62,8 +62,10 @@ const { prompt } = enquirer
             attendance tasks check in
         load [path]
             load config info from path, or default to \`./conf.json\`
-        rm <schools | users | all>  remove stored config feilds
-        get <schools | users> display stored config feilds
+        rm <schools | users | all>  
+            remove stored config feilds
+        get <schools | users> 
+            display stored config feilds
   `)
       break
     }
