@@ -58,7 +58,6 @@ esbuild
     platform: 'node',
     target: 'node11',
     outfile: 'lib/src/index.js',
-    // minify: true,
     inject: ['./esbuild/inject.ts'],
     define: {
       'import.meta.url': 'importMetaURL',
