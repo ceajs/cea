@@ -1,6 +1,6 @@
 {
   "name": "cea",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "description": "cea cli application (with built-in plugins)",
   "type": "module",
   "node": "^12.20.0 || ^14.13.1 || >=16.0.0",
@@ -29,9 +29,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@ceajs/attendance-plugin": "1.1.0",
-    "@ceajs/core": "1.1.0",
-    "@ceajs/sign-plugin": "1.1.0",
+    "@ceajs/attendance-plugin": "1.2.0",
+    "@ceajs/core": "1.2.0",
+    "@ceajs/sign-plugin": "1.2.0",
     "enquirer": "^2.3.6"
   },
   "gitHead": "5dad4d5981f99f28b939d3ae1706aae2d9a59fde"

@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://github.com/ceajs/cea/compare/cea@2.3.0...cea@2.4.0) (2021-12-05)
+
+
+### Features
+
+* **conf:** make toml file path configurable ([f660294](https://github.com/ceajs/cea/commit/f66029407520a2f1944ffb35443a11e7dc003fb4))
+* **login:** add ability to recognize slider captcha ([cf4ea0c](https://github.com/ceajs/cea/commit/cf4ea0c8f016a52382fed7b42bb34170ba2a5b7e))
+
+
+### Performance Improvements
+
+* update sstore to a lightweight version ([644dcf1](https://github.com/ceajs/cea/commit/644dcf17e079d6eb15d0301c88b770cdeea2ff2b))
+
+
+
+
+
 # [2.3.0](https://github.com/ceajs/cea/compare/cea@0.1.2...cea@2.3.0) (2021-11-20)
 
 ### Bug Fixes

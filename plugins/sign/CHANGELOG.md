@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/ceajs/cea/compare/@ceajs/sign-plugin@1.1.0...@ceajs/sign-plugin@1.2.0) (2021-12-05)
+
+
+### Features
+
+* **login:** add ability to recognize slider captcha ([cf4ea0c](https://github.com/ceajs/cea/commit/cf4ea0c8f016a52382fed7b42bb34170ba2a5b7e))
+
+
+
+
+
 # 1.1.0 (2021-11-20)
 
 ### Bug Fixes

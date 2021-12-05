@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/ceajs/cea/compare/@ceajs/core@1.1.0...@ceajs/core@1.2.0) (2021-12-05)
+
+
+### Bug Fixes
+
+* **addr:** exclude bus addr returned from baidu ([3864e04](https://github.com/ceajs/cea/commit/3864e04c077845c63a360eb06d45954a2b10a090))
+* **login:** restrict user-agents, print authURL when needed ([663c0b0](https://github.com/ceajs/cea/commit/663c0b070c52496325f0c5c5e4083464aa24daef))
+
+
+### Features
+
+* **conf:** make toml file path configurable ([f660294](https://github.com/ceajs/cea/commit/f66029407520a2f1944ffb35443a11e7dc003fb4))
+* **login:** add ability to recognize slider captcha ([cf4ea0c](https://github.com/ceajs/cea/commit/cf4ea0c8f016a52382fed7b42bb34170ba2a5b7e))
+
+
+### Performance Improvements
+
+* update sstore to a lightweight version ([644dcf1](https://github.com/ceajs/cea/commit/644dcf17e079d6eb15d0301c88b770cdeea2ff2b))
+
+
+
+
+
 # 1.1.0 (2021-11-20)
 
 ### Bug Fixes
