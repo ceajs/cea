@@ -23,7 +23,7 @@ import type { UnifiedLoginResult } from '../types/login'
  */
 export default async function login(
   school: SchoolConfOpts,
-  user: UserConfOpts
+  user: UserConfOpts,
 ) {
   // improve school campatibility with defaults and edge-cases
   const schoolEdgeCase: SchoolEdgeCase = school.edgeCase
@@ -68,13 +68,13 @@ export default async function login(
     })
 
     // Check captcha
-    const addtionalParams = `?username=${user.username}&ltId=${
-      hiddenInputNameValueMap.lt || ''
-    }&_=${Date.now()}`
+    const addtionalParams =
+      `?username=${user.username}&ltId=${hiddenInputNameValueMap.lt
+        || ''}&_=${Date.now()}`
     needCaptcha = (
       await (
         await fetch.get(
-          `${school.authOrigin}${schoolEdgeCase.checkCaptchaPath}${addtionalParams}`
+          `${school.authOrigin}${schoolEdgeCase.checkCaptchaPath}${addtionalParams}`,
         )
       ).text()
     ).includes('true')
@@ -110,11 +110,9 @@ export default async function login(
   // Handle captcha
   while (true) {
     if (needCaptcha) {
-      const captchaUrl = `${school.authOrigin}${
-        schoolEdgeCase.getCaptchaPath
-      }?username=${user.username}&ltId=${
-        hiddenInputNameValueMap.lt ?? ''
-      }&_=${Date.now()}`
+      const captchaUrl =
+        `${school.authOrigin}${schoolEdgeCase.getCaptchaPath}?username=${user.username}&ltId=${hiddenInputNameValueMap
+          .lt ?? ''}&_=${Date.now()}`
       log.warn({
         message: '登录需要验证码',
         suffix: `@${name}`,
@@ -150,12 +148,13 @@ export default async function login(
         const source: SliderCaptchaGetResult = await response.json()
         const percentage = await sliderCaptchaRecognizer(
           source.bigImage,
-          source.smallImage
+          source.smallImage,
         )
         const sliderCanvasLength = schoolEdgeCase.sliderCanvasLength ?? 280
         if (percentage) {
           const moveLength = Math.floor(sliderCanvasLength * percentage)
-          const verifySliderUrl = `${school.authOrigin}${schoolEdgeCase.verifySliderCaptchaPath}?canvasLength=${sliderCanvasLength}&moveLength=${moveLength}`
+          const verifySliderUrl =
+            `${school.authOrigin}${schoolEdgeCase.verifySliderCaptchaPath}?canvasLength=${sliderCanvasLength}&moveLength=${moveLength}`
           log.warn({
             message: `开始滑块验证，移动比例：${moveLength} / ${sliderCanvasLength}`,
             suffix: `@${name}`,

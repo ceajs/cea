@@ -28,15 +28,15 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@beetcb/sstore": "^0.2.0",
-    "@ceajs/slider-captcha": "^0.0.0",
+    "@beetcb/sstore": "^0.3.0",
+    "@ceajs/slider-captcha": "^0.0.1",
     "@iarna/toml": "^2.2.5",
     "cheerio": "^1.0.0-rc.10",
     "node-fetch": "^2.6.5",
     "signale": "^1.4.0",
     "terminal-image": "^2.0.0",
     "tesseract.js": "^2.1.5",
-    "user-agents": "^1.0.799"
+    "user-agents": "^1.0.856"
   },
   "devDependencies": {
     "@types/node-fetch": "^2.5.12",

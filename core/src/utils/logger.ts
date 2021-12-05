@@ -25,24 +25,18 @@ const log: LogRouter = {
   notify,
 }
 
-const logProxiedRouter = new Proxy(
-  log as typeof log & {
-    notify: () => Promise<void>
-    object: (obj: { [K: string]: string }) => void
-  },
-  {
-    get(target, prop, receiver) {
-      if (prop === 'error' || prop === 'success' || prop === 'warn') {
-        if (isNotificationEnabled) {
-          return (...args: any[]) => {
-            saveNotifications(args)
-            target[prop].apply(target, args)
-          }
+const logProxiedRouter = new Proxy(log, {
+  get(target, prop, receiver) {
+    if (prop === 'error' || prop === 'success' || prop === 'warn') {
+      if (isNotificationEnabled) {
+        return (...args: any[]) => {
+          saveNotifications(args)
+          target[prop].apply(target, args)
         }
       }
-      return Reflect.get(target, prop, receiver)
-    },
+    }
+    return Reflect.get(target, prop, receiver)
   },
-)
+})
 
 export default logProxiedRouter

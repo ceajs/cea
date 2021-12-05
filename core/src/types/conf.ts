@@ -10,6 +10,7 @@ export type UsersConf = {
   readonly users: Array<UserConfOpts>
 }
 export type UserConfOpts = {
+  addr: [''] | [string, string, string]
   readonly username: string
   readonly password: string
   readonly alias: string
@@ -17,7 +18,6 @@ export type UserConfOpts = {
   readonly retry?: number
   readonly captcha?: 'MANUAL' | 'OCR'
   readonly signedDataMonth?: `${number}-${number}`
-  addr: Array<string>
 }
 
 export type SchoolConf = {
@@ -25,8 +25,8 @@ export type SchoolConf = {
 }
 
 export type SchoolConfOpts = {
-  readonly preAuthURL: string
   readonly loginURL?: string
+  readonly preAuthURL: string
   readonly captchaAuthMode: CaptchaAuthMode
   readonly chineseName: string
   readonly defaultAddr: string

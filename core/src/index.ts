@@ -36,7 +36,7 @@ export async function handleCookie() {
       users.map(async (i: UserConfOpts) => {
         const storeCookiePath = `cookie.${i.alias}`
         await handleLogin(i, storeCookiePath)
-      })
+      }),
     )
   } else {
     log.error('请先加载用户 <cea load>')
@@ -46,7 +46,7 @@ export async function handleCookie() {
 async function loginAndStoreCookie(
   school: SchoolConfOpts,
   user: UserConfOpts,
-  storeCookiePath: string
+  storeCookiePath: string,
 ) {
   const result = await login(school, user)
   if (result) {

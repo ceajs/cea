@@ -11,6 +11,14 @@ const { prompt } = enquirer
   const argv2 = process.argv[3]
 
   switch (argv) {
+    case 'get': {
+      if (argv2) {
+        console.log(sstore.get(argv2))
+      } else {
+        console.error('Please specify <schools | users>')
+      }
+      break
+    }
     case 'user': {
       const users = await promptToGetConf()
       if (users) {
@@ -21,8 +29,10 @@ const { prompt } = enquirer
     case 'rm': {
       if (argv2 === 'all') {
         sstore.clear()
-      } else {
+      } else if (argv2) {
         sstore.del(argv2)
+      } else {
+        console.error('Please specify <schools | users | all>')
       }
       break
     }
@@ -44,11 +54,16 @@ const { prompt } = enquirer
   Usage: cea <command>
 
   All Commands: 
-        user      create|delete user
-        sign      campusphere check in
-        attendance  attendance check in
-        load      load config info from conf.toml
-        rm        remove stored config feilds
+        user      
+            interactively create|delete user
+        sign      
+            sign tasks check in
+        attendance  
+            attendance tasks check in
+        load <path>
+            load config info from conf.toml path
+        rm <schools | users | all>  remove stored config feilds
+        get <schools | users> display stored config feilds
   `)
       break
     }
@@ -120,7 +135,7 @@ async function promptToGetConf(): Promise<UsersConf['users'] | null> {
         initial: [''],
       }
       const { addr } = (await prompt([list]).catch((_) => _)) as {
-        addr: Array<string>
+        addr: [string, string, string]
       }
       addUser.addr = addr
       if (!loadedUsers.some((e) => e.alias === addUser.alias)) {

@@ -34,7 +34,7 @@ export async function getSchoolInfos({
   const isSchoolAddrNeeded = users.find((e) => e.addr.length === 1)
   for (const abbreviation of schoolNamesSet) {
     res = (await fetch(
-      `https://mobile.campushoy.com/v6/config/guest/tenant/info?ids=${abbreviation}`
+      `https://mobile.campushoy.com/v6/config/guest/tenant/info?ids=${abbreviation}`,
     ).catch(log.error)) as Response
 
     const data = (await res.json().catch(log.error)).data?.[0] as StringKV
@@ -51,9 +51,11 @@ export async function getSchoolInfos({
     }
     if (isSchoolAddrNeeded) {
       res = (await fetch(
-        `https://api.map.baidu.com/?qt=s&wd=${encodeURIComponent(
-          data.name
-        )}&ak=E4805d16520de693a3fe707cdc962045&rn=10&ie=utf-8&oue=1&fromproduct=jsapi&res=api`
+        `https://api.map.baidu.com/?qt=s&wd=${
+          encodeURIComponent(
+            data.name,
+          )
+        }&ak=E4805d16520de693a3fe707cdc962045&rn=10&ie=utf-8&oue=1&fromproduct=jsapi&res=api`,
       ).catch(log.error)) as Response
       const addrInfo = (await res.json()) as {
         content: Array<{ addr: string; blinfo?: Array<string> }>
@@ -65,9 +67,11 @@ export async function getSchoolInfos({
 
     // Get Edge-cases
     const edgeCaseRes = await fetch(
-      `https://cea.beetcb.com/api/edge-case?name=${encodeURIComponent(
-        data.name
-      )}&c=${isCloud ? 'true' : ''}`
+      `https://cea.beetcb.com/api/edge-case?name=${
+        encodeURIComponent(
+          data.name,
+        )
+      }&c=${isCloud ? 'true' : ''}`,
     ).catch(log.error)
     if (edgeCaseRes?.ok) {
       const edgeCase = (await edgeCaseRes.json()) as SchoolEdgeCase
@@ -82,9 +86,7 @@ export async function getSchoolInfos({
         edgeCase,
       }
       log.success(
-        `学校 ${data.name} 已完成设定，接入方式为 ${
-          isCloud ? 'CLOUD' : 'NOTCLOUD'
-        }`
+        `学校 ${data.name} 已完成设定，接入方式为 ${isCloud ? 'CLOUD' : 'NOTCLOUD'}`,
       )
     } else {
       throw new Error('Failed to get school edge case!')
