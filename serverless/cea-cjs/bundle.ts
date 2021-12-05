@@ -9,6 +9,7 @@ const esmPkgs = [
   '@ceajs/check-in-helper',
   '@ceajs/attendance-plugin',
   '@ceajs/sign-plugin',
+  '@ceajs/slider-captcha',
   'app-path',
   'terminal-image',
 ]
@@ -19,24 +20,24 @@ const getPkgPath = (l: string) =>
     '..',
     '..',
     '..',
-    `${l}/package.json`,
+    `${l}/package.json`
   )
 
 const ceaCoreDeps = JSON.parse(
-  fs.readFileSync(getPkgPath('core'), { encoding: 'utf8' }),
+  fs.readFileSync(getPkgPath('core'), { encoding: 'utf8' })
 )?.dependencies
 const ceaCLIDeps = JSON.parse(
-  fs.readFileSync(getPkgPath('internal'), { encoding: 'utf8' }),
+  fs.readFileSync(getPkgPath('internal'), { encoding: 'utf8' })
 )?.dependencies
 const ceaCheckIn = JSON.parse(
-  fs.readFileSync(getPkgPath('plugins/check-in-helper'), { encoding: 'utf8' }),
+  fs.readFileSync(getPkgPath('plugins/check-in-helper'), { encoding: 'utf8' })
 )?.dependencies
 const ceaSignPlugin = JSON.parse(
-  fs.readFileSync(getPkgPath('plugins/sign'), { encoding: 'utf8' }),
+  fs.readFileSync(getPkgPath('plugins/sign'), { encoding: 'utf8' })
 )?.dependencies
 
 const ceaAttendancePlugin = JSON.parse(
-  fs.readFileSync(getPkgPath('plugins/attendance'), { encoding: 'utf8' }),
+  fs.readFileSync(getPkgPath('plugins/attendance'), { encoding: 'utf8' })
 )?.dependencies
 
 const externalDeps = [
@@ -47,7 +48,7 @@ const externalDeps = [
   ...Object.entries(ceaCLIDeps),
 ]?.filter(([depName]: [string, string]) => !esmPkgs.includes(depName))
 
-console.log(externalDeps)
+externalDeps.push(['opencv-wasm', '^4.3.0-10'], ['sharp', '^0.29.3'])
 
 esbuild
   .build({
@@ -57,7 +58,7 @@ esbuild
     platform: 'node',
     target: 'node11',
     outfile: 'lib/src/index.js',
-    minify: true,
+    // minify: true,
     inject: ['./esbuild/inject.ts'],
     define: {
       'import.meta.url': 'importMetaURL',
@@ -67,7 +68,7 @@ esbuild
   .then(console.log)
 
 const curPackageJSON = JSON.parse(
-  fs.readFileSync('./package.json', { encoding: 'utf8' }),
+  fs.readFileSync('./package.json', { encoding: 'utf8' })
 )
 for (const dep of externalDeps) {
   const [depName, depValue] = dep
@@ -78,3 +79,5 @@ for (const dep of externalDeps) {
 }
 
 fs.writeFileSync('./package.json', JSON.stringify(curPackageJSON, null, 2))
+
+console.log({ needsToBeBundled: esmPkgs, externalDeps })
