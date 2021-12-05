@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/ceajs/cea/compare/@ceajs/core@1.2.0...@ceajs/core@1.2.1) (2021-12-05)
+
+
+### Performance Improvements
+
+* fix opencv performance issue by using dynamic import ([4983b2a](https://github.com/ceajs/cea/commit/4983b2a42d2a3e06cb35e16cee722c4e7d4fc26e))
+
+
+
+
+
 # [1.2.0](https://github.com/ceajs/cea/compare/@ceajs/core@1.1.0...@ceajs/core@1.2.0) (2021-12-05)
 
 
