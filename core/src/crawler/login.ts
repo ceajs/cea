@@ -199,8 +199,7 @@ export default async function login(
         }
       } else {
         log.error({
-          message: `登录失败，请尝试本地登录此地址以确保账号密码正确 @${name}
-               ${school.preAuthURL}`,
+          message: `登录失败，请尝试本地登录 ${school.preAuthURL} 以确保账号密码正确 @${name}`,
         })
       }
       return
