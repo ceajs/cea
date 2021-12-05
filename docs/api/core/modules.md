@@ -41,7 +41,7 @@
 
 #### Defined in
 
-[src/types/cookie.ts:3](https://github.com/ceajs/cea/blob/a82f96f/core/src/types/cookie.ts#L3)
+[src/types/cookie.ts:3](https://github.com/ceajs/cea/blob/4983b2a/core/src/types/cookie.ts#L3)
 
 ___
 
@@ -55,7 +55,7 @@ ___
 
 #### Defined in
 
-[src/types/conf.ts:17](https://github.com/ceajs/cea/blob/a82f96f/core/src/types/conf.ts#L17)
+[src/types/conf.ts:23](https://github.com/ceajs/cea/blob/4983b2a/core/src/types/conf.ts#L23)
 
 ___
 
@@ -68,6 +68,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `authOrigin` | `string` |
+| `captchaAuthMode` | `CaptchaAuthMode` |
 | `chineseName` | `string` |
 | `defaultAddr` | `string` |
 | `edgeCase` | `SchoolEdgeCase` |
@@ -77,7 +78,7 @@ ___
 
 #### Defined in
 
-[src/types/conf.ts:21](https://github.com/ceajs/cea/blob/a82f96f/core/src/types/conf.ts#L21)
+[src/types/conf.ts:27](https://github.com/ceajs/cea/blob/4983b2a/core/src/types/conf.ts#L27)
 
 ___
 
@@ -91,7 +92,7 @@ ___
 
 #### Defined in
 
-[src/types/helper.ts:1](https://github.com/ceajs/cea/blob/a82f96f/core/src/types/helper.ts#L1)
+[src/types/helper.ts:1](https://github.com/ceajs/cea/blob/4983b2a/core/src/types/helper.ts#L1)
 
 ___
 
@@ -103,17 +104,18 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `addr` | `string`[] |
+| `addr` | [``""``] \| [`string`, `string`, `string`] |
 | `alias` | `string` |
 | `captcha?` | ``"MANUAL"`` \| ``"OCR"`` |
 | `password` | `string` |
+| `retry?` | `number` |
 | `school` | `string` |
 | `signedDataMonth?` | \`${number}-${number}\` |
 | `username` | `string` |
 
 #### Defined in
 
-[src/types/conf.ts:7](https://github.com/ceajs/cea/blob/a82f96f/core/src/types/conf.ts#L7)
+[src/types/conf.ts:12](https://github.com/ceajs/cea/blob/4983b2a/core/src/types/conf.ts#L12)
 
 ___
 
@@ -130,17 +132,17 @@ ___
 
 #### Defined in
 
-[src/types/conf.ts:3](https://github.com/ceajs/cea/blob/a82f96f/core/src/types/conf.ts#L3)
+[src/types/conf.ts:8](https://github.com/ceajs/cea/blob/4983b2a/core/src/types/conf.ts#L8)
 
 ## Variables
 
 ### log
 
-• **log**: `LogRouter` & { `notify`: () => `Promise`<`void`\> ; `object`: (`obj`: { [K: string]: `string`;  }) => `void`  }
+• **log**: `LogRouter`
 
 #### Defined in
 
-[src/utils/logger.ts:28](https://github.com/ceajs/cea/blob/a82f96f/core/src/utils/logger.ts#L28)
+[src/utils/logger.ts:28](https://github.com/ceajs/cea/blob/4983b2a/core/src/utils/logger.ts#L28)
 
 ## Functions
 
@@ -163,7 +165,7 @@ Parse http response headers' cookie
 
 #### Defined in
 
-[src/utils/cookie-helper.ts:7](https://github.com/ceajs/cea/blob/a82f96f/core/src/utils/cookie-helper.ts#L7)
+[src/utils/cookie-helper.ts:7](https://github.com/ceajs/cea/blob/4983b2a/core/src/utils/cookie-helper.ts#L7)
 
 ___
 
@@ -186,7 +188,7 @@ Construct a cookie object based on host
 
 #### Defined in
 
-[src/utils/cookie-helper.ts:50](https://github.com/ceajs/cea/blob/a82f96f/core/src/utils/cookie-helper.ts#L50)
+[src/utils/cookie-helper.ts:50](https://github.com/ceajs/cea/blob/4983b2a/core/src/utils/cookie-helper.ts#L50)
 
 ___
 
@@ -206,7 +208,7 @@ ___
 
 #### Defined in
 
-[src/conf.ts:27](https://github.com/ceajs/cea/blob/a82f96f/core/src/conf.ts#L27)
+[src/conf.ts:30](https://github.com/ceajs/cea/blob/4983b2a/core/src/conf.ts#L30)
 
 ___
 
@@ -222,13 +224,19 @@ Iterate through all users: complete unified auth -> store cookie
 
 #### Defined in
 
-[src/index.ts:32](https://github.com/ceajs/cea/blob/a82f96f/core/src/index.ts#L32)
+[src/index.ts:32](https://github.com/ceajs/cea/blob/4983b2a/core/src/index.ts#L32)
 
 ___
 
 ### loadConfFromToml
 
-▸ **loadConfFromToml**(): [`UsersConf`](modules.md#usersconf) \| ``null``
+▸ **loadConfFromToml**(`customPath?`): [`UsersConf`](modules.md#usersconf) \| ``null``
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `customPath?` | `string` |
 
 #### Returns
 
@@ -236,4 +244,4 @@ ___
 
 #### Defined in
 
-[src/conf.ts:14](https://github.com/ceajs/cea/blob/a82f96f/core/src/conf.ts#L14)
+[src/conf.ts:15](https://github.com/ceajs/cea/blob/4983b2a/core/src/conf.ts#L15)
