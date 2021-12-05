@@ -1,5 +1,6 @@
 import fs from 'node:fs'
-import { resolve } from 'node:path'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 import * as toml from '@iarna/toml'
 import fetch from 'node-fetch'
@@ -11,15 +12,17 @@ import type { SchoolConf, UsersConf } from './types/conf'
 import type { SchoolEdgeCase } from './types/edge-case'
 import type { StringKV } from './types/helper'
 
-export function loadConfFromToml(): UsersConf | null {
-  const path = resolve('./conf.toml')
-  if (fs.existsSync(path)) {
-    const usersConf = parse(fs.readFileSync(path, 'utf8')) as UsersConf
+export function loadConfFromToml(customPath?: string): UsersConf | null {
+  const resolvedPath = path.join(process.cwd(), customPath ?? './conf.toml')
+  if (fs.existsSync(resolvedPath)) {
+    const usersConf = parse(fs.readFileSync(resolvedPath, 'utf8')) as UsersConf
     log.success({
       message: '成功加载用户',
       suffix: `${usersConf.users.map((u) => `@${u.alias}`).join(' ')}`,
     })
     return usersConf
+  } else {
+    log.error('配置文件不存在')
   }
   return null
 }

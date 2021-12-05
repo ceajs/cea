@@ -1,26 +1,31 @@
-## 配置文件的创建
+## 配置文件的路径
 
-首先我们需要在当前工作目录下创建名为 `conf.toml` 的配置文件，该配置文件将在加载后得到如下的数据结构：
+Cea 默认配置文件在当前工作根目录下，并命名为 `conf.toml`
 
-  ```ts
-  type UsersConf = {
-    readonly notifier?: [`${number}`, string, string]
-    readonly users: Array<UserConfOpts>
-  }
-
-  type UserConfOpts = {
-    addr: [''] | [string, string, string]
-    readonly username: string
-    readonly password: string
-    readonly alias: string
-    readonly school: string
-    readonly retry?: number
-    readonly captcha?: 'MANUAL' | 'OCR'
-    readonly signedDataMonth?: `${number}-${number}`
-  }
-  ```
+- **使用命令行加载配置**：可以通过 `cea load [path]` 中 `path` 指定配置文件地路径
+- **使用代码执行签到**：无需手动配置，Cea 会自动加载默认路径下的配置文件(以防配置文件变动更新)，此方式不可自定义路径
 
 ## 配置字段说明
+
+配置文件采用如下的数据结构：
+
+```ts
+type UsersConf = {
+  readonly notifier?: [`${number}`, string, string]
+  readonly users: Array<UserConfOpts>
+}
+
+type UserConfOpts = {
+  addr: [''] | [string, string, string]
+  readonly username: string
+  readonly password: string
+  readonly alias: string
+  readonly school: string
+  readonly retry?: number
+  readonly captcha?: 'MANUAL' | 'OCR'
+  readonly signedDataMonth?: `${number}-${number}`
+}
+```
 
 可以很清晰地看到，我们主要配置的是一个用户数组，每个用户有不同地配置项，下面我们就来看看各个配置项：
 
@@ -82,7 +87,6 @@ school = "whpu"
 +school = "whu"
 ```
 
-
 跟上面的模式一样，`[[users]]` 表示在用户数组中添加一个 ，然后开始各字段的配置
 
 最重要的用户组配置完毕，我们还可以选择**日志推送服务**，目前推送是基于微信的，配合 [pushplus](http://pushplus.hxtrip.com/message) 可在几秒钟内完成配置。具体操作是，去 [pushplus](http://pushplus.hxtrip.com/message) 微信登录，获取 `token`，然后修改我们的配置文件，加上 `notifier` 字段：
@@ -102,6 +106,7 @@ school = "whu"
 ```
 
 除此之外，对于签到需要上传图片的情况，请确保至少成功签到过一次，然后配置好 signedDataMouth 字段：
+
 ```diff
 # 填入成功历史签到中存在成功签到的月份，格式严格遵循 YYYY-MM，默认值为 2020-11，如果你在此月有成功签到记录，可以省此字段的配置
 +signedDataMouth = "2021-10"

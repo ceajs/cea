@@ -45,7 +45,7 @@ const { prompt } = enquirer
       break
     }
     case 'load': {
-      await confSet()
+      await confSet(null, argv2)
       break
     }
 
@@ -60,8 +60,8 @@ const { prompt } = enquirer
             sign tasks check in
         attendance  
             attendance tasks check in
-        load <path>
-            load config info from conf.toml path
+        load [path]
+            load config info from path, or default to \`./conf.json\`
         rm <schools | users | all>  remove stored config feilds
         get <schools | users> display stored config feilds
   `)
