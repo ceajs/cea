@@ -1,7 +1,8 @@
 exports.main = () => {
   // 导入 Cea 和内置的签到插件中的函数 checkIn
   const { default: Cea, checkIn, attendanceCheckIn } = require(
-    '../cea-cjs/lib/src/index',
+    // '../cea-cjs/lib/src/index',
+    'cea'
   )
   // 创建 Cea 的实例
   const cea = new Cea()
