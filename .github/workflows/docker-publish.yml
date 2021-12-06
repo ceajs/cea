@@ -3,7 +3,7 @@ name: Docker
 on:
   push:
     paths: 
-      - 'internal/package.json'
+      - 'src/internal/package.json'
       - 'docker/*'
 
   # Run tests for any PRs.
