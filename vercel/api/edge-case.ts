@@ -1,12 +1,13 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
-import * as edgeCases from '../data/school-edge-cases.json'
+import edgeCases from '../data/school-edge-cases.json'
 
 export default async function getSchoolId(
   req: VercelRequest,
   res: VercelResponse,
-): Promise<null> {
+): Promise<VercelResponse> {
   const { name: schoolChineseName, c: isCloud } = req.query
   const { CLOUD, NOTCLOUD } = edgeCases
+  console.log(edgeCases)
   if (schoolChineseName) {
     const data = isCloud ? CLOUD : NOTCLOUD
     for (
@@ -16,7 +17,7 @@ export default async function getSchoolId(
     ) {
       data[key] = value
     }
-    res.json(data)
+    return res.json(data)
   }
-  return null
+  return res.json({ error: 'School name not found!' })
 }
