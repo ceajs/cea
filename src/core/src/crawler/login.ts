@@ -30,6 +30,8 @@ export default async function login(
 
   const headers: StringKV = {
     'user-agent': new UserAgent({ deviceCategory: 'desktop' }).toString(),
+    accept:
+      'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
     'upgrade-insecure-requests': '1',
   }
 
@@ -66,6 +68,14 @@ export default async function login(
         pwdSalt = value
       }
     })
+
+    if (!pwdSalt) {
+      log.error({
+        message: `登录表单有误(当前 formIdx = ${school.edgeCase.formIdx})`,
+        suffix: `@${name}`,
+      })
+      return
+    }
 
     // Check captcha
     const addtionalParams =

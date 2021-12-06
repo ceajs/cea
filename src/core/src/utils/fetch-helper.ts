@@ -12,6 +12,7 @@ export default class FetchWithCookie {
   private headers: StringKV
   private cookieMap?: CookieMap
   private lastRes?: Response
+  private referer?: string
   lastRedirectUrl?: string
   redirectUrl?: string
   constructor(headers: StringKV) {
@@ -44,7 +45,7 @@ export default class FetchWithCookie {
     const { headers } = this
 
     headers.origin = origin
-    headers.referer = origin
+    headers.referer = this.redirectUrl ?? origin
     headers.host = host
     headers.cookie = this.cookieMap ? cookieStr(host, this.cookieMap)! : ''
 
@@ -66,6 +67,7 @@ export default class FetchWithCookie {
     this.lastRedirectUrl = this.redirectUrl
     this.redirectUrl = res.headers.get('location') || undefined
     this.lastRes = res
+    this.referer = url
     this.updateMap(cookieParse(host, res.headers))
     return res
   }

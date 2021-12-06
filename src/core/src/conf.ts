@@ -11,8 +11,10 @@ import type { Response } from 'node-fetch'
 import type { SchoolConf, UsersConf } from './types/conf'
 import type { SchoolEdgeCase } from './types/edge-case'
 import type { StringKV } from './types/helper'
+import { sstore } from './index.js'
 
 export function loadConfFromToml(customPath?: string): UsersConf | null {
+  sstore.clear()
   const resolvedPath = path.join(process.cwd(), customPath ?? './conf.toml')
   if (fs.existsSync(resolvedPath)) {
     const usersConf = parse(fs.readFileSync(resolvedPath, 'utf8')) as UsersConf

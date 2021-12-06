@@ -8,10 +8,11 @@
     "docs": "esmo build/docs.ts",
     "prebuild": "dprint fmt",
     "build": "tsc --build",
-    "build:debug": "lerna run build:debug",
+    "build:debug": "tsc --build",
     "test": "jest",
     "pub": "npm run build && env-cmd lerna publish",
-    "dry": "lerna exec -- npm pack --json --dry-run"
+    "dry": "lerna exec -- npm pack --json --dry-run",
+    "cea": "node src\\internal\\lib\\src\\cli.js"
   },
   "keywords": [
     "campusphere",
@@ -38,7 +39,6 @@
     "conventional-changelog-cli": "^2.1.1",
     "env-cmd": "^10.1.0",
     "esbuild": "^0.13.13",
-    "esno": "^0.12.0",
     "globby-cli": "^1.0.1",
     "lerna": "^4.0.0",
     "ts-jest": "^27.0.7",

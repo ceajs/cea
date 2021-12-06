@@ -1,8 +1,8 @@
 {
   "packages": [
-    "core",
-    "internal",
-    "plugins/*"
+    "src/core",
+    "src/internal",
+    "src/plugins/*"
   ],
   "version": "independent",
   "command": {

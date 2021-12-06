@@ -8,31 +8,31 @@
       "type": "pwa-node",
       "request": "launch",
       "name": "Sign Check In Test",
-      "skipFiles": ["<node_internals>/**"],
+      "skipFiles": ["**/node_modules/**"],
       "preLaunchTask": "npm: build:debug",
-      "program": "${workspaceFolder}/internal/src/cli.ts",
+      "program": "${workspaceFolder}/src/internal/src/cli.ts",
       "args": ["sign"],
-      "outFiles": ["${workspaceFolder}/**/*.js"]
+      "outFiles": ["${workspaceFolder}/src/**/*.js"]
     },
     {
       "type": "pwa-node",
       "request": "launch",
       "name": "Attendance Check In Test",
-      "skipFiles": ["<node_internals>/**"],
+      "skipFiles": ["**/node_modules/**"],
       "preLaunchTask": "npm: build:debug",
-      "program": "${workspaceFolder}/internal/src/cli.ts",
+      "program": "${workspaceFolder}/src/internal/src/cli.ts",
       "args": ["attendance"],
-      "outFiles": ["${workspaceFolder}/**/*.js"]
+      "outFiles": ["${workspaceFolder}/src/**/*.js"]
     },
     {
       "type": "pwa-node",
       "request": "launch",
       "name": "Load Config Test",
-      "skipFiles": ["<node_internals>/**"],
+      "skipFiles": ["**/node_modules/**"],
       "preLaunchTask": "npm: build:debug",
-      "program": "${workspaceFolder}/internal/src/cli.ts",
+      "program": "${workspaceFolder}/src/internal/src/cli.ts",
       "args": ["load"],
-      "outFiles": ["${workspaceFolder}/**/*.js"]
+      "outFiles": ["${workspaceFolder}/src/**/*.js"]
     }
   ]
 }

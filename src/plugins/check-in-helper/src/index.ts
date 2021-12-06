@@ -125,9 +125,9 @@ export class CheckIn {
       : ''
 
     const placeList = signPlaceSelected[0]
-    const isSignAtHome = !Boolean(school.defaultAddr)
-    const [longitude, latitude, position] = isSignAtHome
-      ? this.user.addr
+    const customAddr = this.user.addr
+    const [longitude, latitude, position] = customAddr.length === 3
+      ? customAddr
       : [placeList.longitude, placeList.latitude, school.defaultAddr]
 
     const extraFieldItems = extraField
