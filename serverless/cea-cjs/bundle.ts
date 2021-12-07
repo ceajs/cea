@@ -20,6 +20,7 @@ const getPkgPath = (l: string) =>
     '..',
     '..',
     '..',
+    'src',
     `${l}/package.json`,
   )
 

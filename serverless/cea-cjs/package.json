@@ -1,6 +1,6 @@
 {
   "name": "cea",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "cea with legacy node(<12.20.0) support",
   "node": "<12.20.0",
   "main": "lib/src/index.js",
@@ -28,7 +28,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "cea": "^2.4.1",
+    "cea": "^2.4.2",
     "esbuild": "^0.13.13",
     "esbuild-plugin-replace": "^1.0.7",
     "esbuild-plugin-text-replace": "^1.1.3",
