@@ -13,5 +13,3 @@ exports.main = () => {
   // 执行签到脚本
   cea.start()
 }
-
-exports.main()
