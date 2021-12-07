@@ -10,8 +10,9 @@ export default async function getSchoolId(
 
   if (schoolChineseName) {
     const data = isCloud ? CLOUD : NOTCLOUD
+    const decoded = decodeURIComponent(schoolChineseName as string)
     for (const [key, value] of Object.entries(
-      edgeCases[decodeURIComponent(schoolChineseName as string)] ?? {}
+      edgeCases[decoded] ?? {}
     )) {
       data[key] = value
     }
