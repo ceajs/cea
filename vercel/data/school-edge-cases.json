@@ -8,7 +8,7 @@
     "formIdx": 0,
     "checkCaptchaPath": "/needCaptcha.html",
     "getCaptchaPath": "/captcha.html",
-    "submitCaptchakey": "captcha"
+    "submitCaptchakey": "captchaResponse"
  },
   "福建中医药大学": {
     "formIdx": 0,
