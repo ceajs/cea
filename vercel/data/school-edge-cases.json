@@ -33,6 +33,7 @@
     "submitCaptchakey": "captcha"
   },
   "NOTCLOUD": {
+    "submitCaptchakey": "captcha",
     "getCaptchaPath": "/getCaptcha.htl",
     "checkCaptchaPath": "/checkNeedCaptcha.htl",
     "formIdx": 2,
