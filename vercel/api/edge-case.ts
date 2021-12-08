@@ -3,7 +3,7 @@ import edgeCases from '../data/school-edge-cases.json'
 
 export default async function getSchoolId(
   req: VercelRequest,
-  res: VercelResponse
+  res: VercelResponse,
 ): Promise<VercelResponse> {
   const { name: schoolChineseName, c: isCloud } = req.query
   const { CLOUD, NOTCLOUD } = edgeCases
@@ -11,9 +11,11 @@ export default async function getSchoolId(
   if (schoolChineseName) {
     const data = isCloud ? CLOUD : NOTCLOUD
     const decoded = decodeURIComponent(schoolChineseName as string)
-    for (const [key, value] of Object.entries(
-      edgeCases[decoded] ?? {}
-    )) {
+    for (
+      const [key, value] of Object.entries(
+        edgeCases[decoded] ?? {},
+      )
+    ) {
       data[key] = value
     }
     return res.json(data)

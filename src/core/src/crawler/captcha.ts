@@ -41,7 +41,7 @@ async function download(url: string, filename: string): Promise<string> {
   return result as string
 }
 
-async function ocr(captchaUrl: string) {
+async function ocr(captchaUrl: string | Buffer) {
   await downloadTessdata()
   const worker = createWorker({
     langPath: '/tmp',
@@ -66,13 +66,12 @@ export async function captchaHandler(
   fetch: FetchWithCookie,
   mode: UserConfOpts['captcha'],
 ): Promise<string> {
+  const body = await fetch.get(url).then((res) => res.buffer())
   if (mode === 'MANUAL') {
-    const body = await fetch.get(url).then((res) => res.buffer())
     // Save image to localhost, backup plan
     fs.writeFile('/tmp/captcha.jpg', body, function(err) {
       if (err) console.error(err)
     })
-
     // Manually input captcha by user
     console.log(await terminalImage.buffer(body))
     console.log(`手动输入验证码模式,验证码图片保存至 /tmp/captcha.jpg`)
@@ -84,6 +83,6 @@ export async function captchaHandler(
       })
     })
   } else {
-    return (await ocr(url)).replace(/\s/g, '')
+    return (await ocr(body)).replace(/\s/g, '')
   }
 }

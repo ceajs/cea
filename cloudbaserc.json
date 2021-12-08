@@ -22,11 +22,6 @@
                   "name": "sign",
                   "type": "timer",
                   "config": "0 0 6 * * * *"
-                },
-                {
-                  "name": "attendance",
-                  "type": "timer",
-                  "config": "0 0 21 * * * *"
                 }
               ]
             }
