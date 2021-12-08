@@ -7,8 +7,7 @@
  "福建农林大学": {
     "formIdx": 0,
     "checkCaptchaPath": "/needCaptcha.html",
-    "getCaptchaPath": "/captcha.html",
-    "submitCaptchakey": "captchaResponse"
+    "getCaptchaPath": "/captcha.html"
  },
   "福建中医药大学": {
     "formIdx": 0,
