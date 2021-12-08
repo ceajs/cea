@@ -5,9 +5,10 @@
     "getCaptchaPath": "/captcha.html"
   },
  "福建农林大学": {
-    "formIdx": 1,
+    "formIdx": 0,
     "checkCaptchaPath": "/needCaptcha.html",
-    "getCaptchaPath": "/captcha.html"
+    "getCaptchaPath": "/captcha.html",
+    "submitCaptchakey": "captcha"
  },
   "福建中医药大学": {
     "formIdx": 0,
