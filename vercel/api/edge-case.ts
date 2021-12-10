@@ -11,8 +11,8 @@ export default async function getSchoolId(
   if (schoolChineseName) {
     const data = isCloud ? CLOUD : NOTCLOUD
     for (
-      const [key, value] of Object.entries(
-        edgeCases[schoolChineseName as string] ?? {},
+       const [key, value] of Object.entries(
+        edgeCases[decoded] ?? {},
       )
     ) {
       data[key] = value
