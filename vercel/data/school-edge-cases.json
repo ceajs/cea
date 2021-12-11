@@ -5,6 +5,7 @@
     "getCaptchaPath": "/captcha.html"
   },
   "福建农林大学": {
+    "submitCaptchakey": "captchaResponse",
     "formIdx": 0,
     "checkCaptchaPath": "/needCaptcha.html",
     "getCaptchaPath": "/captcha.html"
