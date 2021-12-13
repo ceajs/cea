@@ -74,7 +74,7 @@ export async function getSchoolInfos({
 
     // Get Edge-cases
     let edgeCase: any
-    
+
     if (localEdgeCasesFile) {
       localEdgeCasesFile = path.join(cwd, localEdgeCasesFile)
       if (fs.existsSync(localEdgeCasesFile)) {
