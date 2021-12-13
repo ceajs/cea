@@ -12,6 +12,7 @@ Cea 默认配置文件在当前工作根目录下，并命名为 `conf.toml`
 ```ts
 type UsersConf = {
   readonly notifier?: [`${number}`, string, string]
+  readonly localEdgeCasesFile: string
   readonly users: Array<UserConfOpts>
 }
 
@@ -104,6 +105,8 @@ alias = "one"
 addr = [""]
 school = "whu"
 ```
+
+对于<strong id="edge_link">在云平台部署 Cea</strong>或者**想自定义学校边缘情形**的用户，请配置 `localEdgeCasesFile` 字段为本地自定义 JSON 文件的路径，文件内容请参考 [./vercel/data/school-edge-cases.json](https://github.com/ceajs/cea/blob/main/vercel/data/school-edge-cases.json) 文件
 
 除此之外，对于签到需要上传图片的情况，请确保至少成功签到过一次，然后配置好 signedDataMouth 字段：
 

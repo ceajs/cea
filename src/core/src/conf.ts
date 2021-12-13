@@ -1,6 +1,5 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 
 import * as toml from '@iarna/toml'
 import fetch from 'node-fetch'
@@ -13,9 +12,11 @@ import type { SchoolEdgeCase } from './types/edge-case'
 import type { StringKV } from './types/helper'
 import { sstore } from './index.js'
 
+const cwd = process.cwd()
+
 export function loadConfFromToml(customPath?: string): UsersConf | null {
   sstore.clear()
-  const resolvedPath = path.join(process.cwd(), customPath ?? './conf.toml')
+  const resolvedPath = path.join(cwd, customPath ?? './conf.toml')
   if (fs.existsSync(resolvedPath)) {
     const usersConf = parse(fs.readFileSync(resolvedPath, 'utf8')) as UsersConf
     log.success({
@@ -73,7 +74,9 @@ export async function getSchoolInfos({
 
     // Get Edge-cases
     let edgeCase: any
+    
     if (localEdgeCasesFile) {
+      localEdgeCasesFile = path.join(cwd, localEdgeCasesFile)
       if (fs.existsSync(localEdgeCasesFile)) {
         edgeCase = JSON.parse(fs.readFileSync(localEdgeCasesFile, 'utf8'))
       } else {
