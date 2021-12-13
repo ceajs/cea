@@ -1,6 +1,6 @@
 {
   "name": "cea",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "cea with legacy node(<12.20.0) support",
   "node": "<12.20.0",
   "main": "lib/src/index.js",
@@ -27,12 +27,6 @@
     "directory": "internal"
   },
   "license": "MIT",
-  "devDependencies": {
-    "esbuild": "^0.13.13",
-    "esbuild-plugin-replace": "^1.0.7",
-    "esbuild-plugin-text-replace": "^1.1.3",
-    "parcel": "^2.0.1"
-  },
   "dependencies": {
     "@beetcb/sstore": "^0.3.0",
     "@iarna/toml": "^2.2.5",
