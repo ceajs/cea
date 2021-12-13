@@ -7,6 +7,7 @@ export enum CaptchaAuthMode {
 
 export type UsersConf = {
   readonly notifier?: [`${number}`, string, string]
+  readonly localEdgeCasesFile?: string
   readonly users: Array<UserConfOpts>
 }
 export type UserConfOpts = {

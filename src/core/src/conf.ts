@@ -31,6 +31,7 @@ export function loadConfFromToml(customPath?: string): UsersConf | null {
 
 export async function getSchoolInfos({
   users,
+  localEdgeCasesFile,
 }: UsersConf): Promise<SchoolConf | null> {
   let res: Response,
     defaultAddr = '',
@@ -71,31 +72,47 @@ export async function getSchoolInfos({
     const isCloud = data.joinType === 'CLOUD'
 
     // Get Edge-cases
-    const edgeCaseRes = await fetch(
-      `https://cea.beetcb.com/api/edge-case?name=${
-        encodeURIComponent(
-          data.name,
-        )
-      }&c=${isCloud ? 'true' : ''}`,
-    ).catch(log.error)
-    if (edgeCaseRes?.ok) {
-      const edgeCase = (await edgeCaseRes.json()) as SchoolEdgeCase
-      schoolInfos[abbreviation] = {
-        defaultAddr,
-        preAuthURL: `${origin}/portal/login`,
-        loginURL: isCloud ? `${origin}/iap/doLogin` : undefined,
-        chineseName: data.name,
-        captchaAuthMode: edgeCase.getCaptchaPath.includes('slide') ? 1 : 0,
-        authOrigin,
-        isCloud,
-        edgeCase,
+    let edgeCase: any
+    if (localEdgeCasesFile) {
+      if (fs.existsSync(localEdgeCasesFile)) {
+        edgeCase = JSON.parse(fs.readFileSync(localEdgeCasesFile, 'utf8'))
+      } else {
+        log.error('Edge-Cases 文件不存在')
+        return null
       }
-      log.success(
-        `学校 ${data.name} 已完成设定，接入方式为 ${isCloud ? 'CLOUD' : 'NOTCLOUD'}`,
-      )
     } else {
-      throw new Error('Failed to get school edge case!')
+      const edgeCaseRes = await fetch(
+        `https://cea.beetcb.com/api/edge-case?name=${
+          encodeURIComponent(
+            data.name,
+          )
+        }&c=${isCloud ? 'true' : ''}`,
+      ).catch(log.error)
+
+      if (edgeCaseRes?.ok) {
+        edgeCase = (await edgeCaseRes.json()) as SchoolEdgeCase
+      } else {
+        log.error('API 获取 Edge-Cases 失败')
+        return null
+      }
     }
+
+    edgeCase = { ...edgeCase, ...edgeCase[isCloud ? 'CLOUD' : 'NOTCLOUD'] }
+
+    schoolInfos[abbreviation] = {
+      defaultAddr,
+      preAuthURL: `${origin}/portal/login`,
+      loginURL: isCloud ? `${origin}/iap/doLogin` : undefined,
+      chineseName: data.name,
+      captchaAuthMode: edgeCase.getCaptchaPath.includes('slide') ? 1 : 0,
+      authOrigin,
+      isCloud,
+      edgeCase,
+    }
+    log.success(
+      `学校 ${data.name} 已完成设定，接入方式为 ${isCloud ? 'CLOUD' : 'NOTCLOUD'}`,
+    )
   }
+
   return schoolInfos
 }

@@ -9,6 +9,7 @@ lib/
 __test__/*.js*
 
 /conf.toml
+/test.json
 .env
 
 .vercel

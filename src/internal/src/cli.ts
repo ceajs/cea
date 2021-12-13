@@ -54,7 +54,7 @@ const { prompt } = enquirer
   Usage: cea <command>
 
   All Commands: 
-        user      
+        user        
             interactively create|delete user
         sign      
             sign tasks check in
