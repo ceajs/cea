@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/ceajs/cea/compare/cea@2.4.2...cea@2.5.0) (2021-12-13)
+
+
+### Features
+
+* support local edge-cases ([ea6117b](https://github.com/ceajs/cea/commit/ea6117b4a89e090051de4241c8e104487be02645))
+
+
+
+
+
 ## [2.4.2](https://github.com/ceajs/cea/compare/cea@2.4.1...cea@2.4.2) (2021-12-06)
 
 **Note:** Version bump only for package cea
