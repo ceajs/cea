@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/ceajs/cea/compare/@ceajs/core@1.3.0...@ceajs/core@1.3.1) (2021-12-14)
+
+
+### Bug Fixes
+
+* object merge order ([4c0e904](https://github.com/ceajs/cea/commit/4c0e904a1a6aef722a467b5e6ae24f88db5a3ecc))
+
+
+
+
+
 # [1.3.0](https://github.com/ceajs/cea/compare/@ceajs/core@1.2.2...@ceajs/core@1.3.0) (2021-12-13)
 
 
