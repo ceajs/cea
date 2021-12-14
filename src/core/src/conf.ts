@@ -73,12 +73,18 @@ export async function getSchoolInfos({
     const isCloud = data.joinType === 'CLOUD'
 
     // Get Edge-cases
-    let edgeCase: any
+    let edgeCase: SchoolEdgeCase
 
     if (localEdgeCasesFile) {
-      localEdgeCasesFile = path.join(cwd, localEdgeCasesFile)
-      if (fs.existsSync(localEdgeCasesFile)) {
-        edgeCase = JSON.parse(fs.readFileSync(localEdgeCasesFile, 'utf8'))
+      const localEdgeCasesPath = path.join(cwd, localEdgeCasesFile)
+      if (fs.existsSync(localEdgeCasesPath)) {
+        const edgeCaseJSON = JSON.parse(
+          fs.readFileSync(localEdgeCasesPath, 'utf8'),
+        )
+        edgeCase = Object.assign(
+          edgeCaseJSON[isCloud ? 'CLOUD' : 'NOTCLOUD'],
+          edgeCaseJSON[data.name],
+        )
       } else {
         log.error('Edge-Cases 文件不存在')
         return null
@@ -99,8 +105,6 @@ export async function getSchoolInfos({
         return null
       }
     }
-
-    edgeCase = { ...edgeCase, ...edgeCase[isCloud ? 'CLOUD' : 'NOTCLOUD'] }
 
     schoolInfos[abbreviation] = {
       defaultAddr,

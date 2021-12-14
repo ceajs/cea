@@ -18,14 +18,12 @@
   "武汉大学": {
     "formIdx": 0,
     "checkCaptchaPath": "/needCaptcha.html",
-    "getCaptchaPath": "/sliderCaptcha.do",
-    "verifySliderCaptchaPath": "/verifySliderImageCode.do"
+    "getCaptchaPath": "/sliderCaptcha.do"
   },
   "华侨大学": {
     "formIdx": 0,
     "checkCaptchaPath": "/needCaptcha.html",
-    "getCaptchaPath": "/sliderCaptcha.do",
-    "verifySliderCaptchaPath": "/verifySliderImageCode.do"
+    "getCaptchaPath": "/sliderCaptcha.do"
   },
   "CLOUD": {
     "getLtPath": "/security/lt",
@@ -35,6 +33,8 @@
   "NOTCLOUD": {
     "getCaptchaPath": "/getCaptcha.htl",
     "checkCaptchaPath": "/checkNeedCaptcha.htl",
+    "verifySliderCaptchaPath": "/verifySliderImageCode.do",
+    "submitCaptchakey": "captcha",
     "formIdx": 2,
     "pwdEncrypt": true
   }
