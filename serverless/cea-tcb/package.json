@@ -1,6 +1,6 @@
 {
   "name": "cea-sign",
-  "version": "1.0.12",
+  "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -16,6 +16,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cea": "^1.1.9"
+    "cea": "^1.1.10"
   }
 }
