@@ -113,8 +113,6 @@ school = "whu"
 除此之外，对于签到需要上传图片的情况，请确保至少成功签到过一次，然后配置好 signedDataMouth 字段：
 
 ```diff
-# 填入成功历史签到中存在成功签到的月份，格式严格遵循 YYYY-MM，默认值为 2020-11，如果你在此月有成功签到记录，可以省此字段的配置
-+signedDataMouth = "2021-10"
 notifier = ["0", "Your Token", "topic"]
 
 [[users]]
@@ -123,6 +121,8 @@ password = "11"
 alias = "one"
 addr = [""]
 school = "whu"
+# 填入成功历史签到中存在成功签到的月份，格式严格遵循 YYYY-MM，默认值为 2020-11，如果你在此月有成功签到记录，可以省此字段的配置
++signedDataMouth = "2021-10"
 ```
 
 好啦！配置教学到此结束，快去使用起来吧！
