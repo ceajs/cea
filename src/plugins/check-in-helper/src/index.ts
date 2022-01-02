@@ -236,7 +236,8 @@ export class CheckIn {
     )
     const tasksInMonth = (await res.json())?.datas as SignTaskInMonth
     if (tasksInMonth?.rows.length) {
-      const signedTaskDay = tasksInMonth.rows.find(
+      // Find valid sign data reversly(use reverse(), giving up performance for readbility)
+      const signedTaskDay = tasksInMonth.rows.reverse().find(
         (row) => row.signedTasks.length,
       )
       if (signedTaskDay) {
