@@ -31,17 +31,17 @@ type CheckInType = keyof typeof CampusphereEndpoint
  */
 export class CheckIn {
   static readonly VERSION = {
-    app: '9.0.12',
-    version: 'first_v2',
+    app: '9.0.14',
+    version: 'first_v3',
     calVersion: 'firstv',
   }
   static readonly EXTENSION_ENCRYPT = {
-    key: 'b3L26XNL',
+    key: 'XCE927==',
     iv: Buffer.from([1, 2, 3, 4, 5, 6, 7, 8]),
     algo: 'des-cbc',
   }
   static readonly FORMBODY_ENCRYPT = {
-    key: 'ytUQ7l2ZZu8mLvJZ',
+    key: 'SASEoK4Pa5d4SssO',
     iv: Buffer.from([1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7]),
     algo: 'aes-128-cbc',
   }
