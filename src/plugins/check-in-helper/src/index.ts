@@ -80,7 +80,7 @@ export class CheckIn {
         method: 'POST',
         headers: this.headers,
         body: JSON.stringify({}),
-      },
+      }
     )
 
     if (res.headers.get('content-type')?.includes('json')) {
@@ -107,7 +107,7 @@ export class CheckIn {
         headers,
         method: 'POST',
         body: JSON.stringify({ signInstanceWid, signWid }),
-      },
+      }
     )
     const signDetails: SignTaskDetail = ((await res.json()) as any).datas
 
@@ -119,19 +119,31 @@ export class CheckIn {
       isMalposition,
     } = signDetails
 
-    // Find the right photo in the signed-in tasks
-    const signPhotoUrl = isPhoto
-      ? (await this.grabSignedData())?.signPhotoUrl ?? ''
-      : ''
-
     const placeList = signPlaceSelected[0]
     const customAddr = this.user.addr
-    const [longitude, latitude, position] = customAddr.length === 3
-      ? customAddr
-      : [placeList.longitude, placeList.latitude, school.defaultAddr]
 
-    const extraFieldItems = extraField
-      ? CheckIn.fillExtra(extraField)
+    let signedTemplate =
+      isPhoto || isNeedExtra ? await this.grabSignedData() : undefined
+
+    // Need signedData but we failed to retrieve it
+    if (signedTemplate === null) {
+      return {
+        [LogInfoKeys.result]:
+          '无法获取历史签到数据作为模板，请检查 signedDataMonth 配置',
+      }
+    }
+
+    const [longitude, latitude, position] =
+      customAddr.length === 3
+        ? customAddr
+        : [placeList.longitude, placeList.latitude, school.defaultAddr]
+
+    // Find the right photo in the signed-in tasks
+    const signPhotoUrl = isPhoto ? signedTemplate?.signPhotoUrl ?? '' : ''
+
+    // Logically, both of these type assertions are infallible
+    const extraFieldItems = isNeedExtra
+      ? CheckIn.fillExtra(extraField!, signedTemplate!)
       : undefined
 
     const formBody: SignFormBody = {
@@ -169,9 +181,9 @@ export class CheckIn {
     const signHash = crypto
       .createHash('md5')
       .update(
-        `${
-          new URLSearchParams(signHashBody as any).toString()
-        }&${CheckIn.FORMBODY_ENCRYPT.key}`,
+        `${new URLSearchParams(signHashBody as any).toString()}&${
+          CheckIn.FORMBODY_ENCRYPT.key
+        }`
       )
       .digest('hex')
 
@@ -189,7 +201,7 @@ export class CheckIn {
         headers,
         method: 'POST',
         body: JSON.stringify(postBody),
-      },
+      }
     )
     const result = (await res.json()) as any
 
@@ -216,7 +228,7 @@ export class CheckIn {
         headers,
         method: 'POST',
         body: JSON.stringify({ signInstanceWid, signWid }),
-      },
+      }
     )
     const signDetails: SignTaskDetail = (await res.json()).datas
     return signDetails
@@ -232,14 +244,14 @@ export class CheckIn {
         body: JSON.stringify({
           statisticYearMonth: user?.signedDataMonth ?? '2021-11',
         }),
-      },
+      }
     )
     const tasksInMonth = (await res.json())?.datas as SignTaskInMonth
     if (tasksInMonth?.rows.length) {
-      // Find valid sign data reversly(use reverse(), giving up performance for readbility)
-      const signedTaskDay = tasksInMonth.rows.reverse().find(
-        (row) => row.signedTasks.length,
-      )
+      // Find valid sign data reversly(sort by date info)
+      const signedTaskDay = tasksInMonth.rows
+        .sort((a, b) => (a.dayInMonth > b.dayInMonth ? -1 : 1))
+        .find((row) => row.signedTasks.length)
       if (signedTaskDay) {
         const { signedTasks } = signedTaskDay
         const signInstance = signedTasks?.[0]
@@ -247,32 +259,51 @@ export class CheckIn {
           const taskDetail = await this.signTaskDetails(signInstance)
           return taskDetail
         }
+      } else {
+        return null
       }
     }
+    return null
   }
 
   private static fixedFloatRight(floatStr: string): number {
     return parseFloat(
       floatStr.replace(
         /(\d+\.\d{5})(\d{1})(.*)/,
-        (s, p, p2) => `${p}${p2 == 0 ? 1 : p2}`,
-      ),
+        (s, p, p2) => `${p}${p2 == 0 ? 1 : p2}`
+      )
     )
   }
 
-  // select right item with content&wid
+  // Select right item with content&wid
   private static fillExtra(
     extraField: NonNullable<SignTaskDetail['extraField']>,
+    signedTemplate: SignTaskDetail
   ): SignFormBody['extraFieldItems'] {
-    return extraField.map((e) => {
+    const signedExtraField = signedTemplate.extraField!
+    return extraField.map((ele, idx) => {
       let chosenWid: string
-      const normal = e.extraFieldItems.filter((i) => {
-        if (i.isAbnormal === false) chosenWid = i.wid
-        return !i.isAbnormal
-      })[0]
+      const curSignedExtraField = signedExtraField[idx]
+      const isSignedTemplateMatch = ele.title === curSignedExtraField.title
+      const signedSelectedItemValue = curSignedExtraField.extraFieldItems.find(
+        (e) => e.isSelected === true
+      )!.value
+      const normal = ele.extraFieldItems.find((e) => {
+        if (isSignedTemplateMatch) {
+          if (signedSelectedItemValue === e.value) {
+            chosenWid = e.wid
+            return true
+          }
+        } else {
+          if (e.isAbnormal === false) {
+            chosenWid = e.wid
+            return true
+          }
+        }
+      })
       return {
         extraFieldItemWid: chosenWid!,
-        extraFieldItemValue: normal.content,
+        extraFieldItemValue: normal!.value,
       }
     })
   }
@@ -295,7 +326,7 @@ export class CheckIn {
 
   static async signIn(
     users: UsersConf['users'],
-    checkInType: CheckInType,
+    checkInType: CheckInType
   ): Promise<GlobalLogInfo | null> {
     // Sign in asynchronizedly with promise all and diff instance of signApp class
     const logs: GlobalLogInfo = {}
@@ -305,7 +336,7 @@ export class CheckIn {
         const curTask = await instance.signInfo()
         if (curTask) {
           const needCheckInTasks = curTask.unSignedTasks.concat(
-            curTask.leaveTasks,
+            curTask.leaveTasks
           )
           if (needCheckInTasks.length) {
             const result = await instance.signWithForm(needCheckInTasks[0])
@@ -319,7 +350,7 @@ export class CheckIn {
             }
           }
         }
-      }),
+      })
     )
     log.notify(`签到结果 => \n${JSON.stringify(logs, null, '  ')}`)
     return Object.keys(logs).length ? logs : null

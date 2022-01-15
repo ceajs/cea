@@ -1,5 +1,8 @@
 export type SignTaskPerDay = {
   [key in 'unSignedTasks' | 'signedTasks' | 'leaveTasks']: Array<SignTask>
+  
+} & {
+  dayInMonth: string
 }
 
 export type SignTaskInMonth = {
@@ -14,15 +17,19 @@ export type SignTaskDetail = {
   isMalposition: 1 | 0
   isPhoto: boolean
   longitude: string
+  signAddress: string
   latitude: string
   isNeedExtra: string
   signPlaceSelected: Array<{ longitude: string; latitude: string }>
   signedStuInfo: { userName: string }
   extraField?: Array<{
+    title?: string
     extraFieldItems: Array<{
       isAbnormal: boolean
+      isSelected: boolean
       wid: string
       content: string
+      value: string
     }>
   }>
   signPhotoUrl?: string
