@@ -37,7 +37,7 @@
 
 - 关于签到插件: ([学校配置](./docs/config.md)时)使用百度地图 API 获取学校全局签到地址, 使用今日校园接口返回的签到数据获取签到经纬度, 简单来说, 只需知道学校英文简称即可配置好所有签到信息, 充分懒人化
 
-- 关于签到或查寝中的图片上传：无需特意配置，Cea 会自动使用之前成功签到过的图片来完成上传，这样既无需配置图片地址、也在运行过程中省去了图片上传操作(我们都知道这是个相对耗时的过程)
+- 复用历史成功签到数据：表单填写方面，Cea 会查找历史签到中最新且成功签到的数据作为模板填写当前表单；查寝图片上传方面，Cea 使用同样的策略获取图片 URL；这省去了配置表单的繁琐过程和图片上传的费时操作
 
 - 支持日志路由转发到微信：方便查看运行结果日志 (详见 [部署指南](./docs/deploy.md))，这也方便 Cea 插件开发者实现推送和统一日志输出 (详见 [插件开发](https://github.com/ceajs/cea#%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91))
 
@@ -124,7 +124,7 @@ cea.start()
 
 ## 插件列表
 
-- [`check-in-helper`](./docs/api/plugins/check-in/README.md)
+- [`check-in-helper`](./docs/api/plugins/check-in-helper/README.md)
 - [`attendance`](./docs/api/plugins/attendance/README.md)
 - [`sign`](./docs/api/plugins/sign/README.md)
 
