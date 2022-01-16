@@ -138,7 +138,7 @@ cea.start()
 
 插件核心 `cea-core` [docs/api/core/README.md](./docs/api/core/README.md)
 
-插件示例 `cea-check-in` [docs/api/plugins/check-in/README.md](./docs/api/plugins/check-in/README.md)
+插件示例 `check-in-helper` [docs/api/plugins/check-in-helper/README.md](./docs/api/plugins/check-in-helper/README.md)
 
 我们鼓励插件开发者使用日志统一输出和路由转发到微信的功能，操作方法是：
 
