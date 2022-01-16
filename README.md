@@ -31,7 +31,7 @@
 
 - 交互式配置: `cea` 提供交互式的命令行完成用户及学校的配置，同时也支持使用 `toml` 文件来配置
 
-- 验证持久化: 缓存验证信息于本地, 只在失效时登录并更新；云端和本地缓存能力来源于我的另一个项目 [sstore](https://github.com/beetcb/sstore)
+- 验证持久化: 缓存验证信息于本地, 只在失效时登录并更新；
 
 - 多用户非阻塞: 利用 Node.js 异步特征，多用户可并行，实现毫秒级的多用户同时操作
 
@@ -124,7 +124,9 @@ cea.start()
 
 ## 插件列表
 
-- [`cea-check-in`](./docs/api/plugins/check-in/README.md)
+- [`check-in-helper`](./docs/api/plugins/check-in/README.md)
+- [`attendance`](./docs/api/plugins/attendance/README.md)
+- [`sign`](./docs/api/plugins/sign/README.md)
 
 ## 贡献指南
 
@@ -157,9 +159,10 @@ log.notify()
 
 感谢同类项目的存在，让社区能够相互学习和进步：
 
-- [CarltonHere/auto-cpdaily](https://github.com/CarltonHere/auto-cpdaily)
-- [AntaresQAQ/campushoy-auto-sign](https://github.com/AntaresQAQ/campushoy-auto-sign)
 - [ZimoLoveShuang/auto-submit](https://github.com/ZimoLoveShuang/auto-submit)
+- [AntaresQAQ/campushoy-auto-sign](https://github.com/AntaresQAQ/campushoy-auto-sign)
+- [windowsair/fzu-cpDailySign](https://github.com/windowsair/fzu-cpDailySign)
+- [CarltonHere/auto-cpdaily](https://github.com/CarltonHere/auto-cpdaily)
 
 ## 声明
 

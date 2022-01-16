@@ -2,15 +2,15 @@
   "files": [],
   "references": [
     {
-      "path": "src/./plugins/check-in-helper/"
+      "path": "src/plugins/check-in-helper/"
     },
     {
-      "path": "src/./plugins/sign/"
+      "path": "src/plugins/sign/"
     },
-    { "path": "src/./plugins/attendance/" },
+    { "path": "src/plugins/attendance/" },
     {
-      "path": "src/./core/"
+      "path": "src/core/"
     },
-    { "path": "src/./internal/" }
+    { "path": "src/internal/" }
   ]
 }

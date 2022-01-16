@@ -1,17 +1,12 @@
 [@ceajs/attendance-plugin](README.md) / Exports
 
-# cea
+# @ceajs/attendance-plugin
 
 ## Table of contents
-
-### Classes
-
-- [default](classes/default.md)
 
 ### Functions
 
 - [attendanceCheckIn](modules.md#attendancecheckin)
-- [checkIn](modules.md#checkin)
 
 ## Functions
 
@@ -25,18 +20,4 @@
 
 #### Defined in
 
-plugins/attendance/lib/src/index.d.ts:1
-
-___
-
-### checkIn
-
-▸ **checkIn**(): `Promise`<`void`\>
-
-#### Returns
-
-`Promise`<`void`\>
-
-#### Defined in
-
-plugins/sign/lib/src/index.d.ts:1
+[index.ts:3](https://github.com/ceajs/cea/blob/6e33125/src/plugins/attendance/src/index.ts#L3)

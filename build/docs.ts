@@ -20,23 +20,26 @@ async function main() {
   }
 
   const pkgRefs: Array<PackageRefs> = tsconfig.references
-  const isPluginPackage = (is: boolean) =>
+  console.log(pkgRefs)
+  const isPluginPackage =
+    (is: boolean) =>
     ({ path }: any) =>
       is ? path.includes('/plugins/') : !path.includes('/plugins/')
 
-  // asynchronizedly build non-plugins api docs
-  build(pkgRefs.filter(isPluginPackage(false)))
-  // asynchronizedly build plugins api docs
-  build(pkgRefs.filter(isPluginPackage(true)))
+  // synchronizedly build non-plugins api docs
+  await build(pkgRefs.filter(isPluginPackage(false)))
+  // synchronizedly build plugins api docs
+  await build(pkgRefs.filter(isPluginPackage(true)))
 }
 
-function build(refs: Array<PackageRefs>) {
+async function build(refs: Array<PackageRefs>) {
   for (const { path } of refs) {
+    console.log(path)
     const app = new TypeDoc.Application()
     // If you want TypeDoc to load tsconfig.json / typedoc.json files
     app.options.addReader(new TypeDoc.TSConfigReader())
     app.options.addReader(new TypeDoc.TypeDocReader())
-    const pkgName = path.slice(1)
+    const pkgName = path.slice(-1)
     app.bootstrap({
       // typedoc options here
       entryPoints: [`${path}src/index.ts`],
@@ -48,7 +51,7 @@ function build(refs: Array<PackageRefs>) {
       // Project may not have converted correctly
       const outputDir = `docs/api${pkgName}`
       // Rendered docs
-      app.generateDocs(project, outputDir)
+      await app.generateDocs(project, outputDir)
     }
   }
 }

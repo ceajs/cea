@@ -290,7 +290,7 @@ export class CheckIn {
       )!.value
       const normal = ele.extraFieldItems.find((e) => {
         if (isSignedTemplateMatch) {
-          if (signedSelectedItemValue === e.content) {
+          if (signedSelectedItemValue === e.value) {
             chosenWid = e.wid
             return true
           }
@@ -303,7 +303,7 @@ export class CheckIn {
       })
       return {
         extraFieldItemWid: chosenWid!,
-        extraFieldItemValue: normal!.content,
+        extraFieldItemValue: normal!.value,
       }
     })
   }
@@ -335,7 +335,7 @@ export class CheckIn {
         const instance: CheckIn = new CheckIn(i, checkInType)
         const curTask = await instance.signInfo()
         if (curTask) {
-          const needCheckInTasks = curTask.signedTasks.concat(
+          const needCheckInTasks = curTask.unSignedTasks.concat(
             curTask.leaveTasks
           )
           if (needCheckInTasks.length) {
