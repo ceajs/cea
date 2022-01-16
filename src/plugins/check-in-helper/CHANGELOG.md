@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/ceajs/cea/compare/@ceajs/check-in-helper@1.3.1...@ceajs/check-in-helper@1.4.0) (2022-01-16)
+
+
+### Bug Fixes
+
+* initial extra field item has no value ([6e33125](https://github.com/ceajs/cea/commit/6e331255d19873f1fa74f8ed5086788803649889))
+* **typedoc:** make typedoc generate process synchronize ([d993e68](https://github.com/ceajs/cea/commit/d993e68c9ed259295330a20d5ea59f1b9e8d1ece))
+
+
+### Features
+
+* **check-in-helper:** keep encrypt keys update to campusphere v9.0.14 ([b9eaa83](https://github.com/ceajs/cea/commit/b9eaa83cc2722de91e599cdd794c95afbf711be6))
+* **check-in-helper:** use latest sign data ([7e153aa](https://github.com/ceajs/cea/commit/7e153aaff0198f228419802e7250340f27e27741))
+* prefer to use signed info to fill in extraField ([a329a6c](https://github.com/ceajs/cea/commit/a329a6c4188e3a0cdb9dd5654e27dcce6ae6fe1a)), closes [#36](https://github.com/ceajs/cea/issues/36)
+
+
+
+
+
 ## [1.3.1](https://github.com/ceajs/cea/compare/@ceajs/check-in-helper@1.3.0...@ceajs/check-in-helper@1.3.1) (2021-12-14)
 
 **Note:** Version bump only for package @ceajs/check-in-helper
