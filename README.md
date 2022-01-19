@@ -27,7 +27,7 @@
 
 ## 亮点
 
-- 关于验证码：使用 [@ceajs/slider-captcha](https://github.com/ceajs/slider-captcha) 支持滑块验证码（实机测试一万次通过率 7801 次），同时也支持普通图片验证码
+- 关于验证码：使用 [@ceajs/slider-captcha](https://github.com/ceajs/slider-captcha) 支持滑块验证码（实机测试 1000 次通过 940 次），同时也支持普通图片验证码
 
 - 交互式配置: `cea` 提供交互式的命令行完成用户及学校的配置，同时也支持使用 `toml` 文件来配置
 

@@ -290,7 +290,7 @@ export class CheckIn {
       )!.value
       const normal = ele.extraFieldItems.find((e) => {
         if (isSignedTemplateMatch) {
-          if (signedSelectedItemValue === e.value) {
+          if (signedSelectedItemValue === e.content) {
             chosenWid = e.wid
             return true
           }
@@ -303,7 +303,7 @@ export class CheckIn {
       })
       return {
         extraFieldItemWid: chosenWid!,
-        extraFieldItemValue: normal!.value,
+        extraFieldItemValue: normal!.content,
       }
     })
   }
