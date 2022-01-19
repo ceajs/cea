@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.3](https://github.com/ceajs/cea/compare/@ceajs/sign-plugin@1.3.2...@ceajs/sign-plugin@1.3.3) (2022-01-19)
+
+**Note:** Version bump only for package @ceajs/sign-plugin
+
+
+
+
+
 ## [1.3.2](https://github.com/ceajs/cea/compare/@ceajs/sign-plugin@1.3.1...@ceajs/sign-plugin@1.3.2) (2022-01-16)
 
 **Note:** Version bump only for package @ceajs/sign-plugin

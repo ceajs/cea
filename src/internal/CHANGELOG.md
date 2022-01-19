@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.3](https://github.com/ceajs/cea/compare/cea@2.5.2...cea@2.5.3) (2022-01-19)
+
+**Note:** Version bump only for package cea
+
+
+
+
+
 ## [2.5.2](https://github.com/ceajs/cea/compare/cea@2.5.1...cea@2.5.2) (2022-01-16)
 
 **Note:** Version bump only for package cea

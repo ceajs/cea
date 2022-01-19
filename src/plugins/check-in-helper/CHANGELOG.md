@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://github.com/ceajs/cea/compare/@ceajs/check-in-helper@1.4.0...@ceajs/check-in-helper@1.4.1) (2022-01-19)
+
+**Note:** Version bump only for package @ceajs/check-in-helper
+
+
+
+
+
 # [1.4.0](https://github.com/ceajs/cea/compare/@ceajs/check-in-helper@1.3.1...@ceajs/check-in-helper@1.4.0) (2022-01-16)
 
 
