@@ -49,7 +49,7 @@ const externalDeps = [
   ...Object.entries(ceaCLIDeps),
 ]?.filter(([depName]: [string, string]) => !esmPkgs.includes(depName))
 
-externalDeps.push(['opencv-wasm', '^4.3.0-10'], ['sharp', '^0.29.3'])
+externalDeps.push(['sharp', '^0.29.3'])
 
 esbuild
   .build({

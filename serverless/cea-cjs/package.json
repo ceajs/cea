@@ -37,9 +37,6 @@
     "user-agents": "^1.0.856",
     "uuid": "^8.3.2",
     "enquirer": "^2.3.6",
-    "@ceajs/attendance-plugin": "1.1.0",
-    "@ceajs/sign-plugin": "1.1.0",
-    "opencv-wasm": "^4.3.0-10",
     "sharp": "^0.29.3"
   }
 }
