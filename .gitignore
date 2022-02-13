@@ -11,6 +11,5 @@ __test__/*.js*
 /conf.toml
 /test.json
 .env
-/.npmrc
 
 .vercel
