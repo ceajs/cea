@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/ceajs/cea/compare/@ceajs/check-in-helper@1.4.1...@ceajs/check-in-helper@1.5.0) (2022-02-13)
+
+
+### Features
+
+* bump campus version to v9.0.18 ([cab883e](https://github.com/ceajs/cea/commit/cab883e1f80a03814173f17121fa66290685ee38))
+
+
+
+
+
 ## [1.4.1](https://github.com/ceajs/cea/compare/@ceajs/check-in-helper@1.4.0...@ceajs/check-in-helper@1.4.1) (2022-01-19)
 
 **Note:** Version bump only for package @ceajs/check-in-helper
