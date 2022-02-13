@@ -20,4 +20,4 @@
 
 #### Defined in
 
-[index.ts:3](https://github.com/ceajs/cea/blob/d993e68/src/plugins/sign/src/index.ts#L3)
+[index.ts:3](https://github.com/ceajs/cea/blob/566c0d6/src/plugins/sign/src/index.ts#L3)

@@ -48,7 +48,7 @@ Universal Check In helper for `sign` | `attendance`
 
 #### Defined in
 
-[index.ts:54](https://github.com/ceajs/cea/blob/d993e68/src/plugins/check-in-helper/src/index.ts#L54)
+[index.ts:54](https://github.com/ceajs/cea/blob/566c0d6/src/plugins/check-in-helper/src/index.ts#L54)
 
 ## Properties
 
@@ -58,7 +58,7 @@ Universal Check In helper for `sign` | `attendance`
 
 #### Defined in
 
-[index.ts:52](https://github.com/ceajs/cea/blob/d993e68/src/plugins/check-in-helper/src/index.ts#L52)
+[index.ts:52](https://github.com/ceajs/cea/blob/566c0d6/src/plugins/check-in-helper/src/index.ts#L52)
 
 ___
 
@@ -68,7 +68,7 @@ ___
 
 #### Defined in
 
-[index.ts:53](https://github.com/ceajs/cea/blob/d993e68/src/plugins/check-in-helper/src/index.ts#L53)
+[index.ts:53](https://github.com/ceajs/cea/blob/566c0d6/src/plugins/check-in-helper/src/index.ts#L53)
 
 ___
 
@@ -78,7 +78,7 @@ ___
 
 #### Defined in
 
-[index.ts:49](https://github.com/ceajs/cea/blob/d993e68/src/plugins/check-in-helper/src/index.ts#L49)
+[index.ts:49](https://github.com/ceajs/cea/blob/566c0d6/src/plugins/check-in-helper/src/index.ts#L49)
 
 ___
 
@@ -88,7 +88,7 @@ ___
 
 #### Defined in
 
-[index.ts:51](https://github.com/ceajs/cea/blob/d993e68/src/plugins/check-in-helper/src/index.ts#L51)
+[index.ts:51](https://github.com/ceajs/cea/blob/566c0d6/src/plugins/check-in-helper/src/index.ts#L51)
 
 ___
 
@@ -98,7 +98,7 @@ ___
 
 #### Defined in
 
-[index.ts:50](https://github.com/ceajs/cea/blob/d993e68/src/plugins/check-in-helper/src/index.ts#L50)
+[index.ts:50](https://github.com/ceajs/cea/blob/566c0d6/src/plugins/check-in-helper/src/index.ts#L50)
 
 ___
 
@@ -116,7 +116,7 @@ ___
 
 #### Defined in
 
-[index.ts:38](https://github.com/ceajs/cea/blob/d993e68/src/plugins/check-in-helper/src/index.ts#L38)
+[index.ts:38](https://github.com/ceajs/cea/blob/566c0d6/src/plugins/check-in-helper/src/index.ts#L38)
 
 ___
 
@@ -134,7 +134,7 @@ ___
 
 #### Defined in
 
-[index.ts:43](https://github.com/ceajs/cea/blob/d993e68/src/plugins/check-in-helper/src/index.ts#L43)
+[index.ts:43](https://github.com/ceajs/cea/blob/566c0d6/src/plugins/check-in-helper/src/index.ts#L43)
 
 ___
 
@@ -152,7 +152,7 @@ ___
 
 #### Defined in
 
-[index.ts:33](https://github.com/ceajs/cea/blob/d993e68/src/plugins/check-in-helper/src/index.ts#L33)
+[index.ts:33](https://github.com/ceajs/cea/blob/566c0d6/src/plugins/check-in-helper/src/index.ts#L33)
 
 ## Methods
 
@@ -166,7 +166,7 @@ ___
 
 #### Defined in
 
-[index.ts:237](https://github.com/ceajs/cea/blob/d993e68/src/plugins/check-in-helper/src/index.ts#L237)
+[index.ts:237](https://github.com/ceajs/cea/blob/566c0d6/src/plugins/check-in-helper/src/index.ts#L237)
 
 ___
 
@@ -180,7 +180,7 @@ ___
 
 #### Defined in
 
-[index.ts:67](https://github.com/ceajs/cea/blob/d993e68/src/plugins/check-in-helper/src/index.ts#L67)
+[index.ts:67](https://github.com/ceajs/cea/blob/566c0d6/src/plugins/check-in-helper/src/index.ts#L67)
 
 ___
 
@@ -200,7 +200,7 @@ ___
 
 #### Defined in
 
-[index.ts:222](https://github.com/ceajs/cea/blob/d993e68/src/plugins/check-in-helper/src/index.ts#L222)
+[index.ts:222](https://github.com/ceajs/cea/blob/566c0d6/src/plugins/check-in-helper/src/index.ts#L222)
 
 ___
 
@@ -222,7 +222,7 @@ Cookie is preconfigured by singInfo method
 
 #### Defined in
 
-[index.ts:101](https://github.com/ceajs/cea/blob/d993e68/src/plugins/check-in-helper/src/index.ts#L101)
+[index.ts:101](https://github.com/ceajs/cea/blob/566c0d6/src/plugins/check-in-helper/src/index.ts#L101)
 
 ___
 
@@ -242,7 +242,7 @@ ___
 
 #### Defined in
 
-[index.ts:311](https://github.com/ceajs/cea/blob/d993e68/src/plugins/check-in-helper/src/index.ts#L311)
+[index.ts:311](https://github.com/ceajs/cea/blob/566c0d6/src/plugins/check-in-helper/src/index.ts#L311)
 
 ___
 
@@ -263,7 +263,7 @@ ___
 
 #### Defined in
 
-[index.ts:279](https://github.com/ceajs/cea/blob/d993e68/src/plugins/check-in-helper/src/index.ts#L279)
+[index.ts:279](https://github.com/ceajs/cea/blob/566c0d6/src/plugins/check-in-helper/src/index.ts#L279)
 
 ___
 
@@ -283,7 +283,7 @@ ___
 
 #### Defined in
 
-[index.ts:269](https://github.com/ceajs/cea/blob/d993e68/src/plugins/check-in-helper/src/index.ts#L269)
+[index.ts:269](https://github.com/ceajs/cea/blob/566c0d6/src/plugins/check-in-helper/src/index.ts#L269)
 
 ___
 
@@ -303,7 +303,7 @@ ___
 
 #### Defined in
 
-[index.ts:319](https://github.com/ceajs/cea/blob/d993e68/src/plugins/check-in-helper/src/index.ts#L319)
+[index.ts:319](https://github.com/ceajs/cea/blob/566c0d6/src/plugins/check-in-helper/src/index.ts#L319)
 
 ___
 
@@ -324,4 +324,4 @@ ___
 
 #### Defined in
 
-[index.ts:327](https://github.com/ceajs/cea/blob/d993e68/src/plugins/check-in-helper/src/index.ts#L327)
+[index.ts:327](https://github.com/ceajs/cea/blob/566c0d6/src/plugins/check-in-helper/src/index.ts#L327)
