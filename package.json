@@ -36,8 +36,6 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "conventional-changelog-cli": "^2.1.1",
-    "dprint": "^0.19.2",
     "env-cmd": "^10.1.0",
     "esbuild": "^0.13.13",
     "esno": "^0.14.0",
