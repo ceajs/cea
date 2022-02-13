@@ -31,7 +31,7 @@ type CheckInType = keyof typeof CampusphereEndpoint
  */
 export class CheckIn {
   static readonly VERSION = {
-    app: '9.0.14',
+    app: '9.0.16',
     version: 'first_v3',
     calVersion: 'firstv',
   }
