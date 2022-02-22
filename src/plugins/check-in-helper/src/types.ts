@@ -1,9 +1,10 @@
-export type SignTaskPerDay = {
-  [key in 'unSignedTasks' | 'signedTasks' | 'leaveTasks']: Array<SignTask>
-  
-} & {
-  dayInMonth: string
-}
+export type SignTaskPerDay =
+  & {
+    [key in 'unSignedTasks' | 'signedTasks' | 'leaveTasks']: Array<SignTask>
+  }
+  & {
+    dayInMonth: string
+  }
 
 export type SignTaskInMonth = {
   rows: Array<SignTaskPerDay>

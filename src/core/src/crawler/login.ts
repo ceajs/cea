@@ -78,9 +78,10 @@ export default async function login(
     }
 
     // Check captcha
-    const addtionalParams =
-      `?username=${user.username}&ltId=${hiddenInputNameValueMap.lt
-        || ''}&_=${Date.now()}`
+    const addtionalParams = `?username=${user.username}&ltId=${
+      hiddenInputNameValueMap.lt
+      || ''
+    }&_=${Date.now()}`
     needCaptcha = (
       await (
         await fetch.get(
@@ -121,8 +122,10 @@ export default async function login(
   while (true) {
     if (needCaptcha) {
       const captchaUrl =
-        `${school.authOrigin}${schoolEdgeCase.getCaptchaPath}?username=${user.username}&ltId=${hiddenInputNameValueMap
-          .lt ?? ''}&_=${Date.now()}`
+        `${school.authOrigin}${schoolEdgeCase.getCaptchaPath}?username=${user.username}&ltId=${
+          hiddenInputNameValueMap
+            .lt ?? ''
+        }&_=${Date.now()}`
       log.warn({
         message: '登录需要验证码',
         suffix: `@${name}`,

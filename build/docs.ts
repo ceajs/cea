@@ -21,8 +21,7 @@ async function main() {
 
   const pkgRefs: Array<PackageRefs> = tsconfig.references
   console.log(pkgRefs)
-  const isPluginPackage =
-    (is: boolean) =>
+  const isPluginPackage = (is: boolean) =>
     ({ path }: any) =>
       is ? path.includes('/plugins/') : !path.includes('/plugins/')
 

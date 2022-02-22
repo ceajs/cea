@@ -80,7 +80,7 @@ export class CheckIn {
         method: 'POST',
         headers: this.headers,
         body: JSON.stringify({}),
-      }
+      },
     )
 
     if (res.headers.get('content-type')?.includes('json')) {
@@ -107,7 +107,7 @@ export class CheckIn {
         headers,
         method: 'POST',
         body: JSON.stringify({ signInstanceWid, signWid }),
-      }
+      },
     )
     const signDetails: SignTaskDetail = ((await res.json()) as any).datas
 
@@ -122,21 +122,20 @@ export class CheckIn {
     const placeList = signPlaceSelected[0]
     const customAddr = this.user.addr
 
-    let signedTemplate =
-      isPhoto || isNeedExtra ? await this.grabSignedData() : undefined
+    let signedTemplate = isPhoto || isNeedExtra
+      ? await this.grabSignedData()
+      : undefined
 
     // Need signedData but we failed to retrieve it
     if (signedTemplate === null) {
       return {
-        [LogInfoKeys.result]:
-          '无法获取历史签到数据作为模板，请检查 signedDataMonth 配置',
+        [LogInfoKeys.result]: '无法获取历史签到数据作为模板，请检查 signedDataMonth 配置',
       }
     }
 
-    const [longitude, latitude, position] =
-      customAddr.length === 3
-        ? customAddr
-        : [placeList.longitude, placeList.latitude, school.defaultAddr]
+    const [longitude, latitude, position] = customAddr.length === 3
+      ? customAddr
+      : [placeList.longitude, placeList.latitude, school.defaultAddr]
 
     // Find the right photo in the signed-in tasks
     const signPhotoUrl = isPhoto ? signedTemplate?.signPhotoUrl ?? '' : ''
@@ -145,8 +144,7 @@ export class CheckIn {
     const autoFillExtra = CheckIn.fillExtra(extraField!, signedTemplate!)
     if (autoFillExtra === null) {
       return {
-        [LogInfoKeys.result]:
-          '当前表单与模板表单不匹配，放弃签到',
+        [LogInfoKeys.result]: '当前表单与模板表单不匹配，放弃签到',
       }
     }
     const extraFieldItems = isNeedExtra
@@ -188,8 +186,9 @@ export class CheckIn {
     const signHash = crypto
       .createHash('md5')
       .update(
-        `${new URLSearchParams(signHashBody as any).toString()}&${CheckIn.FORMBODY_ENCRYPT.key
-        }`
+        `${
+          new URLSearchParams(signHashBody as any).toString()
+        }&${CheckIn.FORMBODY_ENCRYPT.key}`,
       )
       .digest('hex')
 
@@ -207,7 +206,7 @@ export class CheckIn {
         headers,
         method: 'POST',
         body: JSON.stringify(postBody),
-      }
+      },
     )
     const result = (await res.json()) as any
 
@@ -234,7 +233,7 @@ export class CheckIn {
         headers,
         method: 'POST',
         body: JSON.stringify({ signInstanceWid, signWid }),
-      }
+      },
     )
     const signDetails: SignTaskDetail = (await res.json()).datas
     return signDetails
@@ -248,9 +247,10 @@ export class CheckIn {
         headers,
         method: 'POST',
         body: JSON.stringify({
-          statisticYearMonth: user?.signedDataMonth ?? CheckIn.getLatestValidDateMonth(),
+          statisticYearMonth: user?.signedDataMonth
+            ?? CheckIn.getLatestValidDateMonth(),
         }),
-      }
+      },
     )
     const tasksInMonth = (await res.json())?.datas as SignTaskInMonth
     if (tasksInMonth?.rows.length) {
@@ -277,8 +277,12 @@ export class CheckIn {
     const isFirstDay = curDate.getDate() === 1
     const isFirstMonth = curDate.getMonth() === 0
     const isFirstDayAndMonth = isFirstDay && isFirstMonth
-    const latestValidDateMonth = `${curDate.getFullYear() + (isFirstDayAndMonth ? -1 : 0)}-${(curDate.getMonth() + (isFirstDayAndMonth ? 12 : isFirstDay ? 0 : 1))
-      .toString().padStart(2, '0')}`
+    const latestValidDateMonth = `${
+      curDate.getFullYear() + (isFirstDayAndMonth ? -1 : 0)
+    }-${
+      (curDate.getMonth() + (isFirstDayAndMonth ? 12 : isFirstDay ? 0 : 1))
+        .toString().padStart(2, '0')
+    }`
     return latestValidDateMonth
   }
 
@@ -286,44 +290,48 @@ export class CheckIn {
     return parseFloat(
       floatStr.replace(
         /(\d+\.\d{5})(\d{1})(.*)/,
-        (s, p, p2) => `${p}${p2 == 0 ? 1 : p2}`
-      )
+        (s, p, p2) => `${p}${p2 == 0 ? 1 : p2}`,
+      ),
     )
   }
 
   // Select right item with content&wid
   private static fillExtra(
     extraField: NonNullable<SignTaskDetail['extraField']>,
-    signedTemplate: SignTaskDetail
+    signedTemplate: SignTaskDetail,
   ): SignFormBody['extraFieldItems'] | null {
     const signedExtraField = signedTemplate.extraField!
-    const isSignedTemplateMatch = signedExtraField.every((ele, idx) => ele.title === extraField[idx]?.title
+    const isSignedTemplateMatch = signedExtraField.every((ele, idx) =>
+      ele.title === extraField[idx]?.title
     )
 
-    return isSignedTemplateMatch ? extraField.map((ele, idx) => {
-      let chosenWid: string
-      const curSignedExtraField = signedExtraField[idx]
-      const signedSelectedItemValue = curSignedExtraField.extraFieldItems.find(
-        (e) => e.isSelected === true
-      )!.value
-      const normal = ele.extraFieldItems.find((e) => {
-        if (isSignedTemplateMatch) {
-          if (signedSelectedItemValue === e.content) {
-            chosenWid = e.wid
-            return true
+    return isSignedTemplateMatch
+      ? extraField.map((ele, idx) => {
+        let chosenWid: string
+        const curSignedExtraField = signedExtraField[idx]
+        const signedSelectedItemValue =
+          curSignedExtraField.extraFieldItems.find(
+            (e) => e.isSelected === true,
+          )!.value
+        const normal = ele.extraFieldItems.find((e) => {
+          if (isSignedTemplateMatch) {
+            if (signedSelectedItemValue === e.content) {
+              chosenWid = e.wid
+              return true
+            }
+          } else {
+            if (e.isAbnormal === false) {
+              chosenWid = e.wid
+              return true
+            }
           }
-        } else {
-          if (e.isAbnormal === false) {
-            chosenWid = e.wid
-            return true
-          }
+        })
+        return {
+          extraFieldItemWid: chosenWid!,
+          extraFieldItemValue: normal!.content,
         }
       })
-      return {
-        extraFieldItemWid: chosenWid!,
-        extraFieldItemValue: normal!.content,
-      }
-    }) : null
+      : null
   }
 
   private static extensionEncrypt(body: SignExtensionBody): string {
@@ -344,7 +352,7 @@ export class CheckIn {
 
   static async signIn(
     users: UsersConf['users'],
-    checkInType: CheckInType
+    checkInType: CheckInType,
   ): Promise<GlobalLogInfo | null> {
     // Sign in asynchronizedly with promise all and diff instance of signApp class
     const logs: GlobalLogInfo = {}
@@ -354,7 +362,7 @@ export class CheckIn {
         const curTask = await instance.signInfo()
         if (curTask) {
           const needCheckInTasks = curTask.signedTasks.concat(
-            curTask.leaveTasks
+            curTask.leaveTasks,
           )
           if (needCheckInTasks.length) {
             const result = await instance.signWithForm(needCheckInTasks[0])
@@ -368,7 +376,7 @@ export class CheckIn {
             }
           }
         }
-      })
+      }),
     )
     log.notify(`签到结果 => \n${JSON.stringify(logs, null, '  ')}`)
     return Object.keys(logs).length ? logs : null

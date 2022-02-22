@@ -7,10 +7,10 @@ import log from './utils/logger.js'
 const { parse } = toml
 
 import type { Response } from 'node-fetch'
+import { sstore } from './index.js'
 import type { SchoolConf, UsersConf } from './types/conf'
 import type { SchoolEdgeCase } from './types/edge-case'
 import type { StringKV } from './types/helper'
-import { sstore } from './index.js'
 
 const cwd = process.cwd()
 
