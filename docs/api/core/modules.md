@@ -41,7 +41,7 @@
 
 #### Defined in
 
-[src/types/cookie.ts:3](https://github.com/ceajs/cea/blob/566c0d6/src/core/src/types/cookie.ts#L3)
+[src/types/cookie.ts:3](https://github.com/ceajs/cea/blob/3498600/src/core/src/types/cookie.ts#L3)
 
 ___
 
@@ -55,7 +55,7 @@ ___
 
 #### Defined in
 
-[src/types/conf.ts:24](https://github.com/ceajs/cea/blob/566c0d6/src/core/src/types/conf.ts#L24)
+[src/types/conf.ts:24](https://github.com/ceajs/cea/blob/3498600/src/core/src/types/conf.ts#L24)
 
 ___
 
@@ -78,7 +78,7 @@ ___
 
 #### Defined in
 
-[src/types/conf.ts:28](https://github.com/ceajs/cea/blob/566c0d6/src/core/src/types/conf.ts#L28)
+[src/types/conf.ts:28](https://github.com/ceajs/cea/blob/3498600/src/core/src/types/conf.ts#L28)
 
 ___
 
@@ -92,7 +92,7 @@ ___
 
 #### Defined in
 
-[src/types/helper.ts:1](https://github.com/ceajs/cea/blob/566c0d6/src/core/src/types/helper.ts#L1)
+[src/types/helper.ts:1](https://github.com/ceajs/cea/blob/3498600/src/core/src/types/helper.ts#L1)
 
 ___
 
@@ -115,7 +115,7 @@ ___
 
 #### Defined in
 
-[src/types/conf.ts:13](https://github.com/ceajs/cea/blob/566c0d6/src/core/src/types/conf.ts#L13)
+[src/types/conf.ts:13](https://github.com/ceajs/cea/blob/3498600/src/core/src/types/conf.ts#L13)
 
 ___
 
@@ -133,7 +133,7 @@ ___
 
 #### Defined in
 
-[src/types/conf.ts:8](https://github.com/ceajs/cea/blob/566c0d6/src/core/src/types/conf.ts#L8)
+[src/types/conf.ts:8](https://github.com/ceajs/cea/blob/3498600/src/core/src/types/conf.ts#L8)
 
 ## Variables
 
@@ -143,7 +143,7 @@ ___
 
 #### Defined in
 
-[src/utils/logger.ts:28](https://github.com/ceajs/cea/blob/566c0d6/src/core/src/utils/logger.ts#L28)
+[src/utils/logger.ts:28](https://github.com/ceajs/cea/blob/3498600/src/core/src/utils/logger.ts#L28)
 
 ## Functions
 
@@ -166,7 +166,7 @@ Parse http response headers' cookie
 
 #### Defined in
 
-[src/utils/cookie-helper.ts:7](https://github.com/ceajs/cea/blob/566c0d6/src/core/src/utils/cookie-helper.ts#L7)
+[src/utils/cookie-helper.ts:7](https://github.com/ceajs/cea/blob/3498600/src/core/src/utils/cookie-helper.ts#L7)
 
 ___
 
@@ -189,7 +189,7 @@ Construct a cookie object based on host
 
 #### Defined in
 
-[src/utils/cookie-helper.ts:50](https://github.com/ceajs/cea/blob/566c0d6/src/core/src/utils/cookie-helper.ts#L50)
+[src/utils/cookie-helper.ts:50](https://github.com/ceajs/cea/blob/3498600/src/core/src/utils/cookie-helper.ts#L50)
 
 ___
 
@@ -209,7 +209,7 @@ ___
 
 #### Defined in
 
-[src/conf.ts:33](https://github.com/ceajs/cea/blob/566c0d6/src/core/src/conf.ts#L33)
+[src/conf.ts:33](https://github.com/ceajs/cea/blob/3498600/src/core/src/conf.ts#L33)
 
 ___
 
@@ -225,7 +225,7 @@ Iterate through all users: complete unified auth -> store cookie
 
 #### Defined in
 
-[src/index.ts:32](https://github.com/ceajs/cea/blob/566c0d6/src/core/src/index.ts#L32)
+[src/index.ts:32](https://github.com/ceajs/cea/blob/3498600/src/core/src/index.ts#L32)
 
 ___
 
@@ -245,4 +245,4 @@ ___
 
 #### Defined in
 
-[src/conf.ts:17](https://github.com/ceajs/cea/blob/566c0d6/src/core/src/conf.ts#L17)
+[src/conf.ts:17](https://github.com/ceajs/cea/blob/3498600/src/core/src/conf.ts#L17)
