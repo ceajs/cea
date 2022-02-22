@@ -31,7 +31,7 @@ type CheckInType = keyof typeof CampusphereEndpoint
  */
 export class CheckIn {
   static readonly VERSION = {
-    app: '9.0.16',
+    app: '9.0.18',
     version: 'first_v3',
     calVersion: 'firstv',
   }
@@ -141,9 +141,16 @@ export class CheckIn {
     // Find the right photo in the signed-in tasks
     const signPhotoUrl = isPhoto ? signedTemplate?.signPhotoUrl ?? '' : ''
 
-    // Logically, both of these type assertions are infallible
+    // Auto-fill extraFieldItems
+    const autoFillExtra = CheckIn.fillExtra(extraField!, signedTemplate!)
+    if (autoFillExtra === null) {
+      return {
+        [LogInfoKeys.result]:
+          '当前表单与模板表单不匹配，放弃签到',
+      }
+    }
     const extraFieldItems = isNeedExtra
-      ? CheckIn.fillExtra(extraField!, signedTemplate!)
+      ? autoFillExtra
       : undefined
 
     const formBody: SignFormBody = {
@@ -181,8 +188,7 @@ export class CheckIn {
     const signHash = crypto
       .createHash('md5')
       .update(
-        `${new URLSearchParams(signHashBody as any).toString()}&${
-          CheckIn.FORMBODY_ENCRYPT.key
+        `${new URLSearchParams(signHashBody as any).toString()}&${CheckIn.FORMBODY_ENCRYPT.key
         }`
       )
       .digest('hex')
@@ -242,7 +248,7 @@ export class CheckIn {
         headers,
         method: 'POST',
         body: JSON.stringify({
-          statisticYearMonth: user?.signedDataMonth ?? '2021-11',
+          statisticYearMonth: user?.signedDataMonth ?? CheckIn.getLatestValidDateMonth(),
         }),
       }
     )
@@ -266,6 +272,16 @@ export class CheckIn {
     return null
   }
 
+  private static getLatestValidDateMonth() {
+    const curDate = new Date()
+    const isFirstDay = curDate.getDate() === 1
+    const isFirstMonth = curDate.getMonth() === 0
+    const isFirstDayAndMonth = isFirstDay && isFirstMonth
+    const latestValidDateMonth = `${curDate.getFullYear() + (isFirstDayAndMonth ? -1 : 0)}-${(curDate.getMonth() + (isFirstDayAndMonth ? 12 : isFirstDay ? 0 : 1))
+      .toString().padStart(2, '0')}`
+    return latestValidDateMonth
+  }
+
   private static fixedFloatRight(floatStr: string): number {
     return parseFloat(
       floatStr.replace(
@@ -279,12 +295,14 @@ export class CheckIn {
   private static fillExtra(
     extraField: NonNullable<SignTaskDetail['extraField']>,
     signedTemplate: SignTaskDetail
-  ): SignFormBody['extraFieldItems'] {
+  ): SignFormBody['extraFieldItems'] | null {
     const signedExtraField = signedTemplate.extraField!
-    return extraField.map((ele, idx) => {
+    const isSignedTemplateMatch = signedExtraField.every((ele, idx) => ele.title === extraField[idx]?.title
+    )
+
+    return isSignedTemplateMatch ? extraField.map((ele, idx) => {
       let chosenWid: string
       const curSignedExtraField = signedExtraField[idx]
-      const isSignedTemplateMatch = ele.title === curSignedExtraField.title
       const signedSelectedItemValue = curSignedExtraField.extraFieldItems.find(
         (e) => e.isSelected === true
       )!.value
@@ -305,7 +323,7 @@ export class CheckIn {
         extraFieldItemWid: chosenWid!,
         extraFieldItemValue: normal!.content,
       }
-    })
+    }) : null
   }
 
   private static extensionEncrypt(body: SignExtensionBody): string {
@@ -335,7 +353,7 @@ export class CheckIn {
         const instance: CheckIn = new CheckIn(i, checkInType)
         const curTask = await instance.signInfo()
         if (curTask) {
-          const needCheckInTasks = curTask.unSignedTasks.concat(
+          const needCheckInTasks = curTask.signedTasks.concat(
             curTask.leaveTasks
           )
           if (needCheckInTasks.length) {

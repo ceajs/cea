@@ -36,6 +36,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "dprint": "^0.22.2",
     "env-cmd": "^10.1.0",
     "esbuild": "^0.13.13",
     "esno": "^0.14.0",
