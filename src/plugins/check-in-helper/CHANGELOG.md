@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/ceajs/cea/compare/@ceajs/check-in-helper@1.5.0...@ceajs/check-in-helper@1.6.0) (2022-02-22)
+
+
+### Features
+
+* detect default date month ([e738ebb](https://github.com/ceajs/cea/commit/e738ebb1bf4ec39abe0e99a7c7e73939e7e1968a))
+
+
+
+
+
 # [1.5.0](https://github.com/ceajs/cea/compare/@ceajs/check-in-helper@1.4.1...@ceajs/check-in-helper@1.5.0) (2022-02-13)
 
 
