@@ -361,7 +361,7 @@ export class CheckIn {
         const instance: CheckIn = new CheckIn(i, checkInType)
         const curTask = await instance.signInfo()
         if (curTask) {
-          const needCheckInTasks = curTask.signedTasks.concat(
+          const needCheckInTasks = curTask.unSignedTasks.concat(
             curTask.leaveTasks,
           )
           if (needCheckInTasks.length) {
