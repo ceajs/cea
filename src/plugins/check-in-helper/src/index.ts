@@ -42,7 +42,24 @@ export class CheckIn {
   }
   static readonly FORMBODY_ENCRYPT = {
     key: 'SASEoK4Pa5d4SssO',
-    iv: Buffer.from([1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7]),
+    iv: Buffer.from([
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+    ]),
     algo: 'aes-128-cbc',
   }
 
@@ -51,7 +68,10 @@ export class CheckIn {
   private school: SchoolConfOpts
   private readonly campusphereHost: string
   private readonly checkInType: CheckInType
-  constructor(user: UserConfOpts, checkInType: CheckInType) {
+  constructor(
+    user: UserConfOpts,
+    checkInType: CheckInType,
+  ) {
     const school = sstore.get('schools')[user.school]
     this.school = school
     this.user = user
@@ -67,7 +87,9 @@ export class CheckIn {
   async signInfo(): Promise<SignTaskPerDay | void> {
     const { user, checkInType, campusphereHost } = this
     const storeCookiePath = `cookie.${user.alias}`
-    const cookie: CookieRawObject = sstore.get(storeCookiePath)
+    const cookie: CookieRawObject = sstore.get(
+      storeCookiePath,
+    )
 
     const campusCookieIdx = new URL(campusphereHost).host
     if (!cookie) {
@@ -99,7 +121,12 @@ export class CheckIn {
    * Cookie is preconfigured by singInfo method
    */
   async signWithForm(curTask: SignTask): Promise<LogInfo> {
-    const { school, headers, checkInType, campusphereHost } = this
+    const {
+      school,
+      headers,
+      checkInType,
+      campusphereHost,
+    } = this
     const { signInstanceWid, signWid } = curTask
     let res = await fetch(
       `${campusphereHost}${CampusphereEndpoint[checkInType].taskDetails}`,
@@ -121,11 +148,17 @@ export class CheckIn {
 
     const placeList = signPlaceSelected[0]
     const customAddr = this.user.addr
+    const [longitude, latitude, position] = customAddr.length === 3
+      ? customAddr
+      : [
+        placeList.longitude,
+        placeList.latitude,
+        school.defaultAddr,
+      ]
 
     let signedTemplate = isPhoto || isNeedExtra
       ? await this.grabSignedData()
       : undefined
-
     // Need signedData but we failed to retrieve it
     if (signedTemplate === null) {
       return {
@@ -133,23 +166,20 @@ export class CheckIn {
       }
     }
 
-    const [longitude, latitude, position] = customAddr.length === 3
-      ? customAddr
-      : [placeList.longitude, placeList.latitude, school.defaultAddr]
-
     // Find the right photo in the signed-in tasks
-    const signPhotoUrl = isPhoto ? signedTemplate?.signPhotoUrl ?? '' : ''
+    const signPhotoUrl = isPhoto
+      ? signedTemplate?.signPhotoUrl ?? ''
+      : ''
 
     // Auto-fill extraFieldItems
-    const autoFillExtra = CheckIn.fillExtra(extraField!, signedTemplate!)
-    if (autoFillExtra === null) {
+    const extraFieldItems = isNeedExtra
+      ? CheckIn.fillExtra(extraField!, signedTemplate!)
+      : undefined
+    if (extraFieldItems === null) {
       return {
         [LogInfoKeys.result]: '当前表单与模板表单不匹配，放弃签到',
       }
     }
-    const extraFieldItems = isNeedExtra
-      ? autoFillExtra
-      : undefined
 
     const formBody: SignFormBody = {
       longitude: CheckIn.fixedFloatRight(longitude),
@@ -178,7 +208,9 @@ export class CheckIn {
     }
 
     // Hack to ensure signHashBody is alphabet-ordered
-    const signExtensionBody: SignExtensionBody & { bodyString: undefined } = {
+    const signExtensionBody: SignExtensionBody & {
+      bodyString: undefined
+    } = {
       ...signHashBody,
       bodyString: undefined,
     }
@@ -187,7 +219,8 @@ export class CheckIn {
       .createHash('md5')
       .update(
         `${
-          new URLSearchParams(signHashBody as any).toString()
+          new URLSearchParams(signHashBody as any)
+            .toString()
         }&${CheckIn.FORMBODY_ENCRYPT.key}`,
       )
       .digest('hex')
@@ -199,7 +232,9 @@ export class CheckIn {
       ...signHashBody,
     }
 
-    headers['Cpdaily-Extension'] = CheckIn.extensionEncrypt(signExtensionBody)
+    headers['Cpdaily-Extension'] = CheckIn.extensionEncrypt(
+      signExtensionBody,
+    )
     res = await fetch(
       `${campusphereHost}${CampusphereEndpoint[checkInType].submitSign}`,
       {
@@ -252,17 +287,23 @@ export class CheckIn {
         }),
       },
     )
-    const tasksInMonth = (await res.json())?.datas as SignTaskInMonth
+    const tasksInMonth = (await res.json())
+      ?.datas as SignTaskInMonth
     if (tasksInMonth?.rows.length) {
       // Find valid sign data reversly(sort by date info)
       const signedTaskDay = tasksInMonth.rows
-        .sort((a, b) => (a.dayInMonth > b.dayInMonth ? -1 : 1))
+        .sort((
+          a,
+          b,
+        ) => (a.dayInMonth > b.dayInMonth ? -1 : 1))
         .find((row) => row.signedTasks.length)
       if (signedTaskDay) {
         const { signedTasks } = signedTaskDay
         const signInstance = signedTasks?.[0]
         if (signInstance) {
-          const taskDetail = await this.signTaskDetails(signInstance)
+          const taskDetail = await this.signTaskDetails(
+            signInstance,
+          )
           return taskDetail
         }
       } else {
@@ -280,7 +321,11 @@ export class CheckIn {
     const latestValidDateMonth = `${
       curDate.getFullYear() + (isFirstDayAndMonth ? -1 : 0)
     }-${
-      (curDate.getMonth() + (isFirstDayAndMonth ? 12 : isFirstDay ? 0 : 1))
+      (curDate.getMonth() + (isFirstDayAndMonth
+        ? 12
+        : isFirstDay
+        ? 0
+        : 1))
         .toString().padStart(2, '0')
     }`
     return latestValidDateMonth
@@ -301,9 +346,10 @@ export class CheckIn {
     signedTemplate: SignTaskDetail,
   ): SignFormBody['extraFieldItems'] | null {
     const signedExtraField = signedTemplate.extraField!
-    const isSignedTemplateMatch = signedExtraField.every((ele, idx) =>
-      ele.title === extraField[idx]?.title
-    )
+    const isSignedTemplateMatch = signedExtraField.every((
+      ele,
+      idx,
+    ) => ele.title === extraField[idx]?.title)
 
     return isSignedTemplateMatch
       ? extraField.map((ele, idx) => {
@@ -334,18 +380,30 @@ export class CheckIn {
       : null
   }
 
-  private static extensionEncrypt(body: SignExtensionBody): string {
+  private static extensionEncrypt(
+    body: SignExtensionBody,
+  ): string {
     const { algo, key, iv } = CheckIn.EXTENSION_ENCRYPT
     const cipher = crypto.createCipheriv(algo, key, iv)
-    let encrypted = cipher.update(JSON.stringify(body), 'utf8', 'base64')
+    let encrypted = cipher.update(
+      JSON.stringify(body),
+      'utf8',
+      'base64',
+    )
     encrypted += cipher.final('base64')
     return encrypted
   }
 
-  private static formBodyEncrypt(body: SignFormBody): string {
+  private static formBodyEncrypt(
+    body: SignFormBody,
+  ): string {
     const { algo, key, iv } = CheckIn.FORMBODY_ENCRYPT
     const cipher = crypto.createCipheriv(algo, key, iv)
-    let encrypted = cipher.update(JSON.stringify(body), 'utf8', 'base64')
+    let encrypted = cipher.update(
+      JSON.stringify(body),
+      'utf8',
+      'base64',
+    )
     encrypted += cipher.final('base64')
     return encrypted
   }
@@ -358,27 +416,36 @@ export class CheckIn {
     const logs: GlobalLogInfo = {}
     await Promise.all(
       users.map(async (i) => {
-        const instance: CheckIn = new CheckIn(i, checkInType)
+        const instance: CheckIn = new CheckIn(
+          i,
+          checkInType,
+        )
         const curTask = await instance.signInfo()
         if (curTask) {
-          const needCheckInTasks = curTask.unSignedTasks.concat(
-            curTask.leaveTasks,
-          )
+          const needCheckInTasks = curTask.unSignedTasks
+            .concat(
+              curTask.leaveTasks,
+            )
           if (needCheckInTasks.length) {
-            const result = await instance.signWithForm(needCheckInTasks[0])
+            const result = await instance.signWithForm(
+              needCheckInTasks[0],
+            )
             logs[i.alias] = result
           } else {
             const { signedTasks } = curTask
             logs[i.alias] = {
               [LogInfoKeys.result as string]: signedTasks.length
-                ? `已完成：${curTask.signedTasks[0]?.taskName}`
+                ? `已完成：${curTask.signedTasks[0]
+                  ?.taskName}`
                 : '当前无签到任务',
             }
           }
         }
       }),
     )
-    log.notify(`签到结果 => \n${JSON.stringify(logs, null, '  ')}`)
+    log.notify(
+      `签到结果 => \n${JSON.stringify(logs, null, '  ')}`,
+    )
     return Object.keys(logs).length ? logs : null
   }
 }
