@@ -16,6 +16,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cea": "^1.2.0"
+    "cea": "^1.3.0"
   }
 }
