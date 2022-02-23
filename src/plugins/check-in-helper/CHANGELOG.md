@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.2](https://github.com/ceajs/cea/compare/@ceajs/check-in-helper@1.6.1...@ceajs/check-in-helper@1.6.2) (2022-02-23)
+
+
+### Bug Fixes
+
+* **check-in-helper:** fill extra only when it is needed([#40](https://github.com/ceajs/cea/issues/40)) ([07939fa](https://github.com/ceajs/cea/commit/07939fa31321847f3d4f19ae660d51e675989306))
+
+
+
+
+
 ## [1.6.1](https://github.com/ceajs/cea/compare/@ceajs/check-in-helper@1.6.0...@ceajs/check-in-helper@1.6.1) (2022-02-23)
 
 
