@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.1](https://github.com/ceajs/cea/compare/@ceajs/check-in-helper@1.6.0...@ceajs/check-in-helper@1.6.1) (2022-02-23)
+
+
+### Bug Fixes
+
+* revert test specifier task ([6fb1e82](https://github.com/ceajs/cea/commit/6fb1e82f3c9d28012f8496facdc9a98f0d3f17bd))
+
+
+
+
+
 # [1.6.0](https://github.com/ceajs/cea/compare/@ceajs/check-in-helper@1.5.0...@ceajs/check-in-helper@1.6.0) (2022-02-22)
 
 

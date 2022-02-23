@@ -1,6 +1,6 @@
 {
   "name": "@ceajs/check-in-helper",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "check in plugin for cea",
   "type": "module",
   "node": "^12.20.0 || ^14.13.1 || >=16.0.0",
