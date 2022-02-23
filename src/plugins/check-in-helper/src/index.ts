@@ -274,6 +274,9 @@ export class CheckIn {
     return signDetails
   }
 
+  /**
+   * Grab successfully signed form info, fail with null
+   */
   async grabSignedData() {
     const { headers, user, checkInType, campusphereHost } = this
     let res = await fetch(
@@ -283,7 +286,7 @@ export class CheckIn {
         method: 'POST',
         body: JSON.stringify({
           statisticYearMonth: user?.signedDataMonth
-            ?? CheckIn.getLatestValidDateMonth(),
+            ?? CheckIn.getLatestValidMonth(),
         }),
       },
     )
@@ -313,12 +316,12 @@ export class CheckIn {
     return null
   }
 
-  private static getLatestValidDateMonth() {
+  private static getLatestValidMonth() {
     const curDate = new Date()
     const isFirstDay = curDate.getDate() === 1
     const isFirstMonth = curDate.getMonth() === 0
     const isFirstDayAndMonth = isFirstDay && isFirstMonth
-    const latestValidDateMonth = `${
+    const latestValidMonth = `${
       curDate.getFullYear() + (isFirstDayAndMonth ? -1 : 0)
     }-${
       (curDate.getMonth() + (isFirstDayAndMonth
@@ -328,7 +331,7 @@ export class CheckIn {
         : 1))
         .toString().padStart(2, '0')
     }`
-    return latestValidDateMonth
+    return latestValidMonth
   }
 
   private static fixedFloatRight(floatStr: string): number {
@@ -340,7 +343,9 @@ export class CheckIn {
     )
   }
 
-  // Select right item with content&wid
+  /**
+   * Select right item with content&wid, fail with null
+   */
   private static fillExtra(
     extraField: NonNullable<SignTaskDetail['extraField']>,
     signedTemplate: SignTaskDetail,
