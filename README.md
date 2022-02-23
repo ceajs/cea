@@ -170,4 +170,6 @@ log.notify()
 
 `campusphere-elegant-auth` 仅用于学习和研究 Node.js，请勿商用或违法使用。
 
+> 引用自 MIT 协议：项目作者和维护者不对使用者导致的索赔、损害、侵权或其他任何责任负责。
+
 > 作者: [<img src="https://img.shields.io/github/followers/beetcb?label=%40beetcb&style=social">](https://github.com/beetcb), 邮箱: `i@beetcb.com`
