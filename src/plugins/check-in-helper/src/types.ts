@@ -20,7 +20,7 @@ export type SignTaskDetail = {
   latitude: string
   isNeedExtra: string
   signedStuInfo: { userName: string }
-  /**Gonna be undefined if task is qrcode-sign */
+  /**Gonna be undefined[] if task is qrcode-sign */
   signPlaceSelected: Array<{ longitude: string; latitude: string } | undefined>
   extraField?: Array<{
     title?: string
