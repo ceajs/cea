@@ -31,7 +31,7 @@
 
 #### Defined in
 
-[internal/src/index.ts:6](https://github.com/ceajs/cea/blob/3498600/src/internal/src/index.ts#L6)
+[internal/src/index.ts:6](https://github.com/ceajs/cea/blob/a78ea64/src/internal/src/index.ts#L6)
 
 ## Methods
 
@@ -51,7 +51,7 @@
 
 #### Defined in
 
-[internal/src/index.ts:8](https://github.com/ceajs/cea/blob/3498600/src/internal/src/index.ts#L8)
+[internal/src/index.ts:8](https://github.com/ceajs/cea/blob/a78ea64/src/internal/src/index.ts#L8)
 
 ___
 
@@ -65,4 +65,4 @@ ___
 
 #### Defined in
 
-[internal/src/index.ts:12](https://github.com/ceajs/cea/blob/3498600/src/internal/src/index.ts#L12)
+[internal/src/index.ts:12](https://github.com/ceajs/cea/blob/a78ea64/src/internal/src/index.ts#L12)

@@ -4,19 +4,17 @@ import path from 'node:path'
 import * as toml from '@iarna/toml'
 import fetch from 'node-fetch'
 import log from './utils/logger.js'
+import { sstore } from './index.js'
 const { parse } = toml
 
 import type { Response } from 'node-fetch'
-import { sstore } from './index.js'
 import type { SchoolConf, UsersConf } from './types/conf'
 import type { SchoolEdgeCase } from './types/edge-case'
 import type { StringKV } from './types/helper'
 
-const cwd = process.cwd()
-
-export function loadConfFromToml(customPath?: string): UsersConf | null {
+export function loadConfFromToml(customFilePath?: string): UsersConf | null {
   sstore.clear()
-  const resolvedPath = path.join(cwd, customPath ?? './conf.toml')
+  const resolvedPath = path.join(customFilePath ?? './conf.toml')
   if (fs.existsSync(resolvedPath)) {
     const usersConf = parse(fs.readFileSync(resolvedPath, 'utf8')) as UsersConf
     log.success({
@@ -41,7 +39,7 @@ export async function getSchoolInfos({
   const isSchoolAddrNeeded = users.find((e) => e.addr.length === 1)
   for (const abbreviation of schoolNamesSet) {
     res = (await fetch(
-      `https://mobile.campushoy.com/v6/config/guest/tenant/info?ids=${abbreviation}`,
+      `https://mobile.campushoy.com/v6/config/guest/tenant/info?ids=${abbreviation}`
     ).catch(log.error)) as Response
 
     const data = (await res.json().catch(log.error)).data?.[0] as StringKV
@@ -58,11 +56,9 @@ export async function getSchoolInfos({
     }
     if (isSchoolAddrNeeded) {
       res = (await fetch(
-        `https://api.map.baidu.com/?qt=s&wd=${
-          encodeURIComponent(
-            data.name,
-          )
-        }&ak=E4805d16520de693a3fe707cdc962045&rn=10&ie=utf-8&oue=1&fromproduct=jsapi&res=api`,
+        `https://api.map.baidu.com/?qt=s&wd=${encodeURIComponent(
+          data.name
+        )}&ak=E4805d16520de693a3fe707cdc962045&rn=10&ie=utf-8&oue=1&fromproduct=jsapi&res=api`
       ).catch(log.error)) as Response
       const addrInfo = (await res.json()) as {
         content: Array<{ addr: string; blinfo?: Array<string> }>
@@ -76,14 +72,14 @@ export async function getSchoolInfos({
     let edgeCase: SchoolEdgeCase
 
     if (localEdgeCasesFile) {
-      const localEdgeCasesPath = path.join(cwd, localEdgeCasesFile)
+      const localEdgeCasesPath = path.join(localEdgeCasesFile)
       if (fs.existsSync(localEdgeCasesPath)) {
         const edgeCaseJSON = JSON.parse(
-          fs.readFileSync(localEdgeCasesPath, 'utf8'),
+          fs.readFileSync(localEdgeCasesPath, 'utf8')
         )
         edgeCase = Object.assign(
           edgeCaseJSON[isCloud ? 'CLOUD' : 'NOTCLOUD'],
-          edgeCaseJSON[data.name],
+          edgeCaseJSON[data.name]
         )
       } else {
         log.error('Edge-Cases 文件不存在')
@@ -91,11 +87,9 @@ export async function getSchoolInfos({
       }
     } else {
       const edgeCaseRes = await fetch(
-        `https://cea.beetcb.com/api/edge-case?name=${
-          encodeURIComponent(
-            data.name,
-          )
-        }&c=${isCloud ? 'true' : ''}`,
+        `https://cea.beetcb.com/api/edge-case?name=${encodeURIComponent(
+          data.name
+        )}&c=${isCloud ? 'true' : ''}`
       ).catch(log.error)
 
       if (edgeCaseRes?.ok) {
@@ -117,7 +111,9 @@ export async function getSchoolInfos({
       edgeCase,
     }
     log.success(
-      `学校 ${data.name} 已完成设定，接入方式为 ${isCloud ? 'CLOUD' : 'NOTCLOUD'}`,
+      `学校 ${data.name} 已完成设定，接入方式为 ${
+        isCloud ? 'CLOUD' : 'NOTCLOUD'
+      }`
     )
   }
 

@@ -31,7 +31,7 @@ Universal Check In helper for `sign` | `attendance`
 - [fillExtra](CheckIn.md#fillextra)
 - [fixedFloatRight](CheckIn.md#fixedfloatright)
 - [formBodyEncrypt](CheckIn.md#formbodyencrypt)
-- [getLatestValidDateMonth](CheckIn.md#getlatestvaliddatemonth)
+- [getLatestValidMonth](CheckIn.md#getlatestvalidmonth)
 - [signIn](CheckIn.md#signin)
 
 ## Constructors
@@ -49,7 +49,7 @@ Universal Check In helper for `sign` | `attendance`
 
 #### Defined in
 
-[index.ts:54](https://github.com/ceajs/cea/blob/3498600/src/plugins/check-in-helper/src/index.ts#L54)
+[index.ts:54](https://github.com/ceajs/cea/blob/a78ea64/src/plugins/check-in-helper/src/index.ts#L54)
 
 ## Properties
 
@@ -59,7 +59,7 @@ Universal Check In helper for `sign` | `attendance`
 
 #### Defined in
 
-[index.ts:52](https://github.com/ceajs/cea/blob/3498600/src/plugins/check-in-helper/src/index.ts#L52)
+[index.ts:52](https://github.com/ceajs/cea/blob/a78ea64/src/plugins/check-in-helper/src/index.ts#L52)
 
 ___
 
@@ -69,7 +69,7 @@ ___
 
 #### Defined in
 
-[index.ts:53](https://github.com/ceajs/cea/blob/3498600/src/plugins/check-in-helper/src/index.ts#L53)
+[index.ts:53](https://github.com/ceajs/cea/blob/a78ea64/src/plugins/check-in-helper/src/index.ts#L53)
 
 ___
 
@@ -79,7 +79,7 @@ ___
 
 #### Defined in
 
-[index.ts:49](https://github.com/ceajs/cea/blob/3498600/src/plugins/check-in-helper/src/index.ts#L49)
+[index.ts:49](https://github.com/ceajs/cea/blob/a78ea64/src/plugins/check-in-helper/src/index.ts#L49)
 
 ___
 
@@ -89,7 +89,7 @@ ___
 
 #### Defined in
 
-[index.ts:51](https://github.com/ceajs/cea/blob/3498600/src/plugins/check-in-helper/src/index.ts#L51)
+[index.ts:51](https://github.com/ceajs/cea/blob/a78ea64/src/plugins/check-in-helper/src/index.ts#L51)
 
 ___
 
@@ -99,7 +99,7 @@ ___
 
 #### Defined in
 
-[index.ts:50](https://github.com/ceajs/cea/blob/3498600/src/plugins/check-in-helper/src/index.ts#L50)
+[index.ts:50](https://github.com/ceajs/cea/blob/a78ea64/src/plugins/check-in-helper/src/index.ts#L50)
 
 ___
 
@@ -117,7 +117,7 @@ ___
 
 #### Defined in
 
-[index.ts:38](https://github.com/ceajs/cea/blob/3498600/src/plugins/check-in-helper/src/index.ts#L38)
+[index.ts:38](https://github.com/ceajs/cea/blob/a78ea64/src/plugins/check-in-helper/src/index.ts#L38)
 
 ___
 
@@ -135,7 +135,7 @@ ___
 
 #### Defined in
 
-[index.ts:43](https://github.com/ceajs/cea/blob/3498600/src/plugins/check-in-helper/src/index.ts#L43)
+[index.ts:43](https://github.com/ceajs/cea/blob/a78ea64/src/plugins/check-in-helper/src/index.ts#L43)
 
 ___
 
@@ -153,13 +153,21 @@ ___
 
 #### Defined in
 
-[index.ts:33](https://github.com/ceajs/cea/blob/3498600/src/plugins/check-in-helper/src/index.ts#L33)
+[index.ts:33](https://github.com/ceajs/cea/blob/a78ea64/src/plugins/check-in-helper/src/index.ts#L33)
 
 ## Methods
 
 ### grabSignedData
 
-▸ **grabSignedData**(): `Promise`<``null`` \| `SignTaskDetail`\>
+▸ **grabSignedData**(`taskName`): `Promise`<``null`` \| `SignTaskDetail`\>
+
+Grab successfully signed form info, fail with null
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `taskName` | `string` |
 
 #### Returns
 
@@ -167,7 +175,7 @@ ___
 
 #### Defined in
 
-[index.ts:242](https://github.com/ceajs/cea/blob/3498600/src/plugins/check-in-helper/src/index.ts#L242)
+[index.ts:235](https://github.com/ceajs/cea/blob/a78ea64/src/plugins/check-in-helper/src/index.ts#L235)
 
 ___
 
@@ -181,7 +189,7 @@ ___
 
 #### Defined in
 
-[index.ts:67](https://github.com/ceajs/cea/blob/3498600/src/plugins/check-in-helper/src/index.ts#L67)
+[index.ts:66](https://github.com/ceajs/cea/blob/a78ea64/src/plugins/check-in-helper/src/index.ts#L66)
 
 ___
 
@@ -201,7 +209,7 @@ ___
 
 #### Defined in
 
-[index.ts:227](https://github.com/ceajs/cea/blob/3498600/src/plugins/check-in-helper/src/index.ts#L227)
+[index.ts:217](https://github.com/ceajs/cea/blob/a78ea64/src/plugins/check-in-helper/src/index.ts#L217)
 
 ___
 
@@ -223,7 +231,7 @@ Cookie is preconfigured by singInfo method
 
 #### Defined in
 
-[index.ts:101](https://github.com/ceajs/cea/blob/3498600/src/plugins/check-in-helper/src/index.ts#L101)
+[index.ts:100](https://github.com/ceajs/cea/blob/a78ea64/src/plugins/check-in-helper/src/index.ts#L100)
 
 ___
 
@@ -243,13 +251,15 @@ ___
 
 #### Defined in
 
-[index.ts:337](https://github.com/ceajs/cea/blob/3498600/src/plugins/check-in-helper/src/index.ts#L337)
+[index.ts:339](https://github.com/ceajs/cea/blob/a78ea64/src/plugins/check-in-helper/src/index.ts#L339)
 
 ___
 
 ### fillExtra
 
 ▸ `Static` `Private` **fillExtra**(`extraField`, `signedTemplate`): `undefined` \| ``null`` \| { `extraFieldItemValue`: `string` ; `extraFieldItemWid`: `string`  }[]
+
+Select right item with content&wid, fail with null
 
 #### Parameters
 
@@ -264,7 +274,7 @@ ___
 
 #### Defined in
 
-[index.ts:299](https://github.com/ceajs/cea/blob/3498600/src/plugins/check-in-helper/src/index.ts#L299)
+[index.ts:301](https://github.com/ceajs/cea/blob/a78ea64/src/plugins/check-in-helper/src/index.ts#L301)
 
 ___
 
@@ -284,7 +294,7 @@ ___
 
 #### Defined in
 
-[index.ts:289](https://github.com/ceajs/cea/blob/3498600/src/plugins/check-in-helper/src/index.ts#L289)
+[index.ts:289](https://github.com/ceajs/cea/blob/a78ea64/src/plugins/check-in-helper/src/index.ts#L289)
 
 ___
 
@@ -304,13 +314,13 @@ ___
 
 #### Defined in
 
-[index.ts:345](https://github.com/ceajs/cea/blob/3498600/src/plugins/check-in-helper/src/index.ts#L345)
+[index.ts:347](https://github.com/ceajs/cea/blob/a78ea64/src/plugins/check-in-helper/src/index.ts#L347)
 
 ___
 
-### getLatestValidDateMonth
+### getLatestValidMonth
 
-▸ `Static` `Private` **getLatestValidDateMonth**(): `string`
+▸ `Static` `Private` **getLatestValidMonth**(): `string`
 
 #### Returns
 
@@ -318,7 +328,7 @@ ___
 
 #### Defined in
 
-[index.ts:275](https://github.com/ceajs/cea/blob/3498600/src/plugins/check-in-helper/src/index.ts#L275)
+[index.ts:276](https://github.com/ceajs/cea/blob/a78ea64/src/plugins/check-in-helper/src/index.ts#L276)
 
 ___
 
@@ -339,4 +349,4 @@ ___
 
 #### Defined in
 
-[index.ts:353](https://github.com/ceajs/cea/blob/3498600/src/plugins/check-in-helper/src/index.ts#L353)
+[index.ts:355](https://github.com/ceajs/cea/blob/a78ea64/src/plugins/check-in-helper/src/index.ts#L355)

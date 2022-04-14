@@ -20,4 +20,4 @@
 
 #### Defined in
 
-[index.ts:3](https://github.com/ceajs/cea/blob/3498600/src/plugins/attendance/src/index.ts#L3)
+[index.ts:3](https://github.com/ceajs/cea/blob/a78ea64/src/plugins/attendance/src/index.ts#L3)

@@ -31,7 +31,7 @@ type CheckInType = keyof typeof CampusphereEndpoint
  */
 export class CheckIn {
   static readonly VERSION = {
-    app: '9.0.18',
+    app: '9.0.20',
     version: 'first_v3',
     calVersion: 'firstv',
   }
@@ -58,8 +58,7 @@ export class CheckIn {
     this.campusphereHost = new URL(school.preAuthURL).origin
     this.checkInType = checkInType
     this.headers = {
-      'user-agent':
-        'Mozilla/5.0 (Linux; Android 10; GM1910 Build/QKQ1.190716.003; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.101 Mobile Safari/537.36  cpdaily/8.2.13 wisedu/8.2.13',
+      'user-agent': `Mozilla/5.0 (Linux; Android 11; GM1910 Build/QKQ1.190716.003; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.101 Mobile Safari/537.36  cpdaily/${CheckIn.VERSION.app} wisedu/${CheckIn.VERSION.app}`,
       'content-type': 'application/json',
     }
   }
@@ -209,11 +208,6 @@ export class CheckIn {
     const logInfo: LogInfo = {
       [LogInfoKeys.result]: result.message,
       [LogInfoKeys.addr]: formBody.position,
-    }
-
-    // Hide sensitive info on github actions, cause it's public by default
-    if (process.env.GITHUB_ACTION) {
-      delete logInfo[LogInfoKeys.addr]
     }
 
     // store result
