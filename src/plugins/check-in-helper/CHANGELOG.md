@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.3](https://github.com/ceajs/cea/compare/@ceajs/check-in-helper@1.6.2...@ceajs/check-in-helper@1.6.3) (2022-04-14)
+
+
+### Bug Fixes
+
+* **core:** support abs path when loading conf.toml([#42](https://github.com/ceajs/cea/issues/42)) ([d22b13f](https://github.com/ceajs/cea/commit/d22b13f2ad1ec9892e34fff2d0d19ee744661b10))
+* optimize template matching logic([#41](https://github.com/ceajs/cea/issues/41),[#46](https://github.com/ceajs/cea/issues/46)) ([1889fc3](https://github.com/ceajs/cea/commit/1889fc3f27e586a2682595879e278bbd29cda787))
+* type comments typo ([cd42881](https://github.com/ceajs/cea/commit/cd4288178f9cac12348e7bb7b48bc3a10a78fdb4))
+
+
+
+
+
 ## [1.6.2](https://github.com/ceajs/cea/compare/@ceajs/check-in-helper@1.6.1...@ceajs/check-in-helper@1.6.2) (2022-02-23)
 
 

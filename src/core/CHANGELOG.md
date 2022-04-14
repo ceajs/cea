@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.5](https://github.com/ceajs/cea/compare/@ceajs/core@1.3.4...@ceajs/core@1.3.5) (2022-04-14)
+
+
+### Bug Fixes
+
+* **core:** support abs path when loading conf.toml([#42](https://github.com/ceajs/cea/issues/42)) ([d22b13f](https://github.com/ceajs/cea/commit/d22b13f2ad1ec9892e34fff2d0d19ee744661b10))
+
+
+
+
+
 ## [1.3.4](https://github.com/ceajs/cea/compare/@ceajs/core@1.3.3...@ceajs/core@1.3.4) (2022-02-22)
 
 **Note:** Version bump only for package @ceajs/core
