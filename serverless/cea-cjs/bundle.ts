@@ -21,24 +21,25 @@ const getPkgPath = (l: string) =>
     '..',
     '..',
     'src',
-    `${l}/package.json`,
+    `${l}/package.json`
   )
+const ceaCLIPkg = JSON.parse(
+  fs.readFileSync(getPkgPath('internal'), { encoding: 'utf8' })
+)
 
 const ceaCoreDeps = JSON.parse(
-  fs.readFileSync(getPkgPath('core'), { encoding: 'utf8' }),
+  fs.readFileSync(getPkgPath('core'), { encoding: 'utf8' })
 )?.dependencies
-const ceaCLIDeps = JSON.parse(
-  fs.readFileSync(getPkgPath('internal'), { encoding: 'utf8' }),
-)?.dependencies
+const ceaCLIDeps = ceaCLIPkg?.dependencies
 const ceaCheckIn = JSON.parse(
-  fs.readFileSync(getPkgPath('plugins/check-in-helper'), { encoding: 'utf8' }),
+  fs.readFileSync(getPkgPath('plugins/check-in-helper'), { encoding: 'utf8' })
 )?.dependencies
 const ceaSignPlugin = JSON.parse(
-  fs.readFileSync(getPkgPath('plugins/sign'), { encoding: 'utf8' }),
+  fs.readFileSync(getPkgPath('plugins/sign'), { encoding: 'utf8' })
 )?.dependencies
 
 const ceaAttendancePlugin = JSON.parse(
-  fs.readFileSync(getPkgPath('plugins/attendance'), { encoding: 'utf8' }),
+  fs.readFileSync(getPkgPath('plugins/attendance'), { encoding: 'utf8' })
 )?.dependencies
 
 const externalDeps = [
@@ -68,7 +69,7 @@ esbuild
   .then(console.log)
 
 const curPackageJSON = JSON.parse(
-  fs.readFileSync('./package.json', { encoding: 'utf8' }),
+  fs.readFileSync('./package.json', { encoding: 'utf8' })
 )
 for (const dep of externalDeps) {
   const [depName, depValue] = dep
@@ -77,6 +78,9 @@ for (const dep of externalDeps) {
   }
   curPackageJSON.dependencies[depName] = depValue
 }
+
+// Record cea version in cea@cjs description
+curPackageJSON.description = `patching cea@${ceaCLIPkg.version} with legacy node(<12.20.0) support, currently`
 
 fs.writeFileSync('./package.json', JSON.stringify(curPackageJSON, null, 2))
 
