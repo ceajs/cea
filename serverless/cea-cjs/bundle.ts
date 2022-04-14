@@ -80,7 +80,7 @@ for (const dep of externalDeps) {
 }
 
 // Record cea version in cea@cjs description
-curPackageJSON.description = `patching cea@${ceaCLIPkg.version} with legacy node(<12.20.0) support, currently`
+curPackageJSON.description = `Patching cea@${ceaCLIPkg.version} with legacy node(<12.20.0) support`
 
 fs.writeFileSync('./package.json', JSON.stringify(curPackageJSON, null, 2))
 
