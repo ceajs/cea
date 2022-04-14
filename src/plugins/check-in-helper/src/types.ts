@@ -1,10 +1,8 @@
-export type SignTaskPerDay =
-  & {
-    [key in 'unSignedTasks' | 'signedTasks' | 'leaveTasks']: Array<SignTask>
-  }
-  & {
-    dayInMonth: string
-  }
+export type SignTaskPerDay = {
+  [key in 'unSignedTasks' | 'signedTasks' | 'leaveTasks']: Array<SignTask>
+} & {
+  dayInMonth: string
+}
 
 export type SignTaskInMonth = {
   rows: Array<SignTaskPerDay>
@@ -21,8 +19,9 @@ export type SignTaskDetail = {
   signAddress: string
   latitude: string
   isNeedExtra: string
-  signPlaceSelected: Array<{ longitude: string; latitude: string }>
   signedStuInfo: { userName: string }
+  /**Gonna be undefined if task is qrcode-sign */
+  signPlaceSelected: Array<{ longitude: string; latitude: string } | undefined>
   extraField?: Array<{
     title?: string
     extraFieldItems: Array<{
