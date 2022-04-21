@@ -29,7 +29,6 @@
     "formIdx": 0,
     "checkCaptchaPath": "/needCaptcha.html",
      "getCaptchaPath": "/sliderCaptcha.do",
-     "submitCaptchakey": "captchaResponse"
   },
   "CLOUD": {
     "getLtPath": "/security/lt",
