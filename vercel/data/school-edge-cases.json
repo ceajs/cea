@@ -25,6 +25,12 @@
     "checkCaptchaPath": "/needCaptcha.html",
     "getCaptchaPath": "/sliderCaptcha.do"
   },
+  "江西理工大学": {
+    "formIdx": 0,
+    "checkCaptchaPath": "/needCaptcha.html",
+     "getCaptchaPath": "/sliderCaptcha.do",
+     "submitCaptchakey": "captchaResponse"
+  },
   "CLOUD": {
     "getLtPath": "/security/lt",
     "getCaptchaPath": "/generateCaptcha",
