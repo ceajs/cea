@@ -12,7 +12,7 @@
   </a>
 </p>
   <p align="center">
-  <strong>高校统一身份验证开发框架</strong>(已集成今日校园签到、查寝插件)
+  <strong>高校统一身份验证开发框架</strong>(已集成 CPDAILY 签到、查寝插件)
   <br>
   欢迎点击右上角   <a href="https://github.com/ceajs/cea">
     <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/ceajs/cea?style=social">
@@ -35,7 +35,7 @@
 
 - 多用户非阻塞: 利用 Node.js 异步特征，多用户可并行，实现毫秒级的多用户同时操作
 
-- 关于签到插件: ([学校配置](./docs/config.md)时)使用百度地图 API 获取学校全局签到地址, 使用今日校园接口返回的签到数据获取签到经纬度, 简单来说, 只需知道学校英文简称即可配置好所有签到信息, 充分懒人化
+- 关于签到插件: ([学校配置](./docs/config.md)时)使用百度地图 API 获取学校全局签到地址, 使用 CPDAILY 接口返回的签到数据获取签到经纬度, 简单来说, 只需知道学校英文简称即可配置好所有签到信息, 充分懒人化
 
 - 复用历史成功签到数据：表单填写方面，Cea 会查找历史签到中最新且成功签到的数据作为模板填写当前表单；查寝图片上传方面，Cea 使用同样的策略获取图片 URL；这省去了配置表单的繁琐过程和图片上传的费时操作
 
@@ -53,9 +53,9 @@ Cea 使用纯 ESM 模块系统发布，请确保 Node.js(`^12.20.0 || ^14.13.1 |
 
 > Cea 在配置学校时会显示学校接入方式是 CLOUD 还是 NOTCLOUD
 
-`CLOUD`（表示学校已接入今日校园统一登陆） 字段的实现是统一的，应该没有兼容性问题
+`CLOUD`（表示学校已接入 CPDAILY 统一登陆） 字段的实现是统一的，应该没有兼容性问题
 
-`NOTCLOUD` (表示学校未接入今日校园) 只能爬取网页获得凭据：cea 的登录页爬取策略比较智能（并非 `hard coded`），默认根据第一个登录表单完成全部逻辑，这保证了不错的兼容性
+`NOTCLOUD` (表示学校未接入 CPDAILY) 只能爬取网页获得凭据：cea 的登录页爬取策略比较智能（并非 `hard coded`），默认根据第一个登录表单完成全部逻辑，这保证了不错的兼容性
 
 如确实遇到了边缘情况，可以提交 PR (参考 [Contributing Guide](./CONTRIBUTING.md))，只需修改 `./vercel/data/school-edge-cases.json` 文件，添加你的学校。所填字段将作为改学校的特殊值覆盖默认值，默认值就是 NOTCLOUD 对象，详细教程请关注讨论 [#20](https://github.com/ceajs/cea/issues/20)
 
@@ -109,7 +109,7 @@ npm i cea
 npm i cea@cjs
 ```
 
-下面是今日校园签到的示例（`cea-check-in` 插件已内置，无需特别安装）
+下面是 CPDAILY 签到的示例（`cea-check-in` 插件已内置，无需特别安装）
 
 ```ts
 // 导入 Cea 和内置的签到插件中的函数 checkIn
