@@ -2,7 +2,7 @@ import sstore from '@beetcb/sstore'
 import fetch from 'node-fetch'
 import type { UsersConf } from '../types/conf'
 
-const pushEndpoints = ['http://pushplus.hxtrip.com/send']
+const pushEndpoints = ['http://www.pushplus.plus/send']
 const notifications: Array<string> = []
 
 const saveNotifications = (args: Array<any>) => {
