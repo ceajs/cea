@@ -11,15 +11,15 @@ const saveNotifications = (args: Array<any>) => {
   notifications.push(`${log} ${at ?? ''}`)
 }
 
-const notify = async function(addtionalMessage: string) {
+const notify = async function (addtionalMessage: string) {
   const notifyConf: UsersConf['notifier'] = sstore.get('notifier')
   if (!notifyConf?.length) {
     return
   }
   const [pushPlatform, pushToken, groupNumber] = notifyConf
-  const content = `${notifications.join(`<br>`)}<br>${
-    addtionalMessage.replace(/\n/g, '<br>').replace(/\s/g, '&nbsp')
-  }`
+  const content = `${notifications.join(`<br>`)}<br>${addtionalMessage
+    .replace(/\n/g, '<br>')
+    .replace(/\s/g, '&nbsp')}`
   const url = pushEndpoints[Number(pushPlatform)]
   if (pushToken && url) {
     await fetch(url, {
@@ -31,7 +31,8 @@ const notify = async function(addtionalMessage: string) {
         content,
         token: pushToken,
         title: 'Cea.js 消息推送服务',
-        topic: groupNumber,
+        template: 'html',
+        channel: 'wechat',
       }),
     })
   }
