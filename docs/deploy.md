@@ -1,4 +1,4 @@
-<details><summary>Docker 部署</summary>
+<details><summary>Docker Deployment</summary>
 
 1. 按照 [README.md](https://github.com/ceajs/cea#%E4%BD%9C%E4%B8%BA%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%BD%BF%E7%94%A8) 安装 cea，使用 CLI 配置用户(如果你用配置文件，记得运行 `cea load` 来加载用户)
 
@@ -33,7 +33,7 @@
 
    </details>
 
-<details><summary>腾讯云开发一键部署</summary>
+<details><summary>Tencent Cloud One-click Deployment</summary>
 
 > 本说明帮助你**一键部署**自动签到程序到腾讯云开发
 >
@@ -52,13 +52,13 @@
 
   </details>
 
-<details><summary>GitHub Actions</summary>
+<details><summary>GitHub Actions (Currently Disabled)</summary>
 
 > 考虑到 GitHub 近期对 Actions 监管（并且部分学校限制国外主机访问），本项目将禁用 Actions 部署
 
   </details>
 
-<details><summary>服务器部署</summary>
+<details><summary>Server Deployment</summary>
 
 1. 按照 [README.md](https://github.com/ceajs/cea#%E4%BD%9C%E4%B8%BA%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%BD%BF%E7%94%A8) 安装 cea，配置用户
 
