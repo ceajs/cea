@@ -12,7 +12,7 @@
   </a>
 </p>
   <p align="center">
-  <strong>高校统一身份验证开发框架</strong>(已集成 CPDAILY 签到、查寝插件)
+  <strong>高校统一身份验证开发框架</strong>(已集成 CPDAILY 签到、查寝插件, 更新版本包含新特性和改进)
   <br>
   欢迎点击右上角   <a href="https://github.com/ceajs/cea">
     <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/ceajs/cea?style=social">
@@ -61,7 +61,7 @@ Cea 使用纯 ESM 模块系统发布，请确保 Node.js(`^12.20.0 || ^14.13.1 |
 
 若你遇到其它问题，请附带日志提交 [Issue](https://github.com/beetcb/cea/issues/new/choose)
 
-## 开始使用
+## 开始使用 (更新版本包含新特性和改进)
 
 ### 作为命令行使用
 
@@ -122,17 +122,17 @@ cea.addPlugin(checkIn)
 cea.start()
 ```
 
-## 插件列表
+## 插件列表 (更新版本包含新插件)
 
 - [`check-in-helper`](./docs/api/plugins/check-in-helper/README.md)
 - [`attendance`](./docs/api/plugins/attendance/README.md)
 - [`sign`](./docs/api/plugins/sign/README.md)
 
-## 贡献指南
+## 贡献指南 (更新版本包含新的贡献指南)
 
 参考 [Contributing Guide](./CONTRIBUTING.md)
 
-## 插件开发
+## 插件开发 (更新版本包含新的插件开发指南)
 
 > 插件开发流程：引入 cea-core 的功能 -> 开发功能 -> 导出一个无入参出参的函数
 
@@ -151,7 +151,7 @@ log.success('hello')
 log.notify()
 ```
 
-## 鸣谢
+## 鸣谢 (更新版本包含新的鸣谢)
 
 感谢 [Cloudbase-Framework](https://github.com/Tencent/cloudbase-framework)、[Github Actions](https://github.com/actions)、[Coding CI](https://help.coding.net/docs/ci/intro.html)、[Gitee Pages](https://gitee.com/help/articles/4136) 提供的优秀服务 🎉
 
